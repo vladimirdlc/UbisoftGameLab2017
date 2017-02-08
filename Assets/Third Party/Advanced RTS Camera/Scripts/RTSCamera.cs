@@ -270,11 +270,12 @@ public class RTSCamera : MonoBehaviour
         if (!shouldLookAt)
             AdjustTilt(hit);
 
+        TiltInput();
         if (!shouldLookAt)
         {
-            TiltInput();
+            /*TiltInput();
 
-            RotateInput();
+            RotateInput();*/
         }
         else
             LookAtCamTarget();
@@ -546,6 +547,7 @@ public class RTSCamera : MonoBehaviour
         {
             case ControlSetup.Axis:
                 MoveVertical(Input.GetAxis(verticalAxis) * movementSpeed);
+                MoveVerticalTopDown(Input.GetAxis(tiltAxis) * movementSpeed);
                 break;
             case ControlSetup.KeyCode:
                 if (Input.GetKey(forwardKey))
@@ -560,6 +562,12 @@ public class RTSCamera : MonoBehaviour
     {
         CameraTargetPosition += Quaternion.Euler(0, transform.localEulerAngles.y, 0) * Vector3.forward * speed * CameraDeltaTime;
     }
+
+    private void MoveVerticalTopDown(float speed)
+    {
+        CameraTargetPosition += Quaternion.Euler(0, transform.localEulerAngles.y, 0) * Vector3.up * speed * CameraDeltaTime;
+    }
+
 
     #endregion
 
@@ -631,7 +639,7 @@ public class RTSCamera : MonoBehaviour
         switch (tiltSetup)
         {
             case ControlSetup.Axis:
-                MoveTilt(Input.GetAxis(tiltAxis));
+                //MoveTilt(Input.GetAxis(tiltAxis));
                 break;
             case ControlSetup.KeyCode:
                 if (Input.GetKey(tiltDecKey))
@@ -644,7 +652,7 @@ public class RTSCamera : MonoBehaviour
 
     private void MoveTilt(float speed)
     {
-        if (!shouldLookAt)
+        //if (!shouldLookAt)
             _targetTilt = Mathf.Clamp(_targetTilt + speed * CameraDeltaTime, lowTilt, highTilt);
     }
 

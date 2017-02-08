@@ -15,7 +15,6 @@ public class OverseerCamera : MonoBehaviour {
         if (currentDelayTime < 0)
         {
             //Debug.Log(Input.GetAxis("Vertical Right"));
-            Debug.Log(Input.GetButtonDown(rightAxisKey));
             if (Input.GetButtonDown(rightAxisKey) && transform.rotation.y > invDegree || Input.GetButtonDown(leftAxisKey) && transform.rotation.y < invDegree)
             {
                 if (target.nextTarget)
