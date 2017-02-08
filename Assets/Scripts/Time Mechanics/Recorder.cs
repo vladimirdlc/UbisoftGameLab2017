@@ -10,8 +10,8 @@ public class Recorder : MonoBehaviour {
     float recordingTimer;
 
     // Recording data collection
-    Stack<Vector3> recordedPositions;
-    Stack<float> recordedTimes;
+    Queue<Vector3> recordedPositions;
+    Queue<float> recordedTimes;
 
     // State variables
     bool recording = false;
@@ -20,8 +20,8 @@ public class Recorder : MonoBehaviour {
 	void Start ()
     {
         // Setup recording data collection
-        recordedPositions = new Stack<Vector3>();
-        recordedTimes = new Stack<float>();
+        recordedPositions = new Queue<Vector3>();
+        recordedTimes = new Queue<float>();
 	}
 	
 	// Update is called once per frame
@@ -33,7 +33,7 @@ public class Recorder : MonoBehaviour {
                 StartRecording();
         else
             {
-               
+                GetComponent<Looper>().StartLooping(recordedPositions, recordedTimes);
             }
 	}
 
@@ -56,7 +56,7 @@ public class Recorder : MonoBehaviour {
     {
         recordingTimer += Time.deltaTime;
 
-        recordedPositions.Push(recordedTransform.position);
-        recordedTimes.Push(recordingTimer);
+        recordedPositions.Enqueue(recordedTransform.position);
+        recordedTimes.Enqueue(recordingTimer);
     }
 }
