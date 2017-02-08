@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class OverseerCamera : MonoBehaviour {
     public OverseerTarget target;
-    public string axisKey;
+    public string leftAxisKey;
+    public string rightAxisKey;
     public float delayTime = 3;
     public float currentDelayTime = 0;
     private float invDegree = 0.5f;
@@ -13,8 +14,9 @@ public class OverseerCamera : MonoBehaviour {
 	void Update () {
         if (currentDelayTime < 0)
         {
-            Debug.Log(transform.rotation.y);
-            if (Input.GetAxis(axisKey) > 0 && transform.rotation.y > invDegree || Input.GetAxis(axisKey) < 0 && transform.rotation.y < invDegree)
+            //Debug.Log(Input.GetAxis("Vertical Right"));
+            Debug.Log(Input.GetButtonDown(rightAxisKey));
+            if (Input.GetButtonDown(rightAxisKey) && transform.rotation.y > invDegree || Input.GetButtonDown(leftAxisKey) && transform.rotation.y < invDegree)
             {
                 if (target.nextTarget)
                 {
@@ -23,7 +25,7 @@ public class OverseerCamera : MonoBehaviour {
                     startCooldown();
                 }
             }
-            if (Input.GetAxis(axisKey) < 0 && transform.rotation.y > invDegree || Input.GetAxis(axisKey) > 0 && transform.rotation.y < invDegree)
+            if (Input.GetButtonDown(leftAxisKey) && transform.rotation.y > invDegree || Input.GetButtonDown(rightAxisKey) && transform.rotation.y < invDegree)
             {
                 if (target.previousTarget)
                 {

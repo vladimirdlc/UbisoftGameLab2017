@@ -893,11 +893,11 @@ MonoBehaviour:
   verticalAxis: Vertical
   horizontalAxis: Horizontal
   rotateAxis: 
-  tiltAxis: 
+  tiltAxis: Vertical Right
   directionAxis: Mouse ScrollWheel
   mouseXAxis: Mouse X
   mouseYAxis: Mouse Y
-  orbitAxis: Horizontal
+  orbitAxis: Horizontal Right
   forwardKey: 119
   backwardKey: 115
   orbitLeftKey: 0
@@ -923,7 +923,7 @@ MonoBehaviour:
   rotateSetup: 0
   tiltSetup: 0
   directionSetup: 0
-  orbitSetup: 0
+  orbitSetup: 1
   mouseXSetup: 0
   mouseYSetup: 0
   cloudStartAtHeightPercent: 90
@@ -1013,7 +1013,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 514581907}
-  axisKey: Horizontal Rigth
+  leftAxisKey: Left Room Autoaim
+  rightAxisKey: Right Room Autoaim
   delayTime: 0.2
   currentDelayTime: 0
 --- !u!1 &800169583
