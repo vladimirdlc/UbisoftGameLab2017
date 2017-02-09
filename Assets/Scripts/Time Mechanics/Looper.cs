@@ -51,7 +51,7 @@ public class Looper : MonoBehaviour
         }
     }
 
-    public void StartLooping(Queue<Vector3> recordedPositions, Queue<Quaternion> recordedRotations, Queue<float> recordedTimes)
+    public void StartLooping(Queue<Vector3> recordedPositions, Queue<Quaternion> recordedRotations, Queue<float> recordedTimes, TrailRenderer trailRenderer)
     {
         this.recordedPositions = recordedPositions;
         this.recordedTimes = recordedTimes;
@@ -63,6 +63,7 @@ public class Looper : MonoBehaviour
 
         // NOTE TO SELF: CAST CONCERNS?
         loopingObject = (GameObject) Instantiate(objectToInstantiate);
+        ComponentCopier.CopyComponent(ref trailRenderer, loopingObject);
 
         loopingTimer = 0;
         looping = true;

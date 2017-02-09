@@ -5,6 +5,7 @@ using UnityEngine;
 public class Recorder : MonoBehaviour {
 
     public Transform recordedTransform;
+    public TrailRenderer recordedTrail;
 
     // Recording variables
     float recordingTimer;
@@ -35,7 +36,9 @@ public class Recorder : MonoBehaviour {
                 StartRecording();
         else
             {
-                GetComponent<Looper>().StartLooping(recordedPositions, recordedRotations, recordedTimes);
+                recordedTrail.time = 100;                // FIX ME TO NOT HARDCODED
+                GetComponent<Looper>().StartLooping(recordedPositions, recordedRotations, recordedTimes, recordedTrail);
+                recordedTrail.time = 500000000000;      // FIX ME TO NOT HARDCODED
                 StopRecording();
             }
 	}
@@ -52,11 +55,15 @@ public class Recorder : MonoBehaviour {
     {
         recordingTimer = 0;
 
+        recordedTrail.enabled = true;
+
         recording = true;
     }
 
     private void StopRecording()
     {
+        recordedTrail.enabled = false;
+
         recording = false;
     }
 
