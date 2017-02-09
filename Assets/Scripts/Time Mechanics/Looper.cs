@@ -16,6 +16,8 @@ public class Looper : MonoBehaviour
     float loopingTimer;
 
     // Playback data collections
+    Queue<Vector3> originalRecordedPositions;
+    Queue<float> originalRecordedTimes;
     Queue<Vector3> recordedPositions;
     Queue<float> recordedTimes;
 
@@ -35,8 +37,15 @@ public class Looper : MonoBehaviour
     {
         if(looping)
         {
-            NextFrameAction();
-            loopingTimer += Time.deltaTime;
+            if (recordedPositions.Count > 0)
+            {
+                NextFrameAction();
+                loopingTimer += Time.deltaTime;
+            }
+            else
+            {
+                Reloop();
+            }
         }
     }
 
@@ -44,6 +53,9 @@ public class Looper : MonoBehaviour
     {
         this.recordedPositions = recordedPositions;
         this.recordedTimes = recordedTimes;
+
+        originalRecordedPositions = new Queue<Vector3>(recordedPositions);
+        originalRecordedTimes = new Queue<float>(recordedTimes);
 
         // NOTE TO SELF: CAST CONCERNS?
         loopingObject = (GameObject) Instantiate(objectToInstantiate);
@@ -63,7 +75,16 @@ public class Looper : MonoBehaviour
             tempFloat = recordedTimes.Dequeue();
 
             loopingObject.transform.position = tempVector;
+            //Debug.Log(originalRecordedTimes.Count);
         }
         while (loopingTimer > tempFloat && recordedPositions.Count > 0);
+    }
+
+    private void Reloop()
+    {
+        recordedPositions = new Queue<Vector3>(originalRecordedPositions);
+        recordedTimes = new Queue<float>(originalRecordedTimes);
+
+        loopingTimer = 0;
     }
 }

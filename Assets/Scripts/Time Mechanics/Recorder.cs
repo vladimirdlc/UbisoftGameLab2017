@@ -34,6 +34,7 @@ public class Recorder : MonoBehaviour {
         else
             {
                 GetComponent<Looper>().StartLooping(recordedPositions, recordedTimes);
+                StopRecording();
             }
 	}
 
@@ -50,6 +51,11 @@ public class Recorder : MonoBehaviour {
         recordingTimer = 0;
 
         recording = true;
+    }
+
+    private void StopRecording()
+    {
+        recording = false;
     }
 
     private void RecordFrame()
