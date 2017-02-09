@@ -9,28 +9,38 @@ public class OverseerCamera : MonoBehaviour {
     public float delayTime = 3;
     public float currentDelayTime = 0;
     private float invDegree = 0.5f;
+    private RTSCamera cam;
 
-	// Update is called once per frame
-	void Update () {
+    void Start()
+    {
+        cam = GetComponent<RTSCamera>();
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (currentDelayTime < 0)
         {
+            Quaternion futureRotation = Quaternion.LookRotation(cam.followTarget.position - transform.position, Vector3.up);
+
             //Debug.Log(Input.GetAxis("Vertical Right"));
-            if (Input.GetButtonDown(rightAxisKey) && transform.rotation.y > invDegree || Input.GetButtonDown(leftAxisKey) && transform.rotation.y < invDegree)
+            if (Input.GetButtonDown(rightAxisKey) && futureRotation.y > invDegree || Input.GetButtonDown(leftAxisKey) && futureRotation.y < invDegree)
             {
                 if (target.nextTarget)
                 {
-                    GetComponent<RTSCamera>().followTarget = target.nextTarget.transform;
+                    cam.changeTarget(target.nextTarget.transform);
                     target = target.nextTarget;
                     startCooldown();
+                    return;
                 }
             }
-            if (Input.GetButtonDown(leftAxisKey) && transform.rotation.y > invDegree || Input.GetButtonDown(rightAxisKey) && transform.rotation.y < invDegree)
+            if (Input.GetButtonDown(leftAxisKey) && futureRotation.y > invDegree || Input.GetButtonDown(rightAxisKey) && futureRotation.y < invDegree)
             {
                 if (target.previousTarget)
                 {
-                    GetComponent<RTSCamera>().followTarget = target.previousTarget.transform;
+                    cam.changeTarget(target.previousTarget.transform);
                     target = target.previousTarget;
                     startCooldown();
+                    return;
                 }
             }
         }

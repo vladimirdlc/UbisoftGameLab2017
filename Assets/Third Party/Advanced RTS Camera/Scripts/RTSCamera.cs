@@ -91,6 +91,8 @@ public class RTSCamera : MonoBehaviour
     public CloudDrawState cloudDrawState = CloudDrawState.PercentOfMaxHeight;
     public float terrainAdjustTilt = 0.0f;
 
+    private float currentRotationDelay = 0;
+    private float rotationDelayOnChange = 1.5f;
 
     // Vel
     private Vector3 moveVel;
@@ -115,7 +117,6 @@ public class RTSCamera : MonoBehaviour
     private float _currentTilt;
     private float _targetTilt;
     private Texture2D cloudTexture;
-
     #endregion
 
     #region Properties
@@ -223,6 +224,12 @@ public class RTSCamera : MonoBehaviour
 
     #region Logic
 
+    public void changeTarget(Transform newTarget)
+    {
+        currentRotationDelay = rotationDelayOnChange;
+        followTarget = newTarget;
+    }
+
     void LateUpdate()
     {
         PerformRTSCamera();
@@ -270,18 +277,9 @@ public class RTSCamera : MonoBehaviour
         if (!shouldLookAt)
             AdjustTilt(hit);
 
-        TiltInput();
-        if (!shouldLookAt)
-        {
-            /*TiltInput();
-
-            RotateInput();*/
-        }
-        else
-            LookAtCamTarget();
+        LookAtCamTarget();
 
         AdjustRotation();
-
     }
 
     #region Controls and Adjustments
@@ -346,7 +344,23 @@ public class RTSCamera : MonoBehaviour
     {
         if (followTarget != null)
         {
-            _newRotation = Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up);
+            if ((currentRotationDelay -= Time.deltaTime) > 0) //while is changing targets
+            {
+                _newRotation =
+                Quaternion.Slerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), CameraDeltaTime * 0.5f);
+            }
+            else
+            {
+                if (currentRotationDelay > -1)
+                {
+                    _newRotation =
+                        Quaternion.Lerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), Time.deltaTime*2);
+                }
+                else
+                {
+                    _newRotation = Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up);
+                }
+            }
             _currentTilt = _newRotation.eulerAngles.x;
         }
     }
@@ -545,9 +559,9 @@ public class RTSCamera : MonoBehaviour
     {
         switch (verticalSetup)
         {
-            case ControlSetup.Axis:
-                MoveVertical(Input.GetAxis(verticalAxis) * movementSpeed);
-                MoveVerticalTopDown(Input.GetAxis(tiltAxis) * movementSpeed);
+			case ControlSetup.Axis:
+				MoveVertical (Input.GetAxis (verticalAxis) * movementSpeed);
+				MoveVerticalTopDown (Input.GetAxis (tiltAxis) * movementSpeed);
                 break;
             case ControlSetup.KeyCode:
                 if (Input.GetKey(forwardKey))
@@ -595,7 +609,6 @@ public class RTSCamera : MonoBehaviour
 
     private void MoveHorizontal(float speed)
     {
-
         CameraTargetPosition += Quaternion.Euler(0, transform.localEulerAngles.y, 0) * Vector3.right * speed * CameraDeltaTime;
     }
 
