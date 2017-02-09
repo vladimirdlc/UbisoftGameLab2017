@@ -11,6 +11,7 @@ public class Recorder : MonoBehaviour {
 
     // Recording data collection
     Queue<Vector3> recordedPositions;
+    Queue<Quaternion> recordedRotations;
     Queue<float> recordedTimes;
 
     // State variables
@@ -22,7 +23,8 @@ public class Recorder : MonoBehaviour {
         // Setup recording data collection
         recordedPositions = new Queue<Vector3>();
         recordedTimes = new Queue<float>();
-	}
+        recordedRotations = new Queue<Quaternion>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -33,7 +35,7 @@ public class Recorder : MonoBehaviour {
                 StartRecording();
         else
             {
-                GetComponent<Looper>().StartLooping(recordedPositions, recordedTimes);
+                GetComponent<Looper>().StartLooping(recordedPositions, recordedRotations, recordedTimes);
                 StopRecording();
             }
 	}
@@ -63,6 +65,7 @@ public class Recorder : MonoBehaviour {
         recordingTimer += Time.deltaTime;
 
         recordedPositions.Enqueue(recordedTransform.position);
+        recordedRotations.Enqueue(recordedTransform.localRotation);
         recordedTimes.Enqueue(recordingTimer);
     }
 }

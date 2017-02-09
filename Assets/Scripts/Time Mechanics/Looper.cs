@@ -18,7 +18,9 @@ public class Looper : MonoBehaviour
     // Playback data collections
     Queue<Vector3> originalRecordedPositions;
     Queue<float> originalRecordedTimes;
+    Queue<Quaternion> originalRecordedRotations;
     Queue<Vector3> recordedPositions;
+    Queue<Quaternion> recordedRotations;
     Queue<float> recordedTimes;
 
     // Use this for initialization
@@ -49,12 +51,14 @@ public class Looper : MonoBehaviour
         }
     }
 
-    public void StartLooping(Queue<Vector3> recordedPositions, Queue<float> recordedTimes)
+    public void StartLooping(Queue<Vector3> recordedPositions, Queue<Quaternion> recordedRotations, Queue<float> recordedTimes)
     {
         this.recordedPositions = recordedPositions;
         this.recordedTimes = recordedTimes;
+        this.recordedRotations = recordedRotations;
 
         originalRecordedPositions = new Queue<Vector3>(recordedPositions);
+        originalRecordedRotations = new Queue<Quaternion>(recordedRotations);
         originalRecordedTimes = new Queue<float>(recordedTimes);
 
         // NOTE TO SELF: CAST CONCERNS?
@@ -67,14 +71,17 @@ public class Looper : MonoBehaviour
     void NextFrameAction()
     {
         Vector3 tempVector;
+        Quaternion tempQuartenion;
         float tempFloat;
 
         do
         {
             tempVector = recordedPositions.Dequeue();
+            tempQuartenion = recordedRotations.Dequeue();
             tempFloat = recordedTimes.Dequeue();
 
             loopingObject.transform.position = tempVector;
+            loopingObject.transform.localRotation = tempQuartenion;
             //Debug.Log(originalRecordedTimes.Count);
         }
         while (loopingTimer > tempFloat && recordedPositions.Count > 0);
@@ -83,6 +90,7 @@ public class Looper : MonoBehaviour
     private void Reloop()
     {
         recordedPositions = new Queue<Vector3>(originalRecordedPositions);
+        recordedRotations = new Queue<Quaternion>(originalRecordedRotations);
         recordedTimes = new Queue<float>(originalRecordedTimes);
 
         loopingTimer = 0;
