@@ -120,6 +120,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shadowPrefab: {fileID: 1614062590372156, guid: fcf9134591e22d94aa1b0215e54cef7b,
     type: 2}
+  trailRendererPrefab: {fileID: 1788705545930800, guid: 89d696b01c8236c46a0925a288b34308,
+    type: 2}
 --- !u!4 &238929857
 Transform:
   m_ObjectHideFlags: 0
@@ -833,7 +835,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recordedTransform: {fileID: 2053729386}
-  recordedTrail: {fileID: 0}
+  recordedTrail: {fileID: 96711776689594582, guid: 89d696b01c8236c46a0925a288b34308,
+    type: 2}
 --- !u!4 &2053729386 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}

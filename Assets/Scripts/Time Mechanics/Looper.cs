@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Looper : MonoBehaviour
 {
-    // State variables
+    public bool hasTrail;
+
+    // Private State variables
     bool looping = false;
+    bool trailAttatched = true;            // Once the looping happens once, the trail needs to be unparented from the looper object
 
     // Numeric variables
     float loopingTimer;
@@ -32,7 +35,7 @@ public class Looper : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(looping)
+        if (looping)
         {
             if (recordedPositions.Count > 0)
             {
@@ -46,7 +49,7 @@ public class Looper : MonoBehaviour
         }
     }
 
-    public void StartLooping(Queue<Vector3> recordedPositions, Queue<Quaternion> recordedRotations, Queue<float> recordedTimes, TrailRenderer trailRenderer)
+    public void StartLooping(Queue<Vector3> recordedPositions, Queue<Quaternion> recordedRotations, Queue<float> recordedTimes)
     {
         this.recordedPositions = recordedPositions;
         this.recordedTimes = recordedTimes;
@@ -84,6 +87,16 @@ public class Looper : MonoBehaviour
         recordedPositions = new Queue<Vector3>(originalRecordedPositions);
         recordedRotations = new Queue<Quaternion>(originalRecordedRotations);
         recordedTimes = new Queue<float>(originalRecordedTimes);
+
+        if (hasTrail)
+            if (trailAttatched)
+            {
+                // Unparent trail and toggle flag
+                GameObject trail = transform.GetComponentInChildren<TrailRenderer>().gameObject;
+                trail.transform.parent = null;
+
+                trailAttatched = false;
+            }
 
         loopingTimer = 0;
     }

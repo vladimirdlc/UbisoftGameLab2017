@@ -6,7 +6,6 @@ public class Recorder : MonoBehaviour {
 
     // Public references
     public Transform recordedTransform;                 // NOTE TO SELF: GET REFERENCE ON START
-    public TrailRenderer recordedTrail;
 
     // Private references
     private TimelineManager timelineManager;
@@ -60,15 +59,11 @@ public class Recorder : MonoBehaviour {
     {
         recordingTimer = 0;
 
-        recordedTrail.enabled = true;
-
         recording = true;
     }
 
     private void StopRecording()
     {
-        recordedTrail.enabled = false;
-
         recording = false;
     }
 
@@ -83,9 +78,6 @@ public class Recorder : MonoBehaviour {
 
     private void CreateShadow()
     {
-
-        recordedTrail.time = 100;                // FIX ME TO NOT HARDCODED
-        timelineManager.CreateShadow(recordedPositions, recordedRotations, recordedTimes, recordedTrail);
-        recordedTrail.time = 500000000000;      // FIX ME TO NOT HARDCODED
+        timelineManager.CreateShadow(recordedPositions, recordedRotations, recordedTimes);
     }
 }
