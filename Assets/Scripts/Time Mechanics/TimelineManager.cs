@@ -26,6 +26,5 @@ public class TimelineManager : Singleton<TimelineManager> {
         loopingShadows.Add(shadow);
 
         shadow.GetComponent<Looper>().StartLooping(recordedPositions, recordedRotations, recordedTimes, trailRenderer);
-
     }
 }
