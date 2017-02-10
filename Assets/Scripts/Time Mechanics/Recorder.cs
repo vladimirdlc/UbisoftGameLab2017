@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Recorder : MonoBehaviour {
 
-    public Transform recordedTransform;
+    // Public references
+    public Transform recordedTransform;                 // NOTE TO SELF: GET REFERENCE ON START
     public TrailRenderer recordedTrail;
+
+    // Private references
+    private TimelineManager timelineManager;
 
     // Recording variables
     float recordingTimer;
@@ -25,6 +29,9 @@ public class Recorder : MonoBehaviour {
         recordedPositions = new Queue<Vector3>();
         recordedTimes = new Queue<float>();
         recordedRotations = new Queue<Quaternion>();
+
+        // Setup references
+        timelineManager = FindObjectOfType<TimelineManager>();
     }
 	
 	// Update is called once per frame
@@ -36,9 +43,7 @@ public class Recorder : MonoBehaviour {
                 StartRecording();
         else
             {
-                recordedTrail.time = 100;                // FIX ME TO NOT HARDCODED
-                GetComponent<Looper>().StartLooping(recordedPositions, recordedRotations, recordedTimes, recordedTrail);
-                recordedTrail.time = 500000000000;      // FIX ME TO NOT HARDCODED
+                CreateShadow();
                 StopRecording();
             }
 	}
@@ -74,5 +79,13 @@ public class Recorder : MonoBehaviour {
         recordedPositions.Enqueue(recordedTransform.position);
         recordedRotations.Enqueue(recordedTransform.localRotation);
         recordedTimes.Enqueue(recordingTimer);
+    }
+
+    private void CreateShadow()
+    {
+
+        recordedTrail.time = 100;                // FIX ME TO NOT HARDCODED
+        timelineManager.CreateShadow(recordedPositions, recordedRotations, recordedTimes, recordedTrail);
+        recordedTrail.time = 500000000000;      // FIX ME TO NOT HARDCODED
     }
 }

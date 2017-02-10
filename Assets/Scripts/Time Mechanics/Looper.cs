@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Looper : MonoBehaviour
 {
-    public GameObject objectToInstantiate;
-
-    // Object variables
-    GameObject loopingObject;
-
     // State variables
     bool looping = false;
 
@@ -61,10 +56,6 @@ public class Looper : MonoBehaviour
         originalRecordedRotations = new Queue<Quaternion>(recordedRotations);
         originalRecordedTimes = new Queue<float>(recordedTimes);
 
-        // NOTE TO SELF: CAST CONCERNS?
-        loopingObject = (GameObject) Instantiate(objectToInstantiate);
-        ComponentCopier.CopyComponent(ref trailRenderer, loopingObject);
-
         loopingTimer = 0;
         looping = true;
     }
@@ -81,8 +72,8 @@ public class Looper : MonoBehaviour
             tempQuartenion = recordedRotations.Dequeue();
             tempFloat = recordedTimes.Dequeue();
 
-            loopingObject.transform.position = tempVector;
-            loopingObject.transform.localRotation = tempQuartenion;
+            gameObject.transform.position = tempVector;
+            gameObject.transform.localRotation = tempQuartenion;
             //Debug.Log(originalRecordedTimes.Count);
         }
         while (loopingTimer > tempFloat && recordedPositions.Count > 0);
