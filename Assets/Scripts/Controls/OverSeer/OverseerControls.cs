@@ -17,35 +17,28 @@ public class OverseerControls : MonoBehaviour {
     void Update () {
         if (Input.GetButtonDown(actionButtonA))
         {
-            foreach(GameObject control in controllablesA)
-            {
-                OSControllable trigger = control.GetComponent(typeof(OSControllable)) as OSControllable;
-                trigger.triggerAction();
-            }
+            triggerList(controllablesA);
         }
         if (Input.GetButtonDown(actionButtonX))
         {
-            foreach (GameObject control in controllablesX)
-            {
-                OSControllable trigger = control.GetComponent(typeof(OSControllable)) as OSControllable;
-                trigger.triggerAction();
-            }
+            triggerList(controllablesX);
         }
         if (Input.GetButtonDown(actionButtonB))
         {
-            foreach (GameObject control in controllablesB)
-            {
-                OSControllable trigger = control.GetComponent(typeof(OSControllable)) as OSControllable;
-                trigger.triggerAction();
-            }
+            triggerList(controllablesB);
         }
         if (Input.GetButtonDown(actionButtonY))
         {
-            foreach (GameObject control in controllablesY)
-            {
-                OSControllable trigger = control.GetComponent(typeof(OSControllable)) as OSControllable;
-                trigger.triggerAction();
-            }
+            triggerList(controllablesY);
+        }
+    }
+
+    public void triggerList(List<GameObject> triggerContainer)
+    {
+        foreach (GameObject control in triggerContainer)
+        {
+            OSControllable trigger = control.GetComponent(typeof(OSControllable)) as OSControllable;
+            trigger.triggerAction();
         }
     }
 }
