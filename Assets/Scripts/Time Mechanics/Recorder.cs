@@ -29,6 +29,9 @@ public class Recorder : MonoBehaviour {
         recordedPositions = new Queue<Vector3>();
         recordedTimes = new Queue<float>();
         recordedRotations = new Queue<Quaternion>();
+
+        // Setup references
+        timelineManager = FindObjectOfType<TimelineManager>();
     }
 	
 	// Update is called once per frame
@@ -82,7 +85,7 @@ public class Recorder : MonoBehaviour {
     {
 
         recordedTrail.time = 100;                // FIX ME TO NOT HARDCODED
-        GetComponent<Looper>().StartLooping(recordedPositions, recordedRotations, recordedTimes, recordedTrail);
+        timelineManager.CreateShadow(recordedPositions, recordedRotations, recordedTimes, recordedTrail);
         recordedTrail.time = 500000000000;      // FIX ME TO NOT HARDCODED
     }
 }

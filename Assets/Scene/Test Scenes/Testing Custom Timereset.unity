@@ -118,6 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfd6fa6551202c4c82e600f57f4c6da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shadowPrefab: {fileID: 1614062590372156, guid: fcf9134591e22d94aa1b0215e54cef7b,
+    type: 2}
 --- !u!4 &238929857
 Transform:
   m_ObjectHideFlags: 0
@@ -959,19 +961,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recordedTransform: {fileID: 2053729386}
   recordedTrail: {fileID: 912032127}
---- !u!114 &2053729383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2053729381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d56eb97859cec942933713e1ace2796, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectToInstantiate: {fileID: 1614062590372156, guid: fcf9134591e22d94aa1b0215e54cef7b,
-    type: 2}
 --- !u!4 &2053729386 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
