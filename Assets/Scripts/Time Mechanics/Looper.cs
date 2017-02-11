@@ -7,17 +7,17 @@ public class Looper : MonoBehaviour
     public bool hasTrail;
 
     // Private State variables
-    bool looping = false;
+    protected bool looping = false;
     bool trailAttatched = true;            // Once the looping happens once, the trail needs to be unparented from the looper object
 
     // Numeric variables
-    int currentLooperIndex;                // The index number of the current position in the recorded collections
-    float loopingTimer;
+    protected int currentLooperIndex;      // The index number of the current position in the recorded collections
+    protected float loopingTimer;
 
     // Playback data collections
-    List<Vector3> recordedPositions;
-    List<Quaternion> recordedRotations;
-    List<float> recordedTimes;
+    protected List<Vector3> recordedPositions;
+    protected List<Quaternion> recordedRotations;
+    protected List<float> recordedTimes;
 
     // Use this for initialization
     void Start()
@@ -30,7 +30,23 @@ public class Looper : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
+    {
+        Loop();
+    }
+
+    public void StartLooping(List<Vector3> recordedPositions, List<Quaternion> recordedRotations, List<float> recordedTimes)
+    {
+        this.recordedPositions = recordedPositions;
+        this.recordedTimes = recordedTimes;
+        this.recordedRotations = recordedRotations;
+
+        loopingTimer = 0;
+        currentLooperIndex = 0;
+        looping = true;
+    }
+
+    protected void Loop()
     {
         if (looping)
         {
@@ -47,18 +63,7 @@ public class Looper : MonoBehaviour
         }
     }
 
-    public void StartLooping(List<Vector3> recordedPositions, List<Quaternion> recordedRotations, List<float> recordedTimes)
-    {
-        this.recordedPositions = recordedPositions;
-        this.recordedTimes = recordedTimes;
-        this.recordedRotations = recordedRotations;
-
-        loopingTimer = 0;
-        currentLooperIndex = 0;
-        looping = true;
-    }
-
-    void NextFrameAction()
+    protected void NextFrameAction()
     {
         Vector3 tempVector;
         Quaternion tempQuartenion;
@@ -79,7 +84,7 @@ public class Looper : MonoBehaviour
         while (loopingTimer > tempFloat && recordedPositions.Count > currentLooperIndex);
     }
 
-    private void Reloop()
+    protected void Reloop()
     {
         currentLooperIndex = 0;
 
