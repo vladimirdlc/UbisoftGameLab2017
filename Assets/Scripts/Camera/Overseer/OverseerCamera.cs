@@ -51,25 +51,49 @@ public class OverseerCamera : MonoBehaviour {
             }
         }
 
-        currentDelayTime -= Time.deltaTime;
+        float directionx = (transform.position.x < target.transform.position.x) ? 1 : -1;
+        float directionz = (transform.position.z < target.transform.position.z) ? 1 : -1;
 
+        currentDelayTime -= Time.deltaTime;
+        Debug.Log(transform.rotation.y);
         //Arrow Targeting
-        if (Input.GetAxis(horizontalAxis) > 0 && futureRotation.y > invDegree || Input.GetAxis(horizontalAxis) < 0 && futureRotation.y < invDegree)
+        if ((transform.rotation.y > 0.25) && (transform.rotation.y < 0.75))
         {
-            pointer.position = new Vector3(pointer.position.x - speed, pointer.position.y, pointer.position.z);
+            pointer.position = new Vector3(pointer.position.x + (speed * Input.GetAxisRaw(verticalAxis) * directionx), pointer.position.y, pointer.position.z);
+           // pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z - (speed * Input.GetAxisRaw(horizontalAxis) * directionz));
         }
-        if (Input.GetAxis(horizontalAxis) < 0 && futureRotation.y > invDegree || Input.GetAxis(horizontalAxis) > 0 && futureRotation.y < invDegree)
+        else
         {
-            pointer.position = new Vector3(pointer.position.x + speed, pointer.position.y, pointer.position.z);
+           // pointer.position = new Vector3(pointer.position.x - (speed * Input.GetAxisRaw(horizontalAxis) * directionz), pointer.position.y, pointer.position.z);
+            pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z - (speed * Input.GetAxisRaw(verticalAxis) * directionx));
         }
-        if (Input.GetAxis(verticalAxis) > 0)
+        /*else if ((transform.rotation.y < -0.25 && transform.rotation.y < 0.75))
         {
-            pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z + speed);
-        }
-        if (Input.GetAxis(verticalAxis) < 0)
+            pointer.position = new Vector3(pointer.position.x +
+                (speed * Input.GetAxisRaw(verticalAxis)), pointer.position.y, pointer.position.z);
+        }*/
+        /*else
+        {
+            pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z + (speed * Input.GetAxis(verticalAxis)));
+        }*/
+        /*else if ((transform.rotation.y > -0.25f && transform.rotation.y < -0.75))
+        {
+            pointer.position = new Vector3(pointer.position.x - (speed * Input.GetAxis(verticalAxis)), pointer.position.y, pointer.position.z);
+        }*/
+
+
+        /*else {
+            pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z + (speed * Input.GetAxis(verticalAxis)));
+        }*/
+
+        /*if (Input.GetAxis(verticalAxis) > 0 && transform.rotation.y > invDegree || Input.GetAxis(verticalAxis) < 0 && transform.rotation.y < invDegree)
         {
             pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z - speed);
         }
+        if (Input.GetAxis(verticalAxis) < 0 && transform.rotation.y > invDegree || Input.GetAxis(verticalAxis) > 0 && transform.rotation.y < invDegree)
+        {
+            pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z + speed);
+        }*/
 
     }
 
