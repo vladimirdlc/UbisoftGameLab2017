@@ -11,12 +11,18 @@ public class RewindableLooper : Looper {
     {
         if (!rewinding)
             Loop();
-        else
-            ;
     }
 
-    void Rewind(float rewindInterval)
+    public void LockUnlockRewind(bool locked)
     {
+        rewinding = locked;
+    }
+
+    public void Rewind(float rewindInterval)
+    {
+        if (rewindInterval <= 0)
+            return;
+
         loopingTimer -= rewindInterval;
 
         Vector3 tempVector;
