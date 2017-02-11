@@ -19,7 +19,7 @@ public class TimelineManager : Singleton<TimelineManager> {
 		
 	}
 
-    public void CreateShadow(Queue<Vector3> recordedPositions, Queue<Quaternion> recordedRotations, Queue<float> recordedTimes)
+    public void CreateShadow(List<Vector3> recordedPositions, List<Quaternion> recordedRotations, List<float> recordedTimes)
     {
         // NOTE TO SELF: CAST CONCERNS?
         GameObject shadow = (GameObject) Instantiate(shadowPrefab);

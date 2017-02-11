@@ -14,9 +14,9 @@ public class Recorder : MonoBehaviour {
     float recordingTimer;
 
     // Recording data collection
-    Queue<Vector3> recordedPositions;
-    Queue<Quaternion> recordedRotations;
-    Queue<float> recordedTimes;
+    List<Vector3> recordedPositions;
+    List<Quaternion> recordedRotations;
+    List<float> recordedTimes;
 
     // State variables
     bool recording = false;
@@ -25,9 +25,9 @@ public class Recorder : MonoBehaviour {
 	void Start ()
     {
         // Setup recording data collection
-        recordedPositions = new Queue<Vector3>();
-        recordedTimes = new Queue<float>();
-        recordedRotations = new Queue<Quaternion>();
+        recordedPositions = new List<Vector3>();
+        recordedTimes = new List<float>();
+        recordedRotations = new List<Quaternion>();
 
         // Setup references
         timelineManager = FindObjectOfType<TimelineManager>();
@@ -71,9 +71,9 @@ public class Recorder : MonoBehaviour {
     {
         recordingTimer += Time.deltaTime;
 
-        recordedPositions.Enqueue(recordedTransform.position);
-        recordedRotations.Enqueue(recordedTransform.localRotation);
-        recordedTimes.Enqueue(recordingTimer);
+        recordedPositions.Add(recordedTransform.position);
+        recordedRotations.Add(recordedTransform.localRotation);
+        recordedTimes.Add(recordingTimer);
     }
 
     private void CreateShadow()

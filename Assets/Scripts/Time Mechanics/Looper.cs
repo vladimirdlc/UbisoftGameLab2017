@@ -11,20 +11,17 @@ public class Looper : MonoBehaviour
     bool trailAttatched = true;            // Once the looping happens once, the trail needs to be unparented from the looper object
 
     // Numeric variables
+    int currentLooperIndex;                // The index number of the current position in the recorded collections
     float loopingTimer;
 
     // Playback data collections
-    Queue<Vector3> originalRecordedPositions;
-    Queue<float> originalRecordedTimes;
-    Queue<Quaternion> originalRecordedRotations;
-    Queue<Vector3> recordedPositions;
-    Queue<Quaternion> recordedRotations;
-    Queue<float> recordedTimes;
+    List<Vector3> recordedPositions;
+    List<Quaternion> recordedRotations;
+    List<float> recordedTimes;
 
     // Use this for initialization
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -37,7 +34,8 @@ public class Looper : MonoBehaviour
     {
         if (looping)
         {
-            if (recordedPositions.Count > 0)
+            // If the timer isn't past the last indexed time, or if the index isn't out of bounds
+            if (loopingTimer <= recordedTimes[recordedTimes.Count - 1] && recordedPositions.Count > currentLooperIndex)
             {
                 NextFrameAction();
                 loopingTimer += Time.deltaTime;
@@ -49,17 +47,14 @@ public class Looper : MonoBehaviour
         }
     }
 
-    public void StartLooping(Queue<Vector3> recordedPositions, Queue<Quaternion> recordedRotations, Queue<float> recordedTimes)
+    public void StartLooping(List<Vector3> recordedPositions, List<Quaternion> recordedRotations, List<float> recordedTimes)
     {
         this.recordedPositions = recordedPositions;
         this.recordedTimes = recordedTimes;
         this.recordedRotations = recordedRotations;
 
-        originalRecordedPositions = new Queue<Vector3>(recordedPositions);
-        originalRecordedRotations = new Queue<Quaternion>(recordedRotations);
-        originalRecordedTimes = new Queue<float>(recordedTimes);
-
         loopingTimer = 0;
+        currentLooperIndex = 0;
         looping = true;
     }
 
@@ -71,22 +66,22 @@ public class Looper : MonoBehaviour
 
         do
         {
-            tempVector = recordedPositions.Dequeue();
-            tempQuartenion = recordedRotations.Dequeue();
-            tempFloat = recordedTimes.Dequeue();
+            tempVector = recordedPositions[currentLooperIndex];
+            tempQuartenion = recordedRotations[currentLooperIndex];
+            tempFloat = recordedTimes[currentLooperIndex];
 
             gameObject.transform.position = tempVector;
             gameObject.transform.localRotation = tempQuartenion;
             //Debug.Log(originalRecordedTimes.Count);
+
+            currentLooperIndex++;
         }
-        while (loopingTimer > tempFloat && recordedPositions.Count > 0);
+        while (loopingTimer > tempFloat && recordedPositions.Count > currentLooperIndex);
     }
 
     private void Reloop()
     {
-        recordedPositions = new Queue<Vector3>(originalRecordedPositions);
-        recordedRotations = new Queue<Quaternion>(originalRecordedRotations);
-        recordedTimes = new Queue<float>(originalRecordedTimes);
+        currentLooperIndex = 0;
 
         if (hasTrail)
             if (trailAttatched)
