@@ -5,27 +5,70 @@ using UnityEngine;
 public class OSPointer : MonoBehaviour {
     public string horizontalAxis;
     public string verticalAxis;
+    public string beaconButton;
 
+    public GameObject beaconPrefab;
     public Transform pointer;
     public float speed = 0.1f;
+    private RTSCamera cam;
+    private bool beaconInUse;
+    public float timeToDissapear = 3;
+    private float currentTimeToDissapear;
+    private bool teleportPointer;
 
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetAxis(horizontalAxis) > 0)
+    void Start()
+    {
+        cam = GetComponent<RTSCamera>();
+    }
+
+    // Update is called once per frame
+    void Update () {
+        if (Input.GetAxisRaw(verticalAxis) + Input.GetAxisRaw(horizontalAxis) == 0)
         {
-            pointer.position = new Vector3(pointer.position.x+speed, pointer.position.y, pointer.position.z);
+            if((currentTimeToDissapear -= Time.deltaTime) < 0)
+            { 
+                pointer.gameObject.SetActive(false);
+                teleportPointer = true;
+            }
+            return;
         }
-        if (Input.GetAxis(horizontalAxis) < 0)
+
+        if (teleportPointer)
         {
-            pointer.position = new Vector3(pointer.position.x - speed, pointer.position.y, pointer.position.z);
+            pointer.position = new Vector3(cam.followTarget.position.x, pointer.position.y, cam.followTarget.position.z);
+            teleportPointer = false;
         }
-        if (Input.GetAxis(verticalAxis) > 0)
+
+        currentTimeToDissapear = timeToDissapear;
+        pointer.gameObject.SetActive(true);
+
+        float directionx = (transform.position.x < cam.followTarget.transform.position.x) ? 1 : -1;
+        float directionz = (transform.position.z < cam.followTarget.transform.position.z) ? 1 : -1;
+
+            //Arrow Targeting
+        if ((transform.rotation.y > 0.30) && (transform.rotation.y < 0.85))
         {
-            pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z + speed);
+            pointer.position = new Vector3(pointer.position.x + (speed * Input.GetAxisRaw(verticalAxis) * directionx), pointer.position.y, pointer.position.z);
+            pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z - (speed * Input.GetAxisRaw(horizontalAxis) * directionx));
         }
-        if (Input.GetAxis(verticalAxis) < 0)
+        else
         {
-            pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z - speed);
+            pointer.position = new Vector3(pointer.position.x + (speed * Input.GetAxisRaw(horizontalAxis) * directionz), pointer.position.y, pointer.position.z);
+            pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z + (speed * Input.GetAxisRaw(verticalAxis) * directionz));
+        }
+
+        if(Input.GetAxis(beaconButton) > 0)
+        {
+            if (!beaconInUse)
+            {
+                Instantiate(beaconPrefab, pointer.position, Quaternion.identity);
+                beaconInUse = true;
+            }
+
+        }
+        else if (Input.GetAxisRaw(beaconButton) == 0)
+        {
+            beaconInUse = false;
         }
     }
 }
