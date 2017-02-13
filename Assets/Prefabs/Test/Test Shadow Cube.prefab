@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 65735452598567560}
   - component: {fileID: 23834119766803998}
   - component: {fileID: 114962049747384856}
+  - component: {fileID: 114596059189445110}
   m_Layer: 0
   m_Name: Test Shadow Cube
   m_TagString: Untagged
@@ -93,6 +94,38 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114596059189445110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1614062590372156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 252
+    i1: 249
+    i2: 19
+    i3: 69
+    i4: 145
+    i5: 226
+    i6: 45
+    i7: 148
+    i8: 170
+    i9: 27
+    i10: 2
+    i11: 21
+    i12: 229
+    i13: 76
+    i14: 239
+    i15: 123
+  m_ServerOnly: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114962049747384856
 MonoBehaviour:
   m_ObjectHideFlags: 1

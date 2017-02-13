@@ -7,6 +7,7 @@ public class OSPointer : MonoBehaviour {
     public string verticalAxis;
     public string beaconButton;
 
+    public GameObject beaconContainerPrefab;
     public GameObject beaconPrefab;
     public Transform pointer;
     public float speed = 0.1f;
@@ -18,6 +19,8 @@ public class OSPointer : MonoBehaviour {
 
     void Start()
     {
+        GameObject pointerInstance = Instantiate(beaconContainerPrefab) as GameObject;
+        pointer = pointerInstance.transform;
         cam = GetComponent<RTSCamera>();
     }
 
