@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4463854952855402}
   - component: {fileID: 114666243920910858}
   - component: {fileID: 20503174897372772}
+  - component: {fileID: 114247133789226836}
+  - component: {fileID: 114808406192285354}
   m_Layer: 0
   m_Name: UntilWeGetCameraWorking
   m_TagString: Untagged
@@ -75,6 +77,38 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!114 &114247133789226836
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1694764451233036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 104
+    i1: 38
+    i2: 169
+    i3: 103
+    i4: 133
+    i5: 214
+    i6: 66
+    i7: 52
+    i8: 75
+    i9: 193
+    i10: 123
+    i11: 153
+    i12: 36
+    i13: 178
+    i14: 58
+    i15: 20
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114666243920910858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,3 +130,23 @@ MonoBehaviour:
   - {fileID: 0}
   controllablesB: []
   controllablesY: []
+--- !u!114 &114808406192285354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1694764451233036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1

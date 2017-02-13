@@ -18,15 +18,8 @@ public class NC2 : NetworkManager
         NetworkMessage test = new NetworkMessage();
         test.chosenClass = 0;
         print("Called");
-        ClientScene.AddPlayer(conn, 0, test);
+        ClientScene.AddPlayer(conn, 1, test);
     }
-
-    //public override void OnServerConnect(NetworkConnection conn)
-    //{
-    //    NetworkMessage test = new NetworkMessage();
-    //    test.chosenClass = 1;
-    //    ClientScene.AddPlayer(conn, 0, test);
-    //}
 
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader)
     {
