@@ -62,6 +62,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private AudioSource m_AudioSource;
 
         // Use this for initialization
+        public bool clientsHost;
         private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
@@ -74,32 +75,46 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
             m_MouseLook.Init(transform, m_Camera.transform);
+
+            clientsHost = !isLocalPlayer && !NetworkCustom.isServer;
         }
 
 
         // Update is called once per frame
+        /// <summary>
+        /// hostsClient: Client relative to host.
+        /// client: client relative to client.
+        /// clientsHost: Host relative to client.
+        /// </summary>
         private void Update()
         {
-            if (NetworkCustom.isServer && !isLocalPlayer)
+            //QUESTION: Why we have to do this twice????
+            //Deactivate client player.
+            bool hostsClient = NetworkCustom.isServer && !isLocalPlayer;
+            if (hostsClient)
             {
-                Debug.Log("true");
-                //GetComponentInChildren<Camera>().targetDisplay = 1;
+                //This only works on host side,
+                //meaning if you deactivate client
+                //it will only deactive client relative
+                //to the host, but the client connected
+                //to the host is still active.
                 gameObject.SetActive(false);
                 return;
             }
-            if (!isLocalPlayer)
+            //If you are the client and you are the localplayer
+            //deactivate yourself
+            bool client = !NetworkCustom.isServer && isLocalPlayer;
+            if (client)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+
+            //Disable other persons camera...what?
+            if (clientsHost)
             {
                 if (GetComponentInChildren<Camera>())
                     GetComponentInChildren<Camera>().gameObject.SetActive(false);
-            }
-            if (!NetworkCustom.isServer && isLocalPlayer)
-            {
-                Debug.Log("hiiiiii");
-                //Destroy(gameObject);
-                //GetComponentInChildren<Camera>().gameObject.SetActive(false);
-                //Debug.Break();
-                //GetComponentInChildren<Camera>().targetDisplay = 1;
-                gameObject.SetActive(false);
                 return;
             }
 
@@ -138,6 +153,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void FixedUpdate()
         {
+            if (clientsHost)
+                return;
             float speed;
             GetInput(out speed);
             // always move along the camera forward as it is the direction that it being aimed at
