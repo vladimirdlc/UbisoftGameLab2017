@@ -19,8 +19,7 @@ public class TimelineManager : Singleton<TimelineManager>
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetButtonDown("Rewind"))
+        if (Input.GetButton("Rewind"))
         {
             foreach (GameObject shadow in loopingShadows)
             {

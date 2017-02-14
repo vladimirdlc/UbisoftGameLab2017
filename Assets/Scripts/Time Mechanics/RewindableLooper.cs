@@ -29,7 +29,7 @@ public class RewindableLooper : Looper {
         Quaternion tempQuartenion;
         float tempFloat;
 
-        while (recordedTimes[currentLooperIndex] >= loopingTimer && currentLooperIndex >= 0)
+        while (recordedTimes[currentLooperIndex] >= loopingTimer && currentLooperIndex > 0)
         {
             currentLooperIndex--;
 
@@ -39,7 +39,6 @@ public class RewindableLooper : Looper {
 
             gameObject.transform.position = tempVector;
             gameObject.transform.localRotation = tempQuartenion;
-            //Debug.Log(originalRecordedTimes.Count);
         }
     }
 }
