@@ -95,6 +95,24 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 Debug.Log("dfsfsdfsdf");
                 GameObject.Find("OverseerController").SetActive(false);
             }
+
+            //QUESTION: Why we have to do this twice????
+            //Deactivate client player.
+            if (hostsClient)
+            {
+                //This only works on host side,
+                //meaning if you deactivate client
+                //it will only deactive client relative
+                //to the host, but the client connected
+                //to the host is still active.
+                gameObject.SetActive(false);
+            }
+            //If you are the client and you are the localplayer
+            //deactivate yourself
+            if (client)
+            {
+                gameObject.SetActive(false);
+            }
         }
 
 
@@ -107,25 +125,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         /// </summary>
         private void Update()
         {
-            //QUESTION: Why we have to do this twice????
-            //Deactivate client player.
-            if (hostsClient)
-            {
-                //This only works on host side,
-                //meaning if you deactivate client
-                //it will only deactive client relative
-                //to the host, but the client connected
-                //to the host is still active.
-                gameObject.SetActive(false);
-                return;
-            }
-            //If you are the client and you are the localplayer
-            //deactivate yourself
-            if (client)
-            {
-                gameObject.SetActive(false);
-                return;
-            }
 
             //Disable other persons camera...what?
             if (clientsHost)
