@@ -63,6 +63,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         // Use this for initialization
         public bool clientsHost;
+        public bool hostsClient;
+        public bool client;
+        public bool host;
+        public bool server;
         private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
@@ -76,7 +80,21 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_AudioSource = GetComponent<AudioSource>();
             m_MouseLook.Init(transform, m_Camera.transform);
 
-            clientsHost = !isLocalPlayer && !NetworkCustom.isServer;
+            server = NetworkCustom.isServer;
+
+            clientsHost = !isLocalPlayer && !server;
+            hostsClient = server && !isLocalPlayer;
+            client = !server && isLocalPlayer;
+            host = server;
+            if (host)
+            {
+                //SOMETHING really weird happening here
+                //try building application, run as host from
+                //editor, then connect as client from build,
+                //And this is being called????
+                Debug.Log("dfsfsdfsdf");
+                GameObject.Find("OverseerController").SetActive(false);
+            }
         }
 
 
@@ -85,12 +103,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         /// hostsClient: Client relative to host.
         /// client: client relative to client.
         /// clientsHost: Host relative to client.
+        /// host: the actual host relative to host
         /// </summary>
         private void Update()
         {
             //QUESTION: Why we have to do this twice????
             //Deactivate client player.
-            bool hostsClient = NetworkCustom.isServer && !isLocalPlayer;
             if (hostsClient)
             {
                 //This only works on host side,
@@ -103,7 +121,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             //If you are the client and you are the localplayer
             //deactivate yourself
-            bool client = !NetworkCustom.isServer && isLocalPlayer;
             if (client)
             {
                 gameObject.SetActive(false);
