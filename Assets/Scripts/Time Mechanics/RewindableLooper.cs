@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RewindableLooper : Looper {
-
+public class RewindableLooper : Looper
+{
     // Private state variables
     bool rewinding = false;
 
@@ -28,6 +28,8 @@ public class RewindableLooper : Looper {
         Vector3 tempVector;
         Quaternion tempQuartenion;
         float tempFloat;
+
+        Debug.Log(currentLooperIndex);
 
         while (recordedTimes[currentLooperIndex] >= loopingTimer && currentLooperIndex > 0)
         {

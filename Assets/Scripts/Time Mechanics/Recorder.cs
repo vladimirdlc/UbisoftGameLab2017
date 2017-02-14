@@ -35,8 +35,7 @@ public class Recorder : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        // DELETEME
+        // DELETEME (DETATCH FROM TEST BUTTON)
         if (Input.GetButtonDown("Test Button"))
             if (!recording)
                 StartRecording();
@@ -57,6 +56,11 @@ public class Recorder : MonoBehaviour {
 
     private void StartRecording()
     {
+        // Wipe old data structures
+        recordedPositions = new List<Vector3>();
+        recordedTimes = new List<float>();
+        recordedRotations = new List<Quaternion>();
+
         recordingTimer = 0;
 
         recording = true;

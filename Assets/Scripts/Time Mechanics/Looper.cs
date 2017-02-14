@@ -58,7 +58,9 @@ public class Looper : MonoBehaviour
             }
             else
             {
-                Reloop();
+                //Reloop();
+                // Stop looping
+                looping = false;
             }
         }
     }
