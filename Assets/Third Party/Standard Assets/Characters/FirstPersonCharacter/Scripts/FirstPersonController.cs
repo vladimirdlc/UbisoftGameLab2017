@@ -85,13 +85,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
             clientsHost = !isLocalPlayer && !server;
             hostsClient = server && !isLocalPlayer;
             client = !server && isLocalPlayer;
-            host = server;
+            host = server && isLocalPlayer;
             if (host)
             {
-                //SOMETHING really weird happening here
-                //try building application, run as host from
-                //editor, then connect as client from build,
-                //And this is being called????
+                //It turns out you actually have four objects in networking, not 2
+                //i.e. host has his player and client player that he can see
+                //and client has his player and host player he can see as well
+                //4 gameobjects objects total
                 Debug.Log("dfsfsdfsdf");
                 GameObject.Find("OverseerController").SetActive(false);
             }
