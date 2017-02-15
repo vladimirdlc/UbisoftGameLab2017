@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class OSPointer : MonoBehaviour {
+public class OSPointer : NetworkBehaviour
+{
     public string horizontalAxis;
     public string verticalAxis;
     public string beaconButton;
@@ -25,11 +27,12 @@ public class OSPointer : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         if (Input.GetAxisRaw(verticalAxis) + Input.GetAxisRaw(horizontalAxis) == 0)
         {
-            if((currentTimeToDissapear -= Time.deltaTime) < 0)
-            { 
+            if ((currentTimeToDissapear -= Time.deltaTime) < 0)
+            {
                 pointer.gameObject.SetActive(false);
                 teleportPointer = true;
             }
@@ -48,7 +51,7 @@ public class OSPointer : MonoBehaviour {
         float directionx = (transform.position.x < cam.followTarget.transform.position.x) ? 1 : -1;
         float directionz = (transform.position.z < cam.followTarget.transform.position.z) ? 1 : -1;
 
-            //Arrow Targeting
+        //Arrow Targeting
         if ((transform.rotation.y > 0.30) && (transform.rotation.y < 0.85))
         {
             pointer.position = new Vector3(pointer.position.x + (speed * Input.GetAxisRaw(verticalAxis) * directionx), pointer.position.y, pointer.position.z);
@@ -60,12 +63,11 @@ public class OSPointer : MonoBehaviour {
             pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z + (speed * Input.GetAxisRaw(verticalAxis) * directionz));
         }
 
-        if(Input.GetAxis(beaconButton) > 0)
+        if (Input.GetAxis(beaconButton) > 0)
         {
             if (!beaconInUse)
             {
-                Instantiate(beaconPrefab, pointer.position, Quaternion.identity);
-                beaconInUse = true;
+                CmdSpawnBeacon();
             }
 
         }
@@ -74,4 +76,14 @@ public class OSPointer : MonoBehaviour {
             beaconInUse = false;
         }
     }
+
+    //    [Command]
+    void CmdSpawnBeacon()
+    {
+
+        var beacon = Instantiate(beaconPrefab, pointer.position, Quaternion.identity);
+        beaconInUse = true;
+        //       NetworkServer.Spawn(beacon);
+    }
 }
+

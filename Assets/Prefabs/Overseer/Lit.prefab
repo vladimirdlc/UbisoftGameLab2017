@@ -57,7 +57,8 @@ GameObject:
   - component: {fileID: 4528026369275918}
   - component: {fileID: 114898585285612640}
   - component: {fileID: 95505109485149776}
-  - component: {fileID: 114997441896572698}
+  - component: {fileID: 114342059272342686}
+  - component: {fileID: 114138120242596626}
   m_Layer: 0
   m_Name: Lit
   m_TagString: Untagged
@@ -334,6 +335,58 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114138120242596626
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627837743720578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &114342059272342686
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627837743720578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114898585285612640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -346,35 +399,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTimeAlive: 5
---- !u!114 &114997441896572698
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627837743720578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 67
-    i1: 135
-    i2: 127
-    i3: 50
-    i4: 175
-    i5: 94
-    i6: 254
-    i7: 244
-    i8: 184
-    i9: 71
-    i10: 112
-    i11: 160
-    i12: 43
-    i13: 23
-    i14: 48
-    i15: 43
-  m_ServerOnly: 1
-  m_LocalPlayerAuthority: 0
