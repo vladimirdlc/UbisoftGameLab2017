@@ -62,11 +62,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private AudioSource m_AudioSource;
 
         // Use this for initialization
+        private bool server;
         public bool clientsHost;
         public bool hostsClient;
         public bool client;
         public bool host;
-        public bool server;
+        [SerializeField]
+        private Behaviour[] DisableOnClientsHost;
         private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
@@ -113,6 +115,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 gameObject.SetActive(false);
             }
+
+            //Disable other persons camera...what?
+            if (clientsHost)
+            {
+                foreach (var comp in DisableOnClientsHost)
+                {
+                    comp.enabled = false;
+                }
+            }
         }
 
 
@@ -126,15 +137,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Update()
         {
 
-            //Disable other persons camera...what?
-            if (clientsHost)
-            {
-                if (GetComponentInChildren<Camera>())
-                    GetComponentInChildren<Camera>().gameObject.SetActive(false);
-                return;
-            }
-
-
+            //if (clientsHost)
+            //{
+            //    if (GetComponentInChildren<Camera>())
+            //        GetComponentInChildren<Camera>().gameObject.SetActive(false);
+            //    return;
+            //}
 
             RotateView();
             // the jump state needs to read here to make sure it is not missed
