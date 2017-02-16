@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 114251896190925116}
   - component: {fileID: 114552154234673556}
   - component: {fileID: 114154350679959722}
+  - component: {fileID: 114539929307018324}
   m_Layer: 0
   m_Name: GroundController
   m_TagString: Untagged
@@ -328,6 +329,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recordedTransform: {fileID: 4636740846740818}
+--- !u!114 &114539929307018324
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1395371510902202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c7960f1218ec574f983feeb881ebd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114552154234673556
 MonoBehaviour:
   m_ObjectHideFlags: 1

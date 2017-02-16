@@ -113,7 +113,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
             //deactivate yourself
             if (client)
             {
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
+                transform.GetChild(0).GetComponent<Camera>().enabled = false;
+                foreach (var comp in DisableOnClientsHost)
+                {
+                    comp.enabled = false;
+                }
+                //GetComponent<TrackRenderer>().enabled = true;
             }
 
             //Disable other persons camera...what?

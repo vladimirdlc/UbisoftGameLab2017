@@ -67,7 +67,7 @@ public class OSPointer : NetworkBehaviour
         {
             if (!beaconInUse)
             {
-                CmdSpawnBeacon();
+                SpawnBeacon();
             }
 
         }
@@ -78,11 +78,13 @@ public class OSPointer : NetworkBehaviour
     }
 
     //    [Command]
-    void CmdSpawnBeacon()
+    public spawner s;
+    void SpawnBeacon()
     {
 
         var beacon = Instantiate(beaconPrefab, pointer.position, Quaternion.identity);
         beaconInUse = true;
+        s.CmdSpawn(beacon);
         //       NetworkServer.Spawn(beacon);
     }
 }
