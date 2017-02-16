@@ -5,12 +5,17 @@ using UnityEngine.Networking;
 
 public class spawner : NetworkBehaviour
 {
+
+    public GameObject beaconPrefab;
     [Command]
-    public void CmdSpawn(GameObject o)
+    public void CmdSpawn(Vector3 position)
+    //public void CmdSpawn(ref GameObject )
     {
         Debug.Log(gameObject.name);
         Debug.Log("FWIOEHDFWOEUFHOUWEFHUOEFHEHW");
-        ClientScene.RegisterPrefab(o);
-        NetworkServer.Spawn(o);
+        //ClientScene.RegisterPrefab(o);
+        var beacon = Instantiate(beaconPrefab, position, Quaternion.identity);
+        //NetworkServer.Spawn(beacon);
     }
+
 }
