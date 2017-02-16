@@ -18,10 +18,12 @@ public class PressurePlate : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         target.GetComponent<Door>().IncCount();
+        mesh.GetComponent<Renderer>().material = active;
     }
 
     private void OnTriggerExit(Collider other)
     {
         target.GetComponent<Door>().DecCount();
+        mesh.GetComponent<Renderer>().material = inactive;
     }
 }
