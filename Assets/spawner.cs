@@ -10,6 +10,7 @@ public class spawner : NetworkBehaviour
     {
         Debug.Log(gameObject.name);
         Debug.Log("FWIOEHDFWOEUFHOUWEFHUOEFHEHW");
+        ClientScene.RegisterPrefab(o);
         NetworkServer.Spawn(o);
     }
 }

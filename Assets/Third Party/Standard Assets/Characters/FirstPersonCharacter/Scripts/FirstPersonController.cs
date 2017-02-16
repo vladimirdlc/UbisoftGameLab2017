@@ -96,6 +96,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 //4 gameobjects objects total
                 Debug.Log("dfsfsdfsdf");
                 GameObject.Find("OverseerController").SetActive(false);
+                gameObject.name = "host";
             }
 
             //QUESTION: Why we have to do this twice????
@@ -108,6 +109,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 //to the host, but the client connected
                 //to the host is still active.
                 gameObject.SetActive(false);
+                gameObject.name = "hostsClient";
             }
             //If you are the client and you are the localplayer
             //deactivate yourself
@@ -119,6 +121,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 {
                     comp.enabled = false;
                 }
+                gameObject.name = "client";
                 //GetComponent<TrackRenderer>().enabled = true;
             }
 
@@ -129,6 +132,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 {
                     comp.enabled = false;
                 }
+                gameObject.name = "clientsHost";
             }
         }
 

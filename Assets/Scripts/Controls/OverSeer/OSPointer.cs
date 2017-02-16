@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class OSPointer : NetworkBehaviour
+public class OSPointer : MonoBehaviour
 {
     public string horizontalAxis;
     public string verticalAxis;
@@ -81,7 +80,7 @@ public class OSPointer : NetworkBehaviour
     public spawner s;
     void SpawnBeacon()
     {
-
+        s = GameObject.Find("client").GetComponent<spawner>();
         var beacon = Instantiate(beaconPrefab, pointer.position, Quaternion.identity);
         beaconInUse = true;
         s.CmdSpawn(beacon);
