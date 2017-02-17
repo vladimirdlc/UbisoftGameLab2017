@@ -85,9 +85,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             server = NetworkCustom.isServer;
 
             clientsHost = !isLocalPlayer && !server;
-            hostsClient = server && !isLocalPlayer;
             client = !server && isLocalPlayer;
             host = server && isLocalPlayer;
+            hostsClient = server && !isLocalPlayer;
             if (host)
             {
                 //It turns out you actually have four objects in networking, not 2

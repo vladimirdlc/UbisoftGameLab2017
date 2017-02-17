@@ -37,5 +37,4 @@ public class NetMessenger : NetworkBehaviour
             BlueDoor.GetComponent<Animator>().SetTrigger("toggleObject");
         //GreenDoor.GetComponent<Animator>().SetTrigger("toggleObject");
     }
-
 }
