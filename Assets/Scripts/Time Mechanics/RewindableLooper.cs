@@ -29,7 +29,7 @@ public class RewindableLooper : Looper
         Quaternion tempQuartenion;
         float tempFloat;
 
-        Debug.Log(currentLooperIndex);
+        //Debug.Log(currentLooperIndex);
 
         while (recordedTimes[currentLooperIndex] >= loopingTimer && currentLooperIndex > 0)
         {
@@ -41,6 +41,18 @@ public class RewindableLooper : Looper
 
             gameObject.transform.position = tempVector;
             gameObject.transform.localRotation = tempQuartenion;
+        }
+    }
+
+    public override void Reloop()
+    {
+        //Debug.Log("Child reloop");
+
+        if (!rewinding)
+            base.Reloop();
+        else
+        {
+            Debug.Log("Can't reloop object " + this.name + " because it is rewinding.");
         }
     }
 }
