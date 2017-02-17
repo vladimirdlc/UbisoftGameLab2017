@@ -27,6 +27,7 @@ public class Recorder : NetworkBehaviour
     bool server = NetworkCustom.isServer;
     bool clientsHost;
     bool client;
+    Recorder recorder;
     void Start()
     {
         // Setup recording data collection
@@ -39,6 +40,8 @@ public class Recorder : NetworkBehaviour
 
         clientsHost = !isLocalPlayer && !server;
         client = !server && isLocalPlayer;
+        if (client)
+            recorder = GameObject.Find("clientsHost").GetComponent<Recorder>();
     }
 
     // Update is called once per frame
@@ -51,7 +54,7 @@ public class Recorder : NetworkBehaviour
             PressedT = Input.GetButtonDown("Test Button");
         else if (PressedT && client)
         {
-            GameObject.Find("clientsHost").GetComponent<Recorder>().PressedT = true;
+            recorder.PressedT = true;
             return;
         }
         // DELETEME
