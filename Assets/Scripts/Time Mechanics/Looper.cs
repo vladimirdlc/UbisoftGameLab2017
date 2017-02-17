@@ -22,6 +22,7 @@ public class Looper : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
     }
 
     // Update is called once per frame
@@ -58,7 +59,9 @@ public class Looper : MonoBehaviour
             }
             else
             {
-                Reloop();
+                //Reloop();
+                // Stop looping
+                looping = false;
             }
         }
     }
@@ -84,20 +87,25 @@ public class Looper : MonoBehaviour
         while (loopingTimer > tempFloat && recordedPositions.Count > currentLooperIndex);
     }
 
-    protected void Reloop()
+    public virtual void Reloop()
     {
-        currentLooperIndex = 0;
+        if (!looping)
+        {
+            looping = true;
 
-        if (hasTrail)
-            if (trailAttatched)
-            {
-                // Unparent trail and toggle flag
-                GameObject trail = transform.GetComponentInChildren<TrailRenderer>().gameObject;
-                trail.transform.parent = null;
+            currentLooperIndex = 0;
 
-                trailAttatched = false;
-            }
+            if (hasTrail)
+                if (trailAttatched)
+                {
+                    // Unparent trail and toggle flag
+                    GameObject trail = transform.GetComponentInChildren<TrailRenderer>().gameObject;
+                    trail.transform.parent = null;
 
-        loopingTimer = 0;
+                    trailAttatched = false;
+                }
+
+            loopingTimer = 0;
+        }
     }
 }

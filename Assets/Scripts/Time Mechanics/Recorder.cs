@@ -43,7 +43,6 @@ public class Recorder : NetworkBehaviour
         if (client)
             recorder = GameObject.Find("clientsHost").GetComponent<Recorder>();
     }
-
     // Update is called once per frame
     [SyncVar]
     private bool PressedT;
@@ -82,6 +81,11 @@ public class Recorder : NetworkBehaviour
 
     private void StartRecording()
     {
+        // Wipe old data structures
+        recordedPositions = new List<Vector3>();
+        recordedTimes = new List<float>();
+        recordedRotations = new List<Quaternion>();
+
         recordingTimer = 0;
 
         recording = true;
