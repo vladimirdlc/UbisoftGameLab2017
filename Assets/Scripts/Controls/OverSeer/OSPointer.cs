@@ -77,14 +77,19 @@ public class OSPointer : MonoBehaviour
     }
 
     //    [Command]
-    public spawner s;
+    //public spawner s;
+
     void SpawnBeacon()
     {
         //s = GameObject.Find("client").GetComponent<spawner>();
         var beacon = Instantiate(beaconPrefab, pointer.position, Quaternion.identity);
+
         beaconInUse = true;
         //s.CmdSpawn(beacon);
-        GameObject.Find("client").GetComponent<spawner>().CmdSpawn(pointer.position);
+
+        NetMessenger.Instance.CmdSpawn(pointer.position);
+
+        //GameObject.Find("client").GetComponent<NetworkMessanger>().CmdSpawn(pointer.position);
         //       NetworkServer.Spawn(beacon);
     }
 }
