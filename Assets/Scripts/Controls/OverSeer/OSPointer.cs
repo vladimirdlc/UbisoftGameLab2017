@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OSPointer : MonoBehaviour {
+public class OSPointer : MonoBehaviour
+{
     public string horizontalAxis;
     public string verticalAxis;
     public string beaconButton;
 
+    public GameObject beaconContainerPrefab;
     public GameObject beaconPrefab;
     public Transform pointer;
     public float speed = 0.1f;
@@ -18,15 +20,18 @@ public class OSPointer : MonoBehaviour {
 
     void Start()
     {
+        GameObject pointerInstance = Instantiate(beaconContainerPrefab) as GameObject;
+        pointer = pointerInstance.transform;
         cam = GetComponent<RTSCamera>();
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         if (Input.GetAxisRaw(verticalAxis) + Input.GetAxisRaw(horizontalAxis) == 0)
         {
-            if((currentTimeToDissapear -= Time.deltaTime) < 0)
-            { 
+            if ((currentTimeToDissapear -= Time.deltaTime) < 0)
+            {
                 pointer.gameObject.SetActive(false);
                 teleportPointer = true;
             }
@@ -45,7 +50,7 @@ public class OSPointer : MonoBehaviour {
         float directionx = (transform.position.x < cam.followTarget.transform.position.x) ? 1 : -1;
         float directionz = (transform.position.z < cam.followTarget.transform.position.z) ? 1 : -1;
 
-            //Arrow Targeting
+        //Arrow Targeting
         if ((transform.rotation.y > 0.30) && (transform.rotation.y < 0.85))
         {
             pointer.position = new Vector3(pointer.position.x + (speed * Input.GetAxisRaw(verticalAxis) * directionx), pointer.position.y, pointer.position.z);
@@ -57,12 +62,11 @@ public class OSPointer : MonoBehaviour {
             pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z + (speed * Input.GetAxisRaw(verticalAxis) * directionz));
         }
 
-        if(Input.GetAxis(beaconButton) > 0)
+        if (Input.GetAxis(beaconButton) > 0)
         {
             if (!beaconInUse)
             {
-                Instantiate(beaconPrefab, pointer.position, Quaternion.identity);
-                beaconInUse = true;
+                SpawnBeacon();
             }
 
         }
@@ -71,4 +75,22 @@ public class OSPointer : MonoBehaviour {
             beaconInUse = false;
         }
     }
+
+    //    [Command]
+    //public spawner s;
+
+    void SpawnBeacon()
+    {
+        //s = GameObject.Find("client").GetComponent<spawner>();
+        var beacon = Instantiate(beaconPrefab, pointer.position, Quaternion.identity);
+
+        beaconInUse = true;
+        //s.CmdSpawn(beacon);
+
+        NetMessenger.Instance.CmdSpawn(pointer.position);
+
+        //GameObject.Find("client").GetComponent<NetworkMessanger>().CmdSpawn(pointer.position);
+        //       NetworkServer.Spawn(beacon);
+    }
 }
+

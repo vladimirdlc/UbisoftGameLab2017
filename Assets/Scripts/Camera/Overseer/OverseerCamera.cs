@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class OverseerCamera : MonoBehaviour {
+public class OverseerCamera : MonoBehaviour
+{
     public OverseerTarget target;
     public string leftAxisKey;
     public string rightAxisKey;
@@ -23,6 +25,12 @@ public class OverseerCamera : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if (NetworkCustom.isServer)
+        {
+            GetComponent<Camera>().enabled = false;
+            return;
+        }
+
         Quaternion futureRotation = Quaternion.LookRotation(cam.followTarget.position - transform.position, Vector3.up);
 
         if (currentDelayTime < 0)

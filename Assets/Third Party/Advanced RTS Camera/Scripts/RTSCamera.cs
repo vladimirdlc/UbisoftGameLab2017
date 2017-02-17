@@ -206,6 +206,7 @@ public class RTSCamera : MonoBehaviour
 
     void Start()
     {
+        //followTarget = OverseerTarget.startTarget.gameObject.transform;
         _currentTilt = Mathf.Clamp(transform.localEulerAngles.x, lowTilt, highTilt);
         _targetTilt = Mathf.Clamp(transform.localEulerAngles.x, lowTilt, highTilt);
         _newRotation = transform.rotation;

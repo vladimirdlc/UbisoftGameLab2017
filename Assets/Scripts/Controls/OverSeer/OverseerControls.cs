@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OverseerControls : MonoBehaviour {
+public class OverseerControls : MonoBehaviour
+{
     public string actionButtonX;
     public string actionButtonA;
     public string actionButtonB;
@@ -14,14 +15,17 @@ public class OverseerControls : MonoBehaviour {
     public List<GameObject> controllablesY;
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         if (Input.GetButtonDown(actionButtonA))
         {
             triggerList(controllablesA);
+            NetMessenger.Instance.CmdOpenDoor("Green");
         }
         if (Input.GetButtonDown(actionButtonX))
         {
             triggerList(controllablesX);
+            NetMessenger.Instance.CmdOpenDoor("Blue");
         }
         if (Input.GetButtonDown(actionButtonB))
         {

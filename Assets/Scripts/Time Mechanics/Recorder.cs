@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 using UnityEngine;
 
-public class Recorder : MonoBehaviour {
+public class Recorder : NetworkBehaviour
+{
 
     // Public references
     public Transform recordedTransform;                 // NOTE TO SELF: GET REFERENCE ON START
@@ -21,8 +23,12 @@ public class Recorder : MonoBehaviour {
     // State variables
     bool recording = false;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    bool server = NetworkCustom.isServer;
+    bool clientsHost;
+    bool client;
+    Recorder recorder;
+    void Start()
     {
         // Setup recording data collection
         recordedPositions = new List<Vector3>();
@@ -31,25 +37,44 @@ public class Recorder : MonoBehaviour {
 
         // Setup references
         timelineManager = FindObjectOfType<TimelineManager>();
-    }
-	
-	// Update is called once per frame
-	void Update () {
 
+        clientsHost = !isLocalPlayer && !server;
+        client = !server && isLocalPlayer;
+        if (client)
+            recorder = GameObject.Find("clientsHost").GetComponent<Recorder>();
+    }
+
+    // Update is called once per frame
+    [SyncVar]
+    private bool PressedT;
+
+    void Update()
+    {
+        if (!client && !clientsHost)
+            PressedT = Input.GetButtonDown("Test Button");
+        else if (PressedT && client)
+        {
+            recorder.PressedT = true;
+            return;
+        }
         // DELETEME
-        if (Input.GetButtonDown("Test Button"))
+        if (PressedT)
             if (!recording)
                 StartRecording();
-        else
+            else
             {
                 CreateShadow();
                 StopRecording();
             }
-	}
+        if (clientsHost)
+        {
+            PressedT = false;
+        }
+    }
 
     private void LateUpdate()
     {
-        if(recording)
+        if (recording)
         {
             RecordFrame();
         }

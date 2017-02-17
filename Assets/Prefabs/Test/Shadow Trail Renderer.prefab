@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4166125126334564}
   - component: {fileID: 96711776689594582}
+  - component: {fileID: 114528316011395432}
   m_Layer: 10
   m_Name: Shadow Trail Renderer
   m_TagString: Untagged
@@ -138,3 +139,35 @@ TrailRenderer:
     textureMode: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
+--- !u!114 &114528316011395432
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1788705545930800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 137
+    i1: 214
+    i2: 150
+    i3: 176
+    i4: 28
+    i5: 130
+    i6: 54
+    i7: 196
+    i8: 106
+    i9: 9
+    i10: 37
+    i11: 162
+    i12: 136
+    i13: 179
+    i14: 67
+    i15: 8
+  m_ServerOnly: 1
+  m_LocalPlayerAuthority: 0

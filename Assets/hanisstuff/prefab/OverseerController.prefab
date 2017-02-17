@@ -9,79 +9,80 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1160636433780828}
+  m_RootGameObject: {fileID: 1553020305319734}
   m_IsPrefabParent: 1
---- !u!1 &1160636433780828
+--- !u!1 &1485781708722640
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4208188299822980}
-  - component: {fileID: 114240789570247746}
-  - component: {fileID: 114129776080327562}
+  - component: {fileID: 4275765994050696}
+  - component: {fileID: 114412270670870416}
   m_Layer: 0
-  m_Name: OverSeer 1
+  m_Name: OverSeer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1629658822747872
+--- !u!1 &1553020305319734
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4184999941574928}
-  - component: {fileID: 20796292359210696}
-  - component: {fileID: 92765881767736954}
-  - component: {fileID: 124195701947815980}
-  - component: {fileID: 81460285797784998}
-  - component: {fileID: 114553470762294084}
-  - component: {fileID: 114671247793944376}
+  - component: {fileID: 4848010683708508}
+  - component: {fileID: 20579923451687304}
+  - component: {fileID: 92667823414060038}
+  - component: {fileID: 124804707165516164}
+  - component: {fileID: 81293902925485668}
+  - component: {fileID: 114402788600688768}
+  - component: {fileID: 114166388040115692}
+  - component: {fileID: 114397541545836234}
+  - component: {fileID: 114107881548352036}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: OverseerController
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4184999941574928
+--- !u!4 &4275765994050696
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1629658822747872}
-  m_LocalRotation: {x: 0.57810473, y: -0, z: -0, w: 0.8159626}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 1485781708722640}
+  m_LocalRotation: {x: -0.19160748, y: -0.7554978, z: 0.25246465, w: 0.57338583}
+  m_LocalPosition: {x: -6.4078064, y: -18.754028, z: -0.48835897}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4208188299822980}
+  m_Father: {fileID: 4848010683708508}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 70.635, y: 0, z: 0}
---- !u!4 &4208188299822980
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4848010683708508
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1160636433780828}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.17, y: 21.74, z: -2.97}
+  m_GameObject: {fileID: 1553020305319734}
+  m_LocalRotation: {x: 0.19160748, y: 0.7554978, z: -0.25246465, w: 0.57338583}
+  m_LocalPosition: {x: -11.32307, y: 8.900803, z: 2.9724426}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4184999941574928}
+  - {fileID: 4275765994050696}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &20796292359210696
+--- !u!20 &20579923451687304
 Camera:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1629658822747872}
+  m_GameObject: {fileID: 1553020305319734}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -103,86 +104,105 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
+  m_TargetDisplay: 1
   m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
---- !u!81 &81460285797784998
+--- !u!81 &81293902925485668
 AudioListener:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1629658822747872}
-  m_Enabled: 1
---- !u!92 &92765881767736954
+  m_GameObject: {fileID: 1553020305319734}
+  m_Enabled: 0
+--- !u!92 &92667823414060038
 Behaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1629658822747872}
+  m_GameObject: {fileID: 1553020305319734}
   m_Enabled: 1
---- !u!114 &114129776080327562
+--- !u!114 &114107881548352036
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1160636433780828}
+  m_GameObject: {fileID: 1553020305319734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 8
-    i1: 207
-    i2: 210
-    i3: 100
-    i4: 145
-    i5: 217
-    i6: 116
-    i7: 212
-    i8: 232
-    i9: 11
-    i10: 141
-    i11: 90
-    i12: 235
-    i13: 66
-    i14: 0
-    i15: 226
+    i0: 42
+    i1: 221
+    i2: 49
+    i3: 120
+    i4: 73
+    i5: 37
+    i6: 229
+    i7: 228
+    i8: 217
+    i9: 253
+    i10: 244
+    i11: 21
+    i12: 37
+    i13: 234
+    i14: 223
+    i15: 103
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
---- !u!114 &114240789570247746
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114166388040115692
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1160636433780828}
+  m_GameObject: {fileID: 1553020305319734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d0c0adc65134bd41baa2ad1f403bd5b, type: 3}
+  m_Script: {fileID: 11500000, guid: c6105b301e2c24f4ea1a64d9a5359a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionButtonX: Overseer X
-  actionButtonA: Overseer A
-  actionButtonB: Overseer B
-  actionButtonY: Overseer Y
-  controllablesX:
-  - {fileID: 0}
-  controllablesA:
-  - {fileID: 0}
-  controllablesB: []
-  controllablesY: []
---- !u!114 &114553470762294084
+  target: {fileID: 0}
+  leftAxisKey: Left Room Autoaim
+  rightAxisKey: Right Room Autoaim
+  delayTime: 0.2
+  currentDelayTime: 0
+  horizontalAxis: Horizontal Dpad Overseer
+  verticalAxis: Vertical Dpad Overseer
+  speed: 0.1
+--- !u!114 &114397541545836234
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1629658822747872}
+  m_GameObject: {fileID: 1553020305319734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688bca87ee342a0479e6b66dcb776ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalAxis: Horizontal Dpad Overseer
+  verticalAxis: Vertical Dpad Overseer
+  beaconButton: Overseer Beacon
+  beaconContainerPrefab: {fileID: 1166831496739124, guid: 91b3a489d25cb294689da4a02db3e063,
+    type: 2}
+  beaconPrefab: {fileID: 1627837743720578, guid: 43877f32af5efef4b84770a02b17302b,
+    type: 2}
+  pointer: {fileID: 0}
+  speed: 0.1
+  timeToDissapear: 1
+--- !u!114 &114402788600688768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1553020305319734}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a1e7d423b55f5b41b39d40c3a4690cd, type: 3}
@@ -299,30 +319,31 @@ MonoBehaviour:
   yEdgeSpeed: 0
   cloudDrawState: 1
   terrainAdjustTilt: 0
---- !u!114 &114671247793944376
+--- !u!114 &114412270670870416
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1629658822747872}
+  m_GameObject: {fileID: 1485781708722640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6105b301e2c24f4ea1a64d9a5359a0c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d0c0adc65134bd41baa2ad1f403bd5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  leftAxisKey: Left Room Autoaim
-  rightAxisKey: Right Room Autoaim
-  delayTime: 0.2
-  currentDelayTime: 0
-  horizontalAxis: 
-  verticalAxis: 
-  pointer: {fileID: 0}
-  speed: 0.1
---- !u!124 &124195701947815980
+  actionButtonX: Overseer X
+  actionButtonA: Overseer A
+  actionButtonB: Overseer B
+  actionButtonY: Overseer Y
+  controllablesX:
+  - {fileID: 0}
+  controllablesA:
+  - {fileID: 0}
+  controllablesB: []
+  controllablesY: []
+--- !u!124 &124804707165516164
 Behaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1629658822747872}
+  m_GameObject: {fileID: 1553020305319734}
   m_Enabled: 1
