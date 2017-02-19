@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ComponentCopier : MonoBehaviour {
 
-    public static void CopyComponent<T>(ref T original, GameObject destination)
+    public static T CopyComponent<T>(T original, GameObject destination) where T : Component
     {
         System.Type type = original.GetType();
         Component copy = destination.AddComponent(type);
@@ -13,6 +13,6 @@ public class ComponentCopier : MonoBehaviour {
         {
             field.SetValue(copy, field.GetValue(original));
         }
-        //return copy as T;
+        return copy as T;
     }
 }

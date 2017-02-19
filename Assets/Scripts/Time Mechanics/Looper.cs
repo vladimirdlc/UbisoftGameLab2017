@@ -108,4 +108,11 @@ public class Looper : MonoBehaviour
             loopingTimer = 0;
         }
     }
+
+    public void TimeParadox()
+    {
+        CustomCollectionManipulation.RemoveElementsAfterIndex(recordedPositions, currentLooperIndex);
+        CustomCollectionManipulation.RemoveElementsAfterIndex(recordedRotations, currentLooperIndex);
+        CustomCollectionManipulation.RemoveElementsAfterIndex(recordedTimes, currentLooperIndex);
+    }
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Recorder : NetworkBehaviour
 {
-
     // Public references
     public Transform recordedTransform;                 // NOTE TO SELF: GET REFERENCE ON START
 
@@ -23,11 +22,16 @@ public class Recorder : NetworkBehaviour
     // State variables
     bool recording = false;
 
-    // Use this for initialization
+    // Input variables
+    [SyncVar]
+    private bool pressedT;
+
+    // Use this for networking initialization
     bool server = NetworkCustom.isServer;
     bool clientsHost;
     bool client;
     Recorder recorder;
+
     void Start()
     {
         // Setup recording data collection
@@ -38,26 +42,26 @@ public class Recorder : NetworkBehaviour
         // Setup references
         timelineManager = FindObjectOfType<TimelineManager>();
 
+        // Setup networking
         clientsHost = !isLocalPlayer && !server;
         client = !server && isLocalPlayer;
         if (client)
             recorder = GameObject.Find("clientsHost").GetComponent<Recorder>();
     }
-    // Update is called once per frame
-    [SyncVar]
-    private bool PressedT;
 
+    // Update is called once per frame
     void Update()
     {
         if (!client && !clientsHost)
-            PressedT = Input.GetButtonDown("Test Button");
-        else if (PressedT && client)
+            pressedT = Input.GetButtonDown("Test Button");
+        else if (pressedT && client)
         {
-            recorder.PressedT = true;
-            return;
+            recorder.pressedT = true;
+            return;                         // HANI QUESTION: WHERE YOU TRYING TO BREAK FROM UPDATE HERE?
         }
+
         // DELETEME
-        if (PressedT)
+        if (pressedT)
             if (!recording)
                 StartRecording();
             else
@@ -65,9 +69,10 @@ public class Recorder : NetworkBehaviour
                 CreateShadow();
                 StopRecording();
             }
+
         if (clientsHost)
         {
-            PressedT = false;
+            pressedT = false;               // HANI QUESTION: DO YOU MEAN recorder.pressedT = false ????
         }
     }
 
