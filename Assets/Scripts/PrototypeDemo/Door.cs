@@ -32,11 +32,12 @@ public class Door : OSControllable
             if (Time.time >= closeAtTime) Close();
         }
 
-
+        /*
         if (Input.GetButtonDown("Test Button"))
         {
             TriggerAction();
         }
+        */
 
     }
 
@@ -55,17 +56,16 @@ public class Door : OSControllable
     public void Open()
     {
         isOpen = true;
-        Debug.Log(closeAtTime);
         closeAtTime = Time.time + timer;
 
-        TriggerAction();
+        TriggerAnimator();
     }
 
     public void Close()
     {
         isOpen = false;
 
-        TriggerAction();
+        TriggerAnimator();
     }
 
     public override void TriggerAction()

@@ -6,7 +6,7 @@ public abstract class OSControllable : MonoBehaviour {
 
     public abstract void TriggerAction();
 
-    void ToggleAnimator()
+    protected void TriggerAnimator()
     {
         GetComponent<Animator>().SetTrigger("toggleObject");
     }
