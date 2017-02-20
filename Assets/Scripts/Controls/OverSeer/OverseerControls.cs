@@ -42,7 +42,7 @@ public class OverseerControls : MonoBehaviour
         foreach (GameObject control in triggerContainer)
         {
             OSControllable trigger = control.GetComponent(typeof(OSControllable)) as OSControllable;
-            trigger.triggerAction();
+            trigger.TriggerAction();
         }
     }
 }

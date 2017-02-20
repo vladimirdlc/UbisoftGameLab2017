@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OSAnimatorControl : MonoBehaviour, OSControllable {
+public class OSAnimatorControl : MonoBehaviour {
 
-    void OSControllable.triggerAction()
+    public void triggerAnimator()
     {
         GetComponent<Animator>().SetTrigger("toggleObject");
     }

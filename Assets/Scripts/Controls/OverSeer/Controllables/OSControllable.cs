@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface OSControllable {
-    void triggerAction();
+public abstract class OSControllable : MonoBehaviour {
+
+    public abstract void TriggerAction();
+
+    void ToggleAnimator()
+    {
+        GetComponent<Animator>().SetTrigger("toggleObject");
+    }
 }
