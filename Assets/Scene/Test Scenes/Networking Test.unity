@@ -143,7 +143,7 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 1395371510902202, guid: 499e753ae5a54d84ab76d12e40cda9e8,
+  m_PlayerPrefab: {fileID: 1395371510902202, guid: 4ca594cb6da9ac448a446bc815c65117,
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
@@ -875,7 +875,7 @@ GameObject:
   - component: {fileID: 483950649}
   m_Layer: 11
   m_Name: DoorGreen
-  m_TagString: Untagged
+  m_TagString: Door Green
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -919,9 +919,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 483950646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 182fa4abdc479224da9ed6110d54ddd9, type: 3}
+  m_Script: {fileID: 11500000, guid: 72fee860603c4b6448a0d249e6ab82c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mesh: {fileID: 439236933}
+  isTimed: 0
+  pressurePlates: []
+  timer: 0
+  openByDefault: 0
 --- !u!1 &514581905
 GameObject:
   m_ObjectHideFlags: 0
@@ -2203,7 +2208,7 @@ GameObject:
   - component: {fileID: 1737758950}
   m_Layer: 11
   m_Name: DoorBlue
-  m_TagString: Untagged
+  m_TagString: Door Blue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2247,9 +2252,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1737758947}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 182fa4abdc479224da9ed6110d54ddd9, type: 3}
+  m_Script: {fileID: 11500000, guid: 72fee860603c4b6448a0d249e6ab82c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mesh: {fileID: 596091128}
+  isTimed: 0
+  pressurePlates: []
+  timer: 0
+  openByDefault: 0
 --- !u!1 &1742660549
 GameObject:
   m_ObjectHideFlags: 0
@@ -2495,6 +2505,10 @@ Prefab:
       value: 
       objectReference: {fileID: 114539929307018324, guid: 499e753ae5a54d84ab76d12e40cda9e8,
         type: 2}
+    - target: {fileID: 1553020305319734, guid: 2add31784925e5e4d9fdf41525eadf67, type: 2}
+      propertyPath: m_TagString
+      value: Overseer
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114107881548352036, guid: 2add31784925e5e4d9fdf41525eadf67, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2add31784925e5e4d9fdf41525eadf67, type: 2}
