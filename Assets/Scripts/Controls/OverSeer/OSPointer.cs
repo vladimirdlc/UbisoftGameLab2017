@@ -13,21 +13,45 @@ public class OSPointer : MonoBehaviour
     public Transform pointer;
     public float speed = 0.1f;
     private RTSCamera cam;
+    private OverseerCamera overseerCam;
     private bool beaconInUse;
-    public float timeToDissapear = 3;
+    private float timeToDissapear = 3;
     private float currentTimeToDissapear;
     private bool teleportPointer;
+    private float startingY;
 
     void Start()
     {
         GameObject pointerInstance = Instantiate(beaconContainerPrefab) as GameObject;
         pointer = pointerInstance.transform;
+        startingY = pointer.transform.position.y;
         cam = GetComponent<RTSCamera>();
+        overseerCam = GetComponent<OverseerCamera>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetAxis(beaconButton) > 0)
+        {
+            if (!beaconInUse)
+            {
+                SpawnBeacon();
+            }
+        }
+        else if (Input.GetAxisRaw(beaconButton) == 0)
+        {
+            beaconInUse = false;
+        }
+
+
+        var lookPos = cam.transform.position - pointer.position;
+        lookPos.y = 0;
+        var rotation = Quaternion.LookRotation(lookPos);
+        pointer.rotation = rotation;
+
+        pointer.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
         if (Input.GetAxisRaw(verticalAxis) + Input.GetAxisRaw(horizontalAxis) == 0)
         {
             if ((currentTimeToDissapear -= Time.deltaTime) < 0)
@@ -47,50 +71,24 @@ public class OSPointer : MonoBehaviour
         currentTimeToDissapear = timeToDissapear;
         pointer.gameObject.SetActive(true);
 
-        float directionx = (transform.position.x < cam.followTarget.transform.position.x) ? 1 : -1;
-        float directionz = (transform.position.z < cam.followTarget.transform.position.z) ? 1 : -1;
+        float directionx = (transform.position.x < cam.followTarget.transform.position.x) ? 1 : 1;
+        float directionz = (transform.position.z < cam.followTarget.transform.position.z) ? 1 : 1;
 
-        //Arrow Targeting
-        if ((transform.rotation.y > 0.30) && (transform.rotation.y < 0.85))
-        {
-            pointer.position = new Vector3(pointer.position.x + (speed * Input.GetAxisRaw(verticalAxis) * directionx), pointer.position.y, pointer.position.z);
-            pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z - (speed * Input.GetAxisRaw(horizontalAxis) * directionx));
-        }
-        else
-        {
-            pointer.position = new Vector3(pointer.position.x + (speed * Input.GetAxisRaw(horizontalAxis) * directionz), pointer.position.y, pointer.position.z);
-            pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z + (speed * Input.GetAxisRaw(verticalAxis) * directionz));
-        }
-
-        if (Input.GetAxis(beaconButton) > 0)
-        {
-            if (!beaconInUse)
-            {
-                SpawnBeacon();
-            }
-
-        }
-        else if (Input.GetAxisRaw(beaconButton) == 0)
-        {
-            beaconInUse = false;
-        }
+        Vector3 startingPosition = pointer.position;
+        Vector3 forwardScaled = cam.transform.forward * Input.GetAxis(verticalAxis);
+        pointer.position += new Vector3(forwardScaled.x, 0, forwardScaled.z) * speed;
+        Vector3 rigthScaled = cam.transform.right * Input.GetAxis(horizontalAxis);
+        pointer.position += new Vector3(rigthScaled.x, 0, rigthScaled.z) * speed;
+        pointer.position = new Vector3(pointer.position.x, startingY, pointer.position.z);
     }
-
-    //    [Command]
-    //public spawner s;
 
     void SpawnBeacon()
     {
-        //s = GameObject.Find("client").GetComponent<spawner>();
         var beacon = Instantiate(beaconPrefab, pointer.position, Quaternion.identity);
 
         beaconInUse = true;
-        //s.CmdSpawn(beacon);
 
         NetMessenger.Instance.CmdSpawn(pointer.position);
-
-        //GameObject.Find("client").GetComponent<NetworkMessanger>().CmdSpawn(pointer.position);
-        //       NetworkServer.Spawn(beacon);
     }
 }
 
