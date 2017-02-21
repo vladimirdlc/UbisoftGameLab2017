@@ -125,10 +125,12 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
     {
         bool result = false;
 
+        if (client)
+            result = true;
+
         if (buttonInputFlag && client)
         {
             buttonInputFlagOfClientsHost = true;
-            result = true;                       
         }
 
         return result;

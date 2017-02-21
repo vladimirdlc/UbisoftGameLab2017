@@ -13,8 +13,8 @@ public class NetMessenger : NetworkBehaviour
     private void Start()
     {
         Instance = this;
-        GreenDoor = GameObject.Find("DoorGreen");
-        BlueDoor = GameObject.Find("DoorBlue");
+        GreenDoor = GameObject.FindGameObjectWithTag("Door Green");
+        BlueDoor = GameObject.FindGameObjectWithTag("Door Blue");
     }
 
     public GameObject beaconPrefab;
