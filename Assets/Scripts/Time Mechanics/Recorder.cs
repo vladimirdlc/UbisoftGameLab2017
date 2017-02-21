@@ -50,7 +50,10 @@ public class Recorder : NetworkingCharacterAttachment
     // Update is called once per frame
     void Update()
     {
-        pressedT = ProcessButtonInput(ButtonEventType.GetButtonDown, "Test Button", pressedT, ref clientsHostRecorder.pressedT);
+        pressedT = ProcessButtonInput(ButtonEventType.GetButtonDown, "Test Button", pressedT);
+
+        if (CheckIfBreak(pressedT, ref clientsHostRecorder.pressedT))
+            return;
 
         /*
         if (!client && !clientsHost)
@@ -61,7 +64,6 @@ public class Recorder : NetworkingCharacterAttachment
             return;                         // HANI QUESTION: WHERE YOU TRYING TO BREAK FROM UPDATE HERE?
         }
         */
-
 
         // DELETEME
         if (pressedT)

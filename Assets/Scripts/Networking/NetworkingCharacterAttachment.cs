@@ -93,7 +93,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
     /// buttonInputFlagOfClientsHost = same as above, except a reference to the child character controller of the clientsHost
     /// TODO: provide a similar method for axis if it ever comes up
     /// </summary>
-    protected bool ProcessButtonInput(ButtonEventType buttonEventType, string inputName, bool buttonInputFlag, ref bool buttonInputFlagOfClientsHost)
+    protected bool ProcessButtonInput(ButtonEventType buttonEventType, string inputName, bool buttonInputFlag)
     {
         if (!client && !clientsHost)
         {
@@ -110,12 +110,26 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
                     break;
             }
         }
-        else if (buttonInputFlag && client)
+        return buttonInputFlag;
+    }
+
+    /// <summary>
+    /// Second step after ProcessButtonInput, this will pass messages from the client to the clientsHost.
+    /// The child CharacterController should stop execution if this function returns true.
+    /// For multiple button flags, execute this function for every flag, and break when
+    /// all have been processed
+    /// </summary>
+    protected bool CheckIfBreak(bool buttonInputFlag, ref bool buttonInputFlagOfClientsHost)
+    {
+        bool result = false;
+
+        if (buttonInputFlag && client)
         {
             buttonInputFlagOfClientsHost = true;
-            //return;                         // HANI QUESTION: WHERE YOU TRYING TO BREAK FROM UPDATE HERE?
+            result = true;                       
         }
-        return buttonInputFlag;
+
+        return result;
     }
 
     /// <summary>
