@@ -355,7 +355,7 @@ public class RTSCamera : MonoBehaviour
                 if (currentRotationDelay > -1)
                 {
                     _newRotation =
-                        Quaternion.Lerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), Time.deltaTime*2);
+                        Quaternion.Lerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), Time.deltaTime * 2);
                 }
                 else
                 {
@@ -560,9 +560,9 @@ public class RTSCamera : MonoBehaviour
     {
         switch (verticalSetup)
         {
-			case ControlSetup.Axis:
-				MoveVertical (Input.GetAxis (verticalAxis) * movementSpeed);
-				MoveVerticalTopDown (Input.GetAxis (tiltAxis) * movementSpeed);
+            case ControlSetup.Axis:
+                MoveVertical(Input.GetAxis(verticalAxis) * movementSpeed);
+                MoveVerticalTopDown(Input.GetAxis(tiltAxis) * movementSpeed);
                 break;
             case ControlSetup.KeyCode:
                 if (Input.GetKey(forwardKey))
@@ -667,7 +667,7 @@ public class RTSCamera : MonoBehaviour
     private void MoveTilt(float speed)
     {
         //if (!shouldLookAt)
-            _targetTilt = Mathf.Clamp(_targetTilt + speed * CameraDeltaTime, lowTilt, highTilt);
+        _targetTilt = Mathf.Clamp(_targetTilt + speed * CameraDeltaTime, lowTilt, highTilt);
     }
 
     #endregion

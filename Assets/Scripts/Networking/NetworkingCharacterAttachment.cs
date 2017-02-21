@@ -13,9 +13,9 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
     /// clientsHost: Host relative to client. Server-Replica in Client
     /// host: the actual host relative to host
     /// </summary>
-    /// 
     public enum ButtonEventType { GetButtonDown, GetButtonUp, GetButton }
 
+    //All components to disable on clients host
     [SerializeField]
     private Behaviour[] DisableOnClientsHost;
 
@@ -63,7 +63,8 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         }
 
         //If you are the client and you are the localplayer
-        //deactivate yourself
+        //disable your camera so overseer can use his camera instead
+        //also diable all unnecessary components on clientsHost
         if (client)
         {
             //gameObject.SetActive(false);
@@ -95,7 +96,8 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
     /// </summary>
     protected bool ProcessButtonInput(ButtonEventType buttonEventType, string inputName, bool buttonInputFlag)
     {
-        if (!client && !clientsHost)
+        //Only the host (dog) is allowed to get input
+        if (host)
         {
             switch (buttonEventType)
             {
