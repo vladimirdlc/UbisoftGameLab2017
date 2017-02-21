@@ -8,6 +8,8 @@ public class OSPointer : MonoBehaviour
     public string verticalAxis;
     public string beaconButton;
 
+    public bool autoHidePointer;
+
     public GameObject beaconContainerPrefab;
     public GameObject beaconPrefab;
     public Transform pointer;
@@ -54,7 +56,7 @@ public class OSPointer : MonoBehaviour
 
         if (Input.GetAxisRaw(verticalAxis) + Input.GetAxisRaw(horizontalAxis) == 0)
         {
-            if ((currentTimeToDissapear -= Time.deltaTime) < 0)
+            if (autoHidePointer && (currentTimeToDissapear -= Time.deltaTime) < 0)
             {
                 pointer.gameObject.SetActive(false);
                 teleportPointer = true;
