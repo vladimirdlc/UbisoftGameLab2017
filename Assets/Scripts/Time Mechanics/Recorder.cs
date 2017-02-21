@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine;
 
-public class Recorder : NetworkBehaviour
+public class Recorder : NetworkingCharacterAttachment
 {
     // Public references
     public Transform recordedTransform;                 // NOTE TO SELF: GET REFERENCE ON START
@@ -24,15 +24,11 @@ public class Recorder : NetworkBehaviour
 
     // Input variables
     [SyncVar]
-    private bool pressedT;
+    private bool pressedT = false;
+   
+    Recorder clientsHostRecorder;
 
-    // Use this for networking initialization
-    bool server = NetworkCustom.isServer;
-    bool clientsHost;
-    bool client;
-    Recorder recorder;
-
-    void Start()
+    protected override void Start()
     {
         // Setup recording data collection
         recordedPositions = new List<Vector3>();
@@ -42,23 +38,30 @@ public class Recorder : NetworkBehaviour
         // Setup references
         timelineManager = FindObjectOfType<TimelineManager>();
 
+        base.Start();
+
         // Setup networking
-        clientsHost = !isLocalPlayer && !server;
-        client = !server && isLocalPlayer;
         if (client)
-            recorder = GameObject.Find("clientsHost").GetComponent<Recorder>();
+            clientsHostRecorder = GameObject.Find("clientsHost").GetComponent<Recorder>();
+
+        pressedT = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        pressedT = ProcessButtonInput(ButtonEventType.GetButtonDown, "Test Button", pressedT, ref clientsHostRecorder.pressedT);
+
+        /*
         if (!client && !clientsHost)
             pressedT = Input.GetButtonDown("Test Button");
         else if (pressedT && client)
         {
-            recorder.pressedT = true;
+            clientsHostRecorder.pressedT = true;
             return;                         // HANI QUESTION: WHERE YOU TRYING TO BREAK FROM UPDATE HERE?
         }
+        */
+
 
         // DELETEME
         if (pressedT)
@@ -70,10 +73,14 @@ public class Recorder : NetworkBehaviour
                 StopRecording();
             }
 
+        ProcessButtonCleanup(ref pressedT);
+
+        /*
         if (clientsHost)
         {
             pressedT = false;               // HANI QUESTION: DO YOU MEAN recorder.pressedT = false ????
         }
+        */
     }
 
     private void LateUpdate()
