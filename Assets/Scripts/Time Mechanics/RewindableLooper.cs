@@ -55,4 +55,13 @@ public class RewindableLooper : Looper
             Debug.Log("Can't reloop object " + this.name + " because it is rewinding.");
         }
     }
+
+    public override void TimeParadox()
+    {
+        // Ignore time paradoxes when rewinding
+        if (rewinding)
+            return;
+
+        base.TimeParadox();
+    }
 }

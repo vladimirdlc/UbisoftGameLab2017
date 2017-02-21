@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TimeParadoxColliderAttachment : MonoBehaviour {
+
     /// <summary>
     /// Attach this script as to an empty child of every object that has colliders that will serve as time paradox triggers.
     /// This script will take all colliders in the parent, duplicate them and set them to triggers. It will also set
@@ -13,6 +14,7 @@ public class TimeParadoxColliderAttachment : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
         Collider[] colliders = GetComponentsInParent<Collider>();
 
         foreach(Collider collider in colliders)
@@ -22,5 +24,15 @@ public class TimeParadoxColliderAttachment : MonoBehaviour {
             gameObject.layer = LayerMask.NameToLayer(layerName);
         }
 	}
-	
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Clone")
+        {
+            Debug.Log("Time paradox trigger by " + gameObject + " on " + other.gameObject);
+
+            other.GetComponent<Looper>().TimeParadox();
+        }
+            
+    }
 }

@@ -109,7 +109,7 @@ public class Looper : MonoBehaviour
         }
     }
 
-    public void TimeParadox()
+    public virtual void TimeParadox()
     {
         CustomCollectionManipulation.RemoveElementsAfterIndex(recordedPositions, currentLooperIndex);
         CustomCollectionManipulation.RemoveElementsAfterIndex(recordedRotations, currentLooperIndex);
