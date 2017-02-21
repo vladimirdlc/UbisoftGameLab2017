@@ -130,6 +130,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1767986784414112, guid: cdefa28c7dddaf5408dd8c6f07e06a32, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cdefa28c7dddaf5408dd8c6f07e06a32, type: 2}
   m_IsPrefabParent: 0
@@ -907,6 +911,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextTarget: {fileID: 1336819452}
   previousTarget: {fileID: 827146673}
+  startingTarget: 0
 --- !u!1 &532780166
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,11 +1567,12 @@ MonoBehaviour:
   horizontalAxis: Horizontal Dpad Overseer
   verticalAxis: Vertical Dpad Overseer
   beaconButton: Overseer Beacon
+  beaconContainerPrefab: {fileID: 1166831496739124, guid: 91b3a489d25cb294689da4a02db3e063,
+    type: 2}
   beaconPrefab: {fileID: 1627837743720578, guid: 43877f32af5efef4b84770a02b17302b,
     type: 2}
   pointer: {fileID: 751973868}
   speed: 0.1
-  timeToDissapear: 1
 --- !u!1 &800169583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1679,6 +1685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextTarget: {fileID: 514581907}
   previousTarget: {fileID: 1197381699}
+  startingTarget: 0
 --- !u!4 &827146674
 Transform:
   m_ObjectHideFlags: 0
@@ -2313,6 +2320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextTarget: {fileID: 827146673}
   previousTarget: {fileID: 1336819452}
+  startingTarget: 0
 --- !u!1 &1236949929
 GameObject:
   m_ObjectHideFlags: 0
@@ -2522,6 +2530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextTarget: {fileID: 1197381699}
   previousTarget: {fileID: 514581907}
+  startingTarget: 0
 --- !u!1 &1389993461
 GameObject:
   m_ObjectHideFlags: 0

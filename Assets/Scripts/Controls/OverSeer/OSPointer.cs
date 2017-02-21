@@ -14,7 +14,7 @@ public class OSPointer : MonoBehaviour
     public float speed = 0.1f;
     private RTSCamera cam;
     private bool beaconInUse;
-    public float timeToDissapear = 3;
+    private float timeToDissapear = 3;
     private float currentTimeToDissapear;
     private bool teleportPointer;
 
@@ -28,6 +28,18 @@ public class OSPointer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetAxis(beaconButton) > 0)
+        {
+            if (!beaconInUse)
+            {
+                SpawnBeacon();
+            }
+        }
+        else if (Input.GetAxisRaw(beaconButton) == 0)
+        {
+            beaconInUse = false;
+        }
+
         if (Input.GetAxisRaw(verticalAxis) + Input.GetAxisRaw(horizontalAxis) == 0)
         {
             if ((currentTimeToDissapear -= Time.deltaTime) < 0)
@@ -61,36 +73,15 @@ public class OSPointer : MonoBehaviour
             pointer.position = new Vector3(pointer.position.x + (speed * Input.GetAxisRaw(horizontalAxis) * directionz), pointer.position.y, pointer.position.z);
             pointer.position = new Vector3(pointer.position.x, pointer.position.y, pointer.position.z + (speed * Input.GetAxisRaw(verticalAxis) * directionz));
         }
-
-        if (Input.GetAxis(beaconButton) > 0)
-        {
-            if (!beaconInUse)
-            {
-                SpawnBeacon();
-            }
-
-        }
-        else if (Input.GetAxisRaw(beaconButton) == 0)
-        {
-            beaconInUse = false;
-        }
     }
-
-    //    [Command]
-    //public spawner s;
 
     void SpawnBeacon()
     {
-        //s = GameObject.Find("client").GetComponent<spawner>();
         var beacon = Instantiate(beaconPrefab, pointer.position, Quaternion.identity);
 
         beaconInUse = true;
-        //s.CmdSpawn(beacon);
 
         NetMessenger.Instance.CmdSpawn(pointer.position);
-
-        //GameObject.Find("client").GetComponent<NetworkMessanger>().CmdSpawn(pointer.position);
-        //       NetworkServer.Spawn(beacon);
     }
 }
 
