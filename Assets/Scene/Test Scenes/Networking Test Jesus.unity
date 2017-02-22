@@ -709,7 +709,7 @@ GameObject:
   - component: {fileID: 439236935}
   m_Layer: 11
   m_Name: Gate
-  m_TagString: Untagged
+  m_TagString: Door Green
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -849,9 +849,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 483950646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 182fa4abdc479224da9ed6110d54ddd9, type: 3}
+  m_Script: {fileID: 11500000, guid: 72fee860603c4b6448a0d249e6ab82c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mesh: {fileID: 439236933}
+  isTimed: 0
+  pressurePlates: []
+  timer: 0
+  openByDefault: 0
 --- !u!1 &514581905
 GameObject:
   m_ObjectHideFlags: 0
@@ -999,7 +1004,7 @@ GameObject:
   - component: {fileID: 596091130}
   m_Layer: 11
   m_Name: Gate
-  m_TagString: Untagged
+  m_TagString: Door Blue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2282,9 +2287,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1737758947}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 182fa4abdc479224da9ed6110d54ddd9, type: 3}
+  m_Script: {fileID: 11500000, guid: 72fee860603c4b6448a0d249e6ab82c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mesh: {fileID: 596091128}
+  isTimed: 0
+  pressurePlates: []
+  timer: 0
+  openByDefault: 0
 --- !u!1 &1742660549
 GameObject:
   m_ObjectHideFlags: 0
