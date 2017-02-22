@@ -5,7 +5,7 @@ using UnityEngine;
 public class TimeParadoxColliderAttachment : MonoBehaviour {
 
     /// <summary>
-    /// Attach this script as to an empty child of every object that has colliders that will serve as time paradox triggers.
+    /// Attach this script to an empty child of every object that has colliders that will serve as time paradox triggers.
     /// This script will take all colliders in the parent, duplicate them and set them to triggers. It will also set
     /// their layer to TimeParadoxCollider to trigger time paradoxes.
     /// </summary>
@@ -29,7 +29,10 @@ public class TimeParadoxColliderAttachment : MonoBehaviour {
     {
         if (other.tag == "Clone")
         {
+
+#if CUSTOM_DEBUG_VERBOSE
             Debug.Log("Time paradox trigger by " + gameObject + " on " + other.gameObject);
+#endif
 
             other.GetComponent<Looper>().TimeParadox();
         }

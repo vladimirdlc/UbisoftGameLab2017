@@ -19,6 +19,10 @@ public class Looper : MonoBehaviour
     protected List<Quaternion> recordedRotations;
     protected List<float> recordedTimes;
 
+#if CUSTOM_DEBUG_VERBOSE
+    private bool debugFlag = false;
+#endif
+
     // Use this for initialization
     void Start()
     {
@@ -31,7 +35,7 @@ public class Looper : MonoBehaviour
 
     }
 
-    protected virtual void FixedUpdate()
+    protected virtual void LateUpdate()
     {
         Loop();
     }
@@ -49,6 +53,12 @@ public class Looper : MonoBehaviour
 
     protected void Loop()
     {
+
+#if CUSTOM_DEBUG_VERBOSE
+        if (debugFlag)
+            Debug.Log(debugFlag);
+#endif
+
         if (looping)
         {
             // If the timer isn't past the last indexed time, or if the index isn't out of bounds
@@ -59,7 +69,6 @@ public class Looper : MonoBehaviour
             }
             else
             {
-                //Reloop();
                 // Stop looping
                 looping = false;
             }
@@ -111,8 +120,32 @@ public class Looper : MonoBehaviour
 
     public virtual void TimeParadox()
     {
-        CustomCollectionManipulation.RemoveElementsAfterIndex(recordedPositions, currentLooperIndex);
-        CustomCollectionManipulation.RemoveElementsAfterIndex(recordedRotations, currentLooperIndex);
-        CustomCollectionManipulation.RemoveElementsAfterIndex(recordedTimes, currentLooperIndex);
+        #region debug
+#if CUSTOM_DEBUG_VERBOSE
+        Debug.Log("Before paradox");
+        //CustomDebugTools.PrintList<float>(recordedTimes);
+        Debug.Log("Current index at " + currentLooperIndex);
+        Debug.Log("State collection count at " + recordedPositions.Count);
+        Debug.Log("First element in collection " + recordedPositions[0]);
+        Debug.Log("Last element in collection " + recordedPositions[recordedTimes.Count - 1]);
+#endif
+        #endregion
+
+        recordedPositions = CustomCollectionManipulation.RemoveElementsAfterIndex(recordedPositions, currentLooperIndex);
+        recordedRotations = CustomCollectionManipulation.RemoveElementsAfterIndex(recordedRotations, currentLooperIndex);
+        recordedTimes = CustomCollectionManipulation.RemoveElementsAfterIndex(recordedTimes, currentLooperIndex);
+
+        #region debug
+#if CUSTOM_DEBUG_VERBOSE
+        Debug.Log("After paradox");
+        //CustomDebugTools.PrintList<float>(recordedTimes);
+        Debug.Log("Current index at " + currentLooperIndex);
+        Debug.Log("State collection count at " + recordedPositions.Count);
+        Debug.Log("First element in collection " + recordedPositions[0]);
+        Debug.Log("Last element in collection " + recordedPositions[recordedTimes.Count - 1]);
+
+        debugFlag = true;
+#endif
+        #endregion
     }
 }

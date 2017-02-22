@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#if DEBUG
+#if CUSTOM_DEBUG
 using UnityEngine.UI;
 #endif
 
@@ -18,7 +18,7 @@ public class TimelineManager : Singleton<TimelineManager>
 
     private float masterTimer;                  // Overall game timer clock
 
-#if DEBUG
+#if CUSTOM_DEBUG
     public Text timerText;
 #endif
 
@@ -44,7 +44,8 @@ public class TimelineManager : Singleton<TimelineManager>
             masterTimer = Mathf.Clamp(masterTimer, 0, maxRecordingPeriod);
         }
 
-#if DEBUG
+#if CUSTOM_DEBUG
+        // Camera timer on screen
         if (timerText == null)
             timerText = GameObject.FindGameObjectWithTag("PlayerGround").GetComponentInChildren<Text>();
 
@@ -54,7 +55,7 @@ public class TimelineManager : Singleton<TimelineManager>
 
         int i = 0;
 
-        #region rewind
+#region rewind
         // Rewind detection/implementation
         if (Input.GetButton("Rewind"))
         {
@@ -83,7 +84,7 @@ public class TimelineManager : Singleton<TimelineManager>
                 shadow.GetComponent<RewindableLooper>().LockUnlockRewind(false);
             }
         }
-        #endregion
+#endregion
 
         if (!rewinding)
             foreach (float shadowStartTime in loopingShadowStartTime)

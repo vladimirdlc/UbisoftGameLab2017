@@ -7,7 +7,7 @@ public class RewindableLooper : Looper
     // Private state variables
     bool rewinding = false;
 
-    protected override void FixedUpdate()
+    protected override void LateUpdate()
     {
         if (!rewinding)
             Loop();
@@ -52,7 +52,9 @@ public class RewindableLooper : Looper
             base.Reloop();
         else
         {
+#if CUSTOM_DEBUG_VERBOSE
             Debug.Log("Can't reloop object " + this.name + " because it is rewinding.");
+#endif
         }
     }
 

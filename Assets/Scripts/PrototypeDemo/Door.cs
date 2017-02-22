@@ -32,11 +32,12 @@ public class Door : OSControllable
             if (Time.time >= closeAtTime) Close();
         }
 
-        
+        /* 
         if (Input.GetButtonDown("Test Button"))
         {
             TriggerAction();
         }
+        -*/
         
 
     }
