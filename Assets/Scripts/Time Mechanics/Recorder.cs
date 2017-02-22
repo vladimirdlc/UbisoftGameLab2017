@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine;
 
+#if NETWORKING
 public class Recorder : NetworkingCharacterAttachment
+#else
+class Recorder : MonoBehaviour
+#endif
 {
     // Public references
     public Transform recordedTransform;                 // NOTE TO SELF: GET REFERENCE ON START
@@ -23,12 +27,18 @@ public class Recorder : NetworkingCharacterAttachment
     bool recording = false;
 
     // Input variables
+#if NETWORKING
     [SyncVar]
+#endif
     private bool pressedT = false;
-   
+
     Recorder clientsHostRecorder;
 
+#if NETWORKING
     protected override void Start()
+#else
+    void Start()
+#endif
     {
         // Setup recording data collection
         recordedPositions = new List<Vector3>();
@@ -38,11 +48,13 @@ public class Recorder : NetworkingCharacterAttachment
         // Setup references
         timelineManager = FindObjectOfType<TimelineManager>();
 
+#if NETWORKING
+        // Setup networking
         base.Start();
 
-        // Setup networking
         if (client)
             clientsHostRecorder = GameObject.Find("clientsHost").GetComponent<Recorder>();
+#endif
 
         pressedT = false;
     }
@@ -50,11 +62,15 @@ public class Recorder : NetworkingCharacterAttachment
     // Update is called once per frame
     void Update()
     {
+#if NETWORKING
         pressedT = ProcessButtonInput(ButtonEventType.GetButtonDown, "Test Button", pressedT);
 
-        if (CheckIfBreak(pressedT, ref clientsHostRecorder.pressedT))
+         if (CheckIfBreak(pressedT, ref clientsHostRecorder.pressedT))
             return;
-       
+#else
+        pressedT = Input.GetButtonDown("Test Button");
+#endif
+
         /*
         if (!client && !clientsHost)
             pressedT = Input.GetButtonDown("Test Button");
@@ -75,8 +91,10 @@ public class Recorder : NetworkingCharacterAttachment
                 StopRecording();
             }
 
+#if NETWORKING
         ProcessButtonCleanup(ref pressedT);
-
+#endif
+        
         /*
         if (clientsHost)
         {
