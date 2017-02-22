@@ -1,0 +1,265 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1743480622849158}
+  m_IsPrefabParent: 1
+--- !u!1 &1743480622849158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4169482997131992}
+  - component: {fileID: 20381820468505122}
+  - component: {fileID: 92575850342349526}
+  - component: {fileID: 124443398284161474}
+  - component: {fileID: 81378621532546578}
+  - component: {fileID: 114691172304608390}
+  - component: {fileID: 114630475340081652}
+  - component: {fileID: 114763695715970150}
+  m_Layer: 0
+  m_Name: Overseer Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4169482997131992
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_LocalRotation: {x: 0.19160748, y: 0.7554978, z: -0.25246465, w: 0.57338583}
+  m_LocalPosition: {x: -11.32307, y: 8.900803, z: 2.9724426}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &20381820468505122
+Camera:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 84.6
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 1
+  m_TargetEye: 3
+  m_HDR: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+  m_StereoMirrorMode: 0
+--- !u!81 &81378621532546578
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 0
+--- !u!92 &92575850342349526
+Behaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+--- !u!114 &114630475340081652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6105b301e2c24f4ea1a64d9a5359a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  leftAxisKey: Horizontal Dpad Overseer
+  rightAxisKey: Vertical Dpad Overseer
+  delayTime: 0.2
+  currentDelayTime: 0
+  horizontalAxis: Horizontal Dpad Overseer
+  verticalAxis: Vertical Dpad Overseer
+  speed: 0.3
+--- !u!114 &114691172304608390
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1e7d423b55f5b41b39d40c3a4690cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  verticalAxis: Vertical Overseer
+  horizontalAxis: Horizontal Right Stick Overseer
+  rotateAxis: Vertical Right Stick Overseer
+  tiltAxis: Vertical Right Stick Overseer
+  directionAxis: Mouse ScrollWheel
+  mouseXAxis: Mouse X
+  mouseYAxis: Mouse Y
+  orbitAxis: Rotation Trigger Axis
+  forwardKey: 119
+  backwardKey: 115
+  orbitLeftKey: 335
+  orbitRightKey: 334
+  leftKey: 97
+  rightKey: 100
+  tiltIncKey: 270
+  tiltDecKey: 269
+  rotateLeftKey: 52
+  rotateRightKey: 101
+  directionPositiveKey: 0
+  directionNegativeKey: 0
+  resetKey: 8
+  directionToMove: {x: 0, y: -1, z: 1}
+  directionMultiplier: {x: 500, y: 500, z: 500}
+  middleMouseLocksMouse: 1
+  invertMouseX: 0
+  invertMouseY: 0
+  clampMiddleMouseInput: 1
+  middleMouseInputMultiplier: 1
+  verticalSetup: 0
+  horizontalSetup: 0
+  rotateSetup: 0
+  tiltSetup: 0
+  directionSetup: 0
+  orbitSetup: 2
+  mouseXSetup: 0
+  mouseYSetup: 0
+  cloudStartAtHeightPercent: 90
+  cloudFinishAtHeightPercent: 100
+  cloudStartAtHeight: 200
+  cloudFinishAtHeight: 250
+  cloudMaxAlpha: 0.15
+  movementSpeed: 90
+  rotateSpeed: 180
+  minHeightDistance: 5
+  maxHeightDistance: 250
+  tiltMaxHeight: 10
+  lowTilt: 15
+  highTilt: 60
+  tiltSpeed: 50
+  useDeltaTimeToOne: 1
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 9
+  autoAdjustState: 2
+  adjustTiltWhenHit: 1
+  distanceFromGroundFinishAdjust: 20
+  distanceFromGroundStartAdjust: 50
+  groundHeightTiltAdjustCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  adjustHeightMin: 0
+  adjustHeightMax: 100
+  heightTiltAdjustCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  smoothPosition: 1
+  smoothTilt: 1
+  smoothRotate: 1
+  movementAdjustSpeed: 0.25
+  tiltAdjustSpeed: 0.25
+  rotateAdjustSpeed: 0.1
+  heightAdjustState: 1
+  followTarget: {fileID: 0}
+  followOffset: {x: -11.32307, y: 17.88, z: -17.027557}
+  shouldFollow: 1
+  shouldLookAt: 1
+  movementAdjustsOffset: 1
+  xEdgeSpeed: 0
+  yEdgeSpeed: 0
+  cloudDrawState: 1
+  terrainAdjustTilt: 0
+--- !u!114 &114763695715970150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688bca87ee342a0479e6b66dcb776ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalAxis: Horizontal Right Stick Overseer
+  verticalAxis: Vertical Right Stick Overseer
+  beaconButton: Overseer Beacon
+  autoHidePointer: 0
+  beaconContainerPrefab: {fileID: 1166831496739124, guid: 91b3a489d25cb294689da4a02db3e063,
+    type: 2}
+  beaconPrefab: {fileID: 1627837743720578, guid: 43877f32af5efef4b84770a02b17302b,
+    type: 2}
+  pointer: {fileID: 0}
+  speed: 0.2
+--- !u!124 &124443398284161474
+Behaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1

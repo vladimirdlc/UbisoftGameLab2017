@@ -25,11 +25,14 @@ public class OverseerCamera : MonoBehaviour
 
     // Update is called once per frame
     void Update () {
+
+#if NETWORKING
         if (NetworkCustom.isServer)
         {
             GetComponent<Camera>().enabled = false;
             return;
         }
+#endif
 
         Quaternion futureRotation = Quaternion.LookRotation(cam.followTarget.position - transform.position, Vector3.up);
 

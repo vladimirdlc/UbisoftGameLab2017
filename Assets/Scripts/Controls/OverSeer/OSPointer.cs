@@ -109,7 +109,9 @@ public class OSPointer : MonoBehaviour
 
         beaconInUse = true;
 
+#if NETWORKING
         NetMessenger.Instance.CmdSpawn(pointer.position);
+#endif
     }
 }
 
