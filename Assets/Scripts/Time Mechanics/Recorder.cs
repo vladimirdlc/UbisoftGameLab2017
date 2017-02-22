@@ -54,7 +54,7 @@ public class Recorder : NetworkingCharacterAttachment
 
         if (CheckIfBreak(pressedT, ref clientsHostRecorder.pressedT))
             return;
-
+       
         /*
         if (!client && !clientsHost)
             pressedT = Input.GetButtonDown("Test Button");

@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#if DEBUG
+using UnityEngine.UI;
+#endif
+
 public class TimelineManager : Singleton<TimelineManager>
 {
     public GameObject shadowPrefab;
@@ -13,6 +17,10 @@ public class TimelineManager : Singleton<TimelineManager>
     public List<float> loopingShadowStartTime;
 
     private float masterTimer;                  // Overall game timer clock
+
+#if DEBUG
+    public Text timerText;
+#endif
 
     // Private state variables
     private bool rewinding;
@@ -36,6 +44,12 @@ public class TimelineManager : Singleton<TimelineManager>
             masterTimer = Mathf.Clamp(masterTimer, 0, maxRecordingPeriod);
         }
 
+#if DEBUG
+        if (timerText == null)
+            timerText = GameObject.FindGameObjectWithTag("PlayerGround").GetComponentInChildren<Text>();
+
+        timerText.text = masterTimer.ToString();
+#endif
         //Debug.Log(masterTimer);
 
         int i = 0;
