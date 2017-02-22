@@ -19,7 +19,7 @@ public class Looper : MonoBehaviour
     protected List<Quaternion> recordedRotations;
     protected List<float> recordedTimes;
 
-#if CUSTOM_DEBUG_VERBOSE
+#if DEBUG_VERBOSE
     private bool debugFlag = false;
 #endif
 
@@ -54,7 +54,7 @@ public class Looper : MonoBehaviour
     protected void Loop()
     {
 
-#if CUSTOM_DEBUG_VERBOSE
+#if DEBUG_VERBOSE
         if (debugFlag)
             Debug.Log(debugFlag);
 #endif
@@ -121,7 +121,7 @@ public class Looper : MonoBehaviour
     public virtual void TimeParadox()
     {
         #region debug
-#if CUSTOM_DEBUG_VERBOSE
+#if DEBUG_VERBOSE
         Debug.Log("Before paradox");
         //CustomDebugTools.PrintList<float>(recordedTimes);
         Debug.Log("Current index at " + currentLooperIndex);
@@ -136,7 +136,7 @@ public class Looper : MonoBehaviour
         recordedTimes = CustomCollectionManipulation.RemoveElementsAfterIndex(recordedTimes, currentLooperIndex);
 
         #region debug
-#if CUSTOM_DEBUG_VERBOSE
+#if DEBUG_VERBOSE
         Debug.Log("After paradox");
         //CustomDebugTools.PrintList<float>(recordedTimes);
         Debug.Log("Current index at " + currentLooperIndex);

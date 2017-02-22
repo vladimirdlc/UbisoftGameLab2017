@@ -52,7 +52,7 @@ public class RewindableLooper : Looper
             base.Reloop();
         else
         {
-#if CUSTOM_DEBUG_VERBOSE
+#if DEBUG_VERBOSE
             Debug.Log("Can't reloop object " + this.name + " because it is rewinding.");
 #endif
         }

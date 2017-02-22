@@ -30,7 +30,7 @@ public class TimeParadoxColliderAttachment : MonoBehaviour {
         if (other.tag == "Clone")
         {
 
-#if CUSTOM_DEBUG_VERBOSE
+#if DEBUG_VERBOSE
             Debug.Log("Time paradox trigger by " + gameObject + " on " + other.gameObject);
 #endif
 
