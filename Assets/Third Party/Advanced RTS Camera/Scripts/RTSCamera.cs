@@ -92,7 +92,7 @@ public class RTSCamera : MonoBehaviour
     public float terrainAdjustTilt = 0.0f;
 
     private float currentRotationDelay = 0;
-    private float rotationDelayOnChange = 1.5f;
+    private float rotationDelayOnChange = 0f;
 
     // Vel
     private Vector3 moveVel;
@@ -345,7 +345,7 @@ public class RTSCamera : MonoBehaviour
     {
         if (followTarget != null)
         {
-            if ((currentRotationDelay -= Time.deltaTime) > 0) //while is changing targets
+            /*if ((currentRotationDelay -= Time.deltaTime) > 0) //while is changing targets
             {
                 _newRotation =
                 Quaternion.Slerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), CameraDeltaTime * 0.5f);
@@ -362,6 +362,8 @@ public class RTSCamera : MonoBehaviour
                     _newRotation = Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up);
                 }
             }
+            */
+            _newRotation = Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up);
             _currentTilt = _newRotation.eulerAngles.x;
         }
     }
