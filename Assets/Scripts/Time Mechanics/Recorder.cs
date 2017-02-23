@@ -17,6 +17,8 @@ class Recorder : MonoBehaviour
 
     // Recording variables
     float recordingTimer;
+    float samplingRate;
+    float samplingTimer;
 
     // Recording data collection
     List<Vector3> recordedPositions;
@@ -47,6 +49,10 @@ class Recorder : MonoBehaviour
 
         // Setup references
         timelineManager = FindObjectOfType<TimelineManager>();
+        
+        // Setup variables
+        samplingRate = timelineManager.samplingRate;
+        samplingTimer = 0;
 
 #if NETWORKING
         // Setup networking
@@ -119,6 +125,7 @@ class Recorder : MonoBehaviour
         recordedRotations = new List<Quaternion>();
 
         recordingTimer = 0;
+        samplingTimer = 0;
 
         recording = true;
     }
@@ -131,10 +138,17 @@ class Recorder : MonoBehaviour
     private void RecordFrame()
     {
         recordingTimer += Time.deltaTime;
+        samplingTimer += Time.deltaTime;
 
-        recordedPositions.Add(recordedTransform.position);
-        recordedRotations.Add(recordedTransform.localRotation);
-        recordedTimes.Add(recordingTimer);
+        if (samplingTimer >= samplingRate)
+        {
+            recordedPositions.Add(recordedTransform.position);
+            recordedRotations.Add(recordedTransform.localRotation);
+            recordedTimes.Add(recordingTimer);
+
+            // Reset timer to 0 + remainder
+            samplingTimer = samplingTimer % samplingRate;
+        }
     }
 
     private void CreateShadow()

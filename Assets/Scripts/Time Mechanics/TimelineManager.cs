@@ -10,6 +10,7 @@ public class TimelineManager : Singleton<TimelineManager>
 {
     public GameObject shadowPrefab;
     public GameObject trailRendererPrefab;
+    public float samplingRate;            // Once every X seconds  
     public float maxRecordingPeriod;      // Basically the maximum recording time TODO: CHECK HOW I'M DOING THIS IN THE RECORDER, TAKE THIS STATIC VALUE
     public float clockCompareMarginOfError;
 

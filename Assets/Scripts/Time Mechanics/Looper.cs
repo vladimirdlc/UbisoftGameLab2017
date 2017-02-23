@@ -79,9 +79,10 @@ public class Looper : MonoBehaviour
     {
         Vector3 tempVector;
         Quaternion tempQuartenion;
-        float tempFloat;
 
-        do
+        float tempFloat = recordedTimes[currentLooperIndex];
+
+        while (loopingTimer >= tempFloat && recordedPositions.Count > currentLooperIndex)
         {
             tempVector = recordedPositions[currentLooperIndex];
             tempQuartenion = recordedRotations[currentLooperIndex];
@@ -93,7 +94,6 @@ public class Looper : MonoBehaviour
 
             currentLooperIndex++;
         }
-        while (loopingTimer > tempFloat && recordedPositions.Count > currentLooperIndex);
     }
 
     public virtual void Reloop()
