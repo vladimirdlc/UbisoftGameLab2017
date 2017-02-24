@@ -77,23 +77,35 @@ public class Looper : MonoBehaviour
 
     protected void NextFrameAction()
     {
-        Vector3 tempVector;
-        Quaternion tempQuartenion;
+        if (currentLooperIndex >= recordedPositions.Count)
+            return;
 
-        float tempFloat = recordedTimes[currentLooperIndex];
-
-        while (loopingTimer >= tempFloat && recordedPositions.Count > currentLooperIndex)
+        if (currentLooperIndex == recordedPositions.Count - 1)
         {
-            tempVector = recordedPositions[currentLooperIndex];
-            tempQuartenion = recordedRotations[currentLooperIndex];
-            tempFloat = recordedTimes[currentLooperIndex];
-
-            gameObject.transform.position = tempVector;
-            gameObject.transform.localRotation = tempQuartenion;
-            //Debug.Log(originalRecordedTimes.Count);
-
-            currentLooperIndex++;
+            gameObject.transform.position = recordedPositions[currentLooperIndex];
+            gameObject.transform.localRotation = recordedRotations[currentLooperIndex];
         }
+
+        // Leftmost time
+        Vector3 aTempVector = recordedPositions[currentLooperIndex];
+        Quaternion aTempQuartenion = recordedRotations[currentLooperIndex];
+        float aTempFloat = recordedTimes[currentLooperIndex];
+
+        // Rightmost time
+        Vector3 bTempVector = recordedPositions[currentLooperIndex + 1];
+        Quaternion bTempQuartenion = recordedRotations[currentLooperIndex + 1];
+        float bTempFloat = recordedTimes[currentLooperIndex + 1];
+
+        // Calculate t between values for current timer
+        float t = (bTempFloat - loopingTimer) / bTempFloat;
+
+        // Lerp according to current time
+        gameObject.transform.position = CustomMathf.Vector3Lerp(aTempVector, bTempVector, t);
+        // NOTE TO SELF: MAYBE LERPING THE ROTATIONS ISN'T THE BEST IDEA, COME BACK IF SOMETHING WEIRD WITH ROTATION HAPPENS
+        gameObject.transform.rotation = CustomMathf.QuaternionLerp(aTempQuartenion, bTempQuartenion, t);
+
+        if (loopingTimer >= aTempFloat && recordedPositions.Count > currentLooperIndex)
+            currentLooperIndex++;
     }
 
     public virtual void Reloop()
