@@ -64,7 +64,7 @@ public class OverseerCamera : MonoBehaviour
 
             //Debug.Log("stju");
             Transform pointer = OverseerTarget.currentPivot;
-            
+
             float savedy = pointer.transform.position.y;
             Vector3 startingPosition = pointer.position;
             Vector3 forwardScaled = cam.transform.forward * Input.GetAxis("Vertical Overseer");
