@@ -86,25 +86,9 @@ public class Looper : MonoBehaviour
             gameObject.transform.localRotation = recordedRotations[currentLooperIndex];
         }
 
-        // Leftmost time
-        Vector3 aTempVector = recordedPositions[currentLooperIndex];
-        Quaternion aTempQuartenion = recordedRotations[currentLooperIndex];
-        float aTempFloat = recordedTimes[currentLooperIndex];
+        LerpState(currentLooperIndex, currentLooperIndex + 1);
 
-        // Rightmost time
-        Vector3 bTempVector = recordedPositions[currentLooperIndex + 1];
-        Quaternion bTempQuartenion = recordedRotations[currentLooperIndex + 1];
-        float bTempFloat = recordedTimes[currentLooperIndex + 1];
-
-        // Calculate t between values for current timer
-        float t = (bTempFloat - loopingTimer) / bTempFloat;
-
-        // Lerp according to current time
-        gameObject.transform.position = CustomMathf.Vector3Lerp(aTempVector, bTempVector, t);
-        // NOTE TO SELF: MAYBE LERPING THE ROTATIONS ISN'T THE BEST IDEA, COME BACK IF SOMETHING WEIRD WITH ROTATION HAPPENS
-        gameObject.transform.rotation = CustomMathf.QuaternionLerp(aTempQuartenion, bTempQuartenion, t);
-
-        if (loopingTimer >= aTempFloat && recordedPositions.Count > currentLooperIndex)
+        if (loopingTimer >= recordedTimes[currentLooperIndex] && recordedPositions.Count > currentLooperIndex)
             currentLooperIndex++;
     }
 
@@ -159,5 +143,26 @@ public class Looper : MonoBehaviour
         debugFlag = true;
 #endif
         #endregion
+    }
+
+    protected void LerpState(int indexOfA, int indexOfB)
+    {
+        // Leftmost time
+        Vector3 aTempVector = recordedPositions[indexOfA];
+        Quaternion aTempQuartenion = recordedRotations[indexOfA];
+        float aTempFloat = recordedTimes[indexOfA];
+
+        // Rightmost time
+        Vector3 bTempVector = recordedPositions[indexOfB];
+        Quaternion bTempQuartenion = recordedRotations[indexOfB];
+        float bTempFloat = recordedTimes[indexOfB];
+
+        // Calculate t between values for current timer
+        float t = Mathf.Abs((bTempFloat - loopingTimer) / bTempFloat);
+
+        // Lerp according to current time
+        gameObject.transform.position = CustomMathf.Vector3Lerp(aTempVector, bTempVector, t);
+        // NOTE TO SELF: MAYBE LERPING THE ROTATIONS ISN'T THE BEST IDEA, COME BACK IF SOMETHING WEIRD WITH ROTATION HAPPENS
+        gameObject.transform.rotation = CustomMathf.QuaternionLerp(aTempQuartenion, bTempQuartenion, t);
     }
 }
