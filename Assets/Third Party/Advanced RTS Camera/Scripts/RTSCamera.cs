@@ -35,7 +35,7 @@ public class RTSCamera : MonoBehaviour
     public bool invertMouseX = false;
     public bool invertMouseY = true;
     public bool clampMiddleMouseInput;
-    public float middleMouseInputMultiplier = 1f;
+    public float middleMouseInputMultiplier = 1.5f;
 
     // Control Setup
     public ControlSetup verticalSetup = ControlSetup.Axis;
@@ -92,7 +92,7 @@ public class RTSCamera : MonoBehaviour
     public float terrainAdjustTilt = 0.0f;
 
     private float currentRotationDelay = 0;
-    private float rotationDelayOnChange = 0f;
+    private float rotationDelayOnChange = 1f;
 
     // Vel
     private Vector3 moveVel;
@@ -345,7 +345,7 @@ public class RTSCamera : MonoBehaviour
     {
         if (followTarget != null)
         {
-            /*if ((currentRotationDelay -= Time.deltaTime) > 0) //while is changing targets
+            if ((currentRotationDelay -= Time.deltaTime) > 0) //while is changing targets
             {
                 _newRotation =
                 Quaternion.Slerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), CameraDeltaTime * 0.5f);
@@ -362,10 +362,16 @@ public class RTSCamera : MonoBehaviour
                     _newRotation = Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up);
                 }
             }
-            */
-            _newRotation = Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up);
             _currentTilt = _newRotation.eulerAngles.x;
         }
+    }
+
+    private void ForceLookAtCamTarget()
+    {
+        currentRotationDelay -= Time.deltaTime;
+        _newRotation =
+                  Quaternion.Lerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), Time.deltaTime * 8);
+        _currentTilt = _newRotation.eulerAngles.x;
     }
 
     /// <summary>
@@ -546,6 +552,7 @@ public class RTSCamera : MonoBehaviour
     {
         if (followTarget != null)
         {
+            if(speed != 0) ForceLookAtCamTarget();
             Vector3 offset = shouldFollow ? followTarget.transform.position : Vector3.zero;
             CameraTargetPosition = RotateAroundPoint(offset + CameraTargetPosition, followTarget.position, Vector3.up, speed * CameraDeltaTime) - offset;
         }
