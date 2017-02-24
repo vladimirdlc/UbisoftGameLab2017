@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class OverseerCamera : MonoBehaviour
 {
+    public static OverseerCamera Instance;
     public OverseerTarget target;
     public string leftAxisKey;
     public string rightAxisKey;
@@ -22,6 +23,7 @@ public class OverseerCamera : MonoBehaviour
 
     void Start()
     {
+        Instance = this;
         cam = GetComponent<RTSCamera>();
         flickTotaltime = 0;
         startCooldown();
@@ -37,18 +39,6 @@ public class OverseerCamera : MonoBehaviour
             return;
         }
 #endif
-        /* if (Input.GetAxis("Horizontal Overseer") != 0 || Input.GetAxis("Vertical Overseer") != 0)
-         {
-             float savedy = sphere.transform.position.y;
-             Vector3 newForward = new Vector3(Input.GetAxis("Horizontal Overseer"), 0, Input.GetAxis("Vertical Overseer")).normalized;
-             sphere.transform.Translate(newForward, target.transform);
-             sphere.transform.localPosition = new Vector3(transform.position.x, savedy, transform.position.z);
-             //transform.position += newForward
-             //if (newForward != Vector3.zero) transform.forward = (transform.forward + newForward);
-             //transform.Translate(Vector3.forward * Time.deltaTime);
-         }
-         else sphere.transform.localPosition = Vector3.zero;*/
-
 
         if (Input.GetAxisRaw("Horizontal Overseer") == 0 && Input.GetAxisRaw("Vertical Overseer") == 0)
         {
@@ -62,7 +52,6 @@ public class OverseerCamera : MonoBehaviour
         {
             flickTotaltime += Time.deltaTime;
 
-            //Debug.Log("stju");
             Transform pointer = OverseerTarget.currentPivot;
             
             float savedy = pointer.transform.position.y;
@@ -85,6 +74,7 @@ public class OverseerCamera : MonoBehaviour
                 OverseerTarget.currentPivot = flickPosition.target.GetComponent<OverseerTarget>().pivot;
                 cam.changeTarget(flickPosition.target.transform);
                 target = flickPosition.target;
+                GetComponent<OSPointer>().updateTarget();
                 OverseerTarget.currentPivot.localPosition = Vector3.zero;
                 return;
             }

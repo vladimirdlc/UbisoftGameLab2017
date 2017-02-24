@@ -12,8 +12,8 @@ public class OSPointer : MonoBehaviour
 
     public GameObject beaconContainerPrefab;
     public GameObject beaconPrefab;
-    public Transform pointer;
-    public float speed = 0.1f;
+    private Transform pointer;
+    private float speed = 25f;
     private RTSCamera cam;
     private OverseerCamera overseerCam;
     private bool beaconInUse;
@@ -31,6 +31,11 @@ public class OSPointer : MonoBehaviour
         overseerCam = GetComponent<OverseerCamera>();
     }
 
+    public void updateTarget()
+    {
+        pointer.transform.position = new Vector3(cam.followTarget.transform.position.x, startingY, cam.followTarget.transform.position.z);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -46,13 +51,10 @@ public class OSPointer : MonoBehaviour
             beaconInUse = false;
         }
 
-
         var lookPos = cam.transform.position - pointer.position;
         lookPos.y = 0;
         var rotation = Quaternion.LookRotation(lookPos);
         pointer.rotation = rotation;
-
-        //pointer.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         if (Input.GetAxisRaw(verticalAxis) + Input.GetAxisRaw(horizontalAxis) == 0)
         {
@@ -72,17 +74,17 @@ public class OSPointer : MonoBehaviour
 
         currentTimeToDissapear = timeToDissapear;
         pointer.gameObject.SetActive(true);
+    }
 
-        float directionx = (transform.position.x < cam.followTarget.transform.position.x) ? 1 : 1;
-        float directionz = (transform.position.z < cam.followTarget.transform.position.z) ? 1 : 1;
-
+    void FixedUpdate()
+    {
         Vector3 startingPosition = pointer.position;
         Vector3 forwardScaled = cam.transform.forward * Input.GetAxis(verticalAxis);
-        pointer.position += new Vector3(forwardScaled.x, 0, forwardScaled.z) * speed;
+        pointer.position += new Vector3(forwardScaled.x, 0, forwardScaled.z) * Time.fixedDeltaTime * speed;
         Vector3 rigthScaled = cam.transform.right * Input.GetAxis(horizontalAxis);
-        pointer.position += new Vector3(rigthScaled.x, 0, rigthScaled.z) * speed;
+        pointer.position += new Vector3(rigthScaled.x, 0, rigthScaled.z) * Time.fixedDeltaTime * speed;
         pointer.position = new Vector3(pointer.position.x, startingY, pointer.position.z);
-
+        
         if (!overseerCam.target.GetComponent<Collider>().bounds.Contains(pointer.position))
         {
             Vector3 testX = new Vector3(pointer.position.x, startingY, startingPosition.z);
