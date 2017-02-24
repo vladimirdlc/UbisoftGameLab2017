@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class OverseerTarget : MonoBehaviour {
-    public OverseerTarget nextTarget;
-    public OverseerTarget previousTarget;
+    public Transform pivot;
     public bool startingTarget;
     public static OverseerTarget startTarget;
+    public static Transform currentPivot;
 
-    private void Start()
+    private void Awake()
     {
         if (startingTarget)
         {
+            currentPivot = pivot;
             startTarget = this;
         }
     }
