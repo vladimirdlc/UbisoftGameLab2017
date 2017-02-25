@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33922828035090012}
   - component: {fileID: 65090283331335998}
   - component: {fileID: 23264564631013978}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,6 +37,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4636740846740818}
+  - component: {fileID: 114170376441911360}
   - component: {fileID: 143502345864849720}
   - component: {fileID: 54249630395174570}
   - component: {fileID: 82773029173844088}
@@ -44,8 +45,7 @@ GameObject:
   - component: {fileID: 114280900742100736}
   - component: {fileID: 114131862194429754}
   - component: {fileID: 114696287370709144}
-  - component: {fileID: 114170376441911360}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: NetworkTestGroundController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 20471849544766610}
   - component: {fileID: 81874344352998230}
   - component: {fileID: 124250213068979072}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: FirstPersonCharacter
   m_TagString: Camera Ground Character
   m_Icon: {fileID: 0}
@@ -326,6 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GreenDoor: {fileID: 1015908982018762, guid: d3c6560b48df8f5489c41a9dff2ceee2, type: 2}
+  BlueDoor: {fileID: 0}
   beaconPrefab: {fileID: 0}
 --- !u!114 &114280900742100736
 MonoBehaviour:
