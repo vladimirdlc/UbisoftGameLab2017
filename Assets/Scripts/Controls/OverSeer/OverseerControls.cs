@@ -20,7 +20,6 @@ public class OverseerControls : MonoBehaviour
         if (Input.GetButtonDown(actionButtonA))
         {
             triggerList(controllablesA);
-
 #if NETWORKING
             NetMessenger.Instance.CmdOpenDoor("Green");
 #endif
