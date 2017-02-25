@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class NetMessenger : NetworkBehaviour
 {
     public static NetMessenger Instance;
-    private GameObject GreenDoor;
+    public GameObject GreenDoor;
     //public GameObject BlueDoor;
 
 
@@ -14,7 +14,7 @@ public class NetMessenger : NetworkBehaviour
     {
         Instance = this;
         //GreenDoor = GameObject.FindGameObjectWithTag("Door Green");
-        GreenDoor = GameObject.Find("DoorGreen");
+        //GreenDoor = GameObject.Find("DoorGreen");
         Debug.Log(GreenDoor);
         Debug.Log("FREEEEEEEferferf");
         if (GreenDoor == null)
@@ -36,9 +36,7 @@ public class NetMessenger : NetworkBehaviour
     [Command]
     public void CmdOpenDoor(string color)
     {
-        Debug.Break();
         var io = GreenDoor.transform;
-        Debug.Break();
         if (color == "Green")
             GreenDoor.GetComponent<Animator>();
         //GreenDoor.GetComponent<Animator>().SetTrigger("toggleObject");
