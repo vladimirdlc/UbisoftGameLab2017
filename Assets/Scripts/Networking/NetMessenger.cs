@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+//All commands go to hostsClient
 public class NetMessenger : NetworkBehaviour
 {
     public static NetMessenger Instance;
@@ -10,14 +11,12 @@ public class NetMessenger : NetworkBehaviour
     public GameObject BlueDoor;
 
 
-    private void Start()
+    private void Awake()
     {
+        Debug.Log(gameObject.name);
         Instance = this;
         //GreenDoor = GameObject.FindGameObjectWithTag("Door Green");
         GreenDoor = GameObject.Find("DoorGreen");
-        Debug.Log(GreenDoor);
-        if (GreenDoor == null)
-            Debug.Break();
         //BlueDoor = GameObject.FindGameObjectWithTag("Door Blue");
         BlueDoor = GameObject.Find("DoorBlue");
     }
