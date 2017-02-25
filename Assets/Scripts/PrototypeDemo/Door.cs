@@ -6,22 +6,31 @@ using UnityEngine;
 public class Door : OSControllable
 {
 
-    public GameObject mesh;
+    public GameObject meshes;
     public bool isTimed;
     public GameObject[] pressurePlates;
     public float timer;
     public bool openByDefault;
 
+    [Header("------ Animator Specific Variables ------")]
+    public float animOpenCloseDoorSpeed;
 
     private int count;
     private float closeAtTime;
     private bool isOpen;
+
+    private Animator anim;
 
     private void Start()
     {
         count = 0;
         isOpen = false;
         closeAtTime = 0;
+
+        // Configure animator variables
+        anim = GetComponent<Animator>();
+        anim.SetFloat("objectActionSpeed",animOpenCloseDoorSpeed);
+
         if (openByDefault) Open();
     }
 
