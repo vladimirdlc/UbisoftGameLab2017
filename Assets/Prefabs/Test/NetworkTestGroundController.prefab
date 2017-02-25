@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 114280900742100736}
   - component: {fileID: 114131862194429754}
   - component: {fileID: 114696287370709144}
+  - component: {fileID: 114170376441911360}
   m_Layer: 0
   m_Name: NetworkTestGroundController
   m_TagString: Untagged
@@ -313,6 +314,19 @@ MonoBehaviour:
   client: 0
   host: 0
   recordedTransform: {fileID: 4636740846740818}
+--- !u!114 &114170376441911360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1395371510902202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c7960f1218ec574f983feeb881ebd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GreenDoor: {fileID: 1015908982018762, guid: d3c6560b48df8f5489c41a9dff2ceee2, type: 2}
+  beaconPrefab: {fileID: 0}
 --- !u!114 &114280900742100736
 MonoBehaviour:
   m_ObjectHideFlags: 1

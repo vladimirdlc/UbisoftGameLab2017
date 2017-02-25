@@ -38,14 +38,12 @@ GameObject:
   - component: {fileID: 20579923451687304}
   - component: {fileID: 92667823414060038}
   - component: {fileID: 124804707165516164}
-  - component: {fileID: 81293902925485668}
   - component: {fileID: 114402788600688768}
   - component: {fileID: 114166388040115692}
   - component: {fileID: 114397541545836234}
-  - component: {fileID: 114107881548352036}
   m_Layer: 0
   m_Name: OverseerController
-  m_TagString: MainCamera
+  m_TagString: Overseer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,20 +102,13 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 1
+  m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
---- !u!81 &81293902925485668
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1553020305319734}
-  m_Enabled: 0
 --- !u!92 &92667823414060038
 Behaviour:
   m_ObjectHideFlags: 1
@@ -125,38 +116,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1553020305319734}
   m_Enabled: 1
---- !u!114 &114107881548352036
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1553020305319734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 42
-    i1: 221
-    i2: 49
-    i3: 120
-    i4: 73
-    i5: 37
-    i6: 229
-    i7: 228
-    i8: 217
-    i9: 253
-    i10: 244
-    i11: 21
-    i12: 37
-    i13: 234
-    i14: 223
-    i15: 103
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114166388040115692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -176,6 +135,7 @@ MonoBehaviour:
   horizontalAxis: Horizontal Dpad Overseer
   verticalAxis: Vertical Dpad Overseer
   speed: 0.1
+  flickTotaltime: 0
 --- !u!114 &114397541545836234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,13 +150,11 @@ MonoBehaviour:
   horizontalAxis: Horizontal Dpad Overseer
   verticalAxis: Vertical Dpad Overseer
   beaconButton: Overseer Beacon
+  autoHidePointer: 0
   beaconContainerPrefab: {fileID: 1166831496739124, guid: 91b3a489d25cb294689da4a02db3e063,
     type: 2}
   beaconPrefab: {fileID: 1627837743720578, guid: 43877f32af5efef4b84770a02b17302b,
     type: 2}
-  pointer: {fileID: 0}
-  speed: 0.1
-  timeToDissapear: 1
 --- !u!114 &114402788600688768
 MonoBehaviour:
   m_ObjectHideFlags: 1
