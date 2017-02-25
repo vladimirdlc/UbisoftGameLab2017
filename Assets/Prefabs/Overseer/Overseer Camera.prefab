@@ -112,7 +112,8 @@ MonoBehaviour:
   currentDelayTime: 0
   horizontalAxis: Horizontal Dpad Overseer
   verticalAxis: Vertical Dpad Overseer
-  speed: 0.3
+  speed: 0.5
+  flickTotaltime: 0
 --- !u!114 &114691172304608390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -254,8 +255,6 @@ MonoBehaviour:
     type: 2}
   beaconPrefab: {fileID: 1627837743720578, guid: 43877f32af5efef4b84770a02b17302b,
     type: 2}
-  pointer: {fileID: 0}
-  speed: 0.2
 --- !u!124 &124443398284161474
 Behaviour:
   m_ObjectHideFlags: 1

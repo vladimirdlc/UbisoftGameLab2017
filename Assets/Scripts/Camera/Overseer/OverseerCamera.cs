@@ -40,7 +40,7 @@ public class OverseerCamera : MonoBehaviour
         }
 #endif
 
-        if (Input.GetAxisRaw("Horizontal Overseer") == 0 && Input.GetAxisRaw("Vertical Overseer") == 0)
+        if (Input.GetAxisRaw(horizontalAxis) == 0 && Input.GetAxisRaw(verticalAxis) == 0)
         {
             flickTotaltime = 0;
             OverseerTarget.currentPivot.localPosition = Vector3.zero;
@@ -48,7 +48,7 @@ public class OverseerCamera : MonoBehaviour
 
         Quaternion futureRotation = Quaternion.LookRotation(cam.followTarget.position - transform.position, Vector3.up);
 
-        if (currentDelayTime < 0 && (Input.GetAxisRaw("Horizontal Overseer") != 0 || Input.GetAxisRaw("Vertical Overseer") != 0))
+        if (currentDelayTime < 0 && (Input.GetAxisRaw(horizontalAxis) != 0 || Input.GetAxisRaw(verticalAxis) != 0))
         {
             flickTotaltime += Time.deltaTime;
 
@@ -56,9 +56,9 @@ public class OverseerCamera : MonoBehaviour
 
             float savedy = pointer.transform.position.y;
             Vector3 startingPosition = pointer.position;
-            Vector3 forwardScaled = cam.transform.forward * Input.GetAxis("Vertical Overseer");
+            Vector3 forwardScaled = cam.transform.forward * Input.GetAxis(verticalAxis);
             pointer.position += new Vector3(forwardScaled.x, 0, forwardScaled.z) * speed;
-            Vector3 rigthScaled = cam.transform.right * Input.GetAxis("Horizontal Overseer");
+            Vector3 rigthScaled = cam.transform.right * Input.GetAxis(horizontalAxis);
             pointer.position += new Vector3(rigthScaled.x, 0, rigthScaled.z) * speed;
             pointer.position = new Vector3(pointer.position.x, savedy, pointer.position.z);
 
