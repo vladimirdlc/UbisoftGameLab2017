@@ -84,25 +84,6 @@ public class OSPointer : MonoBehaviour
         Vector3 rigthScaled = cam.transform.right * Input.GetAxis(horizontalAxis);
         pointer.position += new Vector3(rigthScaled.x, 0, rigthScaled.z) * Time.fixedDeltaTime * speed;
         pointer.position = new Vector3(pointer.position.x, startingY, pointer.position.z);
-        
-        if (!overseerCam.target.GetComponent<Collider>().bounds.Contains(pointer.position))
-        {
-            Vector3 testX = new Vector3(pointer.position.x, startingY, startingPosition.z);
-            Vector3 testZ = new Vector3(startingPosition.x, startingY, pointer.position.z);
-
-            if (overseerCam.target.GetComponent<Collider>().bounds.Contains(testX))
-            {
-                pointer.position = testX;
-            }
-            else if (overseerCam.target.GetComponent<Collider>().bounds.Contains(testZ))
-            {
-                pointer.position = testZ;
-            }
-            else
-            {
-                pointer.position = startingPosition;
-            }
-        }
     }
 
     void SpawnBeacon()
