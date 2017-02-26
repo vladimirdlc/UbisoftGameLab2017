@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-//All commands go to hostsClient
+//All commands are called by hostsClient
+//we do this by sending a message from the client
+//to hostsClient which is on the other computer.
 public class NetMessenger : NetworkBehaviour
 {
     public static NetMessenger Instance;
@@ -13,6 +15,9 @@ public class NetMessenger : NetworkBehaviour
 
     private void Awake()
     {
+        //Functions in this class MUST be invoked by the client and only the client
+        //we are getting lucky here because the network manager is spawning
+        //clientsHost and then client so this ends up being the client
         Instance = this;
         //GreenDoor = GameObject.FindGameObjectWithTag("Door Green");
         GreenDoor = GameObject.Find("DoorGreen");

@@ -109,6 +109,12 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         return buttonInputFlag;
     }
 
+    protected void GetInput(ref bool pressed)
+    {
+        if (host)
+            pressed = Input.GetButtonDown("Test Button");
+    }
+
     /// <summary>
     /// Second step after ProcessButtonInput, this will pass messages from the client to the clientsHost.
     /// The child CharacterController should stop execution if this function returns true.
@@ -121,6 +127,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
         if (client)
             result = true;
+
 
         if (buttonInputFlag && client)
         {

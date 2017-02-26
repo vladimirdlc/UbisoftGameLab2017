@@ -68,15 +68,19 @@ class Recorder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-#if NETWORKING
+        //#if NETWORKING
 
-        pressedT = ProcessButtonInput(ButtonEventType.GetButtonDown, "Test Button", pressedT);
+        //pressedT = ProcessButtonInput(ButtonEventType.GetButtonDown, "Test Button", pressedT);
 
-        if (CheckIfBreak(pressedT, ref clientsHostRecorder.pressedT))
-            return;
-#else
-        pressedT = Input.GetButtonDown("Test Button");
-#endif
+        //if (CheckIfBreak(pressedT, ref clientsHostRecorder.pressedT))
+        //    return;
+        //#else
+        //#endif
+
+        //GetInput Probably not working because of run time error...
+        //GetInput(ref pressedT);
+        if (host)
+            pressedT = Input.GetButtonDown("Test Button");
 
         /*
         if (!client && !clientsHost)
@@ -100,9 +104,9 @@ class Recorder : MonoBehaviour
             }
         }
 
-#if NETWORKING
-        ProcessButtonCleanup(ref pressedT);
-#endif
+        //#if NETWORKING
+        //ProcessButtonCleanup(ref pressedT);
+        //#endif
 
         /*
         if (clientsHost)
