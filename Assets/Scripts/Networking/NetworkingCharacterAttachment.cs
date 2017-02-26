@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//#define NETWORKING
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -49,8 +50,6 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             gameObject.name = "host";                                               // FIXME
         }
 
-        //QUESTION: Why we have to do this twice????
-        //Deactivate client player.
         if (hostsClient)
         {
             //This only works on host side,
@@ -62,27 +61,22 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             gameObject.name = "hostsClient";
         }
 
-        //If you are the client and you are the localplayer
-        //disable your camera so overseer can use his camera instead
-        //also diable all unnecessary components on clientsHost
+        //we keep client active so we can send messages to client host
         if (client)
         {
-            //gameObject.SetActive(false);
-            transform.GetChild(0).GetComponent<Camera>().enabled = false;
-            foreach (var comp in DisableOnClientsHost)
-            {
-                comp.enabled = false;
-            }
+            gameObject.SetActive(false);
             gameObject.name = "client";
+            //transform.GetChild(0).GetComponent<Camera>().enabled = false;
             //GetComponent<TrackRenderer>().enabled = true;
         }
 
-        //Disable other persons camera...what?
+        //The client host disables components he should not have
+        //this should probably be on a seperate script
         if (clientsHost)
         {
-            foreach (var comp in DisableOnClientsHost)
+            foreach (var component in DisableOnClientsHost)
             {
-                comp.enabled = false;
+                component.enabled = false;
             }
             gameObject.name = "clientsHost";
         }

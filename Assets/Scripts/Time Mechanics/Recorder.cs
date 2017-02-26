@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//#define NETWORKING
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine;
@@ -49,11 +50,10 @@ class Recorder : MonoBehaviour
 
         // Setup references
         timelineManager = FindObjectOfType<TimelineManager>();
-        
+
         // Setup variables
         samplingRate = timelineManager.samplingRate;
         samplingTimer = 0;
-
 #if NETWORKING
         // Setup networking
         base.Start();
@@ -69,9 +69,10 @@ class Recorder : MonoBehaviour
     void Update()
     {
 #if NETWORKING
+
         pressedT = ProcessButtonInput(ButtonEventType.GetButtonDown, "Test Button", pressedT);
 
-         if (CheckIfBreak(pressedT, ref clientsHostRecorder.pressedT))
+        if (CheckIfBreak(pressedT, ref clientsHostRecorder.pressedT))
             return;
 #else
         pressedT = Input.GetButtonDown("Test Button");
@@ -89,6 +90,7 @@ class Recorder : MonoBehaviour
 
         // DELETEME
         if (pressedT)
+        {
             if (!recording)
                 StartRecording();
             else
@@ -96,11 +98,12 @@ class Recorder : MonoBehaviour
                 CreateShadow();
                 StopRecording();
             }
+        }
 
 #if NETWORKING
         ProcessButtonCleanup(ref pressedT);
 #endif
-        
+
         /*
         if (clientsHost)
         {

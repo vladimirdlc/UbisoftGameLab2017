@@ -13,7 +13,6 @@ public class NetMessenger : NetworkBehaviour
 
     private void Awake()
     {
-        Debug.Log(gameObject.name);
         Instance = this;
         //GreenDoor = GameObject.FindGameObjectWithTag("Door Green");
         GreenDoor = GameObject.Find("DoorGreen");
