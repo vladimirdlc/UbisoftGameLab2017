@@ -52,7 +52,7 @@ public class OverseerCamera : MonoBehaviour
 
         Quaternion futureRotation = Quaternion.LookRotation(cam.followTarget.position - transform.position, Vector3.up);
 
-        Debug.Log(transform.rotation.y+"x:"+directionx+",z"+directionz);
+        //Debug.Log(transform.rotation.y+"x:"+directionx+",z"+directionz);
 
         if (currentDelayTime < 0 && (Input.GetAxisRaw(horizontalAxis) != 0 || Input.GetAxisRaw(verticalAxis) != 0))
         {
@@ -82,14 +82,17 @@ public class OverseerCamera : MonoBehaviour
                 cam.changeTarget(flickPosition.target.transform);
                 if (newTarget.positionOffset != Vector3.zero)
                 {
-                    if (transform.rotation.y > 0.4f && transform.rotation.y < 0.87f && directionx < 0) //totally opositte
+                    //cam.followOffset = new Vector3(newTarget.positionOffset.x, newTarget.positionOffset.y, newTarget.positionOffset.z);
+                    /*if (transform.rotation.y > 0.4f && transform.rotation.y < 0.87f && directionx < 0) //totally opositte
                         cam.followOffset = new Vector3(-newTarget.positionOffset.x, newTarget.positionOffset.y, -newTarget.positionOffset.z);
                     else if (transform.rotation.y > 0.82f && directionx > 0) //totally opositte
+                        cam.followOffset = new Vector3(-newTarget.positionOffset.x, newTarget.positionOffset.y, -newTarget.positionOffset.z);
+                    else if (transform.rotation.y > 0.82f && directionx > 0) 
                         cam.followOffset = new Vector3(-newTarget.positionOffset.x, newTarget.positionOffset.y, -newTarget.positionOffset.z);
                     //else if (transform.rotation.y > 0.5f && transform.rotation.y < 0.75f && directionx < 0) 
                     //    cam.followOffset = new Vector3(newTarget.positionOffset.x, newTarget.positionOffset.y, newTarget.positionOffset.z);
                     else
-                        cam.followOffset = newTarget.positionOffset;
+                    cam.followOffset = newTarget.positionOffset;*/
                 }
                 target = flickPosition.target;
                 GetComponent<OSPointer>().updateTarget();

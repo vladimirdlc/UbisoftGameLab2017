@@ -20,20 +20,18 @@ public class OSPointer : MonoBehaviour
     private float timeToDissapear = 3;
     private float currentTimeToDissapear;
     private bool teleportPointer;
-    private float startingY;
 
     void Start()
     {
         GameObject pointerInstance = Instantiate(beaconContainerPrefab) as GameObject;
         pointer = pointerInstance.transform;
-        startingY = pointer.transform.position.y;
         cam = GetComponent<RTSCamera>();
         overseerCam = GetComponent<OverseerCamera>();
     }
 
     public void updateTarget()
     {
-        pointer.transform.position = new Vector3(cam.followTarget.transform.position.x, startingY, cam.followTarget.transform.position.z);
+        pointer.transform.position = cam.followTarget.transform.position;
     }
 
     // Update is called once per frame
@@ -83,7 +81,7 @@ public class OSPointer : MonoBehaviour
         pointer.position += new Vector3(forwardScaled.x, 0, forwardScaled.z) * Time.fixedDeltaTime * speed;
         Vector3 rigthScaled = cam.transform.right * Input.GetAxis(horizontalAxis);
         pointer.position += new Vector3(rigthScaled.x, 0, rigthScaled.z) * Time.fixedDeltaTime * speed;
-        pointer.position = new Vector3(pointer.position.x, startingY, pointer.position.z);
+        pointer.position = new Vector3(pointer.position.x, overseerCam.target.transform.position.y, pointer.position.z);
     }
 
     void SpawnBeacon()
