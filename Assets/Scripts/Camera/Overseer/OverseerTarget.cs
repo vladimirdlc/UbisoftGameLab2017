@@ -8,6 +8,10 @@ public class OverseerTarget : MonoBehaviour {
     public static OverseerTarget startTarget;
     public static Transform currentPivot;
 
+    [Header("Camera Settings")]
+    [Tooltip("If this value is (0, 0, 0) it will not be set")]
+    public Vector3 positionOffset;
+
     private void Awake()
     {
         if (startingTarget)
