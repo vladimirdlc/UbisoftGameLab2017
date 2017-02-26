@@ -79,8 +79,8 @@ class Recorder : MonoBehaviour
 
         //GetInput Probably not working because of run time error...
         //GetInput(ref pressedT);
-        if (host)
-            pressedT = Input.GetButtonDown("Test Button");
+        //if (host)
+       //     pressedT = Input.GetButtonDown("Test Button");
 
         /*
         if (!client && !clientsHost)
