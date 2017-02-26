@@ -68,19 +68,21 @@ class Recorder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //#if NETWORKING
+#if NETWORKING
+
+        if (host)
+            pressedT = Input.GetButtonDown("Test Button");
 
         //pressedT = ProcessButtonInput(ButtonEventType.GetButtonDown, "Test Button", pressedT);
 
         //if (CheckIfBreak(pressedT, ref clientsHostRecorder.pressedT))
         //    return;
-        //#else
-        //#endif
+#else
+        pressedT = Input.GetButtonDown("Test Button");
+#endif
 
         //GetInput Probably not working because of run time error...
         //GetInput(ref pressedT);
-        //if (host)
-       //     pressedT = Input.GetButtonDown("Test Button");
 
         /*
         if (!client && !clientsHost)
