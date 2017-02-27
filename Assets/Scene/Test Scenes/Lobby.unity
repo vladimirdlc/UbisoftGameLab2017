@@ -247,33 +247,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &231447362 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1376183412921818, guid: 943bfba2f2daf2849a5648a5bdbd03a4,
-    type: 2}
-  m_PrefabInternal: {fileID: 536910353}
---- !u!114 &231447363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 231447362}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 822f40b9225d36048b6f61480c9febb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BroadcastPort: 47777
-  m_BroadcastKey: 2222
-  m_BroadcastVersion: 1
-  m_BroadcastSubVersion: 1
-  m_BroadcastInterval: 1000
-  m_UseNetworkManager: 1
-  m_BroadcastData: HELLO
-  m_ShowGUI: 1
-  m_OffsetX: 0
-  m_OffsetY: 0
-  networkDiscovery: {fileID: 0}
 --- !u!1001 &536910353
 Prefab:
   m_ObjectHideFlags: 0
@@ -499,7 +472,6 @@ MonoBehaviour:
   m_ShowGUI: 1
   m_OffsetX: 0
   m_OffsetY: 0
-  networkDiscovery: {fileID: 0}
 --- !u!4 &1348270208
 Transform:
   m_ObjectHideFlags: 0
