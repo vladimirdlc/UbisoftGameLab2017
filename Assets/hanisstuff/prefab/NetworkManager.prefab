@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4794113018621890}
   - component: {fileID: 114340792954318156}
   - component: {fileID: 114642943500370472}
+  - component: {fileID: 114404180739436508}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -65,8 +66,8 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
-  m_OfflineScene: 
-  m_OnlineScene: 
+  m_OfflineScene: Lobby
+  m_OnlineScene: Networking Test
   m_SpawnPrefabs:
   - {fileID: 1166831496739124, guid: 91b3a489d25cb294689da4a02db3e063, type: 2}
   m_CustomConfig: 0
@@ -113,6 +114,28 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   groundPlayer: {fileID: 1395371510902202, guid: 4ca594cb6da9ac448a446bc815c65117,
     type: 2}
+  discovery: {fileID: 0}
+--- !u!114 &114404180739436508
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1376183412921818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822f40b9225d36048b6f61480c9febb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BroadcastPort: 47777
+  m_BroadcastKey: 2222
+  m_BroadcastVersion: 1
+  m_BroadcastSubVersion: 1
+  m_BroadcastInterval: 1000
+  m_UseNetworkManager: 1
+  m_BroadcastData: HELLO
+  m_ShowGUI: 0
+  m_OffsetX: 0
+  m_OffsetY: 0
 --- !u!114 &114642943500370472
 MonoBehaviour:
   m_ObjectHideFlags: 1
