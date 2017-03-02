@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviour {
+public class TimeManager : MonoBehaviour
+{
 
 
     // The player, the clones and the doors should all have their own layers
@@ -13,6 +14,10 @@ public class TimeManager : MonoBehaviour {
     // Apparently, toggling the Physics collision off sends an OnTriggerEnter/Exit event, 
     // paradoxes have to be disabled in order to prevent misfire
 
+    public string playerLayer;
+    public string cloneLayer;
+    public string doorLayer;
+    public string aiLayer;
 
     public int sampleRate;
 
@@ -34,11 +39,11 @@ public class TimeManager : MonoBehaviour {
         public Transform m_PuppyTargetTransform { get; set; }
 
         public State(
-            Vector3 dogPos, 
-            Quaternion dogRot, 
-            Vector3 pupPos, 
-            Quaternion pupRot, 
-            bool isHome, 
+            Vector3 dogPos,
+            Quaternion dogRot,
+            Vector3 pupPos,
+            Quaternion pupRot,
+            bool isHome,
             bool isLatched,
             Vector3 targetPos,
             Transform targetTrans)
@@ -179,6 +184,7 @@ public class TimeManager : MonoBehaviour {
             {
                 if (m_CloneInstance != null)
                 {
+                    // NOTE TO SELF JESUS: WARP IN/OUT EFFECT HERE(?)
                     trash();
                 }
             }
@@ -188,6 +194,7 @@ public class TimeManager : MonoBehaviour {
                 if (m_CloneInstance == null)
                 {
                     // Create instance and assign references
+                    // NOTE TO SELF JESUS: WARP IN/OUT EFFECT HERE(?)
                     create(rewinding);
                 }
 
@@ -244,7 +251,7 @@ public class TimeManager : MonoBehaviour {
         m_Reverting = false;
 
         // Disable collisions between clones
-        Physics.IgnoreLayerCollision(8, 8, true); 
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(cloneLayer), true);
     }
 
     // Not sure if this should go in FixedUpdate or Update, Fixed seemed safer and more stable (constant frame rate)
@@ -285,7 +292,7 @@ public class TimeManager : MonoBehaviour {
                     int flipOffset = 0;
                     // flipOffset value is determined by the rewind amount that lead to the active timeline's position
                     // Current activeTimeline position is the current value of the m_MasterPointer
-                    flipOffset = m_MasterPointer - m_Timelines[m_ActiveTimeline-1].m_TimelineIndex;
+                    flipOffset = m_MasterPointer - m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex;
 
                     // Bring down the active timeline and scrub
                     m_ActiveTimeline--;
@@ -336,8 +343,8 @@ public class TimeManager : MonoBehaviour {
                 m_Reverting = false;
 
                 // Enable collisions
-                Physics.IgnoreLayerCollision(8, 9, false);
-                Physics.IgnoreLayerCollision(8, 10, false);
+                Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), false);
+                Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(doorLayer), false);
 
                 // Enable paradoxes
                 m_DisableParadoxes = false;
@@ -366,7 +373,7 @@ public class TimeManager : MonoBehaviour {
     private void requestPush()
     {
         State state = new global::TimeManager.State(
-            m_PlayerTransform.position, 
+            m_PlayerTransform.position,
             m_PlayerTransform.rotation,
             m_PuppyTransform.position,
             m_PuppyTransform.rotation,
@@ -395,8 +402,8 @@ public class TimeManager : MonoBehaviour {
         if (m_TimeStopped)
         {
             // Enable collisions
-            Physics.IgnoreLayerCollision(8, 9, false);
-            Physics.IgnoreLayerCollision(8, 10, false);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), false);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(doorLayer), false);
 
             // Re-enable paradoxes
             m_DisableParadoxes = false;
@@ -409,11 +416,10 @@ public class TimeManager : MonoBehaviour {
 
             m_PuppyController.resumeAI();
 
-
             bool bangThePuppy = true;
             // If the time stop did not result in a rewind, clean-up
             // The timelines do the actual deleting and cleaning up, we just call it here with the open()
-            if (m_Timelines[m_ActiveTimeline-1].m_TimelineIndex == m_MasterPointer)
+            if (m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex == m_MasterPointer)
             {
                 bangThePuppy = false;
                 m_Timelines[m_ActiveTimeline - 1].open(m_MasterPointer);
@@ -451,8 +457,8 @@ public class TimeManager : MonoBehaviour {
             m_DisableParadoxes = true;
 
             // Disable collisions
-            Physics.IgnoreLayerCollision(8, 9, true);
-            Physics.IgnoreLayerCollision(8, 10, true);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), true);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(doorLayer), true);
 
             // Halt AIs
             for (int i = 0; i < m_ActiveTimeline; i++)
@@ -536,6 +542,11 @@ public class TimeManager : MonoBehaviour {
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="idToRevert"></param>
+    /// <param name="lastPos">If this parameter is set, the method will ensure that the paradox corresponds to the position given in this transform.</param>
     public void handleParadox(int idToRevert, Transform lastPos = null)
     {
 
@@ -551,8 +562,8 @@ public class TimeManager : MonoBehaviour {
         m_DisableParadoxes = true;
 
         // Disable collisions
-        Physics.IgnoreLayerCollision(8, 9, true);
-        Physics.IgnoreLayerCollision(8, 10, true); 
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(doorLayer), true);
 
         // Blocking paradox require an override in order to revert to the clone's
         // last valid position and not spawn through a door
@@ -562,7 +573,10 @@ public class TimeManager : MonoBehaviour {
 
         if (lastPos != null)
         {
+
+#if DEBUG_VERBOSE
             Debug.Log("Blocking Paradox Detected");
+#endif
 
             float currentDistance = (lastPos.position - m_MasterArray[m_RevertIndex].m_DogPosition).magnitude;
             m_RevertIndex--;
@@ -576,7 +590,9 @@ public class TimeManager : MonoBehaviour {
             }
         }
         else
+#if DEBUG_VERBOSE
             Debug.Log("Proximity Paradox Detected");
+#endif
 
         m_MasterPointer--;
         m_PuppyPointer--;

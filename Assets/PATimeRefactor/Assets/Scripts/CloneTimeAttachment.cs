@@ -5,17 +5,19 @@ using UnityEngine;
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 public class CloneTimeAttachment : MonoBehaviour
 {
+     /// <summary>
+    /// This script acts as a paradox monitor. Calls the Time Manager
+    /// to handle paradoxes as they occur
 
-    // This script acts as a paradox monitor. Calls the Time Manager
-    // to handle paradoxes as they occur
+    /// The m_BlockingParadoxRange field sets how far the clone must be
+    /// from his target destination in order to assume that something is
+    /// blocking its path. There is a monitoring field in the CloneCharacterController
+    /// that can be checked at runtime to get an idea of what is a good value to put here.
+    /// If the clones seem to be triggering blocking paradoxes for no reason, than that's the
+    /// value that needs to be changed.
+    /// </summary>
 
-    // The m_BlockingParadoxRange field sets how far the clone must be
-    // from his target destination in order to assume that something is
-    // blocking its path. There is a monitoring field in the CloneCharacterController
-    // that can be checked at runtime to get an idea of what is a good value to put here.
-    // If the clones seem to be triggering blocking paradoxes for no reason, than that's the
-    // value that needs to be changed.
-
+    [HideInInspector]
     public GameObject timeManagerObject;
 
     public TimeManager manager { get; set; }
