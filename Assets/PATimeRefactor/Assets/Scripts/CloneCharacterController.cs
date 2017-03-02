@@ -1,0 +1,51 @@
+using System;
+using UnityEngine;
+
+
+[RequireComponent(typeof (UnityEngine.AI.NavMeshAgent))]
+[RequireComponent(typeof (Character))]
+public class CloneCharacterController : MonoBehaviour
+{
+    public UnityEngine.AI.NavMeshAgent m_Agent { get; private set; }
+    public Character m_Character { get; private set; }
+
+    public global::TimeManager.State m_Target { get; set; }
+
+    // Use this to tweak the value to trigger the blocking paradox
+    private float maxDistance;
+
+    private void Start()
+    {
+        m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        m_Character = GetComponent<Character>();
+
+	    m_Agent.updateRotation = true;
+	    m_Agent.updatePosition = true;
+
+        maxDistance = 0;
+    }
+
+    public void setTarget(global::TimeManager.State target)
+    {
+        m_Target = target;
+    }
+
+    private void LateUpdate()
+    {
+        if (m_Target != null)
+        {
+            m_Agent.SetDestination(m_Target.m_DogPosition);
+        }
+
+        if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
+            m_Character.Move(m_Agent.desiredVelocity, false);
+        else
+            m_Character.Move(Vector3.zero, false);
+
+        // Used for testing
+        if (m_Agent.remainingDistance > maxDistance) maxDistance = m_Agent.remainingDistance;
+    }
+
+
+}
+
