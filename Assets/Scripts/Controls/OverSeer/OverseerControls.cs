@@ -45,8 +45,22 @@ public class OverseerControls : MonoBehaviour
     {
         foreach (GameObject control in triggerContainer)
         {
-            OSControllable trigger = control.GetComponent(typeof(OSControllable)) as OSControllable;
-            trigger.TriggerAction();
+            // For single controllables...
+            if (control.gameObject.layer == LayerMask.NameToLayer("OSControllable"))
+            {
+                OSControllable trigger = control.GetComponent(typeof(OSControllable)) as OSControllable;
+                trigger.TriggerAction();
+            }
+            //... or for controllable gameObjects that have multiple nested controllable gameObjects as children
+            else if (control.gameObject.layer == LayerMask.NameToLayer("OSControllable Nested"))
+            {
+                OSControllable[] nestedTriggers = control.GetComponentsInChildren<OSControllable>();
+
+                foreach(OSControllable trigger in nestedTriggers)
+                {
+                    trigger.TriggerAction();
+                }
+            }
         }
     }
 }
