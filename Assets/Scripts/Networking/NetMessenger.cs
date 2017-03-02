@@ -12,7 +12,6 @@ public class NetMessenger : NetworkBehaviour
     public GameObject GreenDoor;
     public GameObject BlueDoor;
 
-
     private void Awake()
     {
         //Functions in this class MUST be invoked by the client and only the client
@@ -44,5 +43,23 @@ public class NetMessenger : NetworkBehaviour
         //GreenDoor.GetComponent<Animator>();
         else if (color == "Blue")
             BlueDoor.GetComponent<Animator>().SetTrigger("toggleObject");
+    }
+
+    [Command]
+    public void CmdStartTimer()
+    {
+        Debug.Log(gameObject.name);
+        var wat = GameObject.Find("host");
+        Debug.Log(wat.name);
+        Debug.Break();
+        if (wat == null)
+        {
+            Debug.Break();
+        }
+        var ri = wat.GetComponent<Timer>();
+        print(ri.name);
+        if (ri == null)
+            Debug.Break();
+        ri.StartTimer();
     }
 }
