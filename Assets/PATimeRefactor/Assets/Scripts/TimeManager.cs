@@ -221,7 +221,7 @@ public class TimeManager : MonoBehaviour
     private bool m_DisableParadoxes;
 
     private PlayerUserController m_UserController;
-    private AICharacterController m_PuppyController;
+    private PuppyCharacterController m_PuppyController;
     private bool m_Paradoxing;
     private int m_RevertTimeline;
     private int m_RevertIndex;
@@ -240,7 +240,7 @@ public class TimeManager : MonoBehaviour
         m_Frameticker = sampleRate;
         m_TimeStopped = false;
         m_UserController = m_Player.GetComponent<PlayerUserController>();
-        m_PuppyController = m_Puppy.GetComponent<AICharacterController>();
+        m_PuppyController = m_Puppy.GetComponent<PuppyCharacterController>();
         m_DisableParadoxes = false;
 
         m_Paradoxing = false;
