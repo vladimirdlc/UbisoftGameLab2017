@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4858338949452850}
   - component: {fileID: 33562989641879620}
   - component: {fileID: 23545392253009734}
-  m_Layer: 10
+  m_Layer: 21
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4094971283816024}
   - component: {fileID: 136116629899047188}
   - component: {fileID: 114614349883559164}
-  m_Layer: 10
+  m_Layer: 21
   m_Name: PressurePlate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,8 +51,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1649229833953150}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.367794, y: -35.24, z: 15.043371}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 1, z: 2}
   m_Children:
   - {fileID: 4858338949452850}
@@ -85,7 +85,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 6d5cae7598648574fa97b3d331407a30, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -118,12 +118,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1649229833953150}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 147352575b002024dbd4f340fc39edac, type: 3}
+  m_Script: {fileID: 11500000, guid: 1731d4eb5ab5db643aa6adfe9ccd22cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mesh: {fileID: 1036937098942168}
-  active: {fileID: 2100000, guid: 3756c7ca466ec3a4681fa05534341942, type: 2}
-  inactive: {fileID: 2100000, guid: 8e99a5ec37ac45441a88343e99837c54, type: 2}
+  active: {fileID: 2100000, guid: d126514c63e26c648b26342075574ffc, type: 2}
+  inactive: {fileID: 2100000, guid: 6d5cae7598648574fa97b3d331407a30, type: 2}
   target: {fileID: 0}
 --- !u!136 &136116629899047188
 CapsuleCollider:
@@ -135,6 +135,6 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 3.82
+  m_Height: 1.3
   m_Direction: 1
-  m_Center: {x: 0, y: 0.94, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
