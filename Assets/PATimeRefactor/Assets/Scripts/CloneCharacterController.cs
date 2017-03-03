@@ -56,10 +56,21 @@ public class CloneCharacterController : MonoBehaviour
             trail = GetComponentInChildren<TrailRenderer>();
         }
 
-        //trail.material.SetColor("_TintColor",colorCode);
         trail.material.color = colorCode;
         trail.startColor = colorCode;
         trail.endColor = colorCode;
+
+        MeshRenderer[] meshes = GetComponentsInChildren<MeshRenderer>();
+        foreach(MeshRenderer mesh in meshes)
+        {
+            mesh.material.color = colorCode;
+        }
+
+        SkinnedMeshRenderer[] skMeshes = GetComponentsInChildren<SkinnedMeshRenderer>();
+        foreach (SkinnedMeshRenderer mesh in skMeshes)
+        {
+            mesh.material.color = colorCode;
+        }
     }
 
 
