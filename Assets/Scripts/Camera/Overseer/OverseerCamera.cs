@@ -79,7 +79,15 @@ public class OverseerCamera : MonoBehaviour
                 pointer.localPosition = Vector3.zero;
                 OverseerTarget newTarget = flickPosition.target.GetComponent<OverseerTarget>();
                 OverseerTarget.currentPivot = newTarget.pivot;
-                cam.changeTarget(flickPosition.target.transform);
+                if (flickPosition.overrideSmoothTime > 0)
+                {
+                    cam.changeTarget(flickPosition.target.transform, flickPosition.overrideSmoothTime);
+                }
+                else
+                {
+                    cam.changeTarget(flickPosition.target.transform);
+                }
+
                 if (newTarget.positionOffset != Vector3.zero)
                 {
                     //cam.followOffset = new Vector3(newTarget.positionOffset.x, newTarget.positionOffset.y, newTarget.positionOffset.z);

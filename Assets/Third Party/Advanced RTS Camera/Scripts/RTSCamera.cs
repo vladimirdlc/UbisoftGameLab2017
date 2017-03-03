@@ -235,6 +235,12 @@ public class RTSCamera : MonoBehaviour
         followTarget = newTarget;
     }
 
+    public void changeTarget(Transform newTarget, float delay)
+    {
+        currentRotationDelay = delay;
+        followTarget = newTarget;
+    }
+
     void LateUpdate()
     {
         PerformRTSCamera();
@@ -360,14 +366,15 @@ public class RTSCamera : MonoBehaviour
             }
             else
             {
-                if (currentRotationDelay > -1)
+                if (currentRotationDelay > -1f)
                 {
                     _newRotation =
-                        Quaternion.Lerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), Time.deltaTime * 2);
+                        Quaternion.Lerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), Time.deltaTime * 4);
                 }
                 else
                 {
-                    _newRotation = Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up);
+                    _newRotation =
+                        Quaternion.Lerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), Time.deltaTime * 10);
                 }
             }
             _currentTilt = _newRotation.eulerAngles.x;

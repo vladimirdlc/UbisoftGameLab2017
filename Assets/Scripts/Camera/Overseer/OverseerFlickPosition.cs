@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class OverseerFlickPosition : MonoBehaviour {
     public OverseerTarget target;
+    public float overrideSmoothTime;
 }
