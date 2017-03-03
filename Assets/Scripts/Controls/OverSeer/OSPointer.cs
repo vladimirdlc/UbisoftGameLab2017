@@ -11,7 +11,7 @@ public class OSPointer : MonoBehaviour
     public bool autoHidePointer;
 
     [Tooltip("This will be added to the starting position of the arrow")]
-    public float pointerInstantiateHeightOffset;            
+    public Vector3 pointerInstantiateOffset;            
 
     public GameObject beaconContainerPrefab;
     public GameObject beaconPrefab;
@@ -34,7 +34,7 @@ public class OSPointer : MonoBehaviour
 
     public void updateTarget()
     {
-        pointer.transform.position = cam.followTarget.transform.position;
+        pointer.transform.position = cam.followTarget.transform.position + pointerInstantiateOffset;
     }
 
     // Update is called once per frame
@@ -53,7 +53,7 @@ public class OSPointer : MonoBehaviour
         }
 
         var lookPos = cam.transform.position - pointer.position;
-        lookPos.y = pointerInstantiateHeightOffset;
+        lookPos.y = 0;
         var rotation = Quaternion.LookRotation(lookPos);
         pointer.rotation = rotation;
 
@@ -69,7 +69,7 @@ public class OSPointer : MonoBehaviour
 
         if (teleportPointer)
         {
-            pointer.position = new Vector3(cam.followTarget.position.x, cam.followTarget.position.y + pointerInstantiateHeightOffset, cam.followTarget.position.z);
+            pointer.position = cam.followTarget.position + pointerInstantiateOffset;
             teleportPointer = false;
         }
 
@@ -84,7 +84,7 @@ public class OSPointer : MonoBehaviour
         pointer.position += new Vector3(forwardScaled.x, 0, forwardScaled.z) * Time.fixedDeltaTime * speed;
         Vector3 rigthScaled = cam.transform.right * Input.GetAxis(horizontalAxis);
         pointer.position += new Vector3(rigthScaled.x, 0, rigthScaled.z) * Time.fixedDeltaTime * speed;
-        pointer.position = new Vector3(pointer.position.x, overseerCam.target.transform.position.y, pointer.position.z);
+        pointer.position = new Vector3(pointer.position.x, overseerCam.target.transform.position.y, pointer.position.z) + pointerInstantiateOffset;
     }
 
     void SpawnBeacon()
