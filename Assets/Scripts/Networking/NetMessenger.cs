@@ -48,18 +48,6 @@ public class NetMessenger : NetworkBehaviour
     [Command]
     public void CmdStartTimer()
     {
-        Debug.Log(gameObject.name);
-        var wat = GameObject.Find("host");
-        Debug.Log(wat.name);
-        Debug.Break();
-        if (wat == null)
-        {
-            Debug.Break();
-        }
-        var ri = wat.GetComponent<Timer>();
-        print(ri.name);
-        if (ri == null)
-            Debug.Break();
-        ri.StartTimer();
+        GameObject.FindGameObjectWithTag("PlayerGround").GetComponent<Timer>().StartTimer();
     }
 }

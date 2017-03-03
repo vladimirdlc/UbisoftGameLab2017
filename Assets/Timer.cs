@@ -9,9 +9,11 @@ public class Timer : NetworkingCharacterAttachment
 
     public void StartTimer()
     {
+        timer = GameObject.FindGameObjectWithTag("Timer").GetComponent<Text>();
+
         go = true;
         spawnTime = Time.time;
-        timer = GameObject.Find("Timer").GetComponent<Text>();
+        timer.color = Color.gray;
         if (clientsHost)
             NetMessenger.Instance.CmdStartTimer();
     }
