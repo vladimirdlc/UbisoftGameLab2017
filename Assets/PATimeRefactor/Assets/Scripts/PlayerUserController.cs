@@ -25,7 +25,7 @@ public class PlayerUserController : MonoBehaviour
         // read inputs
         float h = CrossPlatformInputManager.GetAxis("Horizontal");
         float v = CrossPlatformInputManager.GetAxis("Vertical");
-        bool crouch = Input.GetKey(KeyCode.Joystick1Button0);
+        bool crouch = Input.GetButton("Ground Stop Time");
 
         m_Move = v * Vector3.forward + h * Vector3.right;
         if (crouch)
