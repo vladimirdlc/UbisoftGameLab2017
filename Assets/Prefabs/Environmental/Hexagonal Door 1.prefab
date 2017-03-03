@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 4123383254260510}
   - component: {fileID: 33212033336437540}
   - component: {fileID: 23087881199214296}
-  m_Layer: 0
+  - component: {fileID: 114192101481186648}
+  m_Layer: 18
   m_Name: Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +105,8 @@ GameObject:
   - component: {fileID: 4675147579913024}
   - component: {fileID: 33283773851516022}
   - component: {fileID: 23089386349043006}
-  m_Layer: 0
+  - component: {fileID: 114570621468401150}
+  m_Layer: 18
   m_Name: Right Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +157,8 @@ GameObject:
   - component: {fileID: 4065740236919786}
   - component: {fileID: 33444025768288934}
   - component: {fileID: 23973588610460260}
-  m_Layer: 0
+  - component: {fileID: 114357938277917212}
+  m_Layer: 18
   m_Name: Left Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +303,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: c85da6db4f5c15b4db16ff766a02a954, type: 2}
+  - {fileID: 2100000, guid: 66443556d664e014894c68cda9295d67, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -331,7 +334,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: a057876b2689fd34d8e2f724f10f6158, type: 2}
+  - {fileID: 2100000, guid: 66443556d664e014894c68cda9295d67, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -362,7 +365,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: a057876b2689fd34d8e2f724f10f6158, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -393,7 +396,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: a057876b2689fd34d8e2f724f10f6158, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -455,7 +458,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: a057876b2689fd34d8e2f724f10f6158, type: 2}
+  - {fileID: 2100000, guid: 66443556d664e014894c68cda9295d67, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -560,12 +563,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72fee860603c4b6448a0d249e6ab82c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hackDoors: 0
   meshes: {fileID: 0}
   isTimed: 0
   pressurePlates: []
   timer: 0
   openByDefault: 0
   animOpenCloseDoorSpeed: 5
+--- !u!114 &114192101481186648
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1170798407260510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ec0fb3ff2a5454e8863609a58514d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlowColor: {r: 0.26689532, g: 0.7205882, b: 0.20663925, a: 0}
+  LerpFactor: 10
 --- !u!114 &114220739907743628
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -577,9 +594,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72fee860603c4b6448a0d249e6ab82c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hackDoors: 0
   meshes: {fileID: 0}
   isTimed: 0
   pressurePlates: []
   timer: 0
   openByDefault: 0
   animOpenCloseDoorSpeed: 5
+--- !u!114 &114357938277917212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1809509380326436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ec0fb3ff2a5454e8863609a58514d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlowColor: {r: 0.26689532, g: 0.7205882, b: 0.20663925, a: 0}
+  LerpFactor: 10
+--- !u!114 &114570621468401150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699576981483598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ec0fb3ff2a5454e8863609a58514d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlowColor: {r: 0.26689532, g: 0.7205882, b: 0.20663925, a: 0}
+  LerpFactor: 10
