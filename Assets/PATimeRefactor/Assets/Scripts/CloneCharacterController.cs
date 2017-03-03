@@ -11,6 +11,8 @@ public class CloneCharacterController : MonoBehaviour
 
     public global::TimeManager.State m_Target { get; set; }
 
+    private TrailRenderer trail;
+
     // Use this to tweak the value to trigger the blocking paradox
     private float maxDistance;
 
@@ -18,6 +20,7 @@ public class CloneCharacterController : MonoBehaviour
     {
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         m_Character = GetComponent<Character>();
+        trail = GetComponentInChildren<TrailRenderer>();
 
 	    m_Agent.updateRotation = true;
 	    m_Agent.updatePosition = true;
@@ -44,6 +47,19 @@ public class CloneCharacterController : MonoBehaviour
 
         // Used for testing
         if (m_Agent.remainingDistance > maxDistance) maxDistance = m_Agent.remainingDistance;
+    }
+
+    public void ColorCode(Color colorCode)
+    {
+        if(trail == null)
+        {
+            trail = GetComponentInChildren<TrailRenderer>();
+        }
+
+        //trail.material.SetColor("_TintColor",colorCode);
+        trail.material.color = colorCode;
+        trail.startColor = colorCode;
+        trail.endColor = colorCode;
     }
 
 

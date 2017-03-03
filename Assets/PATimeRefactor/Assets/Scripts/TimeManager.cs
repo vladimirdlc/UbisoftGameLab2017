@@ -19,6 +19,9 @@ public class TimeManager : MonoBehaviour
     public string doorLayer;
     public string aiLayer;
 
+    public Color[] cloneColorCodes;             // Currently being applied to the trails at runtime
+    private int cloneColorCodesIndex = 0;       // NOTE FOR PIERRE: maybe this index is uncessesary/dirty depending on how you keep track of clones, let me know
+
     public int sampleRate;
 
     public GameObject m_Player;
@@ -72,6 +75,7 @@ public class TimeManager : MonoBehaviour
         GameObject m_WarpOutPrefab;
         TimeManager m_TimeManager;
         List<State> m_MasterArrayRef;
+        Color m_colorCode;
 
         // This is set at runtime whenever clones pop in or out of a timeline
         GameObject m_CloneInstance;
@@ -81,7 +85,7 @@ public class TimeManager : MonoBehaviour
         CloneCharacterController m_CloneController;
         Transform m_CloneTransform;
 
-        public Timeline(int start, GameObject clonePrefab, int id, List<State> masterArray, TimeManager timeManager, GameObject warpIn = null, GameObject warpOut = null)
+        public Timeline(int start, GameObject clonePrefab, int id, List<State> masterArray, TimeManager timeManager, Color colorCode, GameObject warpIn = null, GameObject warpOut = null)
         {
             m_Start = start;
             m_End = -1;
@@ -92,6 +96,7 @@ public class TimeManager : MonoBehaviour
             m_TimeManager = timeManager;
             m_WarpInPrefab = warpIn;
             m_WarpOutPrefab = warpOut;
+            m_colorCode = colorCode;
         }
 
         // Mini helper methods for creating and cleaning up instances
@@ -109,6 +114,8 @@ public class TimeManager : MonoBehaviour
             m_CloneController = m_CloneInstance.GetComponent<CloneCharacterController>();
             m_CloneTransform = m_CloneInstance.GetComponent<Transform>();
 
+            // Texture the trail
+            m_CloneController.ColorCode(m_colorCode);
 
             if (rewinding)
             {
@@ -236,7 +243,7 @@ public class TimeManager : MonoBehaviour
         m_MasterPointer = 0;
         m_PuppyPointer = 0;
         m_ActiveTimeline = 0;
-        m_Timelines.Add(new Timeline(0, m_ClonePrefab, 0, m_MasterArray, this));
+        m_Timelines.Add(new Timeline(0, m_ClonePrefab, 0, m_MasterArray, this, GetNextColorCode()));
         m_Frameticker = sampleRate;
         m_TimeStopped = false;
         m_UserController = m_Player.GetComponent<PlayerUserController>();
@@ -479,7 +486,7 @@ public class TimeManager : MonoBehaviour
             }
             m_Timelines[m_ActiveTimeline].close(m_MasterPointer);
             m_ActiveTimeline++;
-            m_Timelines.Add(new Timeline(m_MasterPointer, m_ClonePrefab, m_ActiveTimeline, m_MasterArray, this));
+            m_Timelines.Add(new Timeline(m_MasterPointer, m_ClonePrefab, m_ActiveTimeline, m_MasterArray, this,GetNextColorCode(true)));
         }
         #endregion
 
@@ -604,5 +611,15 @@ public class TimeManager : MonoBehaviour
 
         // Block the user controller
         m_UserController.m_Paradoxing = true;
+    }
+
+    private Color GetNextColorCode(bool increment = false)
+    {
+        if (increment)
+            cloneColorCodesIndex++;
+
+        cloneColorCodesIndex = cloneColorCodesIndex % cloneColorCodes.Length;
+
+        return cloneColorCodes[cloneColorCodesIndex];
     }
 }
