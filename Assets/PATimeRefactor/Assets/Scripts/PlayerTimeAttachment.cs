@@ -25,11 +25,11 @@ public class PlayerTimeAttachment : MonoBehaviour {
 
         // Prevent the dog from stopping time if there is a puppy with him
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button0) && !m_HasPuppy)
+        if (Input.GetButtonDown("Ground Stop Time") && !m_HasPuppy)
         {
             m_Manager.timeStopToggle();
         }
-        if (Input.GetKeyUp(KeyCode.Joystick1Button0) && !m_HasPuppy)
+        if (Input.GetButtonUp("Ground Stop Time") && !m_HasPuppy)
         {
             m_Manager.timeStopToggle();
         }
