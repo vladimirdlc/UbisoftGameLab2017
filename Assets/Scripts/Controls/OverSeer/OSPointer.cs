@@ -10,6 +10,9 @@ public class OSPointer : MonoBehaviour
 
     public bool autoHidePointer;
 
+    [Tooltip("This will be added to the starting position of the arrow")]
+    public float pointerInstantiateHeightOffset;            
+
     public GameObject beaconContainerPrefab;
     public GameObject beaconPrefab;
     private Transform pointer;
@@ -50,7 +53,7 @@ public class OSPointer : MonoBehaviour
         }
 
         var lookPos = cam.transform.position - pointer.position;
-        lookPos.y = 0;
+        lookPos.y = pointerInstantiateHeightOffset;
         var rotation = Quaternion.LookRotation(lookPos);
         pointer.rotation = rotation;
 
@@ -66,7 +69,7 @@ public class OSPointer : MonoBehaviour
 
         if (teleportPointer)
         {
-            pointer.position = new Vector3(cam.followTarget.position.x, pointer.position.y, cam.followTarget.position.z);
+            pointer.position = new Vector3(cam.followTarget.position.x, cam.followTarget.position.y + pointerInstantiateHeightOffset, cam.followTarget.position.z);
             teleportPointer = false;
         }
 
