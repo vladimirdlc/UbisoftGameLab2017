@@ -168,7 +168,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 536910355}
-        m_MethodName: PlayGameHost
+        m_MethodName: PlayGameClient
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 536910354}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2050055a65fa48743be074485e8fc874, type: 3}
+  m_Script: {fileID: 11500000, guid: fec0205d44d524543b5f77324936f2de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &967574951
@@ -511,7 +511,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Begin Paradox
+  m_Text: OVERSEER
 --- !u!222 &967574954
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -794,7 +794,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1527025279}
   m_Layer: 5
-  m_Name: HostGame
+  m_Name: ClientGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

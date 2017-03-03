@@ -13,7 +13,7 @@ public class Timer : NetworkingCharacterAttachment
 
         go = true;
         spawnTime = Time.time;
-        timer.color = Color.gray;
+        timer.color = Color.white;
         if (clientsHost)
             NetMessenger.Instance.CmdStartTimer();
     }
