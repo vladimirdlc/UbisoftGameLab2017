@@ -62,8 +62,6 @@ Shader "Standard (Two Sided)"
 			Name "FORWARD" 
 			Tags { "LightMode" = "ForwardBase" }
 
-			Cull Off
-
 			Blend [_SrcBlend] [_DstBlend]
 			ZWrite [_ZWrite]
 
