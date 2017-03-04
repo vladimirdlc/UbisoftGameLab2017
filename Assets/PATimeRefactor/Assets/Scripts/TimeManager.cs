@@ -613,6 +613,7 @@ public class TimeManager : MonoBehaviour
         m_UserController.m_Paradoxing = true;
     }
 
+    // This was a quick and dirty fix, take a closer look at this
     private Color GetNextColorCode(bool increment = false)
     {
         if (increment)
