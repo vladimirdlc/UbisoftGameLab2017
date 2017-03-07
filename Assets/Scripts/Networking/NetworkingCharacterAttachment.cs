@@ -64,7 +64,22 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         //we keep client active so we can send messages to client host
         if (client)
         {
-            gameObject.SetActive(false);
+            var allComponents = GetComponents<Behaviour>();
+            foreach (var c in allComponents)
+            {
+                var componentType = c.GetType();
+                if (componentType != typeof(OpusNetworked) && componentType != typeof(AudioSource))
+                    c.enabled = false;
+                //gameObject.SetActive(false);
+
+            }
+
+            allComponents = transform.GetChild(0).GetComponents<Behaviour>();
+            foreach (var c in allComponents)
+            {
+                c.enabled = false;
+            }
+
             gameObject.name = "client";
             //transform.GetChild(0).GetComponent<Camera>().enabled = false;
             //GetComponent<TrackRenderer>().enabled = true;
