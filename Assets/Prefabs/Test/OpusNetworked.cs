@@ -9,7 +9,8 @@ using System;
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(NetworkIdentity))]
-public class OpusNetworked : NetworkBehaviour {
+public class OpusNetworked : NetworkBehaviour
+{
     // device id of the microphone used to record sound
     public int micDeviceId = 0;
 
@@ -41,31 +42,36 @@ public class OpusNetworked : NetworkBehaviour {
     [SyncVar]
     public bool playLocally = false;
 
-    public override void OnStartLocalPlayer() {
-        Debug.Log("OpusNetworked.OnStartLocalPlayer: " + System.Environment.MachineName);
+    public override void OnStartLocalPlayer()
+    {
+        //Debug.Log("OpusNetworked.OnStartLocalPlayer: " + System.Environment.MachineName);
         base.OnStartLocalPlayer();
 
         string value = System.Environment.MachineName; // + " - " + (Time.frameCount / 30).ToString();
-        Debug.Log("Update: " + System.Environment.MachineName + " send: " + value);
+        //Debug.Log("Update: " + System.Environment.MachineName + " send: " + value);
     }
 
     [ClientCallback]
-    void Update () {
+    void Update()
+    {
         // update if we send audio recording
-        recording = Input.GetKey(KeyCode.R);
+        recording = true;
+        //recording = Input.GetKey(KeyCode.R);
         SendData();
     }
-    
+
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         micBuffer = new List<float>();
-        if (isLocalPlayer) {
+        if (isLocalPlayer)
+        {
 
             //data = new float[samples];
             encoder = new OpusEncoder(opusSamplingRate, opusChannels);
             encoder.EncoderDelay = POpusCodec.Enums.Delay.Delay20ms;
-            Debug.Log("Opustest.Start: framesize: " + encoder.FrameSizePerChannel + " " + encoder.InputChannels);
+            //Debug.Log("Opustest.Start: framesize: " + encoder.FrameSizePerChannel + " " + encoder.InputChannels);
 
             // the encoder delay has some influence on the amout of data we need to send, but it's not a multiplication of it
             packageSize = encoder.FrameSizePerChannel * (int)opusChannels;
@@ -82,7 +88,7 @@ public class OpusNetworked : NetworkBehaviour {
             //encoder.UseUnconstrainedVBR = true;
 
             // setup a microphone audio recording
-            Debug.Log("Opustest.Start: setup mic with " + Microphone.devices[micDeviceId] + " " + AudioSettings.outputSampleRate);
+            //Debug.Log("Opustest.Start: setup mic with " + Microphone.devices[micDeviceId] + " " + AudioSettings.outputSampleRate);
             audiorecorder = GetComponent<AudioSource>();
             audiorecorder.loop = true;
             audiorecorder.clip = Microphone.Start(
@@ -107,66 +113,78 @@ public class OpusNetworked : NetworkBehaviour {
 
     [ClientCallback]
     // this handles the microphone data, it sends the data and deletes any further audio output
-    void OnAudioFilterRead(float[] data, int channels) {
-        if (recording) {
+    void OnAudioFilterRead(float[] data, int channels)
+    {
+        if (recording)
+        {
             // add mic data to buffer
             micBuffer.AddRange(data);
-            Debug.Log("OpusNetworked.OnAudioFilterRead: " + data.Length);
+            //Debug.Log("OpusNetworked.OnAudioFilterRead: " + data.Length);
         }
 
         // clear array so we dont output any sound
-        for (int i = 0; i < data.Length; i++) {
+        for (int i = 0; i < data.Length; i++)
+        {
             data[i] = 0;
         }
     }
 
     [ClientCallback]
-    void SendData () {
-        if (isLocalPlayer) {
+    void SendData()
+    {
+        if (isLocalPlayer)
+        {
             // take pieces of buffer and send data
-            while (micBuffer.Count > packageSize) {
-                byte[] encodedData = encoder.Encode (micBuffer.GetRange (0, packageSize).ToArray ());
-                Debug.Log ("OpusNetworked.SendData: " + encodedData.Length);
-                CmdDistributeData (encodedData);
-                micBuffer.RemoveRange (0, packageSize);
+            while (micBuffer.Count > packageSize)
+            {
+                byte[] encodedData = encoder.Encode(micBuffer.GetRange(0, packageSize).ToArray());
+                //Debug.Log("OpusNetworked.SendData: " + encodedData.Length);
+                CmdDistributeData(encodedData);
+                micBuffer.RemoveRange(0, packageSize);
             }
         }
     }
 
     [Command]
-    void CmdDistributeData(byte[] encodedData) {
-        Debug.Log("OpusNetworked.CmdDistributeData: " + encodedData.Length);
+    void CmdDistributeData(byte[] encodedData)
+    {
+        //Debug.Log("OpusNetworked.CmdDistributeData: " + encodedData.Length);
         RpcReceiveData(encodedData);
     }
 
     [ClientRpc]
-    void RpcReceiveData(byte[] encodedData) {
-        if (isLocalPlayer && !playLocally) {
-            Debug.Log("OpusNetworked.RpcReceiveData: discard! " + encodedData.Length);
+    void RpcReceiveData(byte[] encodedData)
+    {
+        if (isLocalPlayer && !playLocally)
+        {
+            //Debug.Log("OpusNetworked.RpcReceiveData: discard! " + encodedData.Length);
             return;
         }
 
-        Debug.Log("OpusNetworked.RpcReceiveData: add to buffer " + encodedData.Length);
+        //Debug.Log("OpusNetworked.RpcReceiveData: add to buffer " + encodedData.Length);
         // the data would need to be sent over the network, we just decode it now to test the result
         receiveBuffer.AddRange(decoder.DecodePacketFloat(encodedData));
     }
 
     // this is used by the second audio source, to read data from playData and play it back
     // OnAudioRead requires the AudioSource to be on the same GameObject as this script
-    void OnAudioRead(float[] data) {
-        Debug.LogWarning("Opustest.OnAudioRead: " + data.Length);
+    void OnAudioRead(float[] data)
+    {
+        //Debug.LogWarning("Opustest.OnAudioRead: " + data.Length);
 
         int pullSize = Mathf.Min(data.Length, receiveBuffer.Count);
         float[] dataBuf = receiveBuffer.GetRange(0, pullSize).ToArray();
-        dataBuf.CopyTo(data,0);
+        dataBuf.CopyTo(data, 0);
         receiveBuffer.RemoveRange(0, pullSize);
 
         // clear rest of data
-        for (int i=pullSize; i<data.Length; i++) {
+        for (int i = pullSize; i < data.Length; i++)
+        {
             data[i] = 0;
         }
     }
-    void OnAudioSetPosition(int newPosition) {
+    void OnAudioSetPosition(int newPosition)
+    {
         // we dont need the audio position at the moment
     }
 }
