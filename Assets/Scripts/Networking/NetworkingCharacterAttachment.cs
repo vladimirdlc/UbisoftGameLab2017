@@ -71,7 +71,6 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
                 if (componentType != typeof(OpusNetworked) && componentType != typeof(AudioSource))
                     c.enabled = false;
                 //gameObject.SetActive(false);
-
             }
 
             allComponents = transform.GetChild(0).GetComponents<Behaviour>();
