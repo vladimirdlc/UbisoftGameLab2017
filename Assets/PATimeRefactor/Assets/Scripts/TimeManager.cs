@@ -437,6 +437,7 @@ public class TimeManager : MonoBehaviour
             }
 
             m_PuppyController.resumeAI();
+            m_Player.GetComponent<PlayerUserController>().ToggleMovement(true);
 
             bool bangThePuppy = true;
             // If the time stop did not result in a rewind, clean-up
@@ -477,7 +478,6 @@ public class TimeManager : MonoBehaviour
         #region TurnTimeStopOn
         else
         {
-
             // Disable paradoxes
             m_DisableParadoxes = true;
 
@@ -492,6 +492,7 @@ public class TimeManager : MonoBehaviour
             }
 
             m_PuppyController.haltAI();
+            m_Player.GetComponent<PlayerUserController>().ToggleMovement(false);
 
             // Freeze time and close the current timeline
             // Need also the move the pointers one notch back (for reasons)

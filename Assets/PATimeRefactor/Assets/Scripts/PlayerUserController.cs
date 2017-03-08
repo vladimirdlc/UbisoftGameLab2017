@@ -5,6 +5,8 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerUserController : MonoBehaviour
 {
+    private bool m_disableMovement = false;
+
     private Character m_Character;          // A reference to the ThirdPersonCharacter on the object
     public Transform m_Cam;                  // A reference to the main camera in the scenes transform
     private Vector3 m_CamForward;             // The current forward direction of the camera
@@ -56,8 +58,28 @@ public class PlayerUserController : MonoBehaviour
 #endif
 
         //pass all parameters to the character control script
+        if (!m_disableMovement)
+            m_Character.Move(m_Move, crouch);
+        else
+            // We still pass the crouch if the player isn't moving
+            m_Character.Move(new Vector3(0, 0, 0), crouch);
+    }
 
-        m_Character.Move(m_Move, crouch);
+    /// <summary>
+    /// Turn movement for this character on or off
+    /// </summary>
+    public void ToggleMovement()
+    {
+        m_disableMovement = !m_disableMovement;
+    }
+
+    /// <summary>
+    /// Overload where you can specify the state of the movement flag
+    /// </summary>
+    /// <param name="flag">True for on, flase for off</param>
+    public void ToggleMovement(bool flag)
+    {
+        m_disableMovement = !flag;
     }
 }
 
