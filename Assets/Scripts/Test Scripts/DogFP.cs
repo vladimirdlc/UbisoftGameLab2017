@@ -10,7 +10,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof(AudioSource))]
 
 #if NETWORKING
-    public class OGFirstPersonController : NetworkingCharacterAttachment
+    public class DogFP : NetworkingCharacterAttachment
 #else
     public class DogFP : MonoBehaviour
 #endif
@@ -75,7 +75,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         #region Animator Variables
         public float walkAnimSpeed;
         #endregion
-
 
         // Use this for initialization
 #if NETWORKING
@@ -314,9 +313,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // Walk
             if (m_PreviouslyGrounded)
             {
-                Vector3 tempVector = m_MoveDir;
+                m_anim.SetFloat("walkingSpeedMultiplier", walkAnimSpeed);
+                Vector3 tempVector = m_CharacterController.velocity;
                 tempVector.y = 0;
-                m_anim.SetFloat("walkingSpeed", m_MoveDir.magnitude);
+                m_anim.SetFloat("walkingSpeed", tempVector.magnitude);
             }
         }
     }
