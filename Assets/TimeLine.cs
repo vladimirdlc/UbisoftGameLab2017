@@ -14,9 +14,11 @@ public class TimeLine : MonoBehaviour
     private float midpoint;
     private List<Text> secondsOnScreen;
     private int latestSecond;
+    private float startTime;
 
     void Start()
     {
+        startTime = Time.time;
         latestSecond = intervalCount;
         midpoint = Screen.width / 2;
         secondsOnScreen = new List<Text>();
@@ -32,23 +34,48 @@ public class TimeLine : MonoBehaviour
             secondsOnScreen.Add(temp);
         }
     }
+
+    private int direction = 1;
     void Update()
     {
+        if (Input.GetKey(KeyCode.L))
+        {
+            direction = -direction;
+        }
+
         if (transform.anchoredPosition.x < midpoint)
-            transform.anchoredPosition += Vector2.right * Time.deltaTime * 500;
+        {
+            //transform.anchoredPosition = Vector2.right * direction * widthBetweenSeconds * (Time.time - startTime);
+            transform.anchoredPosition += Vector2.right * direction * widthBetweenSeconds * Time.deltaTime;
+            if (transform.anchoredPosition.x < 0)
+                transform.anchoredPosition = Vector2.zero;
+        }
         else
         {
             foreach (var second in secondsOnScreen)
             {
-                second.rectTransform.anchoredPosition += Vector2.left * 0.5f;
+                second.rectTransform.anchoredPosition += Vector2.left * direction * widthBetweenSeconds * Time.deltaTime;
                 var charOrigin = second.rectTransform.anchoredPosition.x;
                 //In pixels
+                //fix this for more the one character!!
                 var charWidth = second.font.characterInfo[0].advance;
+                //var charWidth = second.font.cha
 
-                if (charOrigin + charWidth + widthBetweenSeconds < 0)
+                if (direction == 1)
                 {
-                    second.rectTransform.anchoredPosition = Vector2.right * Screen.width;
-                    second.text = (latestSecond++ + 1).ToString();
+                    if (charOrigin + charWidth + widthBetweenSeconds < 0)
+                    {
+                        second.rectTransform.anchoredPosition = Vector2.right * Screen.width;
+                        second.text = (latestSecond++ + 1).ToString();
+                    }
+                }
+                else if (direction == -1)
+                {
+                    if (charOrigin - widthBetweenSeconds > Screen.width)
+                    {
+                        second.rectTransform.anchoredPosition = Vector2.left * charWidth;
+                        second.text = (--latestSecond).ToString();
+                    }
                 }
             }
         }
