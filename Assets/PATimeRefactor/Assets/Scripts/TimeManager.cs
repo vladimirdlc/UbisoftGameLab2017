@@ -19,6 +19,9 @@ public class TimeManager : MonoBehaviour
     public string doorLayer;
     public string aiLayer;
 
+    public bool m_EnableRewindToZero;
+    private bool m_AutoRewinding;
+
     public Color[] cloneColorCodes;             // Currently being applied to the trails at runtime
     private int cloneColorCodesIndex = 0;       // NOTE FOR PIERRE: maybe this index is uncessesary/dirty depending on how you keep track of clones, let me know
 
@@ -284,6 +287,18 @@ public class TimeManager : MonoBehaviour
         {
             m_Text.text = (m_Timelines[0].m_TimelineIndex).ToString();
         }
+
+        if (m_AutoRewinding)
+        {
+            if (m_Timelines[0].m_TimelineIndex == 0)
+            {
+                m_AutoRewinding = false;
+            }
+            else
+            {
+                masterScrub(-1);
+            }
+        }
         #region ParadoxForcedRewind
         // When doing the paradox/reverting from the paradox, everything gets bypassed and this happens
         if (m_Paradoxing && !m_Reverting)
@@ -453,6 +468,9 @@ public class TimeManager : MonoBehaviour
 
             // Unfreeze time
             m_TimeStopped = false;
+
+            if (m_EnableRewindToZero)
+                m_AutoRewinding = false;
         }
         #endregion
 
@@ -487,10 +505,15 @@ public class TimeManager : MonoBehaviour
             m_Timelines[m_ActiveTimeline].close(m_MasterPointer);
             m_ActiveTimeline++;
             m_Timelines.Add(new Timeline(m_MasterPointer, m_ClonePrefab, m_ActiveTimeline, m_MasterArray, this,GetNextColorCode(true)));
+
+            if (m_EnableRewindToZero)
+                m_AutoRewinding = true;
         }
         #endregion
 
     }
+
+    private void autoRewind() { }
 
     public void masterScrub(int amount, int flipOffset = 0)
     {

@@ -25,6 +25,8 @@ public class CloneTimeAttachment : MonoBehaviour
 
     public float m_BlockingParadoxRange;
 
+    public bool m_EnablePuppyParadox;
+
     public UnityEngine.AI.NavMeshAgent m_Agent { get; private set; }
 
     private Transform m_Transform;
@@ -49,7 +51,7 @@ public class CloneTimeAttachment : MonoBehaviour
     // Proximity Paradox
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" || other.tag == "Puppy")
+        if (other.tag == "Player" || (m_EnablePuppyParadox && other.tag == "Puppy") )
         {
             manager.handleParadox(timelineID);
         }
