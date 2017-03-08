@@ -36,6 +36,7 @@ public class TimeLine : MonoBehaviour
     }
 
     private int direction = 1;
+    private int temp;
     void Update()
     {
         if (Input.GetKey(KeyCode.L))
@@ -65,6 +66,7 @@ public class TimeLine : MonoBehaviour
                 {
                     if (charOrigin + charWidth + widthBetweenSeconds < 0)
                     {
+                        temp = int.Parse(second.text);
                         second.rectTransform.anchoredPosition = Vector2.right * Screen.width;
                         second.text = (latestSecond++ + 1).ToString();
                     }
@@ -73,8 +75,9 @@ public class TimeLine : MonoBehaviour
                 {
                     if (charOrigin - widthBetweenSeconds > Screen.width)
                     {
+                        latestSecond = int.Parse(second.text) - 1;
                         second.rectTransform.anchoredPosition = Vector2.left * charWidth;
-                        second.text = (--latestSecond).ToString();
+                        second.text = (temp--).ToString();
                     }
                 }
             }
