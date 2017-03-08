@@ -267,8 +267,8 @@ GameObject:
   - component: {fileID: 101545227}
   - component: {fileID: 101545226}
   m_Layer: 5
-  m_Name: Canvas
-  m_TagString: Untagged
+  m_Name: TimeLineCanvas
+  m_TagString: TimeLine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -321,7 +321,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -2069,7 +2069,7 @@ RectTransform:
   m_GameObject: {fileID: 1394316279}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.01, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 101545229}
   m_RootOrder: 1
@@ -2188,6 +2188,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28fcd00396933e34eb26fae1a10d7537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  widthBetweenSeconds: 0
+  intervalCount: 10
+  second: {fileID: 114279112253591520, guid: 7284403d211a3434893312cc6661383a, type: 2}
 --- !u!114 &1394316283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2200,7 +2203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
