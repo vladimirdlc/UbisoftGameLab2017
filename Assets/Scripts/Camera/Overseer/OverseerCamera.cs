@@ -88,20 +88,6 @@ public class OverseerCamera : MonoBehaviour
                     cam.changeTarget(flickPosition.target.transform);
                 }
 
-                if (newTarget.positionOffset != Vector3.zero)
-                {
-                    //cam.followOffset = new Vector3(newTarget.positionOffset.x, newTarget.positionOffset.y, newTarget.positionOffset.z);
-                    /*if (transform.rotation.y > 0.4f && transform.rotation.y < 0.87f && directionx < 0) //totally opositte
-                        cam.followOffset = new Vector3(-newTarget.positionOffset.x, newTarget.positionOffset.y, -newTarget.positionOffset.z);
-                    else if (transform.rotation.y > 0.82f && directionx > 0) //totally opositte
-                        cam.followOffset = new Vector3(-newTarget.positionOffset.x, newTarget.positionOffset.y, -newTarget.positionOffset.z);
-                    else if (transform.rotation.y > 0.82f && directionx > 0) 
-                        cam.followOffset = new Vector3(-newTarget.positionOffset.x, newTarget.positionOffset.y, -newTarget.positionOffset.z);
-                    //else if (transform.rotation.y > 0.5f && transform.rotation.y < 0.75f && directionx < 0) 
-                    //    cam.followOffset = new Vector3(newTarget.positionOffset.x, newTarget.positionOffset.y, newTarget.positionOffset.z);
-                    else
-                    cam.followOffset = newTarget.positionOffset;*/
-                }
                 target = flickPosition.target;
                 GetComponent<OSPointer>().updateTarget();
                 OverseerTarget.currentPivot.localPosition = Vector3.zero;
