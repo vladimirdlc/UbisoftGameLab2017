@@ -501,6 +501,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93785de1e81bb1841b75ea5648f6751d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DisableOnClientsHost: []
+  clientsHost: 0
+  hostsClient: 0
+  client: 0
+  host: 0
   recordedTransform: {fileID: 4636740846740818}
 --- !u!114 &114170376441911360
 MonoBehaviour:
@@ -545,6 +550,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2205f800aca91684ca02dde69aaddcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DisableOnClientsHost: []
+  clientsHost: 0
+  hostsClient: 0
+  client: 0
+  host: 0
   m_IsWalking: 0
   m_WalkSpeed: 50
   m_RunSpeed: 100
@@ -631,7 +641,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1395371510902202}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85565c9f1c016204eb6c3568ed7b8864, type: 3}
   m_Name: 
