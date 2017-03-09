@@ -30,7 +30,7 @@ public class TimeLine : MonoBehaviour
             var temp = Instantiate(second);
             temp.transform.parent = timeLine.transform;
             temp.text = i.ToString();
-            temp.rectTransform.anchoredPosition = new Vector2(i * widthBetweenSeconds, 0);
+            temp.rectTransform.anchoredPosition = new Vector2(i * widthBetweenSeconds, -5);
             secondsOnScreen.Add(temp);
         }
     }
