@@ -10,9 +10,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof(AudioSource))]
 
 #if NETWORKING
-    public class DogFPS : NetworkingCharacterAttachment
+    public class DogFP : NetworkingCharacterAttachment
 #else
-    public class DogFPS : MonoBehaviour
+    public class DogFP : MonoBehaviour
 #endif
     {
         [SerializeField]
@@ -63,7 +63,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_StepCycle;
         private float m_NextStep;
         private bool m_Jumping;
+
+        #region Added References
+        // Public
         public AudioSource m_CharacterAudioSource;
+
+        // Private
+        private Animator m_anim;
+        #endregion
+
+        #region Animator Variables
+        public float walkAnimSpeed;
+        #endregion
 
         // Use this for initialization
 #if NETWORKING
@@ -85,6 +96,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             //m_AudioSource = GetComponent<AudioSource>();
             m_MouseLook.Init(transform, m_Camera.transform);
+
+            // Setup added references
+            m_anim = GetComponentInChildren<Animator>();
+
+            // Setup animator multipliers
+            m_anim.SetFloat("walkingSpeedMultiplier", walkAnimSpeed);
 
 #if NETWORKING
             base.Start();
@@ -161,6 +178,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
 
+            UpdateAnimator();
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
 
@@ -288,6 +306,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 return;
             }
             body.AddForceAtPosition(m_CharacterController.velocity * 0.1f, hit.point, ForceMode.Impulse);
+        }
+
+        private void UpdateAnimator()
+        {
+            // Walk
+            if (m_PreviouslyGrounded)
+            {
+                m_anim.SetFloat("walkingSpeedMultiplier", walkAnimSpeed);
+                Vector3 tempVector = m_CharacterController.velocity;
+                tempVector.y = 0;
+                m_anim.SetFloat("walkingSpeed", tempVector.magnitude);
+            }
         }
     }
 }
