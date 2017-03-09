@@ -10,7 +10,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof(AudioSource))]
 
 #if NETWORKING
-    public class OGFirstPersonController : NetworkingCharacterAttachment
+    public class DogFPS : NetworkingCharacterAttachment
 #else
     public class DogFPS : MonoBehaviour
 #endif
