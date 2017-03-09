@@ -16,12 +16,16 @@ public class TimeLine : MonoBehaviour
     private int latestSecond;
     private float startTime;
     private int yOffset = -5;
+    public LineRenderer thisTimeLine;
 
     void Start()
     {
+        thisTimeLine = GetComponent<LineRenderer>();
         startTime = Time.time;
         latestSecond = intervalCount;
         midpoint = Screen.width / 2;
+        thisTimeLine.SetPosition(0, new Vector2(0, -10));
+        thisTimeLine.SetPosition(1, new Vector2(midpoint, -10));
         secondsOnScreen = new List<Text>();
         var timeLine = GameObject.FindGameObjectWithTag("TimeLine");
         transform = GetComponent<RectTransform>();
