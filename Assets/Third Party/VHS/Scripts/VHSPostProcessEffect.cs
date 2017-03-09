@@ -7,6 +7,7 @@ public class VHSPostProcessEffect : PostEffectsBase {
 	Material m;
 	public Shader shader;
 	public MovieTexture VHS;
+    public float intensity = 1;
 
 	float yScanline, xScanline;
 
@@ -27,8 +28,8 @@ public class VHSPostProcessEffect : PostEffectsBase {
 		if(xScanline <= 0 || Random.value < 0.05){
 			xScanline = Random.value;
 		}
-		m.SetFloat("_yScanline", yScanline);
-		m.SetFloat("_xScanline", xScanline);
+		m.SetFloat("_yScanline", yScanline * intensity);
+		m.SetFloat("_xScanline", xScanline * intensity);
 		Graphics.Blit(source, destination, m);
 	}
 }
