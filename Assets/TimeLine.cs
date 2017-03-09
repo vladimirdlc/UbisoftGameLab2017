@@ -15,6 +15,7 @@ public class TimeLine : MonoBehaviour
     private List<Text> secondsOnScreen;
     private int latestSecond;
     private float startTime;
+    private int yOffset = -5;
 
     void Start()
     {
@@ -30,16 +31,16 @@ public class TimeLine : MonoBehaviour
             var temp = Instantiate(second);
             temp.transform.parent = timeLine.transform;
             temp.text = i.ToString();
-            temp.rectTransform.anchoredPosition = new Vector2(i * widthBetweenSeconds, -5);
+            temp.rectTransform.anchoredPosition = new Vector2(i * widthBetweenSeconds, yOffset);
             secondsOnScreen.Add(temp);
         }
     }
 
     private int direction = 1;
-    private int temp;
+    private int earliestSecond;
     void Update()
     {
-        if (Input.GetKey(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             direction = -direction;
         }
@@ -62,22 +63,28 @@ public class TimeLine : MonoBehaviour
                 var charWidth = second.font.characterInfo[0].advance;
                 //var charWidth = second.font.cha
 
+
                 if (direction == 1)
                 {
                     if (charOrigin + charWidth + widthBetweenSeconds < 0)
                     {
-                        temp = int.Parse(second.text);
-                        second.rectTransform.anchoredPosition = Vector2.right * Screen.width;
+                        earliestSecond = int.Parse(second.text);
+                        second.rectTransform.anchoredPosition = new Vector2(Screen.width, yOffset);
                         second.text = (latestSecond++ + 1).ToString();
                     }
                 }
                 else if (direction == -1)
                 {
-                    if (charOrigin - widthBetweenSeconds > Screen.width)
+                    if (second.text == "0" && second.rectTransform.anchoredPosition.x > 0)
+                    {
+                        transform.anchoredPosition += Vector2.right * -1;
+                        return;
+                    }
+                    else if (charOrigin - widthBetweenSeconds > Screen.width)
                     {
                         latestSecond = int.Parse(second.text) - 1;
-                        second.rectTransform.anchoredPosition = Vector2.left * charWidth;
-                        second.text = (temp--).ToString();
+                        second.rectTransform.anchoredPosition = new Vector2(-charWidth, yOffset);
+                        second.text = (earliestSecond--).ToString();
                     }
                 }
             }
