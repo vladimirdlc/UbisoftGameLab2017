@@ -238,7 +238,7 @@ MonoBehaviour:
   directionAxis: Mouse ScrollWheel
   mouseXAxis: Mouse X
   mouseYAxis: Mouse Y
-  orbitAxis: Rotation Trigger Axis
+  orbitAxis: Horizontal Right Stick Overseer
   forwardKey: 119
   backwardKey: 115
   orbitLeftKey: 335
@@ -259,12 +259,13 @@ MonoBehaviour:
   invertMouseY: 0
   clampMiddleMouseInput: 1
   middleMouseInputMultiplier: 1
+  invertOrbit: 0
   verticalSetup: 0
   horizontalSetup: 0
   rotateSetup: 0
   tiltSetup: 0
   directionSetup: 0
-  orbitSetup: 2
+  orbitSetup: 1
   mouseXSetup: 0
   mouseYSetup: 0
   cloudStartAtHeightPercent: 90
@@ -272,7 +273,7 @@ MonoBehaviour:
   cloudStartAtHeight: 200
   cloudFinishAtHeight: 250
   cloudMaxAlpha: 0.15
-  movementSpeed: 90
+  movementSpeed: 180
   rotateSpeed: 180
   minHeightDistance: 5
   maxHeightDistance: 250
@@ -357,11 +358,12 @@ MonoBehaviour:
   verticalAxis: Vertical Right Stick Overseer
   beaconButton: Overseer Beacon
   autoHidePointer: 1
-  pointerInstantiateHeightOffset: 2.774
+  pointerInstantiateOffset: {x: 0, y: 0, z: 0}
   beaconContainerPrefab: {fileID: 1166831496739124, guid: 91b3a489d25cb294689da4a02db3e063,
     type: 2}
   beaconPrefab: {fileID: 1627837743720578, guid: 43877f32af5efef4b84770a02b17302b,
     type: 2}
+  enableMovement: 0
 --- !u!124 &124443398284161474
 Behaviour:
   m_ObjectHideFlags: 1

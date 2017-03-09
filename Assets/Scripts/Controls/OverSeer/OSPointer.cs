@@ -23,6 +23,7 @@ public class OSPointer : MonoBehaviour
     private float timeToDissapear = 3;
     private float currentTimeToDissapear;
     private bool teleportPointer;
+    public bool enableMovement;
 
     void Start()
     {
@@ -79,6 +80,8 @@ public class OSPointer : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!enableMovement) { return; }
+
         Vector3 startingPosition = pointer.position;
         Vector3 forwardScaled = cam.transform.forward * Input.GetAxis(verticalAxis);
         pointer.position += new Vector3(forwardScaled.x, 0, forwardScaled.z) * Time.fixedDeltaTime * speed;

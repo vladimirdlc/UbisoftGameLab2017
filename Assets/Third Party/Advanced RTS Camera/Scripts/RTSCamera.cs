@@ -36,6 +36,7 @@ public class RTSCamera : MonoBehaviour
     public bool invertMouseY = true;
     public bool clampMiddleMouseInput;
     public float middleMouseInputMultiplier = 1.5f;
+    public bool invertOrbit;
 
     // Control Setup
     public ControlSetup verticalSetup = ControlSetup.Axis;
@@ -552,7 +553,14 @@ public class RTSCamera : MonoBehaviour
         switch (orbitSetup)
         {
             case ControlSetup.Axis:
-                MoveOrbitX(Input.GetAxis(orbitAxis) * movementSpeed);
+                if (invertOrbit)
+                {
+                    MoveOrbitX(Input.GetAxis(orbitAxis) * movementSpeed);
+                }
+                else
+                {
+                    MoveOrbitX(Input.GetAxis(orbitAxis) * -movementSpeed);
+                }
                 break;
             case ControlSetup.KeyCode:
                 if (Input.GetKey(orbitLeftKey))
