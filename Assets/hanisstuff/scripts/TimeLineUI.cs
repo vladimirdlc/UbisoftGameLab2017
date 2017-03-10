@@ -22,6 +22,8 @@ public class TimeLineUI : MonoBehaviour
     void Start()
     {
         playerTimeLine = GameObject.FindGameObjectWithTag("PlayerTimeLine").GetComponent<Image>();
+        //once drawn the first time should never be touched again.
+        playerTimeLine.rectTransform.localScale = new Vector3(Screen.width, 55, 1);
         //thisTimeLine = GetComponent<LineRenderer>();
         startTime = Time.time;
         latestSecond = intervalCount;
@@ -54,10 +56,13 @@ public class TimeLineUI : MonoBehaviour
             playerTimeLineScale = widthBetweenSeconds * Time.time;
         }
 
+        foreach (var second in secondsOnScreen)
+        {
+            animate(second);
+        }
+
         if (transform.anchoredPosition.x < midpoint)
         {
-            //once drawn the first time should never be touched again.
-            playerTimeLine.rectTransform.localScale = new Vector3(widthBetweenSeconds * Time.time, 1, 1);
 
             //transform.anchoredPosition = Vector2.right * direction * widthBetweenSeconds * (Time.time - startTime);
             transform.anchoredPosition += Vector2.right * direction * widthBetweenSeconds * Time.deltaTime;
@@ -68,7 +73,6 @@ public class TimeLineUI : MonoBehaviour
         {
             foreach (var second in secondsOnScreen)
             {
-                animate(second);
                 second.rectTransform.anchoredPosition += Vector2.left * direction * widthBetweenSeconds * Time.deltaTime;
                 var charOrigin = second.rectTransform.anchoredPosition.x;
                 //In pixels
@@ -108,27 +112,14 @@ public class TimeLineUI : MonoBehaviour
     void animate(Text second)
     {
         var currPos = second.rectTransform.position.x;
-        var offsetFromMidpoint = 150;
-        if (currPos < midpoint + offsetFromMidpoint && currPos > midpoint)
+        //10 percent of the screen
+        var offsetFromMidpoint = Screen.width / 10;
+        var tickPosition = transform.position.x;
+        if (currPos < tickPosition + offsetFromMidpoint && currPos > tickPosition - offsetFromMidpoint)
         {
-            var distanceFromMidpoint = currPos - midpoint;
-            var ratio = (offsetFromMidpoint - distanceFromMidpoint) / offsetFromMidpoint;
-            second.fontSize = 15 + (int)(ratio * 15);
-            //remove this
-            if (second.fontSize > 30)
-                second.fontSize = 30;
-        }
-        else if (currPos > midpoint - offsetFromMidpoint && currPos < midpoint)
-        {
-            //take abs
-            var distanceFromMidpoint = midpoint - currPos;
+            var distanceFromMidpoint = Mathf.Abs(currPos - tickPosition);
             var ratio = (offsetFromMidpoint - distanceFromMidpoint) / offsetFromMidpoint;
             second.fontSize = 15 + (int)(ratio * 15);
         }
     }
 }
-
-
-//current + scale* 15;
-//015--------------|301
-//    distance = x;
