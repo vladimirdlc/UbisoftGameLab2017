@@ -22,6 +22,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField]
         private float m_RunSpeed;
         [SerializeField]
+        private float m_TurnSpeed;
+        [SerializeField]
         [Range(0f, 1f)]
         private float m_RunstepLenghten;
         [SerializeField]
@@ -30,8 +32,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_StickToGroundForce;
         [SerializeField]
         private float m_GravityMultiplier;
-        [SerializeField]
-        private MouseLook m_MouseLook;
         [SerializeField]
         private bool m_UseFovKick;
         [SerializeField]
@@ -95,7 +95,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_NextStep = m_StepCycle / 2f;
             m_Jumping = false;
             //m_AudioSource = GetComponent<AudioSource>();
-            m_MouseLook.Init(transform, m_Camera.transform);
 
             // Setup added references
             m_anim = GetComponentInChildren<Animator>();
@@ -182,7 +181,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
 
-            m_MouseLook.UpdateCursorLock();
         }
 
 
@@ -256,8 +254,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void GetInput(out float speed)
         {
             // Read input
-            float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
-            float vertical = CrossPlatformInputManager.GetAxis("Vertical");
+            float horizontal = CrossPlatformInputManager.GetAxis("Horizontal Ground");
+            float vertical = CrossPlatformInputManager.GetAxis("Vertical Ground");
 
             bool waswalking = m_IsWalking;
 
@@ -288,7 +286,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void RotateView()
         {
-            m_MouseLook.LookRotation(transform, m_Camera.transform);
+            m_Camera.transform.Rotate(Input.GetAxis("Horizontal Right Stick Overseer") * Vector3.right * Time.deltaTime * m_TurnSpeed);
         }
 
 
@@ -316,7 +314,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_anim.SetFloat("walkingSpeedMultiplier", walkAnimSpeed);
                 Vector3 tempVector = m_CharacterController.velocity;
                 tempVector.y = 0;
+#if DEBUG_VERBOSE
                 m_anim.SetFloat("walkingSpeed", tempVector.magnitude);
+#endif
             }
         }
     }
