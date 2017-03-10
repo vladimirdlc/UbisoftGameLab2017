@@ -21,7 +21,7 @@ public class CloneTimeAttachment : MonoBehaviour
     public GameObject timeManagerObject;
 
     public TimeManager manager { get; set; }
-    public int timelineID { get; set; }
+    public int m_TimelineID { get; set; }
 
     public float m_BlockingParadoxRange;
 
@@ -44,7 +44,7 @@ public class CloneTimeAttachment : MonoBehaviour
         // Blocking Paradox
         if (m_Agent.remainingDistance > m_BlockingParadoxRange && m_Agent.remainingDistance != Mathf.Infinity)
         {
-            manager.handleParadox(timelineID, m_Transform);
+            manager.handleParadox(m_TimelineID, m_Transform);
         }
     }
 
@@ -53,7 +53,7 @@ public class CloneTimeAttachment : MonoBehaviour
     {
         if (other.tag == "Player" || (m_EnablePuppyParadox && other.tag == "Puppy") )
         {
-            manager.handleParadox(timelineID);
+            manager.handleParadox(m_TimelineID);
         }
 
 

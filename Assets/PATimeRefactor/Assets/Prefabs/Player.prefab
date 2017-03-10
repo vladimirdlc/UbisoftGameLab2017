@@ -657,7 +657,6 @@ GameObject:
   - component: {fileID: 9579096}
   - component: {fileID: 5426510}
   - component: {fileID: 13615390}
-  - component: {fileID: 114755739237096388}
   - component: {fileID: 114386028355154792}
   - component: {fileID: 114896590231832898}
   m_Layer: 14
@@ -2407,7 +2406,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100098}
-  m_LocalRotation: {x: 0.53267515, y: 0.07034045, z: 0.83613265, w: -0.11041513}
+  m_LocalRotation: {x: 0.5326752, y: 0.070340455, z: 0.83613276, w: -0.110415146}
   m_LocalPosition: {x: 0.000022271464, y: -0.00006150465, z: 0.026027026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2501,7 +2500,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 0dec6b6597e6565408d73421e9c33492, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2556,7 +2555,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 0dec6b6597e6565408d73421e9c33492, type: 2}
+  - {fileID: 2100000, guid: c78d8aa945ad43346b65f606cec61e10, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2694,19 +2693,6 @@ MonoBehaviour:
   m_MoveSpeedMultiplier: 2
   m_AnimSpeedMultiplier: 2
   m_GroundCheckDistance: 0.1
---- !u!114 &114755739237096388
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 149790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6479b1f1ba44d4e47997fb62f46d13ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TimeManager: {fileID: 0}
-  scrubSpeed: 1
 --- !u!114 &114896590231832898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2718,3 +2704,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668b44b414490524ca25c9d5f305d491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Cam: {fileID: 0}
+  m_TimeManager: {fileID: 0}
+  m_ScrubSpeed: 1
+  m_IsRewindController: 1
+  m_DisableRewindWhenLatched: 0

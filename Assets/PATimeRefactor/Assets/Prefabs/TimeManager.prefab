@@ -51,14 +51,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ee9fea925a71a4aa590cd5774dd7da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_RewindMode: 2
   playerLayer: Player
   cloneLayer: Clone
   doorLayer: Door DELETEME
   aiLayer: Puppy AI
-  cloneColorCodes:
+  m_CloneColorCodes:
   - {r: 1, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0.37931037, b: 1, a: 0}
-  - {r: 0.94482756, g: 1, b: 0, a: 0}
+  - {r: 0, g: 0, b: 1, a: 0}
+  - {r: 0, g: 1, b: 0, a: 0}
   sampleRate: 3
   m_Player: {fileID: 0}
   m_ClonePrefab: {fileID: 149790, guid: 3a65e8fe82479404e96efe155a409605, type: 2}
