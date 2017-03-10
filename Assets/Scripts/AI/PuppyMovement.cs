@@ -37,6 +37,7 @@ public class PuppyMovement : MonoBehaviour
 
     [Header("-------- Animator Variables --------")]
     public float walkingAnimatorSpeed;
+    public float loveEmoteAnimatorSpeed;
 
     void Start()
     {
@@ -48,6 +49,9 @@ public class PuppyMovement : MonoBehaviour
 
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         m_OrigGroundCheckDistance = m_GroundCheckDistance;
+
+        // Animator setup
+        m_Animator.SetFloat("loveSpeed", loveEmoteAnimatorSpeed);
     }
 
     public void Move(Vector3 move, bool crouch)
