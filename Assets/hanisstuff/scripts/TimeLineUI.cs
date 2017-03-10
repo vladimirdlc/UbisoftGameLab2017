@@ -16,16 +16,18 @@ public class TimeLineUI : MonoBehaviour
     private int latestSecond;
     private float startTime;
     private int yOffset = -5;
-    public LineRenderer thisTimeLine;
+    private Image playerTimeLine;
+    //public LineRenderer thisTimeLine;
 
     void Start()
     {
-        thisTimeLine = GetComponent<LineRenderer>();
+        playerTimeLine = GameObject.FindGameObjectWithTag("PlayerTimeLine").GetComponent<Image>();
+        //thisTimeLine = GetComponent<LineRenderer>();
         startTime = Time.time;
         latestSecond = intervalCount;
         midpoint = Screen.width / 2;
-        thisTimeLine.SetPosition(0, new Vector2(0, -10));
-        thisTimeLine.SetPosition(1, new Vector2(midpoint, -10));
+        //thisTimeLine.SetPosition(0, new Vector2(0, -10));
+        //thisTimeLine.SetPosition(1, new Vector2(midpoint, -10));
         secondsOnScreen = new List<Text>();
         var timeLine = GameObject.FindGameObjectWithTag("TimeLine");
         transform = GetComponent<RectTransform>();
@@ -42,15 +44,21 @@ public class TimeLineUI : MonoBehaviour
 
     private int direction = 1;
     private int earliestSecond;
+    private float playerTimeLineScale;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
             direction = -direction;
+            //only if going back in time
+            playerTimeLineScale = widthBetweenSeconds * Time.time;
         }
 
         if (transform.anchoredPosition.x < midpoint)
         {
+            //once drawn the first time should never be touched again.
+            playerTimeLine.rectTransform.localScale = new Vector3(widthBetweenSeconds * Time.time, 1, 1);
+
             //transform.anchoredPosition = Vector2.right * direction * widthBetweenSeconds * (Time.time - startTime);
             transform.anchoredPosition += Vector2.right * direction * widthBetweenSeconds * Time.deltaTime;
             if (transform.anchoredPosition.x < 0)
