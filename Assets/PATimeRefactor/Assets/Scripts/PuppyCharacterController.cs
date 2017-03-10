@@ -33,6 +33,8 @@ public class PuppyCharacterController : MonoBehaviour {
 
     private Transform m_Transform;
 
+    private Animator m_Animator;
+
     // These two boolean variables can by used to describe all possible states of the puppy
     // isHome == false && isLactched == false 
     //      The puppy is either roaming or has reached the sound's origin
@@ -64,6 +66,7 @@ public class PuppyCharacterController : MonoBehaviour {
         m_IsLatched = false;
         m_HaltPathing = false;
         m_Transform = GetComponent<Transform>();
+        m_Animator = GetComponent<Animator>();
     }
 
     public void hearNoise(Vector3 source)
@@ -73,6 +76,9 @@ public class PuppyCharacterController : MonoBehaviour {
 
         m_IsHome = false;
         m_Target = source;
+
+        // TODO: MOVE THIS SOMEWHERE ELSE USING THE PUPPY STATES
+        m_Animator.SetTrigger("love");
     }
 
     // This is the trigger collider to aggro the puppy, it needs reworking
