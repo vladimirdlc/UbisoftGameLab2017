@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimeLine : MonoBehaviour
+public class TimeLineUI : MonoBehaviour
 {
     //hide the usual transform since it doesn't make since for UI
     new RectTransform transform;
