@@ -68,6 +68,7 @@ public class TimeLineUI : MonoBehaviour
         {
             foreach (var second in secondsOnScreen)
             {
+                animate(second);
                 second.rectTransform.anchoredPosition += Vector2.left * direction * widthBetweenSeconds * Time.deltaTime;
                 var charOrigin = second.rectTransform.anchoredPosition.x;
                 //In pixels
@@ -103,4 +104,31 @@ public class TimeLineUI : MonoBehaviour
         }
 
     }
+
+    void animate(Text second)
+    {
+        var currPos = second.rectTransform.position.x;
+        var offsetFromMidpoint = 150;
+        if (currPos < midpoint + offsetFromMidpoint && currPos > midpoint)
+        {
+            var distanceFromMidpoint = currPos - midpoint;
+            var ratio = (offsetFromMidpoint - distanceFromMidpoint) / offsetFromMidpoint;
+            second.fontSize = 15 + (int)(ratio * 15);
+            //remove this
+            if (second.fontSize > 30)
+                second.fontSize = 30;
+        }
+        else if (currPos > midpoint - offsetFromMidpoint && currPos < midpoint)
+        {
+            //take abs
+            var distanceFromMidpoint = midpoint - currPos;
+            var ratio = (offsetFromMidpoint - distanceFromMidpoint) / offsetFromMidpoint;
+            second.fontSize = 15 + (int)(ratio * 15);
+        }
+    }
 }
+
+
+//current + scale* 15;
+//015--------------|301
+//    distance = x;
