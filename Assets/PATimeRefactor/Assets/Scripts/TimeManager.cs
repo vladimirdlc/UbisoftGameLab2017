@@ -14,16 +14,33 @@ public class TimeManager : MonoBehaviour
     // Apparently, toggling the Physics collision off sends an OnTriggerEnter/Exit event, 
     // paradoxes have to be disabled in order to prevent misfire
 
+    public enum RewindType
+    {
+        SCRUB,
+        HOLD_AND_RELEASE,
+        TO_ZERO
+    };
+
+    public enum GameState
+    {
+        PARADOX,
+        REVERT,
+        NORMAL,
+        REWIND,
+    };
+
+    public RewindType m_RewindMode;
+
+    public GameState m_GameState { get; private set; }
+
     public string playerLayer;
     public string cloneLayer;
     public string doorLayer;
     public string aiLayer;
 
-    public bool m_EnableRewindToZero;
-    private bool m_AutoRewinding;
+    public bool m_WaitingForPlayer { get; set; }
 
-    public Color[] cloneColorCodes;             // Currently being applied to the trails at runtime
-    private int cloneColorCodesIndex = 0;       // NOTE FOR PIERRE: maybe this index is uncessesary/dirty depending on how you keep track of clones, let me know
+    public Color[] m_CloneColorCodes;             // Currently being applied to the trails at runtime
 
     public int sampleRate;
 
@@ -78,6 +95,7 @@ public class TimeManager : MonoBehaviour
         GameObject m_WarpOutPrefab;
         TimeManager m_TimeManager;
         List<State> m_MasterArrayRef;
+
         Color m_colorCode;
 
         // This is set at runtime whenever clones pop in or out of a timeline
@@ -88,7 +106,7 @@ public class TimeManager : MonoBehaviour
         CloneCharacterController m_CloneController;
         Transform m_CloneTransform;
 
-        public Timeline(int start, GameObject clonePrefab, int id, List<State> masterArray, TimeManager timeManager, Color colorCode, GameObject warpIn = null, GameObject warpOut = null)
+        public Timeline(int start, GameObject clonePrefab, int id, List<State> masterArray, TimeManager timeManager, GameObject warpIn = null, GameObject warpOut = null)
         {
             m_Start = start;
             m_End = -1;
@@ -99,7 +117,7 @@ public class TimeManager : MonoBehaviour
             m_TimeManager = timeManager;
             m_WarpInPrefab = warpIn;
             m_WarpOutPrefab = warpOut;
-            m_colorCode = colorCode;
+            m_colorCode = timeManager.m_CloneColorCodes[id % timeManager.m_CloneColorCodes.Length];
         }
 
         // Mini helper methods for creating and cleaning up instances
@@ -111,7 +129,7 @@ public class TimeManager : MonoBehaviour
             m_CloneInstance = Instantiate(m_ClonePrefab, state.m_DogPosition, state.m_DogRotation);
 
             m_CloneTimeAttachment = m_CloneInstance.GetComponent<CloneTimeAttachment>();
-            m_CloneTimeAttachment.timelineID = m_TimelineID;
+            m_CloneTimeAttachment.m_TimelineID = m_TimelineID;
             m_CloneTimeAttachment.manager = m_TimeManager;
 
             m_CloneController = m_CloneInstance.GetComponent<CloneCharacterController>();
@@ -227,17 +245,16 @@ public class TimeManager : MonoBehaviour
     private int m_ActiveTimeline;
 
     private int m_Frameticker;
-    private bool m_TimeStopped;
-    private bool m_DisableParadoxes;
 
     private PlayerUserController m_UserController;
     private PuppyCharacterController m_PuppyController;
-    private bool m_Paradoxing;
     private int m_RevertTimeline;
     private int m_RevertIndex;
     private Transform m_PlayerTransform;
     private Transform m_PuppyTransform;
-    private bool m_Reverting;
+
+    private bool m_RestoreControlOnNextFrame;
+
 
     void Start()
     {
@@ -246,19 +263,17 @@ public class TimeManager : MonoBehaviour
         m_MasterPointer = 0;
         m_PuppyPointer = 0;
         m_ActiveTimeline = 0;
-        m_Timelines.Add(new Timeline(0, m_ClonePrefab, 0, m_MasterArray, this, GetNextColorCode()));
+        m_Timelines.Add(new Timeline(0, m_ClonePrefab, 0, m_MasterArray, this));
         m_Frameticker = sampleRate;
-        m_TimeStopped = false;
         m_UserController = m_Player.GetComponent<PlayerUserController>();
         m_PuppyController = m_Puppy.GetComponent<PuppyCharacterController>();
-        m_DisableParadoxes = false;
-
-        m_Paradoxing = false;
         m_RevertTimeline = 0;
         m_RevertIndex = 0;
         m_PlayerTransform = m_Player.GetComponent<Transform>();
         m_PuppyTransform = m_Puppy.GetComponent<Transform>();
-        m_Reverting = false;
+        m_GameState = GameState.NORMAL;
+        m_RestoreControlOnNextFrame = false;
+        m_WaitingForPlayer = false;
 
         // Disable collisions between clones
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(cloneLayer), true);
@@ -267,7 +282,7 @@ public class TimeManager : MonoBehaviour
     // Not sure if this should go in FixedUpdate or Update, Fixed seemed safer and more stable (constant frame rate)
     private void FixedUpdate()
     {
-        if (!m_TimeStopped)
+        if (m_GameState == GameState.NORMAL)
         {
             if (m_Frameticker == sampleRate)
             {
@@ -282,26 +297,42 @@ public class TimeManager : MonoBehaviour
 
     void Update()
     {
-
+        if (m_RestoreControlOnNextFrame)
+        {
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), false);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(doorLayer), false);
+            m_GameState = GameState.NORMAL;
+            m_RestoreControlOnNextFrame = false;
+        }
         if (m_Text != null)
         {
             m_Text.text = (m_Timelines[0].m_TimelineIndex).ToString();
         }
 
-        if (m_AutoRewinding)
+        #region Rewind
+        if (m_GameState == GameState.REWIND)
         {
-            if (m_Timelines[0].m_TimelineIndex == 0)
+            if (m_RewindMode == RewindType.TO_ZERO)
             {
-                m_AutoRewinding = false;
+                if (m_Timelines[0].m_TimelineIndex == 0)
+                {
+                    m_WaitingForPlayer = true;
+                }
+                else
+                {
+                    masterScrub(-1);
+                }
             }
-            else
+            if (m_RewindMode == RewindType.HOLD_AND_RELEASE)
             {
                 masterScrub(-1);
             }
         }
-        #region ParadoxForcedRewind
+        #endregion
+
+        #region Paradox
         // When doing the paradox/reverting from the paradox, everything gets bypassed and this happens
-        if (m_Paradoxing && !m_Reverting)
+        if (m_GameState == GameState.PARADOX)
         {
             // The forced rewind will try to reach a few seconds before the paradox actually happened
             // in order to show the player the sequence of events that lead to the paradox
@@ -332,13 +363,13 @@ public class TimeManager : MonoBehaviour
             // happened, we start reverting and on next update the first portion will be skipped
             else
             {
-                if (!m_Reverting) m_Reverting = true;
+                m_GameState = GameState.REVERT;
             }
         }
         #endregion
 
-        #region ParadoxRevert
-        else if (m_Reverting)
+        #region Revert
+        if (m_GameState == GameState.REVERT)
         {
             // Start forward playback
             if (m_MasterPointer < m_RevertIndex)
@@ -359,17 +390,15 @@ public class TimeManager : MonoBehaviour
                 m_Timelines.RemoveRange(m_RevertTimeline + 1, m_Timelines.Count - m_RevertTimeline - 1);
 
                 // Restore control
-                m_Paradoxing = false;
-                m_TimeStopped = false;
-                m_UserController.m_Paradoxing = false;
-                m_Reverting = false;
+                m_RestoreControlOnNextFrame = true;
 
-                // Enable collisions
-                Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), false);
-                Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(doorLayer), false);
-
-                // Enable paradoxes
-                m_DisableParadoxes = false;
+                // Nudge pointers up
+                // Place pointers to next position
+                m_MasterPointer++;
+                for (int i = 0; i < m_Timelines.Count; i++)
+                {
+                    m_Timelines[i].inc();
+                }
 
                 // Snap puppy pointer to master
                 m_PuppyPointer = m_MasterPointer;
@@ -377,11 +406,11 @@ public class TimeManager : MonoBehaviour
         }
         #endregion
 
-        #region NormalPlayBack
+        #region Normal
         // Update clones normally only when time is not stopped
         // The run() method is called at each rewind call - rewind is called on Update() by the
         // player who controls the time FF and RW mechanisms 
-        else if (!m_TimeStopped)
+        else if (m_GameState == GameState.NORMAL)
         {
             // For each timeline that is not the active one, call run
             for (int i = 0; i < m_ActiveTimeline; i++)
@@ -418,68 +447,60 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    public void timeStopToggle()
+    public void timeStopToggle(bool stopTime)
     {
         #region TurnTimeStopOff
-        if (m_TimeStopped)
+        if (!stopTime)
         {
-            // Enable collisions
-            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), false);
-            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(doorLayer), false);
-
-            // Re-enable paradoxes
-            m_DisableParadoxes = false;
-
-            // Resume AIs
-            for (int i = 0; i < m_ActiveTimeline; i++)
+            if (m_GameState == GameState.REWIND)
             {
-                m_Timelines[i].resumeClones();
-            }
+                m_WaitingForPlayer = false;
+                bool bangThePuppy = true;
+                // If the time stop did not result in a rewind, clean-up
+                if (m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex == m_MasterPointer)
+                {
+                    bangThePuppy = false;
+                    m_Timelines[m_ActiveTimeline - 1].open(m_MasterPointer);
+                    m_Timelines.RemoveAt(m_ActiveTimeline);
+                    m_ActiveTimeline--;
+                }
 
-            m_PuppyController.resumeAI();
-            m_Player.GetComponent<PlayerUserController>().ToggleMovement(true);
+                // Resume AIs
+                for (int i = 0; i < m_ActiveTimeline; i++)
+                {
+                    m_Timelines[i].resumeClones();
+                }
+                m_PuppyController.resumeAI();
 
-            bool bangThePuppy = true;
-            // If the time stop did not result in a rewind, clean-up
-            // The timelines do the actual deleting and cleaning up, we just call it here with the open()
-            if (m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex == m_MasterPointer)
-            {
-                bangThePuppy = false;
-                m_Timelines[m_ActiveTimeline - 1].open(m_MasterPointer);
-                m_Timelines.RemoveAt(m_ActiveTimeline);
-                m_ActiveTimeline--;
+                // Signal the puppy (if there was an actual rewind)
+                if (bangThePuppy)
+                {
+                    m_PuppyController.hearNoise(m_PlayerTransform.position);
+                }
 
-                // Also replace the pointers (for reasons)
+
+                // Place pointers to next position
                 m_MasterPointer++;
-                m_PuppyPointer++;
+
+                // Snap back puppy pointer to master
+                m_PuppyPointer = m_MasterPointer;
+
                 for (int i = 0; i < m_Timelines.Count; i++)
                 {
                     m_Timelines[i].inc();
                 }
+
+                // Enable collisions and control
+                m_RestoreControlOnNextFrame = true;
             }
-
-            // Signal the puppy (if there was an actual rewind)
-            if (bangThePuppy)
-            {
-                m_PuppyController.hearNoise(m_PlayerTransform.position);
-            }
-
-            // Snap back puppy pointer to master
-            m_PuppyPointer = m_MasterPointer;
-
-            // Unfreeze time
-            m_TimeStopped = false;
-
-            if (m_EnableRewindToZero)
-                m_AutoRewinding = false;
         }
         #endregion
 
         #region TurnTimeStopOn
-        else
+        else if (m_GameState == GameState.NORMAL && stopTime == true)
         {
-            // Disable paradoxes
-            m_DisableParadoxes = true;
+            // Set current state
+            m_GameState = GameState.REWIND;
 
             // Disable collisions
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), true);
@@ -490,44 +511,32 @@ public class TimeManager : MonoBehaviour
             {
                 m_Timelines[i].haltClones();
             }
-
             m_PuppyController.haltAI();
-            m_Player.GetComponent<PlayerUserController>().ToggleMovement(false);
 
-            // Freeze time and close the current timeline
-            // Need also the move the pointers one notch back (for reasons)
-            m_TimeStopped = true;
+            // Nudge pointers to next reading position
             m_MasterPointer--;
             m_PuppyPointer--;
             for (int i = 0; i < m_Timelines.Count; i++)
             {
                 m_Timelines[i].timelineScrub(-1);
             }
+
+            // Close the current timeline
             m_Timelines[m_ActiveTimeline].close(m_MasterPointer);
             m_ActiveTimeline++;
-            m_Timelines.Add(new Timeline(m_MasterPointer, m_ClonePrefab, m_ActiveTimeline, m_MasterArray, this,GetNextColorCode(true)));
-
-            if (m_EnableRewindToZero)
-                m_AutoRewinding = true;
+            m_Timelines.Add(new Timeline(m_MasterPointer, m_ClonePrefab, m_ActiveTimeline, m_MasterArray, this));
         }
         #endregion
 
     }
 
-    private void autoRewind() { }
-
     public void masterScrub(int amount, int flipOffset = 0)
     {
-        #region TimeStoppedCheck
-        // Only allow scrubbing timelines while time is stopped (dog is sitting or paradoxing)
-        if (!m_TimeStopped) return;
-        #endregion
-
         #region ValidScrubCheck
         // Check to make sure the rewind is legal, otherwise apply max value (positive or negative)
         // We only check this if there is not in a paradox or reverting mode, in those modes all
         // scrubs are managed by the system and should be valid
-        if (!m_Paradoxing)
+        if (m_GameState == GameState.REWIND)
         {
             int maxRewind = -1 * m_Timelines[0].m_TimelineIndex;
             int maxForward = m_MasterPointer - m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex;
@@ -543,7 +552,7 @@ public class TimeManager : MonoBehaviour
         // Move clones (except the one in the active timeline)
         for (int i = 0; i < m_Timelines.Count; i++)
         {
-            if (m_Paradoxing || i != m_ActiveTimeline)
+            if (m_GameState == GameState.PARADOX || i != m_ActiveTimeline)
             {
                 m_Timelines[i].timelineScrub(amount, flipOffset);
             }
@@ -556,13 +565,16 @@ public class TimeManager : MonoBehaviour
         #endregion
 
         #region MovePuppy
-        m_PuppyPointer += amount;
-        m_PuppyController.restoreState(m_MasterArray[m_PuppyPointer]);
+        if (m_GameState != GameState.NORMAL)
+        {
+            m_PuppyPointer += amount;
+            m_PuppyController.restoreState(m_MasterArray[m_PuppyPointer]);
+        }
         #endregion
 
         #region MovePlayer (if needed)
         // Also move the main timeline while paradoxing and the puppy
-        if (m_Paradoxing || m_Reverting)
+        if (m_GameState == GameState.PARADOX || m_GameState == GameState.REVERT)
         {
             m_MasterPointer += amount;
 
@@ -581,34 +593,26 @@ public class TimeManager : MonoBehaviour
     public void handleParadox(int idToRevert, Transform lastPos = null)
     {
 
-        // Paradoxes can't occur when time is stopped
-        if (m_DisableParadoxes) return;
+        // Paradoxes can only occur on NORMAL game state
+        if (m_GameState != GameState.NORMAL) return;
 
-        // Slight variation on the code used on time stop toggle on
-        m_TimeStopped = true;
-        m_Paradoxing = true;
-        m_RevertTimeline = idToRevert;
-
-        // Disable paradoxes
-        m_DisableParadoxes = true;
+        // Otherwise deal with the paradox...
+        m_GameState = GameState.PARADOX;
 
         // Disable collisions
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), true);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(doorLayer), true);
+        
+        // Fetch revert targert
+        m_RevertTimeline = idToRevert;
 
         // Blocking paradox require an override in order to revert to the clone's
         // last valid position and not spawn through a door
         // Find the closest position and revert to that
-
         m_RevertIndex = m_Timelines[m_RevertTimeline].m_TimelineIndex;
 
         if (lastPos != null)
         {
-
-#if DEBUG_VERBOSE
-            Debug.Log("Blocking Paradox Detected");
-#endif
-
             float currentDistance = (lastPos.position - m_MasterArray[m_RevertIndex].m_DogPosition).magnitude;
             m_RevertIndex--;
             float nextDistance = (lastPos.position - m_MasterArray[m_RevertIndex].m_DogPosition).magnitude;
@@ -620,11 +624,9 @@ public class TimeManager : MonoBehaviour
                 nextDistance = (lastPos.position - m_MasterArray[m_RevertIndex].m_DogPosition).magnitude;
             }
         }
-        else
-#if DEBUG_VERBOSE
-            Debug.Log("Proximity Paradox Detected");
-#endif
 
+        // Nudge back pointers to reading position
+        else
         m_MasterPointer--;
         m_PuppyPointer--;
         for (int i = 0; i < m_Timelines.Count; i++)
@@ -633,18 +635,6 @@ public class TimeManager : MonoBehaviour
         }
         m_Timelines[m_ActiveTimeline].close(m_MasterPointer);
 
-        // Block the user controller
-        m_UserController.m_Paradoxing = true;
-    }
-
-    // This was a quick and dirty fix, take a closer look at this
-    private Color GetNextColorCode(bool increment = false)
-    {
-        if (increment)
-            cloneColorCodesIndex++;
-
-        cloneColorCodesIndex = cloneColorCodesIndex % cloneColorCodes.Length;
-
-        return cloneColorCodes[cloneColorCodesIndex];
+        // On update, will execute portion of code for paradox state
     }
 }
