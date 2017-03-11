@@ -17,7 +17,7 @@ public class TimeLineUI : MonoBehaviour
     private float startTime;
     private int yOffset = -5;
     private Image playerTimeLine;
-    //public LineRenderer thisTimeLine;
+    private GameObject timeLine;
 
     void Start()
     {
@@ -31,13 +31,13 @@ public class TimeLineUI : MonoBehaviour
         //thisTimeLine.SetPosition(0, new Vector2(0, -10));
         //thisTimeLine.SetPosition(1, new Vector2(midpoint, -10));
         secondsOnScreen = new List<Text>();
-        var timeLine = GameObject.FindGameObjectWithTag("TimeLine");
+        timeLine = GameObject.FindGameObjectWithTag("TimeLine");
         transform = GetComponent<RectTransform>();
         widthBetweenSeconds = Screen.width / (float)10;
         for (int i = 0; i < intervalCount + 1; ++i)
         {
             var temp = Instantiate(second);
-            temp.transform.parent = timeLine.transform;
+            temp.transform.SetParent(timeLine.transform);
             temp.text = i.ToString();
             temp.rectTransform.anchoredPosition = new Vector2(i * widthBetweenSeconds, yOffset);
             secondsOnScreen.Add(temp);
@@ -46,15 +46,42 @@ public class TimeLineUI : MonoBehaviour
 
     private int direction = 1;
     private int earliestSecond;
-    private float playerTimeLineScale;
+    private List<CloneUI> cloneWarpoutTimes = new List<CloneUI>();
+
+    public class CloneUI
+    {
+        public Text timeS;
+        public float timeF;
+        public CloneUI(Text t, float f)
+        {
+            timeS = t;
+            timeF = f;
+        }
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
             direction = -direction;
-            //only if going back in time
-            playerTimeLineScale = widthBetweenSeconds * Time.time;
+            var cloneWarpoutTime = Time.time - startTime;
+            startTime = Time.time;
+
+            var temp = Instantiate(second);
+            temp.transform.SetParent(timeLine.transform);
+            temp.text = cloneWarpoutTime.ToString();
+            temp.rectTransform.anchoredPosition = new Vector2(0, -100);
+            cloneWarpoutTimes.Add(new CloneUI(temp, cloneWarpoutTime));
         }
+        for (int i = 0; i < cloneWarpoutTimes.Count; ++i)
+        {
+            cloneWarpoutTimes[i].timeS.text = (cloneWarpoutTimes[i].timeF -= Time.deltaTime).ToString();
+            //if (cloneWarpoutTimes[i].timeF < 0)
+
+
+        }
+
+
 
         foreach (var second in secondsOnScreen)
         {
