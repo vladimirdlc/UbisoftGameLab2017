@@ -9,10 +9,10 @@ public class TimeLineUI : MonoBehaviour
 
     public float widthBetweenSeconds;
     //10 intervals should mean 11 positions, starting at 0s
-    public int intervalCount = 10;
+    private int intervalCount = 15;
     public Text second;
     private float midpoint;
-    private List<Text> secondsOnScreen;
+    private List<Text> secondsOnScreen = new List<Text>();
     private int latestSecond;
     private float startTime;
     private int yOffset = -5;
@@ -21,21 +21,19 @@ public class TimeLineUI : MonoBehaviour
 
     void Start()
     {
+        //rename this
         playerTimeLine = GameObject.FindGameObjectWithTag("PlayerTimeLine").GetComponent<Image>();
         //once drawn the first time should never be touched again.
         playerTimeLine.rectTransform.localScale = new Vector3(Screen.width, 55, 1);
-        //thisTimeLine = GetComponent<LineRenderer>();
         startTime = Time.time;
         latestSecond = intervalCount;
         midpoint = Screen.width / 2;
-        //thisTimeLine.SetPosition(0, new Vector2(0, -10));
-        //thisTimeLine.SetPosition(1, new Vector2(midpoint, -10));
-        secondsOnScreen = new List<Text>();
         timeLine = GameObject.FindGameObjectWithTag("TimeLine");
         transform = GetComponent<RectTransform>();
-        widthBetweenSeconds = Screen.width / (float)10;
+        widthBetweenSeconds = Screen.width / (float)intervalCount;
         for (int i = 0; i < intervalCount + 1; ++i)
         {
+            print(intervalCount);
             var temp = Instantiate(second);
             temp.transform.SetParent(timeLine.transform);
             temp.text = i.ToString();
@@ -46,16 +44,29 @@ public class TimeLineUI : MonoBehaviour
 
     private int direction = 1;
     private int earliestSecond;
-    private List<CloneUI> cloneWarpoutTimes = new List<CloneUI>();
+    private static List<CloneUI> cloneWarpoutTimes = new List<CloneUI>();
+
 
     public class CloneUI
     {
         public Text timeS;
         public float timeF;
+        private string initialTime;
         public CloneUI(Text t, float f)
         {
             timeS = t;
             timeF = f;
+            initialTime = f.ToString();
+        }
+
+        public static void ResetTimes()
+        {
+            for (int i = 0; i < cloneWarpoutTimes.Count; i++)
+            {
+                cloneWarpoutTimes[i].timeS.enabled = true;
+                cloneWarpoutTimes[i].timeS.text = cloneWarpoutTimes[i].initialTime;
+                cloneWarpoutTimes[i].timeF = float.Parse(cloneWarpoutTimes[i].initialTime);
+            }
         }
     }
 
@@ -63,6 +74,7 @@ public class TimeLineUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
+            CloneUI.ResetTimes();
             direction = -direction;
             var cloneWarpoutTime = Time.time - startTime;
             startTime = Time.time;
@@ -70,15 +82,16 @@ public class TimeLineUI : MonoBehaviour
             var temp = Instantiate(second);
             temp.transform.SetParent(timeLine.transform);
             temp.text = cloneWarpoutTime.ToString();
-            temp.rectTransform.anchoredPosition = new Vector2(0, -100);
+            //change this later
+            temp.rectTransform.anchoredPosition = new Vector2(cloneWarpoutTimes.Count * widthBetweenSeconds, -50);
             cloneWarpoutTimes.Add(new CloneUI(temp, cloneWarpoutTime));
         }
         for (int i = 0; i < cloneWarpoutTimes.Count; ++i)
         {
-            cloneWarpoutTimes[i].timeS.text = (cloneWarpoutTimes[i].timeF -= Time.deltaTime).ToString();
-            //if (cloneWarpoutTimes[i].timeF < 0)
-
-
+            float currentSecond = cloneWarpoutTimes[i].timeF -= Time.deltaTime;
+            cloneWarpoutTimes[i].timeS.text = Mathf.Ceil(currentSecond).ToString();
+            if (currentSecond < 0)
+                cloneWarpoutTimes[i].timeS.enabled = false;
         }
 
 
