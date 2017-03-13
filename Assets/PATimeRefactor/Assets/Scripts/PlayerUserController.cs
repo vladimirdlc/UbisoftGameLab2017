@@ -77,7 +77,12 @@ public class PlayerUserController : MonoBehaviour
                         if (!crouch)
                             m_TimeManager.timeStopToggle(crouch);
                         if (m_IsRewindController)
-                            m_TimeManager.masterScrub((int)((FF - RW) * m_ScrubSpeed));
+                        {
+                            if (FF != RW)
+                            {
+                                m_TimeManager.masterScrub((int)((FF - RW) * m_ScrubSpeed));
+                            }
+                        }
                         break;
                     case TimeManager.RewindType.HOLD_AND_RELEASE:
                         m_Character.Move(m_Move, crouch);

@@ -31,6 +31,10 @@ public class TimeManager : MonoBehaviour
 
     public RewindType m_RewindMode;
 
+    public bool m_SnapCameraToClone;
+
+    public Camera m_PlayerCamera;
+
     public GameState m_GameState { get; private set; }
 
     public string playerLayer;
@@ -100,6 +104,7 @@ public class TimeManager : MonoBehaviour
 
         // This is set at runtime whenever clones pop in or out of a timeline
         GameObject m_CloneInstance;
+        Camera m_CloneCam;
 
         // I think these need to be set at runtime since instances are going to pop in and out
         CloneTimeAttachment m_CloneTimeAttachment;
@@ -134,6 +139,7 @@ public class TimeManager : MonoBehaviour
 
             m_CloneController = m_CloneInstance.GetComponent<CloneCharacterController>();
             m_CloneTransform = m_CloneInstance.GetComponent<Transform>();
+            m_CloneCam = m_CloneInstance.GetComponentInChildren<Camera>();
 
             // Texture the trail
             m_CloneController.ColorCode(m_colorCode);
@@ -149,6 +155,7 @@ public class TimeManager : MonoBehaviour
             m_CloneTimeAttachment = null;
             m_CloneController = null;
             m_CloneTransform = null;
+            m_CloneCam = null;
         }
 
         // Called when scrubbing to close a timeline or when a paradox occurs
@@ -192,6 +199,11 @@ public class TimeManager : MonoBehaviour
         public void timelineScrub(int amount, int flipOffset = 0)
         {
             m_TimelineIndex += amount + flipOffset;
+        }
+
+        public void activateCamera(bool active = true)
+        {
+            m_CloneCam.enabled = active;
         }
 
         public void runClones(bool rewinding = false)
@@ -454,6 +466,14 @@ public class TimeManager : MonoBehaviour
         {
             if (m_GameState == GameState.REWIND)
             {
+
+                // Switch camera 
+                if (m_SnapCameraToClone)
+                {
+                    m_Timelines[m_ActiveTimeline - 1].activateCamera(false);
+                    m_PlayerCamera.enabled = true;
+                }
+
                 m_WaitingForPlayer = false;
                 bool bangThePuppy = true;
                 // If the time stop did not result in a rewind, clean-up
@@ -492,6 +512,7 @@ public class TimeManager : MonoBehaviour
 
                 // Enable collisions and control
                 m_RestoreControlOnNextFrame = true;
+
             }
         }
         #endregion
@@ -525,6 +546,14 @@ public class TimeManager : MonoBehaviour
             m_Timelines[m_ActiveTimeline].close(m_MasterPointer);
             m_ActiveTimeline++;
             m_Timelines.Add(new Timeline(m_MasterPointer, m_ClonePrefab, m_ActiveTimeline, m_MasterArray, this));
+
+
+            // Switch camera 
+            if (m_SnapCameraToClone)
+            {
+                m_PlayerCamera.enabled = false;
+                m_Timelines[m_ActiveTimeline - 1].activateCamera(true);
+            }
         }
         #endregion
 
