@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 81401424862583900}
   - component: {fileID: 124888251516011226}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: Dog Camera
   m_TagString: Camera Ground Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -488,11 +488,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4365283792761212}
-  - component: {fileID: 143501872224487522}
   - component: {fileID: 54299697557504564}
   - component: {fileID: 82818904671345748}
-  - component: {fileID: 114070122334417054}
   - component: {fileID: 136116443539993912}
+  - component: {fileID: 114371144244762886}
   m_Layer: 0
   m_Name: Test Dog
   m_TagString: PlayerGround
@@ -1911,7 +1910,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114070122334417054
+--- !u!114 &114371144244762886
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1919,16 +1918,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1497780920488766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fd7f2f1db566564192da723807f11d8, type: 3}
+  m_Script: {fileID: 11500000, guid: 752255e4ddabc8244a797e87756a5aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsWalking: 0
-  m_WalkSpeed: 5
-  m_RunSpeed: 100
-  m_RunstepLenghten: 0.7
-  m_JumpSpeed: 10
-  m_StickToGroundForce: 10
-  m_GravityMultiplier: 2
+  speed: 10
+  gravity: 10
+  maxVelocityChange: 10
+  canJump: 1
+  jumpHeight: 2
   m_MouseLook:
     XSensitivity: 2
     YSensitivity: 2
@@ -1938,71 +1935,8 @@ MonoBehaviour:
     smooth: 0
     smoothTime: 5
     lockCursor: 1
-  m_UseFovKick: 1
-  m_FovKick:
-    Camera: {fileID: 0}
-    originalFov: 0
-    FOVIncrease: 3
-    TimeToIncrease: 1
-    TimeToDecrease: 1
-    IncreaseCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  m_UseHeadBob: 1
-  m_HeadBob:
-    HorizontalBobRange: 0.01
-    VerticalBobRange: 0.01
-    Bobcurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.5
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 1.5
-        value: -1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 2
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    VerticaltoHorizontalRatio: 2
-  m_JumpBob:
-    BobDuration: 0.2
-    BobAmount: 0.1
-  m_StepInterval: 5
-  m_FootstepSounds:
-  - {fileID: 8300000, guid: 42e65e088b3f4374e851b8dbd38f3df9, type: 3}
-  - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
-  m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
-  m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
-  m_CharacterAudioSource: {fileID: 82103515527864108}
-  walkAnimSpeed: 1.5
+  m_Camera: {fileID: 20531789140116204}
+  walkAnimSpeed: 1
 --- !u!124 &124888251516011226
 Behaviour:
   m_ObjectHideFlags: 1
@@ -2255,20 +2189,3 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.000022543594, y: 0.05084692, z: 0.019832317}
     m_Extent: {x: 0.0043869466, y: 0.0014573149, z: 0.0017789397}
   m_DirtyAABB: 0
---- !u!143 &143501872224487522
-CharacterController:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1497780920488766}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 0.00001
-  m_Radius: 0.03
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0.09, z: 0.08}
