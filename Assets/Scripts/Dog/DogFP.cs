@@ -43,6 +43,11 @@ public class DogFP : MonoBehaviour
 
     void FixedUpdate()
     {
+        
+    }
+
+    public void Move(bool crouch)
+    {
         if (grounded)
         {
             // Calculate how fast we should be moving
