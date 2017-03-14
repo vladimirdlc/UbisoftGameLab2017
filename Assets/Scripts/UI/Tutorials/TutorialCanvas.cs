@@ -9,12 +9,12 @@ public class TutorialCanvas : MonoBehaviour
     // The order of these tutorials should resemble the order in the heirarchy
     public static string[] tutorialOptionsGroundPlayer =
     {
-        "Move Prompt", "Look Prompt"
+        "Move", "Objective", "Time Scrub", "Time Stop + Scrub", "Single Button Time Mechanics"
     };
 
     public static string[] tutorialOptionsOverseerPlayer =
     {
-        "Move Prompt", "Look Prompt"
+        "Move", "Beacon", "Door A"
     };
 
     public enum PlayerType { Dog, Overseer };
