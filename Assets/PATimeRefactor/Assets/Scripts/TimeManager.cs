@@ -35,6 +35,9 @@ public class TimeManager : MonoBehaviour
 
     public Camera m_PlayerCamera;
 
+    public GameObject m_WarpInPrefab;
+    public int m_WarpBubbleLife;
+
     public GameState m_GameState { get; private set; }
 
     public string playerLayer;
@@ -99,8 +102,11 @@ public class TimeManager : MonoBehaviour
         GameObject m_WarpOutPrefab;
         TimeManager m_TimeManager;
         List<State> m_MasterArrayRef;
+        int m_WarpBubbleLife;
 
         Color m_colorCode;
+
+        GameObject m_WarpInInstance;
 
         // This is set at runtime whenever clones pop in or out of a timeline
         GameObject m_CloneInstance;
@@ -111,7 +117,7 @@ public class TimeManager : MonoBehaviour
         CloneCharacterController m_CloneController;
         Transform m_CloneTransform;
 
-        public Timeline(int start, GameObject clonePrefab, int id, List<State> masterArray, TimeManager timeManager, GameObject warpIn = null, GameObject warpOut = null)
+        public Timeline(int start, GameObject clonePrefab, int id, List<State> masterArray, TimeManager timeManager, GameObject warpIn = null, int warpBubbleLife = 0, GameObject warpOut = null)
         {
             m_Start = start;
             m_End = -1;
@@ -123,6 +129,7 @@ public class TimeManager : MonoBehaviour
             m_WarpInPrefab = warpIn;
             m_WarpOutPrefab = warpOut;
             m_colorCode = timeManager.m_CloneColorCodes[id % timeManager.m_CloneColorCodes.Length];
+            m_WarpBubbleLife = warpBubbleLife;
         }
 
         // Mini helper methods for creating and cleaning up instances
@@ -149,13 +156,18 @@ public class TimeManager : MonoBehaviour
                 haltClones();
             }
         }
-        public void trash()
+        public void trashClone()
         {
             Destroy(m_CloneInstance);
             m_CloneTimeAttachment = null;
             m_CloneController = null;
             m_CloneTransform = null;
             m_CloneCam = null;
+        }
+
+        public void trashBubble()
+        {
+            Destroy(m_WarpInInstance);
         }
 
         // Called when scrubbing to close a timeline or when a paradox occurs
@@ -169,13 +181,18 @@ public class TimeManager : MonoBehaviour
         public void open(int index)
         {
             m_End = -1;
-            trash();
+            trashClone();
+            trashBubble();
             m_TimelineIndex = index;
         }
 
         public void inc()
         {
             m_TimelineIndex++;
+            if (m_WarpInInstance != null)
+            {
+                m_WarpInInstance.GetComponent<WarpBubble>().scrub(1);
+            }
         }
 
         public void haltClones()
@@ -199,6 +216,10 @@ public class TimeManager : MonoBehaviour
         public void timelineScrub(int amount, int flipOffset = 0)
         {
             m_TimelineIndex += amount + flipOffset;
+            if (m_WarpInInstance != null)
+            {
+                m_WarpInInstance.GetComponent<WarpBubble>().scrub(amount);
+            }
         }
 
         public void activateCamera(bool active = true)
@@ -220,21 +241,22 @@ public class TimeManager : MonoBehaviour
             // are blurred. I spend a while trying to figure out how to make the animation look good while rewinding and I don't think it can
             // be done if we allow the players to scrub through the timelines
 
+
+            // Deal with clone instantiation
             if (m_TimelineIndex < m_Start || m_TimelineIndex > m_End)
             {
                 if (m_CloneInstance != null)
                 {
-                    // NOTE TO SELF JESUS: WARP IN/OUT EFFECT HERE(?)
-                    trash();
+                    trashClone();
                 }
             }
             else
             {
                 State currentState = m_MasterArrayRef[m_TimelineIndex];
+
                 if (m_CloneInstance == null)
                 {
                     // Create instance and assign references
-                    // NOTE TO SELF JESUS: WARP IN/OUT EFFECT HERE(?)
                     create(rewinding);
                 }
 
@@ -246,6 +268,31 @@ public class TimeManager : MonoBehaviour
                     m_CloneTransform.rotation = currentState.m_DogRotation;
                 }
             }
+
+            // Deal with warp in bubble instantiation
+            if (m_TimelineIndex >= m_Start && m_TimelineIndex <= m_Start + m_WarpBubbleLife && m_TimelineID != 0)
+            {
+                if (m_WarpInInstance == null)
+                {
+                    m_WarpInInstance = Instantiate(m_WarpInPrefab, m_MasterArrayRef[m_TimelineIndex].m_DogPosition + new Vector3(0.0f, 1.0f, 0.0f), m_MasterArrayRef[m_TimelineIndex].m_DogRotation);
+                }
+                m_WarpInInstance.GetComponent<WarpBubble>().m_CurrentIndex = m_TimelineIndex - m_Start;
+            }
+            else if (m_TimelineIndex >= m_End && m_TimelineIndex <= m_End + m_WarpBubbleLife)
+            {
+                if (m_WarpInInstance == null)
+                {
+                    m_WarpInInstance = Instantiate(m_WarpInPrefab, m_MasterArrayRef[m_TimelineIndex].m_DogPosition + new Vector3(0.0f, 1.0f, 0.0f), m_MasterArrayRef[m_TimelineIndex].m_DogRotation);
+                }
+                m_WarpInInstance.GetComponent<WarpBubble>().m_CurrentIndex = m_TimelineIndex - m_End;
+            }
+            else
+            {
+                if (m_WarpInInstance != null)
+                {
+                    trashBubble();
+                }
+            }   
         }
     }
 
@@ -267,6 +314,9 @@ public class TimeManager : MonoBehaviour
 
     private bool m_RestoreControlOnNextFrame;
 
+    // duct tape - will remove soon
+    private int m_CurrentCamera;
+
 
     void Start()
     {
@@ -275,7 +325,7 @@ public class TimeManager : MonoBehaviour
         m_MasterPointer = 0;
         m_PuppyPointer = 0;
         m_ActiveTimeline = 0;
-        m_Timelines.Add(new Timeline(0, m_ClonePrefab, 0, m_MasterArray, this));
+        m_Timelines.Add(new Timeline(0, m_ClonePrefab, 0, m_MasterArray, this, m_WarpInPrefab, m_WarpBubbleLife));
         m_Frameticker = sampleRate;
         m_UserController = m_Player.GetComponent<PlayerUserController>();
         m_PuppyController = m_Puppy.GetComponent<PuppyCharacterController>();
@@ -286,6 +336,8 @@ public class TimeManager : MonoBehaviour
         m_GameState = GameState.NORMAL;
         m_RestoreControlOnNextFrame = false;
         m_WaitingForPlayer = false;
+
+        m_CurrentCamera = 0;
 
         // Disable collisions between clones
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(cloneLayer), true);
@@ -395,7 +447,7 @@ public class TimeManager : MonoBehaviour
                 m_MasterArray.RemoveRange(m_MasterPointer + 1, m_MasterArray.Count - m_MasterPointer - 1);
                 for (int i = m_RevertTimeline + 1; i < m_Timelines.Count; i++)
                 {
-                    m_Timelines[i].trash();
+                    m_Timelines[i].trashClone();
                 }
                 m_ActiveTimeline = m_RevertTimeline;
                 m_Timelines[m_ActiveTimeline].open(m_MasterPointer);
@@ -470,7 +522,7 @@ public class TimeManager : MonoBehaviour
                 // Switch camera 
                 if (m_SnapCameraToClone)
                 {
-                    m_Timelines[m_ActiveTimeline - 1].activateCamera(false);
+                    m_Timelines[m_CurrentCamera].activateCamera(false);
                     m_PlayerCamera.enabled = true;
                 }
 
@@ -513,6 +565,11 @@ public class TimeManager : MonoBehaviour
                 // Enable collisions and control
                 m_RestoreControlOnNextFrame = true;
 
+                if (m_SnapCameraToClone)
+                {
+                    m_CurrentCamera = m_ActiveTimeline;
+                }
+
             }
         }
         #endregion
@@ -545,14 +602,15 @@ public class TimeManager : MonoBehaviour
             // Close the current timeline
             m_Timelines[m_ActiveTimeline].close(m_MasterPointer);
             m_ActiveTimeline++;
-            m_Timelines.Add(new Timeline(m_MasterPointer, m_ClonePrefab, m_ActiveTimeline, m_MasterArray, this));
+            m_Timelines.Add(new Timeline(m_MasterPointer, m_ClonePrefab, m_ActiveTimeline, m_MasterArray, this, m_WarpInPrefab, m_WarpBubbleLife));
 
 
             // Switch camera 
             if (m_SnapCameraToClone)
             {
                 m_PlayerCamera.enabled = false;
-                m_Timelines[m_ActiveTimeline - 1].activateCamera(true);
+                m_CurrentCamera = m_ActiveTimeline - 1;
+                m_Timelines[m_CurrentCamera].activateCamera(true);
             }
         }
         #endregion
@@ -589,7 +647,7 @@ public class TimeManager : MonoBehaviour
             if (m_ActiveTimeline != i)
                 m_Timelines[i].runClones(true);
             else
-                m_Timelines[i].trash();
+                m_Timelines[i].trashClone();
         }
         #endregion
 
@@ -612,6 +670,32 @@ public class TimeManager : MonoBehaviour
             m_PlayerTransform.rotation = nextState.m_DogRotation;
         }
         #endregion
+
+        // Special case when rewinding (duct tape used here, more robust solution will follow)
+        if (m_SnapCameraToClone)
+        {
+            if (m_Timelines[m_CurrentCamera].m_TimelineIndex == m_Timelines[m_CurrentCamera].m_Start + 1 && m_CurrentCamera != 0)
+            {
+                m_Timelines[m_CurrentCamera].activateCamera(false);
+                m_CurrentCamera--;
+                m_Timelines[m_CurrentCamera].activateCamera(true);
+
+            }
+            else if (
+                m_CurrentCamera != m_ActiveTimeline - 1 
+                && 
+                (
+                    ( m_Timelines[m_CurrentCamera + 1].m_TimelineIndex <= m_Timelines[m_CurrentCamera + 1].m_End - 1) 
+                    &&
+                    ( m_Timelines[m_CurrentCamera + 1].m_TimelineIndex >= m_Timelines[m_CurrentCamera + 1].m_Start + 1)
+                )
+            )
+            {
+                m_Timelines[m_CurrentCamera].activateCamera(false);
+                m_CurrentCamera++;
+                m_Timelines[m_CurrentCamera].activateCamera(true);
+            }
+        }
     }
 
     /// <summary>
