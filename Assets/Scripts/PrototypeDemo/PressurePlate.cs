@@ -4,26 +4,47 @@ using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
-    public GameObject mesh;
     public Material active;
     public Material inactive;
 
     public GameObject target;
+    private bool m_IsActive;
 
     void Start()
     {
-        mesh.GetComponent<Renderer>().material = inactive;
+        gameObject.GetComponent<Renderer>().material = inactive;
+        m_IsActive = false;
+    }
+
+    public void forceExit()
+    {     
+        if (m_IsActive)
+        {
+            m_IsActive = false;
+            target.GetComponent<Door>().DecCount();
+            gameObject.GetComponent<Renderer>().material = inactive;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        target.GetComponent<Door>().IncCount();
-        mesh.GetComponent<Renderer>().material = active;
+        if (!m_IsActive && (other.tag == "Player" || other.tag == "Clone") )
+        {
+            m_IsActive = true;
+            target.GetComponent<Door>().IncCount();
+            gameObject.GetComponent<Renderer>().material = active;
+        }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        target.GetComponent<Door>().DecCount();
-        mesh.GetComponent<Renderer>().material = inactive;
+        if (m_IsActive && (other.tag == "Player" || other.tag == "Clone") )
+        {
+            m_IsActive = false;
+            target.GetComponent<Door>().DecCount();
+            gameObject.GetComponent<Renderer>().material = inactive;
+        }
+
     }
 }

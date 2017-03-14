@@ -48,7 +48,7 @@ public class PuppyCharacterController : MonoBehaviour {
     public bool m_IsLatched { get; set; }
     public bool m_IsHome { get; set; }
 
-    private PlayerTimeAttachment m_PlayerTimeAttachment;
+    private PlayerUserController m_PlayerUserController;
     private Vector3 m_HomePosition;
 
     private bool m_HaltPathing;
@@ -57,7 +57,7 @@ public class PuppyCharacterController : MonoBehaviour {
     {
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         m_Character = GetComponent<PuppyMovement>();
-        m_PlayerTimeAttachment = m_Player.GetComponent<PlayerTimeAttachment>();
+        m_PlayerUserController = m_Player.GetComponent<PlayerUserController>();
         m_HomePosition = m_Home.GetComponent<Transform>().position;
         m_Target = m_HomePosition;
         m_Agent.updateRotation = true;
@@ -95,7 +95,7 @@ public class PuppyCharacterController : MonoBehaviour {
 
             if (other.tag == "Player")
             {
-                m_PlayerTimeAttachment.m_HasPuppy = true;
+                m_PlayerUserController.m_HasPuppy = true;
             }
             m_IsLatched = true;
             m_IsHome = false;
@@ -107,7 +107,7 @@ public class PuppyCharacterController : MonoBehaviour {
             m_IsHome = true;
             m_IsLatched = false;
             m_Target = m_HomePosition;
-            m_PlayerTimeAttachment.m_HasPuppy = false;
+            m_PlayerUserController.m_HasPuppy = false;
         }
     }
 

@@ -20,8 +20,10 @@ public class CloneTimeAttachment : MonoBehaviour
     [HideInInspector]
     public GameObject timeManagerObject;
 
+    private PressurePlate m_PressurePlate;
+
     public TimeManager manager { get; set; }
-    public int timelineID { get; set; }
+    public int m_TimelineID { get; set; }
 
     public float m_BlockingParadoxRange;
 
@@ -35,6 +37,7 @@ public class CloneTimeAttachment : MonoBehaviour
     {
         m_Transform = GetComponent<Transform>();
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        m_PressurePlate = null;
     }
 
     // Late to make sure that any disabling script has time to run
@@ -44,7 +47,7 @@ public class CloneTimeAttachment : MonoBehaviour
         // Blocking Paradox
         if (m_Agent.remainingDistance > m_BlockingParadoxRange && m_Agent.remainingDistance != Mathf.Infinity)
         {
-            manager.handleParadox(timelineID, m_Transform);
+            manager.handleParadox(m_TimelineID, m_Transform);
         }
     }
 
@@ -53,9 +56,28 @@ public class CloneTimeAttachment : MonoBehaviour
     {
         if (other.tag == "Player" || (m_EnablePuppyParadox && other.tag == "Puppy") )
         {
-            manager.handleParadox(timelineID);
+            manager.handleParadox(m_TimelineID);
+        }
+        if (other.tag == "PressurePlateCollider")
+        {
+           m_PressurePlate = other.gameObject.GetComponentInParent<PressurePlate>();
         }
 
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "PressurePlateCollider")
+        {
+            m_PressurePlate = null;
+        }
+    }
+
+    public void pressureOff()
+    {
+        if (m_PressurePlate != null)
+        {
+            m_PressurePlate.forceExit();
+        }
     }
 }
