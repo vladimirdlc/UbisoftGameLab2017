@@ -9,7 +9,7 @@ public class AnimatedDog : MonoBehaviour {
 
     public float walkAnimSpeed;
 
-    protected virtual void Start()
+    public virtual void Start()
     {
         // Setup added references
         m_Animator = GetComponentInChildren<Animator>();
