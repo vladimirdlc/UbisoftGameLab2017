@@ -2,38 +2,40 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimeLine : MonoBehaviour
+public class TimeLineUI : MonoBehaviour
 {
     //hide the usual transform since it doesn't make since for UI
     new RectTransform transform;
 
     public float widthBetweenSeconds;
     //10 intervals should mean 11 positions, starting at 0s
-    public int intervalCount = 10;
+    private int intervalCount = 15;
     public Text second;
     private float midpoint;
-    private List<Text> secondsOnScreen;
+    private List<Text> secondsOnScreen = new List<Text>();
     private int latestSecond;
     private float startTime;
     private int yOffset = -5;
-    public LineRenderer thisTimeLine;
+    private Image playerTimeLine;
+    private GameObject timeLine;
 
     void Start()
     {
-        thisTimeLine = GetComponent<LineRenderer>();
+        //rename this
+        playerTimeLine = GameObject.FindGameObjectWithTag("PlayerTimeLine").GetComponent<Image>();
+        //once drawn the first time should never be touched again.
+        playerTimeLine.rectTransform.localScale = new Vector3(Screen.width, 55, 1);
         startTime = Time.time;
         latestSecond = intervalCount;
         midpoint = Screen.width / 2;
-        thisTimeLine.SetPosition(0, new Vector2(0, -10));
-        thisTimeLine.SetPosition(1, new Vector2(midpoint, -10));
-        secondsOnScreen = new List<Text>();
-        var timeLine = GameObject.FindGameObjectWithTag("TimeLine");
+        timeLine = GameObject.FindGameObjectWithTag("TimeLine");
         transform = GetComponent<RectTransform>();
-        widthBetweenSeconds = Screen.width / (float)10;
+        widthBetweenSeconds = Screen.width / (float)intervalCount;
         for (int i = 0; i < intervalCount + 1; ++i)
         {
+            print(intervalCount);
             var temp = Instantiate(second);
-            temp.transform.parent = timeLine.transform;
+            temp.transform.SetParent(timeLine.transform);
             temp.text = i.ToString();
             temp.rectTransform.anchoredPosition = new Vector2(i * widthBetweenSeconds, yOffset);
             secondsOnScreen.Add(temp);
@@ -42,15 +44,66 @@ public class TimeLine : MonoBehaviour
 
     private int direction = 1;
     private int earliestSecond;
+    private static List<CloneUI> cloneWarpoutTimes = new List<CloneUI>();
+
+
+    public class CloneUI
+    {
+        public Text timeS;
+        public float timeF;
+        private string initialTime;
+        public CloneUI(Text t, float f)
+        {
+            timeS = t;
+            timeF = f;
+            initialTime = f.ToString();
+        }
+
+        public static void ResetTimes()
+        {
+            for (int i = 0; i < cloneWarpoutTimes.Count; i++)
+            {
+                cloneWarpoutTimes[i].timeS.enabled = true;
+                cloneWarpoutTimes[i].timeS.text = cloneWarpoutTimes[i].initialTime;
+                cloneWarpoutTimes[i].timeF = float.Parse(cloneWarpoutTimes[i].initialTime);
+            }
+        }
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
+            CloneUI.ResetTimes();
             direction = -direction;
+            var cloneWarpoutTime = Time.time - startTime;
+            startTime = Time.time;
+
+            var temp = Instantiate(second);
+            temp.transform.SetParent(timeLine.transform);
+            temp.text = cloneWarpoutTime.ToString();
+            //change this later
+            temp.rectTransform.anchoredPosition = new Vector2(cloneWarpoutTimes.Count * widthBetweenSeconds, -50);
+            cloneWarpoutTimes.Add(new CloneUI(temp, cloneWarpoutTime));
+        }
+        for (int i = 0; i < cloneWarpoutTimes.Count; ++i)
+        {
+            float currentSecond = cloneWarpoutTimes[i].timeF -= Time.deltaTime;
+            cloneWarpoutTimes[i].timeS.text = Mathf.Ceil(currentSecond).ToString();
+            if (currentSecond < 0)
+                cloneWarpoutTimes[i].timeS.enabled = false;
+        }
+
+
+
+        foreach (var second in secondsOnScreen)
+        {
+            animate(second);
         }
 
         if (transform.anchoredPosition.x < midpoint)
         {
+
             //transform.anchoredPosition = Vector2.right * direction * widthBetweenSeconds * (Time.time - startTime);
             transform.anchoredPosition += Vector2.right * direction * widthBetweenSeconds * Time.deltaTime;
             if (transform.anchoredPosition.x < 0)
@@ -94,5 +147,19 @@ public class TimeLine : MonoBehaviour
             }
         }
 
+    }
+
+    void animate(Text second)
+    {
+        var currPos = second.rectTransform.position.x;
+        //10 percent of the screen
+        var offsetFromMidpoint = Screen.width / 10;
+        var tickPosition = transform.position.x;
+        if (currPos < tickPosition + offsetFromMidpoint && currPos > tickPosition - offsetFromMidpoint)
+        {
+            var distanceFromMidpoint = Mathf.Abs(currPos - tickPosition);
+            var ratio = (offsetFromMidpoint - distanceFromMidpoint) / offsetFromMidpoint;
+            second.fontSize = 15 + (int)(ratio * 15);
+        }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
-[RequireComponent(typeof(Character))]
+// @PIERRE: I CHANGED THE NAME OF THIS SCRIPT IF YOU HAVE PROBLEMS YOU CAN PUT IT BACK
+[RequireComponent(typeof(PuppyMovement))]
 public class PuppyCharacterController : MonoBehaviour {
 
     // Almost the same script as the CloneCharacterController.
@@ -20,8 +22,8 @@ public class PuppyCharacterController : MonoBehaviour {
     // This should be a box collider with its origin on the floor, so that the puppy can reach it
     public GameObject m_Home;
 
-    public UnityEngine.AI.NavMeshAgent m_Agent { get; private set; }
-    public Character m_Character { get; private set; }
+    public NavMeshAgent m_Agent { get; private set; }
+    public PuppyMovement m_Character { get; private set; }
 
     public Vector3 m_Target { get; private set; }
     
@@ -30,6 +32,8 @@ public class PuppyCharacterController : MonoBehaviour {
     private Vector3 m_LastTargetPosition;
 
     private Transform m_Transform;
+
+    private Animator m_Animator;
 
     // These two boolean variables can by used to describe all possible states of the puppy
     // isHome == false && isLactched == false 
@@ -44,7 +48,7 @@ public class PuppyCharacterController : MonoBehaviour {
     public bool m_IsLatched { get; set; }
     public bool m_IsHome { get; set; }
 
-    private PlayerUserController m_PlayerUserController;
+    private PlayerTimeAttachment m_PlayerTimeAttachment;
     private Vector3 m_HomePosition;
 
     private bool m_HaltPathing;
@@ -52,8 +56,8 @@ public class PuppyCharacterController : MonoBehaviour {
     private void Start()
     {
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        m_Character = GetComponent<Character>();
-        m_PlayerUserController = m_Player.GetComponent<PlayerUserController>();
+        m_Character = GetComponent<PuppyMovement>();
+        m_PlayerTimeAttachment = m_Player.GetComponent<PlayerTimeAttachment>();
         m_HomePosition = m_Home.GetComponent<Transform>().position;
         m_Target = m_HomePosition;
         m_Agent.updateRotation = true;
@@ -62,6 +66,7 @@ public class PuppyCharacterController : MonoBehaviour {
         m_IsLatched = false;
         m_HaltPathing = false;
         m_Transform = GetComponent<Transform>();
+        m_Animator = GetComponent<Animator>();
     }
 
     public void hearNoise(Vector3 source)
@@ -71,6 +76,9 @@ public class PuppyCharacterController : MonoBehaviour {
 
         m_IsHome = false;
         m_Target = source;
+
+        // TODO: MOVE THIS SOMEWHERE ELSE USING THE PUPPY STATES
+        m_Animator.SetTrigger("love");
     }
 
     // This is the trigger collider to aggro the puppy, it needs reworking
@@ -87,7 +95,7 @@ public class PuppyCharacterController : MonoBehaviour {
 
             if (other.tag == "Player")
             {
-                m_PlayerUserController.m_HasPuppy = true;
+                m_PlayerTimeAttachment.m_HasPuppy = true;
             }
             m_IsLatched = true;
             m_IsHome = false;
@@ -99,7 +107,7 @@ public class PuppyCharacterController : MonoBehaviour {
             m_IsHome = true;
             m_IsLatched = false;
             m_Target = m_HomePosition;
-            m_PlayerUserController.m_HasPuppy = false;
+            m_PlayerTimeAttachment.m_HasPuppy = false;
         }
     }
 
