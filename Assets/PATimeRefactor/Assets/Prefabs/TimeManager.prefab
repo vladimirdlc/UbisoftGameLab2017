@@ -51,11 +51,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ee9fea925a71a4aa590cd5774dd7da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RewindMode: 2
-  playerLayer: Player
-  cloneLayer: Clone
-  doorLayer: Door DELETEME
-  aiLayer: Puppy AI
+  m_RewindMode: 0
+  m_SnapCameraToClone: 1
+  m_PlayerCamera: {fileID: 0}
+  m_WarpInPrefab: {fileID: 1233483338614074, guid: 70076f1ff7aa7d94dab217b667f7cb13,
+    type: 2}
+  m_WarpBubbleLife: 20
+  m_PlayerLayer: Player
+  m_CloneLayer: Clone
+  m_DoorLayer: Door DELETEME
+  m_AILayer: Puppy AI
+  m_PlateLayer: PressurePlateCollider
   m_CloneColorCodes:
   - {r: 1, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 1, a: 0}

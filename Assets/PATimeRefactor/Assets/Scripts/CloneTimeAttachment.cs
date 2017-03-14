@@ -20,6 +20,8 @@ public class CloneTimeAttachment : MonoBehaviour
     [HideInInspector]
     public GameObject timeManagerObject;
 
+    private PressurePlate m_PressurePlate;
+
     public TimeManager manager { get; set; }
     public int m_TimelineID { get; set; }
 
@@ -35,6 +37,7 @@ public class CloneTimeAttachment : MonoBehaviour
     {
         m_Transform = GetComponent<Transform>();
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        m_PressurePlate = null;
     }
 
     // Late to make sure that any disabling script has time to run
@@ -55,7 +58,26 @@ public class CloneTimeAttachment : MonoBehaviour
         {
             manager.handleParadox(m_TimelineID);
         }
+        if (other.tag == "PressurePlateCollider")
+        {
+           m_PressurePlate = other.gameObject.GetComponentInParent<PressurePlate>();
+        }
 
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "PressurePlateCollider")
+        {
+            m_PressurePlate = null;
+        }
+    }
+
+    public void pressureOff()
+    {
+        if (m_PressurePlate != null)
+        {
+            m_PressurePlate.forceExit();
+        }
     }
 }

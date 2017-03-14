@@ -40,10 +40,11 @@ public class TimeManager : MonoBehaviour
 
     public GameState m_GameState { get; private set; }
 
-    public string playerLayer;
-    public string cloneLayer;
-    public string doorLayer;
-    public string aiLayer;
+    public string m_PlayerLayer;
+    public string m_CloneLayer;
+    public string m_DoorLayer;
+    public string m_AILayer;
+    public string m_PlateLayer;
 
     public bool m_WaitingForPlayer { get; set; }
 
@@ -156,8 +157,12 @@ public class TimeManager : MonoBehaviour
                 haltClones();
             }
         }
-        public void trashClone()
+        public void trashClone(bool onOpen = false)
         {
+            if (!onOpen && m_CloneTimeAttachment != null)
+            {
+                m_CloneTimeAttachment.pressureOff();
+            }
             Destroy(m_CloneInstance);
             m_CloneTimeAttachment = null;
             m_CloneController = null;
@@ -181,7 +186,7 @@ public class TimeManager : MonoBehaviour
         public void open(int index)
         {
             m_End = -1;
-            trashClone();
+            trashClone(true);
             trashBubble();
             m_TimelineIndex = index;
         }
@@ -274,7 +279,7 @@ public class TimeManager : MonoBehaviour
             {
                 if (m_WarpInInstance == null)
                 {
-                    m_WarpInInstance = Instantiate(m_WarpInPrefab, m_MasterArrayRef[m_TimelineIndex].m_DogPosition + new Vector3(0.0f, 1.0f, 0.0f), m_MasterArrayRef[m_TimelineIndex].m_DogRotation);
+                    m_WarpInInstance = Instantiate(m_WarpInPrefab, m_MasterArrayRef[m_Start].m_DogPosition + new Vector3(0.0f, 1.0f, 0.0f), m_MasterArrayRef[m_Start].m_DogRotation);
                 }
                 m_WarpInInstance.GetComponent<WarpBubble>().m_CurrentIndex = m_TimelineIndex - m_Start;
             }
@@ -282,7 +287,7 @@ public class TimeManager : MonoBehaviour
             {
                 if (m_WarpInInstance == null)
                 {
-                    m_WarpInInstance = Instantiate(m_WarpInPrefab, m_MasterArrayRef[m_TimelineIndex].m_DogPosition + new Vector3(0.0f, 1.0f, 0.0f), m_MasterArrayRef[m_TimelineIndex].m_DogRotation);
+                    m_WarpInInstance = Instantiate(m_WarpInPrefab, m_MasterArrayRef[m_End].m_DogPosition + new Vector3(0.0f, 1.0f, 0.0f), m_MasterArrayRef[m_End].m_DogRotation);
                 }
                 m_WarpInInstance.GetComponent<WarpBubble>().m_CurrentIndex = m_TimelineIndex - m_End;
             }
@@ -340,7 +345,7 @@ public class TimeManager : MonoBehaviour
         m_CurrentCamera = 0;
 
         // Disable collisions between clones
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(cloneLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_CloneLayer), true);
     }
 
     // Not sure if this should go in FixedUpdate or Update, Fixed seemed safer and more stable (constant frame rate)
@@ -363,8 +368,9 @@ public class TimeManager : MonoBehaviour
     {
         if (m_RestoreControlOnNextFrame)
         {
-            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), false);
-            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(doorLayer), false);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlayerLayer), false);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_DoorLayer), false);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlateLayer), false);
             m_GameState = GameState.NORMAL;
             m_RestoreControlOnNextFrame = false;
         }
@@ -455,6 +461,9 @@ public class TimeManager : MonoBehaviour
 
                 // Restore control
                 m_RestoreControlOnNextFrame = true;
+
+                // Restore Puppy State
+                m_PuppyController.restoreState(m_MasterArray[m_MasterPointer]);
 
                 // Nudge pointers up
                 // Place pointers to next position
@@ -581,8 +590,10 @@ public class TimeManager : MonoBehaviour
             m_GameState = GameState.REWIND;
 
             // Disable collisions
-            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), true);
-            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(doorLayer), true);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlayerLayer), true);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_DoorLayer), true);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlateLayer), true);
+
 
             // Halt AIs
             for (int i = 0; i < m_ActiveTimeline; i++)
@@ -647,7 +658,7 @@ public class TimeManager : MonoBehaviour
             if (m_ActiveTimeline != i)
                 m_Timelines[i].runClones(true);
             else
-                m_Timelines[i].trashClone();
+                m_Timelines[i].trashClone(true);
         }
         #endregion
 
@@ -672,28 +683,22 @@ public class TimeManager : MonoBehaviour
         #endregion
 
         // Special case when rewinding (duct tape used here, more robust solution will follow)
-        if (m_SnapCameraToClone)
+        if (m_SnapCameraToClone && m_GameState == GameState.REWIND)
         {
-            if (m_Timelines[m_CurrentCamera].m_TimelineIndex == m_Timelines[m_CurrentCamera].m_Start + 1 && m_CurrentCamera != 0)
+            // Find the "latest" running timeline
+            for (int i = m_ActiveTimeline - 1; i >= 0; i--)
             {
-                m_Timelines[m_CurrentCamera].activateCamera(false);
-                m_CurrentCamera--;
-                m_Timelines[m_CurrentCamera].activateCamera(true);
-
-            }
-            else if (
-                m_CurrentCamera != m_ActiveTimeline - 1 
-                && 
-                (
-                    ( m_Timelines[m_CurrentCamera + 1].m_TimelineIndex <= m_Timelines[m_CurrentCamera + 1].m_End - 1) 
+                if (
+                    (m_Timelines[i].m_TimelineIndex <= m_Timelines[i].m_End - 1)
                     &&
-                    ( m_Timelines[m_CurrentCamera + 1].m_TimelineIndex >= m_Timelines[m_CurrentCamera + 1].m_Start + 1)
+                    (m_Timelines[i].m_TimelineIndex >= m_Timelines[i].m_Start + 1)
                 )
-            )
-            {
-                m_Timelines[m_CurrentCamera].activateCamera(false);
-                m_CurrentCamera++;
-                m_Timelines[m_CurrentCamera].activateCamera(true);
+                {
+                    m_Timelines[m_CurrentCamera].activateCamera(false);
+                    m_CurrentCamera = i;
+                    m_Timelines[m_CurrentCamera].activateCamera(true);
+                    break;
+                }
             }
         }
     }
@@ -713,9 +718,11 @@ public class TimeManager : MonoBehaviour
         m_GameState = GameState.PARADOX;
 
         // Disable collisions
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(playerLayer), true);
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(cloneLayer), LayerMask.NameToLayer(doorLayer), true);
-        
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlayerLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_DoorLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlateLayer), true);
+
+
         // Fetch revert targert
         m_RevertTimeline = idToRevert;
 
