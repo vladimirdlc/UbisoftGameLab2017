@@ -81,6 +81,7 @@ public class DogCloneCharacter : AnimatedDog
     void UpdateAnimator(Vector3 move)
     {
         // update the animator parameters
+        m_Animator.SetFloat("walkingSpeedMultiplier", walkAnimSpeed);
         m_Animator.SetFloat("walkingSpeed", m_ForwardAmount, 0.1f, Time.deltaTime);
         m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
         m_Animator.SetBool("Crouch", m_Crouching);

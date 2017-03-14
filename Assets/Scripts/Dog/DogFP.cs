@@ -22,9 +22,9 @@ public class DogFP : AnimatedDog
         // Setup Added refernces
         m_MouseLook.Init(transform, m_Camera.transform);
 
-        rigidbody = GetComponent<Rigidbody>();
-        rigidbody.freezeRotation = true;
-        rigidbody.useGravity = false;
+        m_RigidBody = GetComponent<Rigidbody>();
+        m_RigidBody.freezeRotation = true;
+        m_RigidBody.useGravity = false;
     }
 
     private void Update()
@@ -47,12 +47,12 @@ public class DogFP : AnimatedDog
             targetVelocity *= speed;
 
             // Apply a force that attempts to reach our target velocity
-            Vector3 velocity = rigidbody.velocity;
+            Vector3 velocity = m_RigidBody.velocity;
             Vector3 velocityChange = (targetVelocity - velocity);
             velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
             velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
             velocityChange.y = 0;
-            rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
+            m_RigidBody.AddForce(velocityChange, ForceMode.VelocityChange);
 
             // Jump
             //if (canJump && Input.GetButton("Jump"))
@@ -62,7 +62,7 @@ public class DogFP : AnimatedDog
         }
 
         // We apply gravity manually for more tuning control
-        rigidbody.AddForce(new Vector3(0, -gravity * rigidbody.mass, 0));
+        m_RigidBody.AddForce(new Vector3(0, -gravity * m_RigidBody.mass, 0));
 
         UpdateAnimator();
         m_MouseLook.UpdateCursorLock();
