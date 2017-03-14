@@ -17,7 +17,7 @@ public class PressurePlate : MonoBehaviour
     }
 
     public void forceExit()
-    {     
+    {
         if (m_IsActive)
         {
             m_IsActive = false;
@@ -28,7 +28,7 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!m_IsActive && (other.tag == "Player" || other.tag == "Clone") )
+        if (!m_IsActive && (other.tag == "Player" || other.tag == "PlayerGround" || other.tag == "Clone"))
         {
             m_IsActive = true;
             target.GetComponent<Door>().IncCount();
@@ -39,7 +39,7 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (m_IsActive && (other.tag == "Player" || other.tag == "Clone") )
+        if (m_IsActive && (other.tag == "Player" || other.tag == "PlayerGround" || other.tag == "Clone"))
         {
             m_IsActive = false;
             target.GetComponent<Door>().DecCount();
