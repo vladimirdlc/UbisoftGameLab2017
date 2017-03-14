@@ -55,23 +55,37 @@ public class Looper : MonoBehaviour
     {
 
 #if DEBUG_VERBOSE
+        /*
+        if (currentLooperIndex == recordedPositions.Count - 1)
+            debugFlag = true;
+            */
+
         if (debugFlag)
             Debug.Log(debugFlag);
 #endif
-
-        if (looping)
+        try
         {
-            // If the timer isn't past the last indexed time, or if the index isn't out of bounds
-            if (loopingTimer <= recordedTimes[recordedTimes.Count - 1] && recordedPositions.Count > currentLooperIndex)
+            if (looping)
             {
-                NextFrameAction();
-                loopingTimer += Time.deltaTime;
+                // If the timer isn't past the last indexed time, or if the index isn't out of bounds
+                if (loopingTimer <= recordedTimes[recordedTimes.Count - 1] && recordedPositions.Count > currentLooperIndex)
+                {
+                    NextFrameAction();
+                    loopingTimer += Time.deltaTime;
+                }
+                else
+                {
+                    // Stop looping
+                    looping = false;
+                }
             }
-            else
-            {
-                // Stop looping
-                looping = false;
-            }
+
+        }
+        catch (System.ArgumentOutOfRangeException e)
+        {
+#if DEBUG_VERBOSE
+            Debug.Log("Index out of bounds for clone " + gameObject + " during Loop() method of Looper.cs, current index at " + currentLooperIndex + " with a collection size of " + recordedPositions.Count);
+#endif
         }
     }
 
@@ -84,6 +98,7 @@ public class Looper : MonoBehaviour
         {
             gameObject.transform.position = recordedPositions[currentLooperIndex];
             gameObject.transform.localRotation = recordedRotations[currentLooperIndex];
+            return;
         }
 
         LerpState(currentLooperIndex, currentLooperIndex + 1);
@@ -139,8 +154,6 @@ public class Looper : MonoBehaviour
         Debug.Log("State collection count at " + recordedPositions.Count);
         Debug.Log("First element in collection " + recordedPositions[0]);
         Debug.Log("Last element in collection " + recordedPositions[recordedTimes.Count - 1]);
-
-        debugFlag = true;
 #endif
         #endregion
     }

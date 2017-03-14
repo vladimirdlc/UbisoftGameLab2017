@@ -1,0 +1,216 @@
+# 1.0.4
+
+Features:
+ - Automatically adjusting playback speed to exactly synchronise recording/playback.
+ - Automatically adjusting the size of the playback buffer based on network jitter (more responsive voice in good conditions, less robot voice in bad conditions).
+
+Bugfixes:
+ - Fixed log system losing some message from non-main threads.
+ - Fixed LLAPI integration not properly handling the disconnect event (leaving the session in an inconsistent state and preventing future reconnections).
+ - Fixed microphone capture losing some data in extremely low framerate situations.
+
+Internals:
+ - Refactored internals of BaseServer and BaseClient, this should not affect custom network integrations.
+
+Known Issues:
+ - Lacking platform support for  Windows Universal Platform
+ - VAD does not always work well (particularly on mobile devices)
+ - End users require a specific version of the C++ runtime installed
+
+# 1.0.3
+
+Features:
+ - iOS Support
+ 
+Bugfixes:
+ - Fixed logging system writing to the log file on worker threads
+ - Fixed text messages being sent to other players twice in some circumstances
+ - Fixed voice playback not working when a new client joins a session and gets a recycled player object
+ - Fixed voice playback not working when a new client joins a session and gets a recycled network connection ID
+
+Known Issues:
+ - Lacking platform support for  Windows Universal Platform
+ - VAD does not always work well (particularly on mobile devices)
+ 
+# 1.0.2
+
+Features:
+ - Readme in Assets/Dissonance links to online documentation
+ 
+Bugfixes:
+ - Removed a number of classes from the Dissonance public API
+ - Playback system will no break when the game is paused
+ 
+Known Issues:
+ - Lacking platform support for
+   - iOS
+   - Windows Universal Platform
+
+# 1.0.1 - RC2
+
+Features:
+ - MacOS support
+
+Bugfixes:
+ - Fixes voice transmision being broken while VAD delay line is active
+ 
+Known Issues:
+ - Lacking platform support for
+   - iOS
+   - Windows Universal Platform
+
+# 0.0.10 RC1
+
+Features:
+ - Photon Unity Networking!
+ - Slightly improved text API (removed all automatic loopback of your own messages).
+ 
+Bugfixes:
+ - Fixed a serious multithreading issue in the network system (this was the cause of the occasional InvalidPacket exceptions)
+ - Fixed the network not properly unsibscribing from remote channels in certain circumstances
+
+Known Issues:
+ - Lacking platform support for
+   - iOS
+   - macOS
+   - Windows Universal Platform
+
+# 0.0.9
+
+Bugfixes:
+ - Made microphone recording more robust to large amounts of data being delivered at once
+ - Fixed a bug in the TransferBuffer which could overwrite some data when the buffer overflows
+ - Prevented DissonanceCommsEditor from trying to set certain properties every frame
+
+Known Issues:
+ - Lacking platform support for
+   - iOS
+   - macOS
+   - Windows Universal Platform
+
+# 0.0.8
+
+Features:
+ - Android Support!
+ - Custom Playback prefab audio sources may now use "doppler" and "bypassReverbZones" settings
+ - Added live amplitude measure in VoicePlayerState class
+ - Improved performance of spin locks (used to synchronise audio thread) on single core machines
+
+Bugfixes:
+ - Removed Photon integration (it's always been experimental, we'll add it back when it's stable)
+ - PlaybackPrefab and LocalPlayerName properties now throw an exception if changed at an unsafe time (after Dissonance has been started)
+ - Fixed a minor networking race condition which could have caused multiple handshakes to be exchanged
+ - Fixed occasional clicking in voice signal which would happen after sustained speech for approximately 30 seconds
+
+Known Issues:
+ - Lacking platform support for
+   - iOS
+   - macOS
+   - Windows Universal Platform
+
+# 0.0.7
+
+Features:
+ - Added a live list of connected peers in the DissonanceComms inspector
+ - Made network session setup more robust
+ - Added an editor to DissonancePlayer components (showing who is being tracked)
+ - Reduced the target bitrates for all quality levels (to be in line with Xiph recommendations for VoIP)
+
+Bugfixes:
+ - Fixed event handlers in network session not being properly cleaned up
+ - Fixed HLAPI tracker prefabs not propogating player IDs to all prefabs on all peers
+ - Fixed a potential race condition in the audio system which could lead to audio corruption
+
+Known Issues:
+ - Lacking platform support for
+   - iOS
+   - macOS
+   - Android
+
+# 0.0.6
+
+Features:
+ - VAD configuration is persistent both in development (changing this changes default settings) and runtime (saved as PlayerPrefs)
+ - Improved playback system (it now respects more of the settings in AudioSource)
+ - Unified all audio settings into one place (VoiceSettings). This includes moving the Quality/FrameSize setting from DissonanceComms as well as exposing a load of advanced settings for the preprocessor.
+ 
+Bugfixes:
+ - Fixed the HLAPI player tracker prefab not properly spawning on clients
+ - Fixed HLAPI position tracking initialisation logic
+ - Preloaded all settings so they can safely be accessed on other threads (fixes potential race condition)
+ - Fixed preprocessor not always processing microphone input
+ 
+Known Issues:
+ - Lacking platform support for
+   - iOS
+   - macOS
+   - Android
+
+# 0.0.5 (Test Version)
+
+Features:
+ - Slightly improved VAD algorithm (reduced chance of false positives)
+ - Added diagnostic setting to record microphone input to file
+ - Exposed VAD configuration
+ - Implemented an "auto configurator" for VAD settings
+
+Known Issues:
+ - VAD configuration is not persistent
+ - Lacking platform support for
+   - iOS
+   - macOS
+   - Android
+
+# 0.0.4 (Test Version)
+
+Bugfixes:
+ - Removed configuration settings from distribution (they will automatically be generated first time the asset is loaded in editor)
+ - Fixed a possible null reference exception in the encoder pipeline
+
+Known Issues:
+ - Lacking platform support for
+   - iOS
+   - macOS
+   - Android
+ 
+# 0.0.3 (Test Version)
+
+Bugfixes:
+ - Fixed BroadcastPosition and Priority properties on the VoiceBroadcastTrigger to update open channels instantly (instead of waiting for the channel to be opened again)
+ - Fixed a race condition in the HLAPI player state tracking initialisation
+ 
+Features:
+ - Added access control tokens - triggers will not activate unless the local players has at least one of the tokens required by the trigger.
+ - Replaced most public fields with public properties (better forward compatibile API design)
+ 
+Known Issues:
+ - Lacking platform support for
+   - iOS
+   - macOS
+   - Android
+
+# 0.0.2 (Test Version)
+
+Bugfixes:
+ - Fixed a null reference exception caused by creating a channel before the network is fully set up
+ - Added additional null checks to the playback pipeline to prevent exceptions being thrown if properties are read before it is fully initialised
+
+Features:
+ - Improved teardown and setup of encoding pipeline
+ - Improved clipping of audio signal (using soft clipping, so even excessively loud signals do not sound too bad)
+ - Added playback priority (only the highest priority speaker are heard, all other speakers are muted)
+ - Improved channel API
+   - Exposed properties for channel configuration such as position and priority
+   - Checking for misuse for channel structs (user-after-disposal)
+
+Known Issues:
+ - Lacking platform support for
+   - iOS
+   - macOS
+   - Android
+
+# 0.0.1 (Test Version)
+
+Available online: https://placeholder-software.co.uk/dissonance/releases/0.0.1.html
+
+ - Initial release of Dissonance to a small group of testers

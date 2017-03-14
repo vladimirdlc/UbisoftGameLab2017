@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//#define NETWORKING
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -49,8 +50,6 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             gameObject.name = "host";                                               // FIXME
         }
 
-        //QUESTION: Why we have to do this twice????
-        //Deactivate client player.
         if (hostsClient)
         {
             //This only works on host side,
@@ -62,27 +61,36 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             gameObject.name = "hostsClient";
         }
 
-        //If you are the client and you are the localplayer
-        //disable your camera so overseer can use his camera instead
-        //also diable all unnecessary components on clientsHost
+        //we keep client active so we can send messages to client host
         if (client)
         {
-            //gameObject.SetActive(false);
-            transform.GetChild(0).GetComponent<Camera>().enabled = false;
-            foreach (var comp in DisableOnClientsHost)
+            var allComponents = GetComponents<Behaviour>();
+            foreach (var c in allComponents)
             {
-                comp.enabled = false;
+                var componentType = c.GetType();
+                if (componentType != typeof(OpusNetworked) && componentType != typeof(AudioSource))
+                    c.enabled = false;
+                //gameObject.SetActive(false);
             }
+
+            allComponents = transform.GetChild(0).GetComponents<Behaviour>();
+            foreach (var c in allComponents)
+            {
+                c.enabled = false;
+            }
+
             gameObject.name = "client";
+            //transform.GetChild(0).GetComponent<Camera>().enabled = false;
             //GetComponent<TrackRenderer>().enabled = true;
         }
 
-        //Disable other persons camera...what?
+        //The client host disables components he should not have
+        //this should probably be on a seperate script
         if (clientsHost)
         {
-            foreach (var comp in DisableOnClientsHost)
+            foreach (var component in DisableOnClientsHost)
             {
-                comp.enabled = false;
+                component.enabled = false;
             }
             gameObject.name = "clientsHost";
         }
@@ -115,6 +123,12 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         return buttonInputFlag;
     }
 
+    protected void GetInput(ref bool pressed)
+    {
+        if (host)
+            pressed = Input.GetButtonDown("Test Button");
+    }
+
     /// <summary>
     /// Second step after ProcessButtonInput, this will pass messages from the client to the clientsHost.
     /// The child CharacterController should stop execution if this function returns true.
@@ -127,6 +141,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
         if (client)
             result = true;
+
 
         if (buttonInputFlag && client)
         {

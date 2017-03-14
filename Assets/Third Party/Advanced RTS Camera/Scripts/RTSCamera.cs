@@ -36,6 +36,7 @@ public class RTSCamera : MonoBehaviour
     public bool invertMouseY = true;
     public bool clampMiddleMouseInput;
     public float middleMouseInputMultiplier = 1.5f;
+    public bool invertOrbit;
 
     // Control Setup
     public ControlSetup verticalSetup = ControlSetup.Axis;
@@ -207,6 +208,10 @@ public class RTSCamera : MonoBehaviour
     void Start()
     {
         followTarget = OverseerTarget.startTarget.gameObject.transform;
+        if (OverseerTarget.startTarget.positionOffset != Vector3.zero)
+        {
+            //followOffset = OverseerTarget.startTarget.positionOffset;
+        }
         _currentTilt = Mathf.Clamp(transform.localEulerAngles.x, lowTilt, highTilt);
         _targetTilt = Mathf.Clamp(transform.localEulerAngles.x, lowTilt, highTilt);
         _newRotation = transform.rotation;
@@ -228,6 +233,12 @@ public class RTSCamera : MonoBehaviour
     public void changeTarget(Transform newTarget)
     {
         currentRotationDelay = rotationDelayOnChange;
+        followTarget = newTarget;
+    }
+
+    public void changeTarget(Transform newTarget, float delay)
+    {
+        currentRotationDelay = delay;
         followTarget = newTarget;
     }
 
@@ -338,7 +349,11 @@ public class RTSCamera : MonoBehaviour
     private void FollowCameraTarget()
     {
         if (followTarget != null)
-            _newPosition = followTarget.position + followOffset;
+        {
+            //float t = Mathf.Sin(CameraDeltaTime * Mathf.PI * 0.5f);
+            //_newPosition = followTarget.position + followOffset;
+            _newPosition = Vector3.Lerp(_newPosition, followTarget.position + followOffset, CameraDeltaTime * 30);
+        }
     }
 
     private void LookAtCamTarget()
@@ -352,14 +367,15 @@ public class RTSCamera : MonoBehaviour
             }
             else
             {
-                if (currentRotationDelay > -1)
+                if (currentRotationDelay > -1f)
                 {
                     _newRotation =
-                        Quaternion.Lerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), Time.deltaTime * 2);
+                        Quaternion.Lerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), Time.deltaTime * 4);
                 }
                 else
                 {
-                    _newRotation = Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up);
+                    _newRotation =
+                        Quaternion.Lerp(_newRotation, Quaternion.LookRotation(followTarget.position - transform.position, Vector3.up), Time.deltaTime * 10);
                 }
             }
             _currentTilt = _newRotation.eulerAngles.x;
@@ -537,7 +553,14 @@ public class RTSCamera : MonoBehaviour
         switch (orbitSetup)
         {
             case ControlSetup.Axis:
-                MoveOrbitX(Input.GetAxis(orbitAxis) * movementSpeed);
+                if (invertOrbit)
+                {
+                    MoveOrbitX(Input.GetAxis(orbitAxis) * movementSpeed);
+                }
+                else
+                {
+                    MoveOrbitX(Input.GetAxis(orbitAxis) * -movementSpeed);
+                }
                 break;
             case ControlSetup.KeyCode:
                 if (Input.GetKey(orbitLeftKey))

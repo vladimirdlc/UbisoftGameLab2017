@@ -46,7 +46,13 @@ public class OverseerCamera : MonoBehaviour
             OverseerTarget.currentPivot.localPosition = Vector3.zero;
         }
 
+        float directionx = (transform.position.x < target.transform.position.x) ? 1 : -1;
+        float directionz = (transform.position.z < target.transform.position.z) ? 1 : -1;
+
+
         Quaternion futureRotation = Quaternion.LookRotation(cam.followTarget.position - transform.position, Vector3.up);
+
+        //Debug.Log(transform.rotation.y+"x:"+directionx+",z"+directionz);
 
         if (currentDelayTime < 0 && (Input.GetAxisRaw(horizontalAxis) != 0 || Input.GetAxisRaw(verticalAxis) != 0))
         {
@@ -71,8 +77,17 @@ public class OverseerCamera : MonoBehaviour
                 startCooldown();
 
                 pointer.localPosition = Vector3.zero;
-                OverseerTarget.currentPivot = flickPosition.target.GetComponent<OverseerTarget>().pivot;
-                cam.changeTarget(flickPosition.target.transform);
+                OverseerTarget newTarget = flickPosition.target.GetComponent<OverseerTarget>();
+                OverseerTarget.currentPivot = newTarget.pivot;
+                if (flickPosition.overrideSmoothTime > 0)
+                {
+                    cam.changeTarget(flickPosition.target.transform, flickPosition.overrideSmoothTime);
+                }
+                else
+                {
+                    cam.changeTarget(flickPosition.target.transform);
+                }
+
                 target = flickPosition.target;
                 GetComponent<OSPointer>().updateTarget();
                 OverseerTarget.currentPivot.localPosition = Vector3.zero;

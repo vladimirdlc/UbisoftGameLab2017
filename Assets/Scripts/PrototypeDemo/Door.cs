@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Door : OSControllable
 {
+#if DEBUG_VERBOSE
+    public bool hackDoors = false;
+#endif
+
 
     public GameObject meshes;
     public bool isTimed;
@@ -41,13 +45,14 @@ public class Door : OSControllable
             if (Time.time >= closeAtTime) Close();
         }
 
-        /* 
-        if (Input.GetButtonDown("Test Button"))
+#if DEBUG_VERBOSE 
+        if (Input.GetButtonDown("Overseer B") && hackDoors)
         {
             TriggerAction();
         }
-        -*/
-        
+#endif
+
+
 
     }
 

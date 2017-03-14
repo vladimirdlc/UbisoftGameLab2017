@@ -20,7 +20,7 @@ public class TimelineManager : Singleton<TimelineManager>
     private float masterTimer;                  // Overall game timer clock
 
 #if CUSTOM_DEBUG
-    public Text timerText;
+    private Text timerText;
 #endif
 
     // Private state variables
@@ -31,6 +31,10 @@ public class TimelineManager : Singleton<TimelineManager>
     {
         loopingShadows = new List<GameObject>();
         loopingShadowStartTime = new List<float>();
+
+#if CUSTOM_DEBUG
+        timerText = GameObject.FindGameObjectWithTag("Timer Text").GetComponent<Text>();
+#endif
     }
 
     // Update is called once per frame
@@ -56,7 +60,7 @@ public class TimelineManager : Singleton<TimelineManager>
 
         int i = 0;
 
-#region rewind
+        #region rewind
         // Rewind detection/implementation
         if (Input.GetButton("Rewind"))
         {
@@ -85,7 +89,7 @@ public class TimelineManager : Singleton<TimelineManager>
                 shadow.GetComponent<RewindableLooper>().LockUnlockRewind(false);
             }
         }
-#endregion
+        #endregion
 
         if (!rewinding)
             foreach (float shadowStartTime in loopingShadowStartTime)

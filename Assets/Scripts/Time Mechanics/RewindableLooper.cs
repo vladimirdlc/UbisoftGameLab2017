@@ -20,21 +20,31 @@ public class RewindableLooper : Looper
 
     public void Rewind(float rewindInterval)
     {
-        if (rewindInterval <= 0)
-            return;
-
-        loopingTimer -= rewindInterval;
-
-        if (currentLooperIndex == 0)
+        try
         {
-            gameObject.transform.position = recordedPositions[currentLooperIndex];
-            gameObject.transform.localRotation = recordedRotations[currentLooperIndex];
+            if (rewindInterval <= 0)
+                return;
+
+            loopingTimer -= rewindInterval;
+
+            if (currentLooperIndex == 0)
+            {
+                gameObject.transform.position = recordedPositions[currentLooperIndex];
+                gameObject.transform.localRotation = recordedRotations[currentLooperIndex];
+                return;
+            }
+
+            LerpState(currentLooperIndex - 1, currentLooperIndex);
+
+            if (recordedTimes[currentLooperIndex] >= loopingTimer && currentLooperIndex > 0)
+                currentLooperIndex--;
         }
-
-        LerpState(currentLooperIndex - 1, currentLooperIndex);
-
-        if (recordedTimes[currentLooperIndex] >= loopingTimer && currentLooperIndex > 0)
-            currentLooperIndex--;
+        catch(System.ArgumentOutOfRangeException e)
+        {
+#if DEBUG_VERBOSE
+            Debug.Log("Index out of bounds for clone " + gameObject + " during Rewind method of RewindableLooper.cs, current index at " + currentLooperIndex + " with a collection size of " + recordedPositions.Count);
+#endif
+        }
     }
 
     public override void Reloop()

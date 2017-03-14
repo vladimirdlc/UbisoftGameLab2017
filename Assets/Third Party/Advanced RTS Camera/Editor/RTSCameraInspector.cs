@@ -87,6 +87,7 @@ public class RTSCameraInspector : Editor
     private SerializedProperty mouseYSetup;
     private SerializedProperty clampMiddleMouseInput;
     private SerializedProperty middleMouseInputMultiplier;
+    private SerializedProperty invertOrbit;
 
 
     private SerializedProperty resetKey;
@@ -201,6 +202,7 @@ public class RTSCameraInspector : Editor
 
         middleMouseLocksCursor = serializedObject.FindProperty("middleMouseLocksMouse");
         invertMouseX = serializedObject.FindProperty("invertMouseX");
+        invertOrbit = serializedObject.FindProperty("invertOrbit");
         invertMouseY = serializedObject.FindProperty("invertMouseY");
         mouseXAxis = serializedObject.FindProperty("mouseXAxis");
         mouseYAxis = serializedObject.FindProperty("mouseYAxis");
@@ -501,6 +503,12 @@ public class RTSCameraInspector : Editor
             GUILayout.BeginHorizontal();
             //    RTSCameraInstance.tiltSetup = (RTSCamera.ControlSetup)EditorGUILayout.EnumPopup(new GUIContent("Tilt Setup", "The control setup, should this movement use an axis or should keys be specified"), RTSCameraInstance.tiltSetup);
             EditorGUILayout.PropertyField(tiltSetup, new GUIContent("Tilt Setup", "The control setup, should this movement use an axis or should keys be specified"));
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(invertOrbit, new GUIContent("Invert Orbit X", "An easy way to invert orbit X input"));
+
             GUILayout.EndHorizontal();
 
 
