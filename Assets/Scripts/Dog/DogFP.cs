@@ -4,7 +4,7 @@ using UnityStandardAssets.Characters.FirstPerson;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 
-public class DogFP : MonoBehaviour
+public class DogFP : AnimatedDog
 {
 
     public float speed = 10.0f;
@@ -16,20 +16,11 @@ public class DogFP : MonoBehaviour
     public Camera m_Camera;
 
     private bool grounded = false;
-    private Rigidbody rigidbody;
-    private Animator m_Animator;
-
-    #region Animator Variables
-    public float walkAnimSpeed;
-    #endregion
 
     void Awake()
     {
         // Setup Added refernces
         m_MouseLook.Init(transform, m_Camera.transform);
-
-        // Setup added references
-        m_Animator = GetComponentInChildren<Animator>();
 
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.freezeRotation = true;
@@ -43,7 +34,7 @@ public class DogFP : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+        Move(false);
     }
 
     public void Move(bool crouch)
@@ -94,13 +85,5 @@ public class DogFP : MonoBehaviour
         // From the jump height and gravity we deduce the upwards speed 
         // for the character to reach at the apex.
         return Mathf.Sqrt(2 * jumpHeight * gravity);
-    }
-
-    private void UpdateAnimator()
-    {
-        m_Animator.SetFloat("walkingSpeedMultiplier", walkAnimSpeed);
-        Vector3 tempVector = rigidbody.velocity;
-        tempVector.y = 0;
-        m_Animator.SetFloat("walkingSpeed", tempVector.magnitude);
     }
 }
