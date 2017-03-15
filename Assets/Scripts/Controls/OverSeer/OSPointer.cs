@@ -36,7 +36,11 @@ public class OSPointer : MonoBehaviour
 
     public void updateTarget()
     {
-        pointer.transform.position = cam.followTarget.transform.position + pointerInstantiateOffset;
+        // @VLADIMIR: I ADDED THIS TO AVOID THE RACING CONDITION WE TALKED ABOUT, CLEAN THIS UP AS YOU SEE FIT
+        if (RTSCamera.startingTargetAssigned)
+            pointer.transform.position = cam.followTarget.transform.position + pointerInstantiateOffset;
+        else
+            cam.Start();
     }
 
     // Update is called once per frame
