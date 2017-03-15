@@ -9,7 +9,7 @@ public class SceneSwitch : MonoBehaviour
     public bool requirePuppy = false;
 
     private BoxCollider boundingCollider;
-    private Collider puppyCollider;
+    private Transform puppyTransform;
 
     private void Start()
     {
@@ -17,24 +17,26 @@ public class SceneSwitch : MonoBehaviour
 
         if (requirePuppy)
         {
-            puppyCollider = GameObject.FindGameObjectWithTag("Puppy").GetComponent<Collider>();
+            puppyTransform = GameObject.FindGameObjectWithTag("Puppy").GetComponent<Transform>();
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
+        Debug.Log(boundingCollider.bounds.Contains(puppyTransform.position));
+
         if (other.tag == "Player" || other.tag == "PlayerGround")
         {
             if (requirePuppy)
             {
-                if (!boundingCollider.bounds.Intersects(puppyCollider.bounds))
+                if (!boundingCollider.bounds.Contains(puppyTransform.position))
                 {
                     //TriggerMessage();
                     return;
                 }
             }
 
-            Debug.Break();
+            //Debug.Break();
 
             Cursor.visible = false;
             SceneManager.LoadScene(sceneName);
