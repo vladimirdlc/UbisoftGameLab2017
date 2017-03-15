@@ -666,6 +666,8 @@ public class TimeManager : MonoBehaviour
         if (m_GameState != GameState.NORMAL)
         {
             m_PuppyPointer += amount;
+            if (m_PuppyPointer >= m_MasterArray.Count)
+                m_PuppyPointer = m_MasterArray.Count - 1;
             m_PuppyController.restoreState(m_MasterArray[m_PuppyPointer]);
         }
         #endregion
