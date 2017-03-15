@@ -1388,6 +1388,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 224414600}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!84 &224494354
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1906
+  m_Height: 1107
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &237811936
 GameObject:
   m_ObjectHideFlags: 0
@@ -1468,6 +1490,16 @@ Prefab:
     - target: {fileID: 4587342000436484, guid: 094684ba1bf4d8341b16dc76e0cf8957, type: 2}
       propertyPath: m_LocalScale.z
       value: 1.0061609
+      objectReference: {fileID: 0}
+    - target: {fileID: 114095539431923458, guid: 094684ba1bf4d8341b16dc76e0cf8957,
+        type: 2}
+      propertyPath: openByDefault
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114980567612173068, guid: 094684ba1bf4d8341b16dc76e0cf8957,
+        type: 2}
+      propertyPath: openByDefault
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 094684ba1bf4d8341b16dc76e0cf8957, type: 2}
@@ -10535,28 +10567,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1635454933088034, guid: 094684ba1bf4d8341b16dc76e0cf8957,
     type: 2}
   m_PrefabInternal: {fileID: 1337384334}
---- !u!84 &2065157644
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1906
-  m_Height: 1107
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1001 &2071686631
 Prefab:
   m_ObjectHideFlags: 0
@@ -10615,6 +10625,16 @@ Prefab:
     - target: {fileID: 1184729361371350, guid: d9e55ce59532a7b4db6bd65248aa811d, type: 2}
       propertyPath: m_Name
       value: Brick Door Blue (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114361503242537518, guid: d9e55ce59532a7b4db6bd65248aa811d,
+        type: 2}
+      propertyPath: openByDefault
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114965255915570634, guid: d9e55ce59532a7b4db6bd65248aa811d,
+        type: 2}
+      propertyPath: openByDefault
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d9e55ce59532a7b4db6bd65248aa811d, type: 2}
