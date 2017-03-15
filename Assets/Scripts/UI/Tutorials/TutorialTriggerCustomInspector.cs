@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(TutorialTrigger))]
@@ -21,3 +22,4 @@ public class TutorialTriggerCustomInspector : Editor
         EditorUtility.SetDirty(target);
     }
 }
+#endif
