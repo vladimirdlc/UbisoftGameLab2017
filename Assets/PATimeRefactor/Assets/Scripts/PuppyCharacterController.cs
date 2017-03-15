@@ -4,8 +4,12 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
-// @PIERRE: I CHANGED THE NAME OF THIS SCRIPT IF YOU HAVE PROBLEMS YOU CAN PUT IT BACK
+
+#if USING_DOG_CHARACTER
 [RequireComponent(typeof(PuppyMovement))]
+#else
+[RequireComponent(typeof(Character))]
+#endif
 public class PuppyCharacterController : MonoBehaviour
 {
 
