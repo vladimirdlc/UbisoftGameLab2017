@@ -956,6 +956,7 @@ GameObject:
   - component: {fileID: 114876050463195618}
   - component: {fileID: 135446226328210862}
   - component: {fileID: 114904628806119978}
+  - component: {fileID: 114905684836708238}
   m_Layer: 22
   m_Name: OldPuppy
   m_TagString: Puppy
@@ -3249,6 +3250,26 @@ MonoBehaviour:
   m_MoveSpeedMultiplier: 2
   m_AnimSpeedMultiplier: 2
   m_GroundCheckDistance: 0.1
+--- !u!114 &114905684836708238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1633517716685066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e8262e11a299ef4bbe3fea2436fb6a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MovingTurnSpeed: 360
+  m_StationaryTurnSpeed: 180
+  m_JumpPower: 12
+  m_GravityMultiplier: 2
+  m_RunCycleLegOffset: 0.2
+  m_MoveSpeedMultiplier: 1
+  m_GroundCheckDistance: 0.1
+  walkingAnimatorSpeed: 0
+  loveEmoteAnimatorSpeed: 0
 --- !u!135 &135446226328210862
 SphereCollider:
   m_ObjectHideFlags: 1
