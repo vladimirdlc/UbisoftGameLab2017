@@ -120,7 +120,7 @@ public class PlayerUserController : MonoBehaviour
                         {
 
 #if USING_DOG_CHARACTER
-                        m_Character.Move(crouch);
+                            m_Character.Move(crouch);
 #else
                             m_Character.Move(m_Move, crouch);
 #endif
