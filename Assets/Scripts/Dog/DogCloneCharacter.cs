@@ -41,7 +41,7 @@ public class DogCloneCharacter : AnimatedDog
     {
         // Reference animator components to match the player
         // TODO: FIX/VERIFY TAG HERE
-        walkAnimSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<DogFP>().walkAnimSpeed;
+        walkAnimSpeed = GameObject.FindGameObjectWithTag("PlayerGround").GetComponent<DogFP>().walkAnimSpeed;
 
         base.Start();
 
@@ -62,7 +62,7 @@ public class DogCloneCharacter : AnimatedDog
         // direction.
         if (move.magnitude > 1f) move.Normalize();
         move = transform.InverseTransformDirection(move);
-        CheckGroundStatus();
+        //CheckGroundStatus();
         move = Vector3.ProjectOnPlane(move, m_GroundNormal);
         m_TurnAmount = Mathf.Atan2(move.x, move.z);
         m_ForwardAmount = move.z;
