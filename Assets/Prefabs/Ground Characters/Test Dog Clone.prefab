@@ -1993,7 +1993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeManagerObject: {fileID: 0}
-  m_BlockingParadoxRange: 30
+  m_BlockingParadoxRange: 4
   m_EnablePuppyParadox: 0
 --- !u!114 &114186232137434874
 MonoBehaviour:
@@ -2032,14 +2032,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkAnimSpeed: 0
-  m_MovingTurnSpeed: 360
-  m_StationaryTurnSpeed: 180
-  m_JumpPower: 12
-  m_GravityMultiplier: 2
-  m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 1
   m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.1
+  m_MoveSpeed: 20
 --- !u!136 &136488809996048714
 CapsuleCollider:
   m_ObjectHideFlags: 1
