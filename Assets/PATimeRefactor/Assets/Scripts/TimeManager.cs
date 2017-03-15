@@ -255,7 +255,7 @@ public class TimeManager : MonoBehaviour
                     trashClone();
                 }
             }
-            else
+            else if (m_TimelineIndex >= m_Start && m_TimelineIndex <= m_End)
             {
                 State currentState = m_MasterArrayRef[m_TimelineIndex];
 
@@ -283,7 +283,7 @@ public class TimeManager : MonoBehaviour
                 }
                 m_WarpInInstance.GetComponent<WarpBubble>().m_CurrentIndex = m_TimelineIndex - m_Start;
             }
-            else if (m_TimelineIndex >= m_End && m_TimelineIndex <= m_End + m_WarpBubbleLife)
+            else if (m_End != -1 && m_TimelineIndex >= m_End && m_TimelineIndex <= m_End + m_WarpBubbleLife)
             {
                 if (m_WarpInInstance == null)
                 {
@@ -666,6 +666,8 @@ public class TimeManager : MonoBehaviour
         if (m_GameState != GameState.NORMAL)
         {
             m_PuppyPointer += amount;
+            if (m_PuppyPointer >= m_MasterArray.Count)
+                m_PuppyPointer = m_MasterArray.Count - 1;
             m_PuppyController.restoreState(m_MasterArray[m_PuppyPointer]);
         }
         #endregion
@@ -746,7 +748,6 @@ public class TimeManager : MonoBehaviour
         }
 
         // Nudge back pointers to reading position
-        else
         m_MasterPointer--;
         m_PuppyPointer--;
         for (int i = 0; i < m_Timelines.Count; i++)

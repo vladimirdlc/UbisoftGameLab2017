@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 114171912868847632}
   - component: {fileID: 114860986800652246}
   - component: {fileID: 114186232137434874}
+  - component: {fileID: 135790850364958870}
   m_Layer: 19
   m_Name: Test Dog Clone
   m_TagString: Clone
@@ -1086,7 +1087,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1164595066363010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.49, y: 0.76, z: 0.199}
+  m_LocalPosition: {x: 3.3191729, y: 0.5, z: -1.6489887}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 4447256945343126}
@@ -2016,6 +2017,18 @@ MonoBehaviour:
   walkAnimSpeed: 0
   m_AnimSpeedMultiplier: 1
   m_MoveSpeed: 20
+--- !u!135 &135790850364958870
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1164595066363010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.17
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136488809996048714
 CapsuleCollider:
   m_ObjectHideFlags: 1
