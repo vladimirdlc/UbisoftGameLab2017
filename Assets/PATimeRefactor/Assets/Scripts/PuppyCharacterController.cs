@@ -6,7 +6,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 // @PIERRE: I CHANGED THE NAME OF THIS SCRIPT IF YOU HAVE PROBLEMS YOU CAN PUT IT BACK
 [RequireComponent(typeof(PuppyMovement))]
-public class PuppyCharacterController : MonoBehaviour {
+public class PuppyCharacterController : MonoBehaviour
+{
 
     // Almost the same script as the CloneCharacterController.
     // The setTarget script takes care of all the logic
@@ -18,7 +19,7 @@ public class PuppyCharacterController : MonoBehaviour {
 
     public TimeManager m_Manager;
     public GameObject m_Player;
-    
+
     // This should be a box collider with its origin on the floor, so that the puppy can reach it
     public GameObject m_Home;
 
@@ -31,7 +32,7 @@ public class PuppyCharacterController : MonoBehaviour {
 #endif
 
     public Vector3 m_Target { get; private set; }
-    
+
     public Transform m_FollowTargetTransform { get; private set; }
 
     private Vector3 m_LastTargetPosition;
@@ -61,7 +62,13 @@ public class PuppyCharacterController : MonoBehaviour {
     private void Start()
     {
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+
+#if USING_DOG_CHARACTER
         m_Character = GetComponent<PuppyMovement>();
+#else
+        m_Character = GetComponent<Character>();
+#endif
+
         m_PlayerUserController = m_Player.GetComponent<PlayerUserController>();
         m_HomePosition = m_Home.GetComponent<Transform>().position;
         m_Target = m_HomePosition;
