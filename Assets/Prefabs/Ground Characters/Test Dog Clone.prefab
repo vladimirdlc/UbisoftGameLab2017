@@ -175,7 +175,6 @@ GameObject:
   - component: {fileID: 82988502466345010}
   - component: {fileID: 136488809996048714}
   - component: {fileID: 195579264184893958}
-  - component: {fileID: 95968715064390168}
   - component: {fileID: 114171912868847632}
   - component: {fileID: 114860986800652246}
   - component: {fileID: 114186232137434874}
@@ -1866,23 +1865,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95968715064390168
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1164595066363010}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3cfc8176c966cb2498de5360a420bf8d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!96 &96802425550119848
 TrailRenderer:
   serializedVersion: 2
@@ -1993,7 +1975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeManagerObject: {fileID: 0}
-  m_BlockingParadoxRange: 4
+  m_BlockingParadoxRange: 6
   m_EnablePuppyParadox: 0
 --- !u!114 &114186232137434874
 MonoBehaviour:

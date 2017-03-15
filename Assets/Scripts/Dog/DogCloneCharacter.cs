@@ -2,7 +2,6 @@
 
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Animator))]
 public class DogCloneCharacter : AnimatedDog
 {
     [SerializeField]
@@ -47,7 +46,7 @@ public class DogCloneCharacter : AnimatedDog
     void UpdateAnimator(Vector3 move)
     {
         // Do not include y component of velocity for the animator
-        Vector3 tempVector = move;
+        Vector3 tempVector = m_Rigidbody.velocity;
         tempVector.y = 0;
 
         // update the animator parameters
