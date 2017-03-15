@@ -71,7 +71,7 @@ public class PlayerUserController : MonoBehaviour
             case TimeManager.GameState.NORMAL:
 
 #if USING_DOG_CHARACTER
-                        m_Character.Move(crouch);
+                m_Character.Move(crouch);
 #else
                 m_Character.Move(m_Move, crouch);
 #endif

@@ -23,7 +23,12 @@ public class PuppyCharacterController : MonoBehaviour {
     public GameObject m_Home;
 
     public NavMeshAgent m_Agent { get; private set; }
+
+#if USING_DOG_CHARACTER
     public PuppyMovement m_Character { get; private set; }
+#else
+    public Character m_Character { get; private set; }
+#endif
 
     public Vector3 m_Target { get; private set; }
     
