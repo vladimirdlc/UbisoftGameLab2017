@@ -36,8 +36,14 @@ public class PuppyMovement : MonoBehaviour
     bool m_Crouching;
 
     [Header("-------- Animator Variables --------")]
+    [Tooltip("Amount of time it takes to cycle between idle animations")]
+    public float idleCountdown;
+    public float barkAnimatorSpeed;
     public float walkingAnimatorSpeed;
     public float loveEmoteAnimatorSpeed;
+
+    private float m_IdleTimer;
+    private bool m_CycleIdle = false;
 
     void Start()
     {
@@ -52,6 +58,18 @@ public class PuppyMovement : MonoBehaviour
 
         // Animator setup
         m_Animator.SetFloat("loveSpeed", loveEmoteAnimatorSpeed);
+
+        m_IdleTimer = idleCountdown;
+    }
+
+    private void Update()
+    {
+        m_IdleTimer -= Time.deltaTime;
+        if (m_IdleTimer <= 0)
+        {
+            m_IdleTimer = idleCountdown;
+            m_CycleIdle = true;
+        }
     }
 
     public void Move(Vector3 move, bool crouch)
@@ -91,7 +109,14 @@ public class PuppyMovement : MonoBehaviour
 
         //m_Animator.SetBool("OnGround", m_IsGrounded);
 
-         m_Animator.SetFloat("walkingSpeed", walkingAnimatorSpeed * m_ForwardAmount);
+        m_Animator.SetFloat("walkingSpeed", walkingAnimatorSpeed * m_ForwardAmount);
+        m_Animator.SetFloat("barkingSpeed", barkAnimatorSpeed);
+
+        if(m_CycleIdle)
+        {
+            m_Animator.SetTrigger("cycleIdle");
+            m_CycleIdle = false;
+        }
     }
 
     void ApplyExtraTurnRotation()
