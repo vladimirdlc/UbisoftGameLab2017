@@ -43,6 +43,7 @@ public class PuppyMovement : MonoBehaviour
     public float loveEmoteAnimatorSpeed;
     public float tailChaseSpeed;
     public float sitSpeed;
+    public float sittingTailWagSpeed;
 
     private float m_IdleTimer;
     private bool m_CycleIdle = false;
@@ -67,6 +68,9 @@ public class PuppyMovement : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetButtonDown("Test Button"))
+            Sit();
+
         m_IdleTimer -= Time.deltaTime;
         if (m_IdleTimer <= 0)
         {
@@ -114,6 +118,7 @@ public class PuppyMovement : MonoBehaviour
         m_Animator.SetFloat("barkingSpeed", barkAnimatorSpeed);
         m_Animator.SetFloat("tailChaseSpeed", tailChaseSpeed);
         m_Animator.SetFloat("sitSpeed", sitSpeed);
+        m_Animator.SetFloat("sittingTailWagSpeed", sittingTailWagSpeed);
 
         if (m_CycleIdle)
         {
@@ -126,11 +131,11 @@ public class PuppyMovement : MonoBehaviour
     {
         float rndFloat = Random.Range(0.0f, 1.0f);
 
-        if(rndFloat <= 0.33)
+        if (rndFloat <= 0.33)
         {
             m_Animator.SetTrigger("bark");
         }
-        else if(rndFloat <= 0.66)
+        else if (rndFloat <= 0.66)
         {
             m_Animator.SetTrigger("tailChase");
         }
@@ -147,6 +152,23 @@ public class PuppyMovement : MonoBehaviour
         transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
     }
 
+    /// <summary>
+    /// To sit the puppy down while he is staring at something (namely the player)
+    /// @Pierre
+    /// TODO: Actually make the call
+    /// </summary>
+    public void Sit()
+    {
+        m_Animator.SetTrigger("sitContinuous");
+    }
+
+    /// <summary>
+    /// The puppy stands back up (goes back to the idel loop) if it was sitting. No effect if it wasn't
+    /// </summary>
+    public void StandUp()
+    {
+        m_Animator.SetTrigger("standUp");
+    }
 
     public void OnAnimatorMove()
     {
