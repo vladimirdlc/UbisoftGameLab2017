@@ -40,7 +40,7 @@ public class DogFP : AnimatedDog
 
     public void Move(bool crouch)
     {
-        if (grounded && !lockedMovement)
+        if (grounded && !lockedMovement && !GameState.disableControls)
         {
             // Calculate how fast we should be moving
             Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
