@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
 [RequireComponent(typeof(PuppyMovement))]
 #else
 [RequireComponent(typeof(Character))]
@@ -29,7 +29,7 @@ public class PuppyCharacterController : MonoBehaviour
 
     public NavMeshAgent m_Agent { get; private set; }
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
     public PuppyMovement m_Character { get; private set; }
 #else
     public Character m_Character { get; private set; }
@@ -67,7 +67,7 @@ public class PuppyCharacterController : MonoBehaviour
     {
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
         m_Character = GetComponent<PuppyMovement>();
 #else
         m_Character = GetComponent<Character>();

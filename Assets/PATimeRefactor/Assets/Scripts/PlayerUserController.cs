@@ -4,7 +4,7 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerUserController : MonoBehaviour
 {
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
     private DogFP m_Character;          // A reference to the FirstPersonController on the object
 #else
     private Character m_Character;      // A reference to the ThirdPersonCharacter on the object
@@ -24,7 +24,7 @@ public class PlayerUserController : MonoBehaviour
 
     private void Start()
     {
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
         m_Character = GetComponent<DogFP>();
 #else
         m_Character = GetComponent<Character>();
@@ -81,7 +81,7 @@ public class PlayerUserController : MonoBehaviour
 
             case TimeManager.GameState.NORMAL:
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
                 m_Character.Move(crouch);
 #else
                 m_Character.Move(m_Move, crouch);
@@ -99,7 +99,7 @@ public class PlayerUserController : MonoBehaviour
                 {
                     case TimeManager.RewindType.SCRUB:
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
                         m_Character.Move(crouch);
 #else
                         m_Character.Move(m_Move, crouch);
@@ -117,7 +117,7 @@ public class PlayerUserController : MonoBehaviour
                         break;
                     case TimeManager.RewindType.HOLD_AND_RELEASE:
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
                         m_Character.Move(crouch);
 #else
                         m_Character.Move(m_Move, crouch);
@@ -130,7 +130,7 @@ public class PlayerUserController : MonoBehaviour
                         if (m_TimeManager.m_WaitingForPlayer)
                         {
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
                             m_Character.Move(crouch);
 #else
                             m_Character.Move(m_Move, crouch);

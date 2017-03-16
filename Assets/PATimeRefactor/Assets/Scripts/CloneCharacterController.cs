@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof (UnityEngine.AI.NavMeshAgent))]
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
 [RequireComponent(typeof (DogCloneCharacter))]
 #else
 [RequireComponent(typeof (Character))]
@@ -12,7 +12,7 @@ public class CloneCharacterController : MonoBehaviour
 {
     public UnityEngine.AI.NavMeshAgent m_Agent { get; private set; }
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
     public DogCloneCharacter m_Character { get; private set; }
 #else
     public Character m_Character { get; private set; }
@@ -29,7 +29,7 @@ public class CloneCharacterController : MonoBehaviour
     {
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
         m_Character = GetComponent<DogCloneCharacter>();
 #else
         m_Character = GetComponent<Character>();
