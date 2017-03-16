@@ -809,7 +809,6 @@ GameObject:
   m_Component:
   - component: {fileID: 362}
   - component: {fileID: 736}
-  - component: {fileID: 949}
   - component: {fileID: 631}
   - component: {fileID: 1006}
   - component: {fileID: 1069}
@@ -7782,7 +7781,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 172}
-  m_LocalRotation: {x: 0.5326752, y: 0.070340455, z: 0.83613276, w: -0.110415146}
+  m_LocalRotation: {x: 0.53267515, y: 0.07034045, z: 0.83613265, w: -0.11041513}
   m_LocalPosition: {x: 0.000022271464, y: -0.00006150465, z: 0.026027026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9781,7 +9780,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294934527
   m_RenderingPath: 1
-  m_TargetTexture: {fileID: 1724328983}
+  m_TargetTexture: {fileID: 709732316}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -15620,18 +15619,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &949
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 49}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &950
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -17000,7 +16987,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkAnimSpeed: 1
   sitAnimSpeed: 1
+  tiltLeftSpeed: 0
+  tiltRightSpeed: 0
   speed: 10
+  enableTilt: 0
   gravity: 10
   maxVelocityChange: 10
   canJump: 1
@@ -18096,8 +18086,13 @@ MonoBehaviour:
   m_RunCycleLegOffset: 0.2
   m_MoveSpeedMultiplier: 1
   m_GroundCheckDistance: 0.1
+  idleCountdown: 0
   walkingAnimatorSpeed: 0
+  barkAnimatorSpeed: 0
   loveEmoteAnimatorSpeed: 0
+  tailChaseSpeed: 0
+  sitSpeed: 0
+  sittingTailWagSpeed: 0
 --- !u!114 &1061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18268,7 +18263,6 @@ GameObject:
   m_Component:
   - component: {fileID: 311769758}
   - component: {fileID: 311769763}
-  - component: {fileID: 311769762}
   - component: {fileID: 311769761}
   - component: {fileID: 311769760}
   - component: {fileID: 311769759}
@@ -18352,18 +18346,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!135 &311769762
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 311769757}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &311769763
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -18371,6 +18353,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 311769757}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!84 &709732316
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1541
+  m_Height: 312
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &778096995
 GameObject:
   m_ObjectHideFlags: 0
@@ -18380,7 +18384,6 @@ GameObject:
   m_Component:
   - component: {fileID: 778096996}
   - component: {fileID: 778097001}
-  - component: {fileID: 778097000}
   - component: {fileID: 778096999}
   - component: {fileID: 778096998}
   - component: {fileID: 778096997}
@@ -18464,18 +18467,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!135 &778097000
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 778096995}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &778097001
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -18483,28 +18474,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 778096995}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!84 &1724328983
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1441
-  m_Height: 700
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1 &1987662624
 GameObject:
   m_ObjectHideFlags: 0
@@ -18514,7 +18483,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1987662625}
   - component: {fileID: 1987662630}
-  - component: {fileID: 1987662629}
   - component: {fileID: 1987662628}
   - component: {fileID: 1987662627}
   - component: {fileID: 1987662626}
@@ -18598,18 +18566,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!135 &1987662629
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1987662624}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &1987662630
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -38,6 +38,7 @@ public class DogFP : AnimatedDog
 
     void FixedUpdate()
     {
+        if (GameState.disableControls) return;
         Move(false);
     }
 
