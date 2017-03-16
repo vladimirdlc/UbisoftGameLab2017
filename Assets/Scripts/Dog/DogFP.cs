@@ -16,6 +16,7 @@ public class DogFP : AnimatedDog
     public Camera m_Camera;
 
     private bool grounded = false;
+    private bool lockedMovement = false;
 
     void Awake()
     {
@@ -39,7 +40,7 @@ public class DogFP : AnimatedDog
 
     public void Move(bool crouch)
     {
-        if (grounded)
+        if (grounded && !lockedMovement)
         {
             // Calculate how fast we should be moving
             Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -67,7 +68,9 @@ public class DogFP : AnimatedDog
         UpdateAnimator();
         m_MouseLook.UpdateCursorLock();
 
+        // Reset state flags
         grounded = false;
+        lockedMovement = false;
     }
 
     void OnCollisionStay()
@@ -85,5 +88,14 @@ public class DogFP : AnimatedDog
         // From the jump height and gravity we deduce the upwards speed 
         // for the character to reach at the apex.
         return Mathf.Sqrt(2 * jumpHeight * gravity);
+    }
+
+    /// <summary>
+    /// The lock movement flag gets reset at the end of fixed update, so call this function on update only.
+    /// </summary>
+    /// <param name="moveLock"></param>
+    public void LockMovement(bool moveLock)
+    {
+        lockedMovement = moveLock;
     }
 }

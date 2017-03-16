@@ -32,6 +32,15 @@ public class PlayerUserController : MonoBehaviour
         m_HasPuppy = false;
     }
 
+
+    private void Update()
+    {
+        bool crouch = Input.GetButton("Ground Stop Time");
+
+        if (crouch)
+            m_Character.LockMovement(crouch);
+    }
+
     // Fixed update is called in sync with physics
     private void FixedUpdate()
     {
