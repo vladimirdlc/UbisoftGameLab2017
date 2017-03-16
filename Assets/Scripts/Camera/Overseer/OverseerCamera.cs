@@ -45,7 +45,10 @@ public class OverseerCamera : MonoBehaviour
         if (Input.GetAxisRaw(horizontalAxis) == 0 && Input.GetAxisRaw(verticalAxis) == 0)
         {
             flickTotaltime = 0;
-            OverseerTarget.currentPivot.localPosition = Vector3.zero;
+            if (OverseerTarget.currentPivot)
+            {
+                OverseerTarget.currentPivot.localPosition = Vector3.zero;
+            }
         }
 
         float directionx = (transform.position.x < target.transform.position.x) ? 1 : -1;
@@ -99,6 +102,38 @@ public class OverseerCamera : MonoBehaviour
 
 
         currentDelayTime -= Time.deltaTime;
+    }
+
+    public void setNewTargetRaw(OverseerTarget newTarget, float smootTime = 0)
+    {
+        flickTotaltime = 0;
+        startCooldown();
+
+        if (smootTime > 0)
+        {
+            cam.changeTarget(newTarget.transform, smootTime);
+        }
+        else
+        {
+            cam.changeTarget(newTarget.transform);
+        }
+
+        if (newTarget.GetComponent<OSCinematicTarget>())
+        {
+            newTarget.GetComponent<OSCinematicTarget>().startCount();
+        }
+        else //Is not cinematic
+        {
+            GameState.disableControls = false;
+            OverseerTarget.currentPivot = newTarget.pivot;
+        }
+   
+        if (newTarget.positionOffset != Vector3.zero)
+        {
+            cam.CameraTargetPosition = newTarget.positionOffset;
+        }
+
+        target = newTarget;
     }
 
     OverseerFlickPosition getClosestFlick(Transform child)
