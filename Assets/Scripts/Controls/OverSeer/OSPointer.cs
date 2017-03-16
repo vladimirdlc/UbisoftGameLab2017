@@ -31,6 +31,7 @@ public class OSPointer : MonoBehaviour
         pointer = pointerInstance.transform;
         cam = GetComponent<RTSCamera>();
         overseerCam = GetComponent<OverseerCamera>();
+        pointer.gameObject.SetActive(false);
         updateTarget();
     }
 

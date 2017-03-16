@@ -272,7 +272,7 @@ public class RTSCamera : MonoBehaviour
 
         MouseHeldInput(hit);
 
-        if (!shouldFollow || (shouldFollow && movementAdjustsOffset))
+        if (!shouldFollow || (shouldFollow && movementAdjustsOffset) && !GameState.disableControls)
         {
             // Apply Mouse Movement
             DirectionInput(hit);
