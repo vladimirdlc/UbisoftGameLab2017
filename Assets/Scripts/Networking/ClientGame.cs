@@ -10,6 +10,13 @@ public class ClientGame : MonoBehaviour
     {
         netManager = NetworkManager.singleton;
         gameObject.GetComponent<NetworkManagerHUD>().showGUI = false;
+        netManager.networkAddress = "localhost";
+    }
+
+
+    public void SetIpAddress(string ip)
+    {
+        netManager.networkAddress = ip;
     }
 
     public void PlayGameClient()

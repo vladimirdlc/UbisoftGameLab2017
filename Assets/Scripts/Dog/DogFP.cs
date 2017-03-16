@@ -4,10 +4,11 @@ using UnityStandardAssets.Characters.FirstPerson;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 
-public class DogFP : MonoBehaviour
+public class DogFP : AnimatedDog
 {
-
+    [Header("---- Movement Variables ----")]
     public float speed = 10.0f;
+    public bool enableTilt = false;
     public float gravity = 10.0f;
     public float maxVelocityChange = 10.0f;
     public bool canJump = true;
@@ -16,47 +17,59 @@ public class DogFP : MonoBehaviour
     public Camera m_Camera;
 
     private bool grounded = false;
-    private Rigidbody rigidbody;
-    private Animator m_Animator;
-
-    #region Animator Variables
-    public float walkAnimSpeed;
-    #endregion
+    private bool lockedMovement = false;
 
     void Awake()
     {
         // Setup Added refernces
         m_MouseLook.Init(transform, m_Camera.transform);
 
-        // Setup added references
-        m_Animator = GetComponentInChildren<Animator>();
-
-        rigidbody = GetComponent<Rigidbody>();
-        rigidbody.freezeRotation = true;
-        rigidbody.useGravity = false;
+        m_RigidBody = GetComponent<Rigidbody>();
+        m_RigidBody.freezeRotation = true;
+        m_RigidBody.useGravity = false;
     }
 
-    private void Update()
+    protected override void Update()
     {
+        if (GameState.disableControls) return;
+        base.Update();
         RotateView();
     }
 
     void FixedUpdate()
     {
-        if (grounded)
+        Move(false);
+    }
+
+    public void Move(bool crouch)
+    {
+        if (grounded && !lockedMovement && !GameState.disableControls)
         {
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            float horizontalLook = Input.GetAxis("Mouse X");
+            float verticalLook = Input.GetAxis("Mouse Y");
+
             // Calculate how fast we should be moving
-            Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            Vector3 targetVelocity = new Vector3(horizontal, 0, vertical);
             targetVelocity = transform.TransformDirection(targetVelocity);
             targetVelocity *= speed;
 
             // Apply a force that attempts to reach our target velocity
-            Vector3 velocity = rigidbody.velocity;
+            Vector3 velocity = m_RigidBody.velocity;
             Vector3 velocityChange = (targetVelocity - velocity);
             velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
             velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
             velocityChange.y = 0;
-            rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
+            m_RigidBody.AddForce(velocityChange, ForceMode.VelocityChange);
+
+            // Tilt head when turning
+            if (enableTilt)
+                if (horizontalLook >= 0.2f)
+                    tiltRight = true;
+
+            if (horizontalLook <= -0.2f)
+                tiltLeft = true;
 
             // Jump
             //if (canJump && Input.GetButton("Jump"))
@@ -66,12 +79,14 @@ public class DogFP : MonoBehaviour
         }
 
         // We apply gravity manually for more tuning control
-        rigidbody.AddForce(new Vector3(0, -gravity * rigidbody.mass, 0));
+        m_RigidBody.AddForce(new Vector3(0, -gravity * m_RigidBody.mass, 0));
 
-        UpdateAnimator();
+        UpdateAnimator(crouch);
         m_MouseLook.UpdateCursorLock();
 
+        // Reset state flags
         grounded = false;
+        lockedMovement = false;
     }
 
     void OnCollisionStay()
@@ -91,11 +106,12 @@ public class DogFP : MonoBehaviour
         return Mathf.Sqrt(2 * jumpHeight * gravity);
     }
 
-    private void UpdateAnimator()
+    /// <summary>
+    /// The lock movement flag gets reset at the end of fixed update, so call this function on update only.
+    /// </summary>
+    /// <param name="moveLock"></param>
+    public void LockMovement(bool moveLock)
     {
-        m_Animator.SetFloat("walkingSpeedMultiplier", walkAnimSpeed);
-        Vector3 tempVector = rigidbody.velocity;
-        tempVector.y = 0;
-        m_Animator.SetFloat("walkingSpeed", tempVector.magnitude);
+        lockedMovement = moveLock;
     }
 }

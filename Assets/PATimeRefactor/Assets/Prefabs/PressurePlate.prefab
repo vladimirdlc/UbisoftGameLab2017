@@ -21,9 +21,11 @@ GameObject:
   - component: {fileID: 4858338949452850}
   - component: {fileID: 33562989641879620}
   - component: {fileID: 23545392253009734}
-  m_Layer: 21
+  - component: {fileID: 136578784881225250}
+  - component: {fileID: 114696680226765280}
+  m_Layer: 24
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: PressurePlateCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,11 +38,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4094971283816024}
-  - component: {fileID: 136116629899047188}
-  - component: {fileID: 114614349883559164}
-  m_Layer: 21
+  m_Layer: 24
   m_Name: PressurePlate
-  m_TagString: Untagged
+  m_TagString: PressurePlateCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,8 +52,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1649229833953150}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 1, z: 2}
+  m_LocalPosition: {x: -25.96, y: 0.7, z: -20.02}
+  m_LocalScale: {x: 3, y: 1, z: 3}
   m_Children:
   - {fileID: 4858338949452850}
   m_Father: {fileID: 0}
@@ -110,27 +110,26 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1036937098942168}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114614349883559164
+--- !u!114 &114696680226765280
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1649229833953150}
+  m_GameObject: {fileID: 1036937098942168}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1731d4eb5ab5db643aa6adfe9ccd22cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mesh: {fileID: 1036937098942168}
-  active: {fileID: 2100000, guid: d126514c63e26c648b26342075574ffc, type: 2}
-  inactive: {fileID: 2100000, guid: 6d5cae7598648574fa97b3d331407a30, type: 2}
+  active: {fileID: 2100000, guid: 3756c7ca466ec3a4681fa05534341942, type: 2}
+  inactive: {fileID: 2100000, guid: 8e99a5ec37ac45441a88343e99837c54, type: 2}
   target: {fileID: 0}
---- !u!136 &136116629899047188
+--- !u!136 &136578784881225250
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1649229833953150}
+  m_GameObject: {fileID: 1036937098942168}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1

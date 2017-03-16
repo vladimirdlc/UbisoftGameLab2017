@@ -203,14 +203,19 @@ public class RTSCamera : MonoBehaviour
     }
     #endregion
 
+    // @VLADIMIR: I ADDED THIS TO AVOID THE RACING CONDITION WE TALKED ABOUT, CLEAN THIS UP AS YOU SEE FIT
+    public static bool startingTargetAssigned = false;
+
     #region Initialization
 
-    void Start()
+    public void Start()
     {
         followTarget = OverseerTarget.startTarget.gameObject.transform;
+        startingTargetAssigned = true;
+
         if (OverseerTarget.startTarget.positionOffset != Vector3.zero)
         {
-            //followOffset = OverseerTarget.startTarget.positionOffset;
+            followOffset = OverseerTarget.startTarget.positionOffset;
         }
         _currentTilt = Mathf.Clamp(transform.localEulerAngles.x, lowTilt, highTilt);
         _targetTilt = Mathf.Clamp(transform.localEulerAngles.x, lowTilt, highTilt);
@@ -267,7 +272,7 @@ public class RTSCamera : MonoBehaviour
 
         MouseHeldInput(hit);
 
-        if (!shouldFollow || (shouldFollow && movementAdjustsOffset))
+        if (!shouldFollow || (shouldFollow && movementAdjustsOffset) && !GameState.disableControls)
         {
             // Apply Mouse Movement
             DirectionInput(hit);
