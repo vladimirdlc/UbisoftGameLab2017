@@ -32,6 +32,8 @@ public class OverseerCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameState.disableControls) return;
+
 #if NETWORKING
         if (NetworkCustom.isServer)
         {
