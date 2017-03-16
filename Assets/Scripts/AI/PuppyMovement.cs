@@ -38,9 +38,10 @@ public class PuppyMovement : MonoBehaviour
     [Header("-------- Animator Variables --------")]
     [Tooltip("Amount of time it takes to cycle between idle animations")]
     public float idleCountdown;
-    public float barkAnimatorSpeed;
     public float walkingAnimatorSpeed;
+    public float barkAnimatorSpeed;
     public float loveEmoteAnimatorSpeed;
+    public float tailChaseSpeed;
 
     private float m_IdleTimer;
     private bool m_CycleIdle = false;
@@ -60,6 +61,7 @@ public class PuppyMovement : MonoBehaviour
         m_Animator.SetFloat("loveSpeed", loveEmoteAnimatorSpeed);
 
         m_IdleTimer = idleCountdown;
+        Random.InitState(42);
     }
 
     private void Update()
@@ -94,8 +96,6 @@ public class PuppyMovement : MonoBehaviour
         UpdateAnimator(move);
     }
 
-
-
     void UpdateAnimator(Vector3 move)
     {
         // update the animator parameters
@@ -111,11 +111,26 @@ public class PuppyMovement : MonoBehaviour
 
         m_Animator.SetFloat("walkingSpeed", walkingAnimatorSpeed * m_ForwardAmount);
         m_Animator.SetFloat("barkingSpeed", barkAnimatorSpeed);
+        m_Animator.SetFloat("tailChaseSpeed", tailChaseSpeed);
 
-        if(m_CycleIdle)
+        if (m_CycleIdle)
         {
-            m_Animator.SetTrigger("cycleIdle");
+            PlayRandomIdle();
             m_CycleIdle = false;
+        }
+    }
+
+    void PlayRandomIdle()
+    {
+        float rndFloat = Random.Range(0.0f, 1.0f);
+
+        if(rndFloat <= 0.5)
+        {
+            m_Animator.SetTrigger("bark");
+        }
+        else
+        {
+            m_Animator.SetTrigger("tailChase");
         }
     }
 
