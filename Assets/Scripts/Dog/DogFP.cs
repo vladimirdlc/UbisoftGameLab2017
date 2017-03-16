@@ -6,7 +6,7 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class DogFP : AnimatedDog
 {
-
+    [Header("---- Movement Variables ----")]
     public float speed = 10.0f;
     public float gravity = 10.0f;
     public float maxVelocityChange = 10.0f;
@@ -65,7 +65,7 @@ public class DogFP : AnimatedDog
         // We apply gravity manually for more tuning control
         m_RigidBody.AddForce(new Vector3(0, -gravity * m_RigidBody.mass, 0));
 
-        UpdateAnimator();
+        UpdateAnimator(crouch);
         m_MouseLook.UpdateCursorLock();
 
         // Reset state flags
