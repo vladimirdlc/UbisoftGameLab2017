@@ -8,6 +8,7 @@ public class DogFP : AnimatedDog
 {
     [Header("---- Movement Variables ----")]
     public float speed = 10.0f;
+    public bool enableTilt = false;
     public float gravity = 10.0f;
     public float maxVelocityChange = 10.0f;
     public bool canJump = true;
@@ -28,24 +29,29 @@ public class DogFP : AnimatedDog
         m_RigidBody.useGravity = false;
     }
 
-    private void Update()
+    protected override void Update()
     {
         if (GameState.disableControls) return;
+        base.Update();
         RotateView();
     }
 
     void FixedUpdate()
     {
-        if (GameState.disableControls) return;
         Move(false);
     }
 
     public void Move(bool crouch)
     {
-        if (grounded && !lockedMovement)
+        if (grounded && !lockedMovement && !GameState.disableControls)
         {
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            float horizontalLook = Input.GetAxis("Mouse X");
+            float verticalLook = Input.GetAxis("Mouse Y");
+
             // Calculate how fast we should be moving
-            Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            Vector3 targetVelocity = new Vector3(horizontal, 0, vertical);
             targetVelocity = transform.TransformDirection(targetVelocity);
             targetVelocity *= speed;
 
@@ -56,6 +62,14 @@ public class DogFP : AnimatedDog
             velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
             velocityChange.y = 0;
             m_RigidBody.AddForce(velocityChange, ForceMode.VelocityChange);
+
+            // Tilt head when turning
+            if (enableTilt)
+                if (horizontalLook >= 0.2f)
+                    tiltRight = true;
+
+            if (horizontalLook <= -0.2f)
+                tiltLeft = true;
 
             // Jump
             //if (canJump && Input.GetButton("Jump"))
