@@ -7,10 +7,13 @@ using UnityEngine;
 /// </summary>
 public class TimeManagerDependable : MonoBehaviour
 {
-
+    // What will happen when any of the triggering game states evaluated as true
     public enum RequiredAction { Destroy, Deactivate, TurnOffAudiosource, StopAudioSource, TurnOnScript, TurnOffScript }
 
+    // Whatever collection of game states will trigger the desired behaviour/action
     public TimeManager.GameState[] m_TriggeringGameStates;
+
+    // What needs to happen when the game state evaluates as true
     public RequiredAction m_RequiredAction;
 
     // Optional public references
@@ -67,6 +70,11 @@ public class TimeManagerDependable : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Looping through game states and returning true if any of them exist
+    /// </summary>
+    /// <param name="searchedGameState"></param>
+    /// <returns></returns>
     private bool CheckForGameState(TimeManager.GameState searchedGameState)
     {
         bool result = false;
