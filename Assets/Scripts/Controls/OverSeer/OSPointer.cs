@@ -24,6 +24,8 @@ public class OSPointer : MonoBehaviour
     private float currentTimeToDissapear;
     private bool teleportPointer;
     public bool enableMovement;
+    private float arrowCooldown = 1f;
+    private float currentCooldown;
 
     void Start()
     {
@@ -44,11 +46,14 @@ public class OSPointer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentCooldown -= Time.deltaTime;
+
         if (Input.GetAxis(beaconButton) > 0)
         {
-            if (!beaconInUse)
+            if (!beaconInUse && currentCooldown < 0)
             {
                 SpawnBeacon();
+                currentCooldown = arrowCooldown;
             }
         }
         else if (Input.GetAxisRaw(beaconButton) == 0)
