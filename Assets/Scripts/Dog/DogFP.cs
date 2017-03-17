@@ -66,11 +66,13 @@ public class DogFP : AnimatedDog
 
             // Tilt head when turning
             if (enableTilt)
+            {
                 if (horizontalLook >= 0.2f)
                     tiltRight = true;
 
-            if (horizontalLook <= -0.2f)
-                tiltLeft = true;
+                if (horizontalLook <= -0.2f)
+                    tiltLeft = true;
+            }
 
             // Jump
             //if (canJump && Input.GetButton("Jump"))
