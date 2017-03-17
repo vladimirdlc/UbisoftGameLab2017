@@ -8,10 +8,13 @@ using UnityEngine;
 public class TimeManagerDependable : MonoBehaviour
 {
 
-    public enum RequiredAction { Destroy, Deactivate, TurnOffAudiosource, StopAudioSource }
+    public enum RequiredAction { Destroy, Deactivate, TurnOffAudiosource, StopAudioSource, TurnOnScript, TurnOffScript }
 
     public TimeManager.GameState[] m_TriggeringGameStates;
     public RequiredAction m_RequiredAction;
+
+    // Optional public references
+    public MonoBehaviour m_RelatedScript;
 
     // Necessary references
     private TimeManager m_TimeManager;
@@ -51,6 +54,14 @@ public class TimeManagerDependable : MonoBehaviour
 
                 case RequiredAction.StopAudioSource:
                     m_AudioSource.Stop();
+                    break;
+
+                case RequiredAction.TurnOnScript:
+                    m_RelatedScript.enabled = true;
+                    break;
+
+                case RequiredAction.TurnOffScript:
+                    m_RelatedScript.enabled = false;
                     break;
             }
         }

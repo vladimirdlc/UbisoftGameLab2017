@@ -47,6 +47,9 @@ GameObject:
   - component: {fileID: 114630475340081652}
   - component: {fileID: 114763695715970150}
   - component: {fileID: 114141115246894026}
+  - component: {fileID: 114900340473879266}
+  - component: {fileID: 114911498961015104}
+  - component: {fileID: 114557778174852100}
   m_Layer: 0
   m_Name: Overseer Camera
   m_TagString: MainCamera
@@ -200,6 +203,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Intensity: 2
+--- !u!114 &114557778174852100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggeringGameStates: 02000000
+  m_RequiredAction: 5
+  m_RelatedScript: {fileID: 114900340473879266}
 --- !u!114 &114630475340081652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,7 +292,7 @@ MonoBehaviour:
   cloudMaxAlpha: 0.15
   movementSpeed: 180
   rotateSpeed: 180
-  minHeightDistance: 5
+  minHeightDistance: -10
   maxHeightDistance: 250
   tiltMaxHeight: 10
   lowTilt: 15
@@ -364,6 +381,34 @@ MonoBehaviour:
   beaconPrefab: {fileID: 1627837743720578, guid: 43877f32af5efef4b84770a02b17302b,
     type: 2}
   enableMovement: 0
+--- !u!114 &114900340473879266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd732fb44d34b94499d898ade1175074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: ce9a06ac4ede6f84ab1865b7d32f204c, type: 3}
+  VHS: {fileID: 15200000, guid: 324a486eb541aa848884bad1ebd7b5e6, type: 3}
+  intensity: 1
+--- !u!114 &114911498961015104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggeringGameStates: 000000000100000003000000
+  m_RequiredAction: 4
+  m_RelatedScript: {fileID: 114900340473879266}
 --- !u!124 &124443398284161474
 Behaviour:
   m_ObjectHideFlags: 1
