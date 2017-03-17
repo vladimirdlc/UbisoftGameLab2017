@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23705518616939126}
   - component: {fileID: 114559152340339248}
   - component: {fileID: 82436378336045018}
+  - component: {fileID: 114479182654366052}
   m_Layer: 0
   m_Name: WarpBubble
   m_TagString: Untagged
@@ -161,6 +162,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114479182654366052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1233483338614074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggeringGameStates: 030000000000000001000000
+  m_RequiredAction: 2
 --- !u!114 &114559152340339248
 MonoBehaviour:
   m_ObjectHideFlags: 1
