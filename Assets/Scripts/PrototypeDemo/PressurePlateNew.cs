@@ -5,12 +5,13 @@ using UnityEngine;
 public class PressurePlateNew : MonoBehaviour
 {
 
-    public GameObject target;
+    //public GameObject target;
     private Light myLight;
     private float targetPositionStart;
     private float targetPositionDown;
     private float targetPosition;
-    private bool isActive;
+    public bool isActive;
+    public GameObject[] wires;
 
     void Start()
     {
@@ -41,21 +42,27 @@ public class PressurePlateNew : MonoBehaviour
     {
         if(other.tag == "Player" || other.tag == "PlayerGround" || other.tag == "Clone")
         {   
+            //target.GetComponent<Door>().IncCount();
             targetPosition = targetPositionDown;
             myLight.enabled = true;
             isActive = true;
+            foreach (GameObject wire in wires) {
+            	wire.GetComponent<WiresCollision>().isActive = true;
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Light off");
         if (other.tag == "Player" || other.tag == "PlayerGround" || other.tag == "Clone")
         {
+            //target.GetComponent<Door>().DecCount();
             targetPosition = targetPositionStart;
             myLight.enabled = false;
             isActive = false;
-            target.GetComponent<Door>().DecCount();
+            foreach (GameObject wire in wires) {
+            	wire.GetComponent<WiresCollision>().isActive = false;
+            }
         }
 
     }
