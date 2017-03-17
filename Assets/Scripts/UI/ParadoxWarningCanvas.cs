@@ -47,7 +47,7 @@ public class ParadoxWarningCanvas : MonoBehaviour
     /// </summary>
     /// <param name="time">Optional parameter to override the warning time specified on the canvas</param>
     /// <returns></returns>
-    public IEnumerator StartWarningAsCoroutine(float time = 0.0f)
+    public IEnumerator StartWarningAsCoroutine(float time = 0.0f, TimeManager timeManager = null)
     {
         // Ignore timer implementation
         if (!started)
@@ -65,7 +65,7 @@ public class ParadoxWarningCanvas : MonoBehaviour
 
             StartWarning();
             yield return new WaitForSeconds(usedTime);
-            StopWarning();
+            StopWarning(timeManager);
         }
     }
 
@@ -79,8 +79,16 @@ public class ParadoxWarningCanvas : MonoBehaviour
             m_AudioSource.PlayOneShot(warningClip);
     }
 
-    private void StopWarning()
+    private void StopWarning(TimeManager timeManager = null)
     {
+        ObservableEnumarator timeManagerObserver;
+
+        if (timeManager)
+        {
+            timeManagerObserver = (ObservableEnumarator)timeManager;
+            timeManagerObserver.EndOfCoroutine();
+        }
+
         started = false;
         m_Aniamtor.SetBool("isWarning", false);
 

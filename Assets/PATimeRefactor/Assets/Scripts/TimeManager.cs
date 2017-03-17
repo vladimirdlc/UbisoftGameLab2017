@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviour
+public class TimeManager : MonoBehaviour, ObservableEnumarator
 {
-
+    public ParadoxWarningCanvas m_ParadoxWarningCanvas;
+    bool m_ParadoxWarningEnded = true;
 
     // The player, the clones and the doors should all have their own layers
     // 8 - Clone
@@ -297,7 +298,7 @@ public class TimeManager : MonoBehaviour
                 {
                     trashBubble();
                 }
-            }   
+            }
         }
     }
 
@@ -401,41 +402,7 @@ public class TimeManager : MonoBehaviour
         #endregion
 
         #region Paradox
-        // When doing the paradox/reverting from the paradox, everything gets bypassed and this happens
-        if (m_GameState == GameState.PARADOX)
-        {
-            // The forced rewind will try to reach a few seconds before the paradox actually happened
-            // in order to show the player the sequence of events that lead to the paradox
-            if (m_MasterPointer > ((m_RevertIndex > 20) ? (m_RevertIndex - 20) : 0))
-            {
-                // During a forced rewind, timelines need to be snapped up in order to display their proper position
-                // This is what the flipOffset is for
-                if (m_MasterPointer == m_Timelines[m_ActiveTimeline].m_Start)
-                {
-                    int flipOffset = 0;
-                    // flipOffset value is determined by the rewind amount that lead to the active timeline's position
-                    // Current activeTimeline position is the current value of the m_MasterPointer
-                    flipOffset = m_MasterPointer - m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex;
-
-                    // Bring down the active timeline and scrub
-                    m_ActiveTimeline--;
-                    masterScrub(-1, flipOffset);
-                }
-
-                // This happens during the force rewind when no "snapping" is required, just a straight
-                // call to the masterScrub()
-                else
-                {
-                    masterScrub(-1);
-                }
-            }
-            // Once the forced rewind has reached the point where we want to display the playback of what
-            // happened, we start reverting and on next update the first portion will be skipped
-            else
-            {
-                m_GameState = GameState.REVERT;
-            }
-        }
+        StartCoroutine(ParadoxEnumerator(3.5f));
         #endregion
 
         #region Revert
@@ -492,6 +459,57 @@ public class TimeManager : MonoBehaviour
             }
         }
         #endregion
+    }
+
+    IEnumerator ParadoxEnumerator(float timer)
+    {
+        // When doing the paradox/reverting from the paradox, everything gets bypassed and this happens
+        if (m_GameState == GameState.PARADOX)
+        {
+            m_ParadoxWarningEnded = false;
+
+            m_ParadoxWarningCanvas.StartWarningAsCoroutine(timer);
+
+            while (!m_ParadoxWarningEnded)
+                yield return new WaitForSeconds(timer);
+
+            // The forced rewind will try to reach a few seconds before the paradox actually happened
+            // in order to show the player the sequence of events that lead to the paradox
+            if (m_MasterPointer > ((m_RevertIndex > 20) ? (m_RevertIndex - 20) : 0))
+            {
+                // During a forced rewind, timelines need to be snapped up in order to display their proper position
+                // This is what the flipOffset is for
+                if (m_MasterPointer == m_Timelines[m_ActiveTimeline].m_Start)
+                {
+                    int flipOffset = 0;
+                    // flipOffset value is determined by the rewind amount that lead to the active timeline's position
+                    // Current activeTimeline position is the current value of the m_MasterPointer
+                    flipOffset = m_MasterPointer - m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex;
+
+                    // Bring down the active timeline and scrub
+                    m_ActiveTimeline--;
+                    masterScrub(-1, flipOffset);
+                }
+
+                // This happens during the force rewind when no "snapping" is required, just a straight
+                // call to the masterScrub()
+                else
+                {
+                    masterScrub(-1);
+                }
+            }
+            // Once the forced rewind has reached the point where we want to display the playback of what
+            // happened, we start reverting and on next update the first portion will be skipped
+            else
+            {
+                m_GameState = GameState.REVERT;
+            }
+        }
+    }
+
+    public void EndOfCoroutine()
+    {
+        m_ParadoxWarningEnded = true;
     }
 
     private void requestPush()
