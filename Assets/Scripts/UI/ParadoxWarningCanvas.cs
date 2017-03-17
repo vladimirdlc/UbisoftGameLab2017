@@ -7,8 +7,11 @@ public class ParadoxWarningCanvas : MonoBehaviour
 
     public float textFlashSpeed;
     public float warningDuration;
+    public bool enableSound;
+    public AudioClip warningClip;
 
     private Animator m_Aniamtor;
+    private AudioSource m_AudioSource;
     private float timer;
     private bool started;
 
@@ -16,29 +19,28 @@ public class ParadoxWarningCanvas : MonoBehaviour
     void Start()
     {
         m_Aniamtor = GetComponent<Animator>();
+        m_AudioSource = GetComponent<AudioSource>();
         started = false;
     }
 
     private void Update()
     {
+
+#if DEBUG_VERBOSE
+        if (Input.GetButtonDown("Test Button"))
+            StartWarning();
+#endif
+
         if (started)
         {
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                m_Aniamtor.SetBool("isWarning", false);
-                started = false;
+                StopWarning();
             }
         }
     }
-
-    public void StartWarning()
-    {
-        started = true;
-        timer = warningDuration;
-        m_Aniamtor.SetBool("isWarning", true);
-    }
-
+ 
     /// <summary>
     /// Starts coroutine for the paradox warning message. The time variable is optional in case you want to override
     /// the public warning time specified at the canvas.
@@ -52,7 +54,7 @@ public class ParadoxWarningCanvas : MonoBehaviour
         {
             float usedTime;
 
-            if(time > 0.0f)
+            if (time > 0.0f)
             {
                 usedTime = time;
             }
@@ -61,9 +63,28 @@ public class ParadoxWarningCanvas : MonoBehaviour
                 usedTime = this.warningDuration;
             }
 
-            m_Aniamtor.SetBool("isWarning", true);
+            StartWarning();
             yield return new WaitForSeconds(usedTime);
-            m_Aniamtor.SetBool("isWarning", false);
+            StopWarning();
         }
+    }
+
+    public void StartWarning()
+    {
+        started = true;
+        timer = warningDuration;
+        m_Aniamtor.SetBool("isWarning", true);
+
+        if (enableSound)
+            m_AudioSource.PlayOneShot(warningClip);
+    }
+
+    private void StopWarning()
+    {
+        started = false;
+        m_Aniamtor.SetBool("isWarning", false);
+
+        if (enableSound)
+            m_AudioSource.Stop();
     }
 }
