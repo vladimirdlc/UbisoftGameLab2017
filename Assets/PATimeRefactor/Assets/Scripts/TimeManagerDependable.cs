@@ -13,6 +13,10 @@ public class TimeManagerDependable : MonoBehaviour
     // Whatever collection of game states will trigger the desired behaviour/action
     public TimeManager.GameState[] m_TriggeringGameStates;
 
+    public bool m_FindMonobehaviourOnStart;
+    public enum TypeOf { VHSEffect }
+    public TypeOf m_MonobehaviourTypeToFind;
+
     // What needs to happen when the game state evaluates as true
     public RequiredAction m_RequiredAction;
 
@@ -32,6 +36,16 @@ public class TimeManagerDependable : MonoBehaviour
 
         if (m_RequiredAction == RequiredAction.TurnOffAudiosource)
             m_AudioSource = GetComponent<AudioSource>();
+
+        if (m_FindMonobehaviourOnStart)
+        {
+            switch (m_MonobehaviourTypeToFind)
+            {
+                case TypeOf.VHSEffect:
+                    m_RelatedScript = GetComponent<VHSPostProcessEffect>();
+                    break;
+            }
+        }
     }
 
     // Update is called once per frame
