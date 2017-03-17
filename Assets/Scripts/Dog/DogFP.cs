@@ -85,6 +85,11 @@ public class DogFP : AnimatedDog
             //}
         }
 
+        if (lockedMovement || GameState.disableControls)
+        {
+            m_RigidBody.velocity = new Vector3(0, 0, 0);
+        }
+
         // We apply gravity manually for more tuning control
         m_RigidBody.AddForce(new Vector3(0, -gravity * m_RigidBody.mass, 0));
 
