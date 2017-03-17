@@ -8,7 +8,8 @@ public class DogFP : AnimatedDog
 {
     [Header("---- Movement Variables ----")]
     public float speed = 10.0f;
-    public bool enableTilt = false;
+    public bool enableTilt;
+    public bool disableStrafe;
     public float gravity = 10.0f;
     public float maxVelocityChange = 10.0f;
     public bool canJump = true;
@@ -50,6 +51,9 @@ public class DogFP : AnimatedDog
             float vertical = Input.GetAxis("Vertical");
             float horizontalLook = Input.GetAxis("Mouse X");
             float verticalLook = Input.GetAxis("Mouse Y");
+
+            if (disableStrafe)
+                horizontal = 0;
 
             // Calculate how fast we should be moving
             Vector3 targetVelocity = new Vector3(horizontal, 0, vertical);
