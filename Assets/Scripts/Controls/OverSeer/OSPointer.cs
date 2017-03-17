@@ -31,17 +31,14 @@ public class OSPointer : MonoBehaviour
         pointer = pointerInstance.transform;
         cam = GetComponent<RTSCamera>();
         overseerCam = GetComponent<OverseerCamera>();
-        pointer.gameObject.SetActive(false);
-        updateTarget();
+        updateTarget(false);
     }
 
-    public void updateTarget()
+    public void updateTarget(bool setActive)
     {
-        // @VLADIMIR: I ADDED THIS TO AVOID THE RACING CONDITION WE TALKED ABOUT, CLEAN THIS UP AS YOU SEE FIT
-        if (RTSCamera.startingTargetAssigned)
-            pointer.transform.position = cam.followTarget.transform.position + pointerInstantiateOffset;
-        else
-            cam.Start();
+        if (!RTSCamera.startingTargetAssigned) cam.Start();
+        pointer.transform.position = cam.followTarget.transform.position + pointerInstantiateOffset;
+        pointer.gameObject.SetActive(setActive);
     }
 
     // Update is called once per frame
