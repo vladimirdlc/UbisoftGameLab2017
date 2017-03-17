@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
-
+    bool check = false;
 
     // The player, the clones and the doors should all have their own layers
     // 8 - Clone
@@ -404,6 +404,10 @@ public class TimeManager : MonoBehaviour
         // When doing the paradox/reverting from the paradox, everything gets bypassed and this happens
         if (m_GameState == GameState.PARADOX)
         {
+            ParadoxWarningCoroutine warning = new ParadoxWarningCoroutine();
+            StartCoroutine(warning.WarningMessage(3.0f));
+            StartCoroutine(warning.WaitUntilDone());
+
             // The forced rewind will try to reach a few seconds before the paradox actually happened
             // in order to show the player the sequence of events that lead to the paradox
             if (m_MasterPointer > ((m_RevertIndex > 20) ? (m_RevertIndex - 20) : 0))
@@ -506,7 +510,15 @@ public class TimeManager : MonoBehaviour
             m_PuppyController.m_Target,
             m_PuppyController.m_FollowTargetTransform);
 
-        m_MasterArray.Add(state);
+        // This line of code has been randomly giving me trouble so I'm adding this to debug the problem
+        try
+        {
+            m_MasterArray.Add(state);
+        }
+        catch
+        {
+            Debug.Break();
+        }
     }
 
     private void incrementPointers()
