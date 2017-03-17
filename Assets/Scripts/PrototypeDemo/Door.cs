@@ -9,7 +9,6 @@ public class Door : OSControllable
     public bool hackDoors = false;
 #endif
 
-
     public GameObject meshes;
     public bool isTimed;
     public GameObject[] pressurePlates;
@@ -24,6 +23,7 @@ public class Door : OSControllable
     private bool isOpen;
 
     private Animator anim;
+    private AudioSource m_AudioSource;
 
     private void Start()
     {
@@ -34,6 +34,8 @@ public class Door : OSControllable
         // Configure animator variables
         anim = GetComponent<Animator>();
         anim.SetFloat("objectActionSpeed",animOpenCloseDoorSpeed);
+
+        m_AudioSource = GetComponent<AudioSource>();
 
         if (openByDefault) Open();
     }
@@ -51,9 +53,6 @@ public class Door : OSControllable
             TriggerAction();
         }
 #endif
-
-
-
     }
 
     public void IncCount()
@@ -73,12 +72,18 @@ public class Door : OSControllable
         isOpen = true;
         closeAtTime = Time.time + timer;
 
+        if (m_AudioSource)
+            m_AudioSource.Play();
+
         TriggerAnimator();
     }
 
     public void Close()
     {
         isOpen = false;
+
+        if (m_AudioSource)
+            m_AudioSource.Play();
 
         TriggerAnimator();
     }

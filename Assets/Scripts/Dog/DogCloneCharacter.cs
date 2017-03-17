@@ -18,6 +18,9 @@ public class DogCloneCharacter : AnimatedDog
     {
         // Reference animator components to match the player
         walkAnimSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<DogFP>().walkAnimSpeed;
+        walkingTailWagAnimSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<DogFP>().walkingTailWagAnimSpeed;
+        tiltLeftAnimSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<DogFP>().tiltLeftAnimSpeed;
+        tiltRightAnimSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<DogFP>().tiltRightAnimSpeed;
 
         base.Start();
 

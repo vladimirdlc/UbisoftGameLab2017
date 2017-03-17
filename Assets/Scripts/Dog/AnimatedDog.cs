@@ -11,8 +11,9 @@ public class AnimatedDog : MonoBehaviour
     [Header("---- Animator Variables ----")]
     public float walkAnimSpeed;
     public float sitAnimSpeed;
-    public float tiltLeftSpeed;
-    public float tiltRightSpeed;
+    public float walkingTailWagAnimSpeed;
+    public float tiltLeftAnimSpeed;
+    public float tiltRightAnimSpeed;
 
     protected bool tiltLeft;
     protected bool tiltRight;
@@ -34,6 +35,8 @@ public class AnimatedDog : MonoBehaviour
     {
         m_Animator.SetFloat("walkingSpeedMultiplier", walkAnimSpeed);
         m_Animator.SetFloat("sitSpeed", sitAnimSpeed);
+        m_Animator.SetFloat("walkingTailWagSpeed", walkingTailWagAnimSpeed);
+
         m_Animator.SetBool("sitting", sitting);
         m_Animator.SetBool("headTiltLeft", tiltLeft);
         m_Animator.SetBool("headTiltRight", tiltRight);
@@ -41,7 +44,7 @@ public class AnimatedDog : MonoBehaviour
         Vector3 tempVector = m_RigidBody.velocity;
         tempVector.y = 0;
         m_Animator.SetFloat("walkingSpeed", tempVector.magnitude);
-        m_Animator.SetFloat("tiltLeftSpeed", tiltLeftSpeed);
-        m_Animator.SetFloat("tiltRightSpeed", tiltRightSpeed);
+        m_Animator.SetFloat("tiltLeftSpeed", tiltLeftAnimSpeed);
+        m_Animator.SetFloat("tiltRightSpeed", tiltRightAnimSpeed);
     }
 }
