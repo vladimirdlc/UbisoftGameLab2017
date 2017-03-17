@@ -62,25 +62,25 @@ public class OverseerCamera : MonoBehaviour
         {
             flickTotaltime += Time.deltaTime;
 
-            Transform pointer = OverseerTarget.currentPivot;
+            Transform pivot = OverseerTarget.currentPivot;
 
-            float savedy = pointer.transform.position.y;
-            Vector3 startingPosition = pointer.position;
+            float savedy = pivot.transform.position.y;
+            Vector3 startingPosition = pivot.position;
             Vector3 forwardScaled = cam.transform.forward * Input.GetAxis(verticalAxis);
-            pointer.position += new Vector3(forwardScaled.x, 0, forwardScaled.z) * speed;
+            pivot.position += new Vector3(forwardScaled.x, 0, forwardScaled.z) * speed;
             Vector3 rigthScaled = cam.transform.right * Input.GetAxis(horizontalAxis);
-            pointer.position += new Vector3(rigthScaled.x, 0, rigthScaled.z) * speed;
-            pointer.position = new Vector3(pointer.position.x, savedy, pointer.position.z);
+            pivot.position += new Vector3(rigthScaled.x, 0, rigthScaled.z) * speed;
+            pivot.position = new Vector3(pivot.position.x, savedy, pivot.position.z);
 
-            OverseerFlickPosition flickPosition = getClosestFlick(pointer);
+            OverseerFlickPosition flickPosition = getClosestFlick(pivot);
 
-            if (flickTotaltime > flickThresholdTime && pointer.transform.position != Vector3.zero &&
+            if (flickTotaltime > flickThresholdTime && pivot.transform.position != Vector3.zero &&
                 flickPosition.target != null)
             {
                 flickTotaltime = 0;
                 startCooldown();
 
-                pointer.localPosition = Vector3.zero;
+                pivot.localPosition = Vector3.zero;
                 OverseerTarget newTarget = flickPosition.target.GetComponent<OverseerTarget>();
                 OverseerTarget.currentPivot = newTarget.pivot;
                 if (flickPosition.overrideSmoothTime > 0)
@@ -95,8 +95,9 @@ public class OverseerCamera : MonoBehaviour
 
 
                 target = flickPosition.target;
-                GetComponent<OSPointer>().updateTarget();
+                GetComponent<OSPointer>().updateTarget(true);
                 OverseerTarget.currentPivot.localPosition = Vector3.zero;
+
                 return;
             }
         }
