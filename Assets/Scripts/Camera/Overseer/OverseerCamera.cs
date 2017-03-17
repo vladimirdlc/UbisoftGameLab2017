@@ -11,7 +11,6 @@ public class OverseerCamera : MonoBehaviour
     public string rightAxisKey;
     public float delayTime = 3;
     public float currentDelayTime = 0;
-    private float invDegree = 0.5f;
     private RTSCamera cam;
 
     public string horizontalAxis;
@@ -92,6 +91,8 @@ public class OverseerCamera : MonoBehaviour
                 {
                     cam.changeTarget(flickPosition.target.transform);
                 }
+
+
 
                 target = flickPosition.target;
                 GetComponent<OSPointer>().updateTarget();
