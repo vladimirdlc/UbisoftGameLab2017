@@ -13,6 +13,7 @@ public class NetworkCustom : NetworkManager
     {
         base.OnStartServer();
         isServer = true;
+        GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>().enabled = true;
         //discovery.Initialize();
         //discovery.StartAsServer();
     }

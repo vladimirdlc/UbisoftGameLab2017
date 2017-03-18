@@ -297,7 +297,7 @@ public class TimeManager : MonoBehaviour
                 {
                     trashBubble();
                 }
-            }   
+            }
         }
     }
 
@@ -325,6 +325,7 @@ public class TimeManager : MonoBehaviour
 
     void Start()
     {
+        m_Player = GameObject.FindGameObjectWithTag("Player");
         m_MasterArray = new List<State>();
         m_Timelines = new List<Timeline>();
         m_MasterPointer = 0;
