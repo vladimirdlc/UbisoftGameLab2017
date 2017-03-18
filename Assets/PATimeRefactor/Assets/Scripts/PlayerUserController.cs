@@ -15,7 +15,7 @@ public class PlayerUserController : MonoBehaviour
 
     private Vector3 m_Move;
 
-    public TimeManager m_TimeManager;
+    private TimeManager m_TimeManager;
     public float m_ScrubSpeed;
 
     public bool m_IsRewindController;
@@ -24,6 +24,7 @@ public class PlayerUserController : MonoBehaviour
 
     private void Start()
     {
+        m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
 #if !USING_ETHAN_CHARACTER
         m_Character = GetComponent<DogFP>();
 #else

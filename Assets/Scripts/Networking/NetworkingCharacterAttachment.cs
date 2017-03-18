@@ -42,6 +42,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
         if (host)
         {
+            GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>().enabled = true;
             GameObject overseer = GameObject.FindGameObjectWithTag("Overseer");
 
             if (overseer != null)
@@ -52,16 +53,11 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
         if (hostsClient)
         {
-            //This only works on host side,
-            //meaning if you deactivate client
-            //it will only deactive client relative
-            //to the host, but the client connected
-            //to the host is still active.
             gameObject.SetActive(false);
             gameObject.name = "hostsClient";
         }
 
-        //we keep client active so we can send messages to client host
+        //Fix this
         if (client)
         {
             var allComponents = GetComponents<Behaviour>();
