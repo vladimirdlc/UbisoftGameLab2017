@@ -501,11 +501,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93785de1e81bb1841b75ea5648f6751d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisableOnClientsHost: []
-  clientsHost: 0
-  hostsClient: 0
-  client: 0
-  host: 0
   recordedTransform: {fileID: 4636740846740818}
 --- !u!114 &114170376441911360
 MonoBehaviour:
@@ -527,7 +522,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1395371510902202}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5dcd5b2ef063e084f9439dab4c8d20ca, type: 3}
   m_Name: 
@@ -550,11 +545,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2205f800aca91684ca02dde69aaddcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisableOnClientsHost: []
-  clientsHost: 0
-  hostsClient: 0
-  client: 0
-  host: 0
   m_IsWalking: 0
   m_WalkSpeed: 50
   m_RunSpeed: 100
@@ -630,8 +620,8 @@ MonoBehaviour:
     BobAmount: 0.1
   m_StepInterval: 5
   m_FootstepSounds:
-  - {fileID: 8300000, guid: 42e65e088b3f4374e851b8dbd38f3df9, type: 3}
-  - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
   m_CharacterAudioSource: {fileID: 82328466414112812}
