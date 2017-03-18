@@ -10,7 +10,7 @@ public class PressStart : MonoBehaviour {
 	private bool doTransition;
 	public Image m_targetImage;
 	public Image m_targetImage2;
-	public Animator m_Animator;
+	public Animator[] m_Animator;
 
 	// Use this for initialization
 	void Start () {
@@ -31,7 +31,11 @@ public class PressStart : MonoBehaviour {
         	c.a -= 1f * Time.deltaTime;
         	if(c.a < 1) {
         		doTransition = true;
-        		m_Animator.SetTrigger("doTranslate");
+
+        		foreach(Animator anim in m_Animator)
+        		{
+        		anim.SetTrigger("doTranslate");
+        	}
         	}
         	m_targetImage.color = c; 
 
