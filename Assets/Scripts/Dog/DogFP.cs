@@ -32,7 +32,9 @@ public class DogFP : AnimatedDog
 
     protected override void Update()
     {
+#if !NETWORKING
         if (GameState.disableControls) return;
+#endif
         base.Update();
         RotateView();
     }

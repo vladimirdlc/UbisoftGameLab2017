@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114340792954318156}
   - component: {fileID: 114642943500370472}
   - component: {fileID: 114054493530303912}
+  - component: {fileID: 114466628364827816}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -81,7 +82,7 @@ MonoBehaviour:
   m_OnlineScene: Networking Test
   m_SpawnPrefabs:
   - {fileID: 1166831496739124, guid: 91b3a489d25cb294689da4a02db3e063, type: 2}
-  m_CustomConfig: 0
+  m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
     m_PacketSize: 1500
@@ -110,7 +111,7 @@ MonoBehaviour:
     m_ReactorMaximumReceivedMessages: 1024
     m_ReactorMaximumSentMessages: 1024
     m_MaxPacketSize: 2000
-  m_Channels: 0500000000000000
+  m_Channels: 05000000000000000500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
@@ -125,6 +126,17 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   groundPlayer: {fileID: 1395371510902202, guid: 4ca594cb6da9ac448a446bc815c65117,
     type: 2}
+--- !u!114 &114466628364827816
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1376183412921818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2050055a65fa48743be074485e8fc874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114642943500370472
 MonoBehaviour:
   m_ObjectHideFlags: 1
