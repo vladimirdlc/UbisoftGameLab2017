@@ -11,9 +11,12 @@ public class PressStart : MonoBehaviour {
 	public Image m_targetImage;
 	public Image m_targetImage2;
 	public Animator[] m_Animator;
+	public AudioClip menuBut;
+    AudioSource audio;
 
 	// Use this for initialization
 	void Start () {
+		audio = GetComponent<AudioSource>();
 		onTitleScreen = true;
 		doTransition = false;
 	}
@@ -30,8 +33,9 @@ public class PressStart : MonoBehaviour {
 			Color c = m_targetImage.color;
         	c.a -= 1f * Time.deltaTime;
         	if(c.a < 1) {
+        		if(!doTransition)
+        			audio.PlayOneShot(menuBut, 0.7F);
         		doTransition = true;
-
         		foreach(Animator anim in m_Animator)
         		{
         		anim.SetTrigger("doTranslate");
