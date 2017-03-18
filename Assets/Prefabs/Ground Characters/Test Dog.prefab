@@ -1228,7 +1228,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1497780920488766}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.89, y: 0.76, z: -1.1}
+  m_LocalPosition: {x: -21.560139, y: 0.5000001, z: -1.9801629}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 4528689228399078}
@@ -1771,7 +1771,7 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 1
   m_TargetEye: 3
-  m_HDR: 0
+  m_HDR: 1
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -2016,13 +2016,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 752255e4ddabc8244a797e87756a5aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkAnimSpeed: 1
+  walkAnimSpeed: 2
   sitAnimSpeed: 1
   idleAnimSpeed: 1
   walkingTailWagAnimSpeed: 1
   tiltLeftAnimSpeed: 1
   tiltRightAnimSpeed: 1
-  speed: 10
+  speed: 8
   enableTilt: 1
   disableStrafe: 1
   gravity: 10
@@ -2030,8 +2030,8 @@ MonoBehaviour:
   canJump: 1
   jumpHeight: 2
   m_MouseLook:
-    XSensitivity: 2
-    YSensitivity: 2
+    XSensitivity: 2.5
+    YSensitivity: 2.5
     clampVerticalRotation: 1
     MinimumX: -90
     MaximumX: 90
@@ -2102,7 +2102,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.03688387
+  m_Radius: 0.044385593
   m_Height: 0.1973693
   m_Direction: 2
   m_Center: {x: 0, y: 0.052, z: 0.03}
