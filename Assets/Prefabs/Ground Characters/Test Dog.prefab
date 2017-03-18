@@ -1228,7 +1228,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1497780920488766}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.64, y: 0.5, z: -19.92}
+  m_LocalPosition: {x: 0.89, y: 0.76, z: -1.1}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 4528689228399078}
@@ -2018,12 +2018,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkAnimSpeed: 1
   sitAnimSpeed: 1
+  idleAnimSpeed: 1
   walkingTailWagAnimSpeed: 1
   tiltLeftAnimSpeed: 1
   tiltRightAnimSpeed: 1
   speed: 10
   enableTilt: 1
-  disableStrafe: 0
+  disableStrafe: 1
   gravity: 10
   maxVelocityChange: 10
   canJump: 1
@@ -2101,7 +2102,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.059661403
+  m_Radius: 0.03688387
   m_Height: 0.1973693
   m_Direction: 2
   m_Center: {x: 0, y: 0.052, z: 0.03}

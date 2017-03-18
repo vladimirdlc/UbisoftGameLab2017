@@ -11,6 +11,7 @@ public class AnimatedDog : MonoBehaviour
     [Header("---- Animator Variables ----")]
     public float walkAnimSpeed;
     public float sitAnimSpeed;
+    public float idleAnimSpeed;
     [Header("See random tail wag speed for proper control, this one is just initial")]
     public float walkingTailWagAnimSpeed;
     public float tiltLeftAnimSpeed;
@@ -26,6 +27,9 @@ public class AnimatedDog : MonoBehaviour
 
         // Setup animator
         m_Animator.SetFloat("walkingTailWagSpeed", walkingTailWagAnimSpeed);
+        m_Animator.SetFloat("walkingSpeedMultiplier", walkAnimSpeed);
+        m_Animator.SetFloat("sitSpeed", sitAnimSpeed);
+        m_Animator.SetFloat("idleSpeed", idleAnimSpeed);
     }
 
     protected virtual void Update()
@@ -37,9 +41,6 @@ public class AnimatedDog : MonoBehaviour
 
     protected void UpdateAnimator(bool sitting = false)
     {
-        m_Animator.SetFloat("walkingSpeedMultiplier", walkAnimSpeed);
-        m_Animator.SetFloat("sitSpeed", sitAnimSpeed);
-
         m_Animator.SetBool("sitting", sitting);
         m_Animator.SetBool("headTiltLeft", tiltLeft);
         m_Animator.SetBool("headTiltRight", tiltRight);
