@@ -9,7 +9,7 @@ namespace UnityStandardAssets.ImageEffects
     {
         /// Blur iterations - larger number means more blur.
         [Range(0,10)]
-        public int iterations = 3;
+        public double iterations = 3;
 
         /// Blur spread for each iteration. Lower values
         /// give better looking blur, but require more iterations to

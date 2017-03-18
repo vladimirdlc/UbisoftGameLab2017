@@ -26,19 +26,18 @@
 	    }  	        
 	    m_FadingIn = false;
 	    StartCoroutine(FadeOut());
-	    yield return new WaitForSeconds(0.1f);
+	    yield return new WaitForSeconds(1f);
 	 }
 
 	 IEnumerator FadeOut(){
-	 	while(m_FadingIn)
-	 		yield return new WaitForSeconds(0.1f);
-
+	 	while(!m_FadingIn)
 	 	  while (m_targetImage.color.a < 1f){
 	    	Color c = m_targetImage.color;
         	c.a += 0.1f * Time.deltaTime * 2f;
         	m_targetImage.color = c;   
 	    }  	 
-	    StartCoroutine(FadeIn());  
+	    StartCoroutine(FadeIn());
+	    yield return new WaitForSeconds(1f);
 	 }
 
 	 // void FadeIn(){
