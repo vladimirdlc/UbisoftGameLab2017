@@ -24,7 +24,7 @@ public class OSPointer : MonoBehaviour
     private float currentTimeToDissapear;
     private bool teleportPointer;
     public bool enableMovement;
-    private float arrowCooldown = 1f;
+    private float arrowCooldown = 3f;
     private float currentCooldown;
 
     void Start()
@@ -39,6 +39,7 @@ public class OSPointer : MonoBehaviour
     public void updateTarget(bool setActive)
     {
         if (!RTSCamera.startingTargetAssigned) cam.Start();
+        currentCooldown = 0;
         pointer.transform.position = cam.followTarget.transform.position + pointerInstantiateOffset;
         pointer.gameObject.SetActive(setActive);
     }
@@ -50,10 +51,10 @@ public class OSPointer : MonoBehaviour
 
         if (Input.GetAxis(beaconButton) > 0)
         {
-            if (!beaconInUse && currentCooldown < 0)
+            if (currentCooldown < 0)
             {
-                SpawnBeacon();
                 currentCooldown = arrowCooldown;
+                SpawnBeacon();
             }
         }
         else if (Input.GetAxisRaw(beaconButton) == 0)
