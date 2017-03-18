@@ -156,6 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4447256945343126}
   - component: {fileID: 95448231637902858}
+  - component: {fileID: 114865637886058026}
   m_Layer: 19
   m_Name: Labrador_animation_12kpoly_06
   m_TagString: Untagged
@@ -2055,6 +2056,19 @@ MonoBehaviour:
   tiltRightAnimSpeed: 0
   m_AnimSpeedMultiplier: 1
   m_MoveSpeed: 20
+--- !u!114 &114865637886058026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1138715779102912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d379afa484044f41986551e413fa484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSpeed: 0.5
+  m_MaxSpeed: 1.5
 --- !u!135 &135790850364958870
 SphereCollider:
   m_ObjectHideFlags: 1
