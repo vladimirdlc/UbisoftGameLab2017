@@ -28,13 +28,14 @@ public class DogFP : AnimatedDog
         m_RigidBody = GetComponent<Rigidbody>();
         m_RigidBody.freezeRotation = true;
         m_RigidBody.useGravity = false;
+#if NETWORKING
+        GameState.disableControls = false;
+#endif
     }
 
     protected override void Update()
     {
-#if !NETWORKING
         if (GameState.disableControls) return;
-#endif
         base.Update();
         RotateView();
     }
