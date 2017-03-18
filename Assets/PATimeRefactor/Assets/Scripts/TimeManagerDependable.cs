@@ -8,7 +8,13 @@ using UnityEngine;
 public class TimeManagerDependable : MonoBehaviour
 {
     // What will happen when any of the triggering game states evaluated as true
-    public enum RequiredAction { Destroy, Deactivate, TurnOffAudiosource, StopAudioSource, TurnOnMonobehaviour, TurnOffMonobehaviour }
+    // DO NOT ADD ENUMS AT THE BEGGINING ONLY RENAME OR ADD ENUMS AT THE END, IT WILL BREAK THE EXISTING PREFABS
+    // THAT USE THIS
+    public enum RequiredAction
+    {
+        DestroyGameObject, ActivateGameObject, DeactivateGameObject, TurnOffAudiosource, StopAudioSource,
+        TurnOnMonobehaviour, TurnOffMonobehaviour
+    }
 
     // Whatever collection of game states will trigger the desired behaviour/action
     public TimeManager.GameState[] m_TriggeringGameStates;
@@ -22,6 +28,7 @@ public class TimeManagerDependable : MonoBehaviour
 
     // Optional public references
     public MonoBehaviour m_RelatedScript;
+    public GameObject m_RelatedGameobject;
 
     // Necessary references
     private TimeManager m_TimeManager;
@@ -51,18 +58,29 @@ public class TimeManagerDependable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TimeManager.GameState frameGameState = m_TimeManager.m_GameState;
+        // Don't perform superfluous actions
+        if (m_RequiredAction == RequiredAction.ActivateGameObject && m_RelatedGameobject.activeSelf)
+            return;
+        if (m_RequiredAction == RequiredAction.DeactivateGameObject && !m_RelatedGameobject.activeSelf)
+            return;
+
+
+            TimeManager.GameState frameGameState = m_TimeManager.m_GameState;
 
         if (CheckForGameState(frameGameState))
         {
             switch (m_RequiredAction)
             {
-                case RequiredAction.Destroy:
+                case RequiredAction.DestroyGameObject:
                     Destroy(gameObject);
                     break;
 
-                case RequiredAction.Deactivate:
-                    gameObject.SetActive(false);
+                case RequiredAction.DeactivateGameObject:
+                        m_RelatedGameobject.SetActive(false);
+                    break;
+
+                case RequiredAction.ActivateGameObject:
+                    m_RelatedGameobject.SetActive(true);
                     break;
 
                 case RequiredAction.TurnOffAudiosource:
