@@ -19,7 +19,6 @@ public class TailWagRandomize : MonoBehaviour
     public void NewRandomAnimationSpeed()
     {
         float newSpeed = Random.Range(m_MinSpeed, m_MaxSpeed);
-        Debug.Log(newSpeed);
         m_Animator.SetFloat("walkingTailWagSpeed", newSpeed);
     }
 }

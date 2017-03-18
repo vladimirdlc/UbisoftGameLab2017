@@ -8,7 +8,7 @@ using UnityEngine;
 public class TimeManagerDependable : MonoBehaviour
 {
     // What will happen when any of the triggering game states evaluated as true
-    public enum RequiredAction { Destroy, Deactivate, TurnOffAudiosource, StopAudioSource, TurnOnScript, TurnOffScript }
+    public enum RequiredAction { Destroy, Deactivate, TurnOffAudiosource, StopAudioSource, TurnOnMonobehaviour, TurnOffMonobehaviour }
 
     // Whatever collection of game states will trigger the desired behaviour/action
     public TimeManager.GameState[] m_TriggeringGameStates;
@@ -73,11 +73,11 @@ public class TimeManagerDependable : MonoBehaviour
                     m_AudioSource.Stop();
                     break;
 
-                case RequiredAction.TurnOnScript:
+                case RequiredAction.TurnOnMonobehaviour:
                     m_RelatedScript.enabled = true;
                     break;
 
-                case RequiredAction.TurnOffScript:
+                case RequiredAction.TurnOffMonobehaviour:
                     m_RelatedScript.enabled = false;
                     break;
             }
