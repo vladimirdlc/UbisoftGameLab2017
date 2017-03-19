@@ -7,6 +7,7 @@ public class AnimatedDog : MonoBehaviour
 
     protected Animator m_Animator;
     protected Rigidbody m_RigidBody;
+    protected TimeManager m_TimeManager;
 
     [Header("---- Animator Variables ----")]
     public float walkAnimSpeed;
@@ -24,6 +25,7 @@ public class AnimatedDog : MonoBehaviour
     {
         // Setup added references
         m_Animator = GetComponentInChildren<Animator>();
+        m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
 
         // Setup animator
         m_Animator.SetFloat("walkingTailWagSpeed", walkingTailWagAnimSpeed);
@@ -37,6 +39,16 @@ public class AnimatedDog : MonoBehaviour
         // Require reset of tilt head flags
         tiltLeft = false;
         tiltRight = false;
+
+        if (m_TimeManager.m_GameState == TimeManager.GameState.TIME_STOPPED)
+        {
+            // Kill animator
+            m_Animator.speed = 0;
+        }
+        else
+        {
+            m_Animator.speed = 1;
+        }
     }
 
     protected void UpdateAnimator(bool sitting = false)

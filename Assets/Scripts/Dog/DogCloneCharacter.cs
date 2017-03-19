@@ -15,7 +15,6 @@ public class DogCloneCharacter : AnimatedDog
     public float m_RewindingAnimationDistanceTreshold;
 
     Rigidbody m_Rigidbody;
-    TimeManager m_TimeManager;
     DogFP m_DogFP;
 
     // For forcing animations when rewinding
@@ -35,7 +34,6 @@ public class DogCloneCharacter : AnimatedDog
         base.Start();
 
         m_Rigidbody = GetComponent<Rigidbody>();
-        m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
 
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }
@@ -62,17 +60,17 @@ public class DogCloneCharacter : AnimatedDog
         base.Update();
 
         // This shit is ugly AF but you gotta do what you gotta do
-        if (m_TimeManager.m_GameState == TimeManager.GameState.REWIND)
+        if (m_TimeManager.m_GameState == TimeManager.GameState.REWIND || m_TimeManager.m_GameState == TimeManager.GameState.FORWARD)
         {
-            this.UpdateAnimator(new Vector3(0, 0, 0));
+            this.UpdateAnimator(new Vector3(0, 0, 0), true);
         }
     }
 
-    void UpdateAnimator(Vector3 move)
+    void UpdateAnimator(Vector3 move, bool scrubOverrideAnimation = false)
     {
-        bool scrubOverrideAnimation = m_TimeManager.m_GameState == TimeManager.GameState.REWIND;
         bool forceWalkAnimationWhileScrubbing = false;
 
+        // If position is being modified, animate walking
         if (scrubOverrideAnimation)
         {
             if (Vector3.Distance(m_LastPosition, transform.position) >= m_RewindingAnimationDistanceTreshold)
@@ -83,13 +81,9 @@ public class DogCloneCharacter : AnimatedDog
             m_LastPosition = transform.position;
         }
 
-        // Reset flag
-
         // Do not include y component of velocity for the animator
         Vector3 tempVector = m_Rigidbody.velocity;
         tempVector.y = 0;
-
-        // TODO: CHANGE THIS WHOLE THING ONCE THE ENGINE KNOWS ABOUT REWINDING
 
         // update the animator parameters
         if (!scrubOverrideAnimation)
@@ -111,14 +105,20 @@ public class DogCloneCharacter : AnimatedDog
             }
             else
             {
-                //Debug.Log("No force walk: " + m_TimeManager.m_GameState);
-                m_Animator.SetFloat("idleSpeed", 0);
-                m_Animator.SetFloat("walkingSpeedMultiplier", 0);
-                m_Animator.SetFloat("walkingSpeedMultiplier", 0);
-                m_Animator.SetFloat("walkingSpeed", 0);
-                m_Animator.SetFloat("walkingSpeed", 0);
-                m_Animator.SetFloat("walkingTailWagSpeed", 0);
+                // Don't move if rewinding but not moving
+                m_Animator.SetFloat("walkingSpeed", 0f);
             }
+        }
+
+        if (m_TimeManager.m_GameState == TimeManager.GameState.TIME_STOPPED)
+        {
+            //Debug.Log("No force walk: " + m_TimeManager.m_GameState);
+            m_Animator.SetFloat("idleSpeed", 0);
+            m_Animator.SetFloat("walkingSpeedMultiplier", 0);
+            m_Animator.SetFloat("walkingSpeedMultiplier", 0);
+            m_Animator.SetFloat("walkingSpeed", 0);
+            m_Animator.SetFloat("walkingSpeed", 0);
+            m_Animator.SetFloat("walkingTailWagSpeed", 0);
         }
 
         // Increase the overall animator speed if requiresd

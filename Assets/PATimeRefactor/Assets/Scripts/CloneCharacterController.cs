@@ -57,8 +57,7 @@ public class CloneCharacterController : MonoBehaviour
         }
 
         // Movement is self contained AKA controlled by DogCloneCharacter when scrubbing
-        // TODO: DOES THIS IF STATEMENT NEED MORE VARIABLES WHEN THOROUGH ENGINE IS DONE
-        if (!(m_TimeManager.m_GameState == TimeManager.GameState.REWIND))
+        if (!(m_TimeManager.m_GameState == TimeManager.GameState.REWIND || m_TimeManager.m_GameState == TimeManager.GameState.FORWARD))
         {
             if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
                 m_Character.Move(m_Agent.desiredVelocity, false);
