@@ -804,8 +804,8 @@ GameObject:
   - component: {fileID: 114846482558693838}
   - component: {fileID: 114918929210985376}
   - component: {fileID: 114457910733062822}
-  - component: {fileID: 114812205385643398}
   - component: {fileID: 114071856095274532}
+  - component: {fileID: 114190848633314914}
   m_Layer: 14
   m_Name: TestDogNet
   m_TagString: Player
@@ -2025,6 +2025,18 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: ce9a06ac4ede6f84ab1865b7d32f204c, type: 3}
   VHS: {fileID: 15200000, guid: 324a486eb541aa848884bad1ebd7b5e6, type: 3}
   intensity: 1
+--- !u!114 &114190848633314914
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1914795002988456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 599dde4d3c0387f49906e5baf687ee63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vertical: 0
 --- !u!114 &114457910733062822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2087,26 +2099,6 @@ MonoBehaviour:
   m_RequiredAction: 5
   m_RelatedScript: {fileID: 114188001823661930}
   m_RelatedGameobject: {fileID: 0}
---- !u!114 &114812205385643398
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1914795002988456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114846482558693838
 MonoBehaviour:
   m_ObjectHideFlags: 1

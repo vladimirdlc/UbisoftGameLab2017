@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 114288941317450178}
   - component: {fileID: 114914747814662872}
   - component: {fileID: 114969002260608350}
+  - component: {fileID: 95064026120732850}
   m_Layer: 14
   m_Name: Dog Camera
   m_TagString: Camera Ground Character
@@ -1958,6 +1959,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!95 &95064026120732850
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1115569924498180}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 6f6b471e909386743871aa14c1b92625, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95613657460762472
 Animator:
   serializedVersion: 3
@@ -2051,7 +2069,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Cam: {fileID: 4382361632791688}
-  m_TimeManager: {fileID: 0}
   m_ScrubSpeed: 1
   m_IsRewindController: 1
   m_DisableRewindWhenLatched: 0

@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4714214823708060}
   - component: {fileID: 114811854119164344}
+  - component: {fileID: 114134367545364012}
   m_Layer: 0
   m_Name: GameState
   m_TagString: Untagged
@@ -40,6 +41,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114134367545364012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1871293314361264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f97ddf6f709b844b2fed679001e1cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedLookAtPuppy: 0.5
+  speedLookAtObjective: 0.5
+  speedLookAtLevel: 0.5
+  timeUntilAnimationTransition: 3
 --- !u!114 &114811854119164344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -52,3 +68,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableControlsOnAwake: 1
+  cinematicAnimators:
+  - {fileID: 0}
+  - {fileID: 0}
