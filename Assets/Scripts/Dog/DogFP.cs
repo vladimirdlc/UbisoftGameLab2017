@@ -70,25 +70,37 @@ public class DogFP : AnimatedDog
     {
         if (grounded && !lockedMovement && !GameState.disableControls)
         {
-            float horizontal = Input.GetAxis("Horizontal");
 
 #if NETWORKING
             if (amI.host)
-            networkedInput.vertical = Input.GetAxis("Vertical");
-#endif
+            {
+                networkedInput.horizontal = Input.GetAxis("Horizontal");
+                networkedInput.vertical = Input.GetAxis("Vertical");
+            }
+#else
+            //doesn't seem like we are using horizontal axis?
+            float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
+#endif
             float horizontalLook = Input.GetAxis("Mouse X");
             float verticalLook = Input.GetAxis("Mouse Y");
 
             if (disableStrafe)
+            {
+#if NETWORKING
+                 networkedInput.horizontal = 0;
+#else
                 horizontal = 0;
+#endif
+            }
 
             // Calculate how fast we should be moving
 #if NETWORKING
-            Vector3 targetVelocity = new Vector3(horizontal, 0, networkedInput.vertical);
+            Vector3 targetVelocity = new Vector3(networkedInput.horizontal, 0, networkedInput.vertical);
 #else
             Vector3 targetVelocity = new Vector3(horizontal, 0, vertical);
 #endif
+
             targetVelocity = transform.TransformDirection(targetVelocity);
             targetVelocity *= speed;
 

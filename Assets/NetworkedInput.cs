@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class NetworkedInput : NetworkBehaviour
 {
-#if NETWORKING
- [SyncVar]
-#endif
+    [SyncVar]
+    public float horizontal;
+    [SyncVar]
     public float vertical;
 
 }
