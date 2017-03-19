@@ -47,6 +47,7 @@ public class PuppyMovement : MonoBehaviour
 
     private float m_IdleTimer;
     private bool m_CycleIdle = false;
+    private PuppyCharacterController.PuppySate m_PuppyState;
 
     void Start()
     {
@@ -206,6 +207,21 @@ public class PuppyMovement : MonoBehaviour
             m_IsGrounded = false;
             m_GroundNormal = Vector3.up;
             m_Animator.applyRootMotion = false;
+        }
+    }
+
+    public void StateModification(PuppyCharacterController.PuppySate puppySate)
+    {
+        if (m_PuppyState == puppySate)
+            return;
+
+        m_PuppyState = puppySate;
+
+        switch (m_PuppyState)
+        {
+            case PuppyCharacterController.PuppySate.MOVING_PLAYER:
+                m_Animator.SetTrigger("movingPlayer");
+                break;
         }
     }
 }

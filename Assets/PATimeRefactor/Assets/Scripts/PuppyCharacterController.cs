@@ -104,6 +104,8 @@ public class PuppyCharacterController : MonoBehaviour
         if (m_IsLatched) return;
 
         m_PuppyState = PuppySate.MOVING_SOUND;
+        m_Character.StateModification(m_PuppyState);
+
         m_IsHome = false;
         m_Target = source;
 
@@ -192,20 +194,35 @@ public class PuppyCharacterController : MonoBehaviour
         {
             m_Character.Move(m_Agent.desiredVelocity, false);
             if (m_IsLatched)
+            {
                 m_PuppyState = PuppySate.MOVING_PLAYER;
+                m_Character.StateModification(m_PuppyState);
+            }
             else if (!m_IsLatched)
+            {
                 m_PuppyState = PuppySate.MOVING_SOUND;
+                m_Character.StateModification(m_PuppyState);
+            }
         }
 
         else
         {
             m_Character.Move(Vector3.zero, false);
             if (m_IsLatched)
+            {
                 m_PuppyState = PuppySate.IDLE_PLAYER;
+                m_Character.StateModification(m_PuppyState);
+            }
             else if (!m_IsLatched)
+            {
                 m_PuppyState = PuppySate.IDLE_SOUND_SOURCE;
+                m_Character.StateModification(m_PuppyState);
+            }
             if (m_IsHome)
+            {
                 m_PuppyState = PuppySate.IDLE_HOME;
+                m_Character.StateModification(m_PuppyState);
+            }
         }
     }
 }
