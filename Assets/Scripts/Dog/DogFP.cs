@@ -22,6 +22,9 @@ public class DogFP : AnimatedDog
     private bool lockedMovement = false;
 
     NetworkedInput networkedInput;
+#if NETWORKING
+    NetworkingCharacterAttachment amI;
+#endif
     void Awake()
     {
         // Setup Added refernces
@@ -31,7 +34,9 @@ public class DogFP : AnimatedDog
         m_RigidBody.freezeRotation = true;
         m_RigidBody.useGravity = false;
         networkedInput = GetComponent<NetworkedInput>();
+
 #if NETWORKING
+        amI = GetComponent<NetworkingCharacterAttachment>();
         GameState.disableControls = false;
 #endif
     }
@@ -56,7 +61,11 @@ public class DogFP : AnimatedDog
         if (grounded && !lockedMovement && !GameState.disableControls)
         {
             float horizontal = Input.GetAxis("Horizontal");
-            //networkedInput.vertical = Input.GetAxis("Vertical");
+
+#if NETWORKING
+            if (amI.host)
+#endif
+            networkedInput.vertical = Input.GetAxis("Vertical");
             float horizontalLook = Input.GetAxis("Mouse X");
             float verticalLook = Input.GetAxis("Mouse Y");
 
