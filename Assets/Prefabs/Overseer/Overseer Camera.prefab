@@ -51,6 +51,9 @@ GameObject:
   - component: {fileID: 114911498961015104}
   - component: {fileID: 114557778174852100}
   - component: {fileID: 114113419325129914}
+  - component: {fileID: 95535478316193998}
+  - component: {fileID: 114395925166202466}
+  - component: {fileID: 114086166394973654}
   m_Layer: 0
   m_Name: Overseer Camera
   m_TagString: MainCamera
@@ -65,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1743480622849158}
   m_LocalRotation: {x: 0.27219734, y: 0.53356946, z: -0.17246751, w: 0.7819637}
-  m_LocalPosition: {x: -3.94, y: 11.67, z: 0.5}
+  m_LocalPosition: {x: -4.61, y: 10.72, z: 0.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4177683222155914}
@@ -181,6 +184,23 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1743480622849158}
   m_Enabled: 1
+--- !u!95 &95535478316193998
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d4e1aa0238ba2474b8fbce487a079213, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114080699090803756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,6 +210,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8d6d491c430e2d4ea283009ec2f2794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114086166394973654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de24336732c7344ea69ddf2d0874e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114113419325129914
@@ -219,6 +250,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Intensity: 2
   glowShader: {fileID: 4800000, guid: e4b39d1c04bdfb24ebc10e5897e6b067, type: 3}
+--- !u!114 &114395925166202466
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd732fb44d34b94499d898ade1175074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: ce9a06ac4ede6f84ab1865b7d32f204c, type: 3}
+  VHS: {fileID: 15200000, guid: 324a486eb541aa848884bad1ebd7b5e6, type: 3}
+  intensity: 1
 --- !u!114 &114557778174852100
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -14,7 +14,7 @@ public class GameState : MonoBehaviour
 
     public static GameState Instance;
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
         disableControls = disableControlsOnAwake;

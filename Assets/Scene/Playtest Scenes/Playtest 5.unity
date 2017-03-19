@@ -3036,28 +3036,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 498487761}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!84 &520027388
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 640
-  m_Height: 480
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1 &520947903
 GameObject:
   m_ObjectHideFlags: 0
@@ -3676,31 +3654,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 20551704322287536, guid: 0537e9a616f190341a12297467c884f9,
+        type: 2}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 1613940271}
     - target: {fileID: 114630475340081652, guid: 0537e9a616f190341a12297467c884f9,
         type: 2}
       propertyPath: target
       value: 
       objectReference: {fileID: 1748680021}
-    - target: {fileID: 20551704322287536, guid: 0537e9a616f190341a12297467c884f9,
-        type: 2}
-      propertyPath: m_TargetTexture
-      value: 
-      objectReference: {fileID: 520027388}
-    - target: {fileID: 20381820468505122, guid: 0537e9a616f190341a12297467c884f9,
-        type: 2}
-      propertyPath: m_TargetDisplay
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114691172304608390, guid: 0537e9a616f190341a12297467c884f9,
-        type: 2}
-      propertyPath: minHeightDistance
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114691172304608390, guid: 0537e9a616f190341a12297467c884f9,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0537e9a616f190341a12297467c884f9, type: 2}
   m_IsPrefabParent: 0
@@ -4594,11 +4557,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 114790119520008840, guid: 9ce4929a9f9d135429d904b55d5d719e,
-        type: 2}
-      propertyPath: m_TimeManager
-      value: 
-      objectReference: {fileID: 1001579340}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9ce4929a9f9d135429d904b55d5d719e, type: 2}
   m_IsPrefabParent: 0
@@ -5841,28 +5799,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1146710816}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!84 &1147158599
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1844
-  m_Height: 1147
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1 &1160770763
 GameObject:
   m_ObjectHideFlags: 0
@@ -8195,6 +8131,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1605690120}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!84 &1613940271
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 376
+  m_Height: 974
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &1617203321
 GameObject:
   m_ObjectHideFlags: 0
@@ -8357,6 +8315,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1622296455}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &1623464388 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95064026120732850, guid: 9ce4929a9f9d135429d904b55d5d719e,
+    type: 2}
+  m_PrefabInternal: {fileID: 792069689}
 --- !u!1 &1628719752
 GameObject:
   m_ObjectHideFlags: 0
@@ -8438,6 +8401,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1628719752}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!84 &1632207640
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 0
+  m_Height: 0
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &1643706255
 GameObject:
   m_ObjectHideFlags: 0
@@ -9145,11 +9130,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114811854119164344, guid: 040fe88080e9fe24abda4c2397f8fa84,
-        type: 2}
-      propertyPath: cinematicAnimators.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4714214823708060, guid: 040fe88080e9fe24abda4c2397f8fa84, type: 2}
       propertyPath: m_LocalPosition.x
       value: 92.96269
@@ -9184,18 +9164,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114811854119164344, guid: 040fe88080e9fe24abda4c2397f8fa84,
         type: 2}
-      propertyPath: disableControlsOnAwake
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871293314361264, guid: 040fe88080e9fe24abda4c2397f8fa84, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114811854119164344, guid: 040fe88080e9fe24abda4c2397f8fa84,
-        type: 2}
       propertyPath: cinematicAnimators.Array.data[0]
       value: 
       objectReference: {fileID: 1812868345}
+    - target: {fileID: 114811854119164344, guid: 040fe88080e9fe24abda4c2397f8fa84,
+        type: 2}
+      propertyPath: cinematicAnimators.Array.data[1]
+      value: 
+      objectReference: {fileID: 1623464388}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 040fe88080e9fe24abda4c2397f8fa84, type: 2}
   m_IsPrefabParent: 0
@@ -9782,57 +9758,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1783550391}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1812868343 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1743480622849158, guid: 0537e9a616f190341a12297467c884f9,
+--- !u!95 &1812868345 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95535478316193998, guid: 0537e9a616f190341a12297467c884f9,
     type: 2}
   m_PrefabInternal: {fileID: 643793770}
---- !u!114 &1812868344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1812868343}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd732fb44d34b94499d898ade1175074, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: ce9a06ac4ede6f84ab1865b7d32f204c, type: 3}
-  VHS: {fileID: 15200000, guid: 324a486eb541aa848884bad1ebd7b5e6, type: 3}
-  intensity: 1
---- !u!95 &1812868345
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1812868343}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d4e1aa0238ba2474b8fbce487a079213, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &1812868359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1812868343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16f97ddf6f709b844b2fed679001e1cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedLookAtPuppy: 0.5
-  speedLookAtObjective: 0.5
-  speedLookAtLevel: 0.5
-  timeUntilAnimationTransition: 3
 --- !u!1 &1827025211
 GameObject:
   m_ObjectHideFlags: 0
