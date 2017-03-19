@@ -57,25 +57,19 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             gameObject.name = "hostsClient";
         }
 
-        //Fix this
         if (client)
         {
-            var allComponents = GetComponents<Behaviour>();
-            foreach (var c in allComponents)
-            {
-                var componentType = c.GetType();
-                if (componentType != typeof(OpusNetworked) && componentType != typeof(AudioSource))
-                    c.enabled = false;
-                //gameObject.SetActive(false);
-            }
+            //var allComponents = GetComponents<Behaviour>();
+            //foreach (var c in allComponents)
+            //{
+            //var componentType = c.GetType();
+            //if (componentType != typeof(OpusNetworked) && componentType != typeof(AudioSource))
+            //    c.enabled = false;
+            //}
 
-            allComponents = transform.GetChild(0).GetComponents<Behaviour>();
-            foreach (var c in allComponents)
-            {
-                c.enabled = false;
-            }
-
+            gameObject.SetActive(false);
             gameObject.name = "client";
+
             //transform.GetChild(0).GetComponent<Camera>().enabled = false;
             //GetComponent<TrackRenderer>().enabled = true;
         }
@@ -84,10 +78,11 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         //this should probably be on a seperate script
         if (clientsHost)
         {
-            foreach (var component in DisableOnClientsHost)
-            {
-                component.enabled = false;
-            }
+            //foreach (var component in DisableOnClientsHost)
+            //{
+            //    component.enabled = false;
+            //}
+            GameObject.FindGameObjectWithTag("Camera Ground Character").GetComponent<Camera>().enabled = false;
             gameObject.name = "clientsHost";
         }
     }

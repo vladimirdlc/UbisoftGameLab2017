@@ -755,7 +755,7 @@ GameObject:
   - component: {fileID: 4653819532708720}
   m_Layer: 14
   m_Name: Camera Wrapper
-  m_TagString: Untagged
+  m_TagString: CamWrap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -805,6 +805,7 @@ GameObject:
   - component: {fileID: 114918929210985376}
   - component: {fileID: 114457910733062822}
   - component: {fileID: 114812205385643398}
+  - component: {fileID: 114071856095274532}
   m_Layer: 14
   m_Name: TestDogNet
   m_TagString: Player
@@ -1977,6 +1978,22 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114071856095274532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1914795002988456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb28153c216c6e42918a5dc00b5ad60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DisableOnClientsHost: []
+  clientsHost: 0
+  hostsClient: 0
+  client: 0
+  host: 0
 --- !u!114 &114122177657242512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2136,7 +2153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Cam: {fileID: 4253061195506656}
-  m_TimeManager: {fileID: 0}
   m_ScrubSpeed: 1
   m_IsRewindController: 1
   m_DisableRewindWhenLatched: 0

@@ -33,6 +33,7 @@ public class OverseerCamera : MonoBehaviour
     {
         if (GameState.disableControls) return;
 
+        //What is this????
 #if NETWORKING
         if (NetworkCustom.isServer)
         {
@@ -129,7 +130,7 @@ public class OverseerCamera : MonoBehaviour
             GameState.disableControls = false;
             OverseerTarget.currentPivot = newTarget.pivot;
         }
-   
+
         if (newTarget.positionOffset != Vector3.zero)
         {
             cam.CameraTargetPosition = newTarget.positionOffset;
