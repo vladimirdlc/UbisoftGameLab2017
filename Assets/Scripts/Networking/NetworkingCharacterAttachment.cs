@@ -42,7 +42,10 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
         if (host)
         {
-            GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>().enabled = true;
+            var timeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
+            timeManager.enabled = true;
+            timeManager.m_PlayerCamera = GameObject.FindGameObjectWithTag("Camera Ground Character").GetComponent<Camera>();
+
             GameObject overseer = GameObject.FindGameObjectWithTag("Overseer");
 
             var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
@@ -52,7 +55,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
                 GameObject.FindGameObjectWithTag("Overseer").SetActive(false);
 
             GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>().enabled = true;
-            gameObject.name = "host";                                               // FIXME
+            gameObject.name = "host";
         }
 
         if (hostsClient)
