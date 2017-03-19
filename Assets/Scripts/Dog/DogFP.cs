@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityStandardAssets.Characters.FirstPerson;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -20,6 +21,7 @@ public class DogFP : AnimatedDog
     private bool grounded = false;
     private bool lockedMovement = false;
 
+    NetworkedInput networkedInput;
     void Awake()
     {
         // Setup Added refernces
@@ -28,6 +30,7 @@ public class DogFP : AnimatedDog
         m_RigidBody = GetComponent<Rigidbody>();
         m_RigidBody.freezeRotation = true;
         m_RigidBody.useGravity = false;
+        networkedInput = GetComponent<NetworkedInput>();
 #if NETWORKING
         GameState.disableControls = false;
 #endif
@@ -46,12 +49,14 @@ public class DogFP : AnimatedDog
         Move(false);
     }
 
+
+
     public void Move(bool crouch)
     {
         if (grounded && !lockedMovement && !GameState.disableControls)
         {
             float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
+            //networkedInput.vertical = Input.GetAxis("Vertical");
             float horizontalLook = Input.GetAxis("Mouse X");
             float verticalLook = Input.GetAxis("Mouse Y");
 
@@ -59,7 +64,7 @@ public class DogFP : AnimatedDog
                 horizontal = 0;
 
             // Calculate how fast we should be moving
-            Vector3 targetVelocity = new Vector3(horizontal, 0, vertical);
+            Vector3 targetVelocity = new Vector3(horizontal, 0, networkedInput.vertical);
             targetVelocity = transform.TransformDirection(targetVelocity);
             targetVelocity *= speed;
 
