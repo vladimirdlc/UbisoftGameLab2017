@@ -56,7 +56,7 @@ public class TimeManager : MonoBehaviour
     public int sampleRate;
 
     public GameObject m_Player;
-    public GameObject m_ClonePrefab;
+    private GameObject m_ClonePrefab;
     public GameObject m_Puppy;
 
     public UnityEngine.UI.Text m_Text;
@@ -282,7 +282,7 @@ public class TimeManager : MonoBehaviour
             }
 
             runWarpBubbles(rewinding);
-           
+
         }
 
         public void runWarpBubbles(bool rewinding = false)
@@ -337,9 +337,15 @@ public class TimeManager : MonoBehaviour
 
     private int m_TimeStopCD;
 
+    public GameObject[] clonePrefabs;
     void Start()
     {
         m_Player = GameObject.FindGameObjectWithTag("Player");
+#if NETWORKING
+        m_ClonePrefab = clonePrefabs[1];
+#else
+        m_ClonePrefab = clonePrefabs[0];
+#endif
         m_MasterArray = new List<State>();
         m_Timelines = new List<Timeline>();
         m_MasterPointer = 0;
@@ -379,7 +385,7 @@ public class TimeManager : MonoBehaviour
             }
             m_Frameticker++;
         }
-        
+
         if (m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD)
         {
             // This is where we revert to normal timesttop. Set the int in the if statement to whatever feels best
@@ -735,15 +741,15 @@ public class TimeManager : MonoBehaviour
         #endregion
 
         // Special case when rewinding (duct tape used here, more robust solution will follow)
-        if (m_SnapCameraToClone && (m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD || m_GameState == GameState.TIME_STOPPED) )
+        if (m_SnapCameraToClone && (m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD || m_GameState == GameState.TIME_STOPPED))
         {
             // Find the "latest" running timeline
             for (int i = m_ActiveTimeline - 1; i >= 0; i--)
             {
                 if (
-                    ( (m_Timelines[i].m_TimelineIndex <= m_Timelines[i].m_End - 1) )
+                    ((m_Timelines[i].m_TimelineIndex <= m_Timelines[i].m_End - 1))
                     &&
-                    ( (m_Timelines[i].m_TimelineIndex >= m_Timelines[i].m_Start + 1) )
+                    ((m_Timelines[i].m_TimelineIndex >= m_Timelines[i].m_Start + 1))
                 )
                 {
                     m_Timelines[m_CurrentCamera].activateCamera(false);

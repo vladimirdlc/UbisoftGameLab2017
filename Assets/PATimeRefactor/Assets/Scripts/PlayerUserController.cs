@@ -21,6 +21,8 @@ public class PlayerUserController : MonoBehaviour
     public bool m_IsRewindController;
     public bool m_DisableRewindWhenLatched;
     public bool m_HasPuppy { get; set; }
+    public NetworkedInput netInput;
+    public NetworkingCharacterAttachment amI;
 
     private void Start()
     {
@@ -31,6 +33,11 @@ public class PlayerUserController : MonoBehaviour
         m_Character = GetComponent<Character>();
 #endif
         m_HasPuppy = false;
+
+#if NETWORKING
+        amI = GetComponent<NetworkingCharacterAttachment>();
+        netInput = GetComponent<NetworkedInput>();
+#endif
     }
 
 
@@ -50,7 +57,17 @@ public class PlayerUserController : MonoBehaviour
         // Read inputs
         float h = CrossPlatformInputManager.GetAxis("Horizontal");
         float v = CrossPlatformInputManager.GetAxis("Vertical");
+
+#if NETWORKING
+        if(amI.host)
+        {
+          netInput.crouch = Input.GetButton("Ground Stop Time");
+        }
+        bool crouch = netInput.crouch;
+#else
         bool crouch = Input.GetButton("Ground Stop Time");
+#endif
+
 
         float FF = CrossPlatformInputManager.GetAxis("FF");
         float RW = CrossPlatformInputManager.GetAxis("RW");
