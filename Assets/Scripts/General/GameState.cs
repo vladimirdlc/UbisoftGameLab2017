@@ -8,8 +8,28 @@ public class GameState : MonoBehaviour
 
     public bool disableControlsOnAwake = true;
 
-    private void Awake()
+    public Animator[] cinematicAnimators;
+
+    private RTSCamera rtsCamera;
+
+    public static GameState Instance;
+
+    private void Start()
     {
+        Instance = this;
         disableControls = disableControlsOnAwake;
+        rtsCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<RTSCamera>();
+        rtsCamera.enabled = false;
+    }
+
+    public void onCinematicFinish()
+    {
+        foreach (Animator anim in cinematicAnimators)
+        {
+            anim.enabled = false;
+        }
+
+        rtsCamera.enabled = true;
+        disableControls = false;
     }
 }
