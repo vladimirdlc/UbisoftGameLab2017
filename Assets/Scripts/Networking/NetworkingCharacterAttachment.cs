@@ -45,6 +45,9 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>().enabled = true;
             GameObject overseer = GameObject.FindGameObjectWithTag("Overseer");
 
+            var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
+            lucky.GetComponent<AudioListener>().enabled = false;
+
             if (overseer != null)
                 GameObject.FindGameObjectWithTag("Overseer").SetActive(false);
 
@@ -78,11 +81,11 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         //this should probably be on a seperate script
         if (clientsHost)
         {
-            //foreach (var component in DisableOnClientsHost)
-            //{
-            //    component.enabled = false;
-            //}
-            GameObject.FindGameObjectWithTag("Camera Ground Character").GetComponent<Camera>().enabled = false;
+            //we are probably getting lucky here since it finds the first 
+            //object tagged which in this case is clientsHost
+            var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
+            lucky.GetComponent<Camera>().enabled = false;
+            lucky.GetComponent<AudioListener>().enabled = false;
             gameObject.name = "clientsHost";
         }
     }
