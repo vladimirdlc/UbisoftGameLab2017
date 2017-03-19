@@ -4,8 +4,8 @@ using System.Collections;
 public class tvScreen : MonoBehaviour {
     public Texture[] textureArray;
     private int i;
-    private int timePassed;
-    public int framesForEachImage;
+    private float timePassed;
+    public float secondsForEachImage;
     private Renderer rend;
     
     void Start() {
@@ -16,13 +16,12 @@ public class tvScreen : MonoBehaviour {
 
     void Update() {
         rend.material.SetColor("_TintColor", Color.gray);   
-        timePassed ++;
-        //Debug.Log(timePassed);
-        if(timePassed > framesForEachImage) {
+        timePassed += Time.deltaTime;
+        if(timePassed > secondsForEachImage) {
             timePassed = 0;
             rend.material.mainTexture = textureArray[i];
             i++;
-            if(i > textureArray.Length-1)
+            if(i >= textureArray.Length-1)
                 i=0;
         }
     }
