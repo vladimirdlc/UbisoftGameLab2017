@@ -7,5 +7,8 @@ public class NetworkedInput : NetworkBehaviour
     public float horizontal;
     [SyncVar]
     public float vertical;
-
+    public float yRot;
+    public float xRot;
+    [SyncVar]
+    public Quaternion rotn;
 }

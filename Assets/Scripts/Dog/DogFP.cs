@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using UnityStandardAssets.Characters.FirstPerson;
+using UnityStandardAssets.CrossPlatformInput;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
@@ -152,7 +153,23 @@ public class DogFP : AnimatedDog
 
     private void RotateView()
     {
-        m_MouseLook.LookRotation(transform, m_Camera.transform);
+#if NETWORKING
+        if (amI.host)
+        {
+            networkedInput.yRot = CrossPlatformInputManager.GetAxis("Mouse X");
+            networkedInput.xRot = CrossPlatformInputManager.GetAxis("Mouse Y");
+        }
+        m_MouseLook.LookRotation(transform, m_Camera.transform, networkedInput.xRot, networkedInput.yRot);
+        if (amI.host)
+            networkedInput.rotn = transform.rotation;
+        if (amI.clientsHost)
+            transform.rotation = networkedInput.rotn;
+#else
+        float yRot = CrossPlatformInputManager.GetAxis("Mouse X");
+        float xRot = CrossPlatformInputManager.GetAxis("Mouse Y");
+        m_MouseLook.LookRotation(transform, m_Camera.transform, xRot, yRot);
+#endif
+
     }
 
     float CalculateJumpVerticalSpeed()
