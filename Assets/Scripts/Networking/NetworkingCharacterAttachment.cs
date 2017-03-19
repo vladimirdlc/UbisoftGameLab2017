@@ -42,7 +42,11 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
         if (host)
         {
+            GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>().enabled = true;
             GameObject overseer = GameObject.FindGameObjectWithTag("Overseer");
+
+            var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
+            lucky.GetComponent<AudioListener>().enabled = false;
 
             if (overseer != null)
                 GameObject.FindGameObjectWithTag("Overseer").SetActive(false);
@@ -52,34 +56,23 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
         if (hostsClient)
         {
-            //This only works on host side,
-            //meaning if you deactivate client
-            //it will only deactive client relative
-            //to the host, but the client connected
-            //to the host is still active.
             gameObject.SetActive(false);
             gameObject.name = "hostsClient";
         }
 
-        //we keep client active so we can send messages to client host
         if (client)
         {
-            var allComponents = GetComponents<Behaviour>();
-            foreach (var c in allComponents)
-            {
-                var componentType = c.GetType();
-                if (componentType != typeof(OpusNetworked) && componentType != typeof(AudioSource))
-                    c.enabled = false;
-                //gameObject.SetActive(false);
-            }
+            //var allComponents = GetComponents<Behaviour>();
+            //foreach (var c in allComponents)
+            //{
+            //var componentType = c.GetType();
+            //if (componentType != typeof(OpusNetworked) && componentType != typeof(AudioSource))
+            //    c.enabled = false;
+            //}
 
-            allComponents = transform.GetChild(0).GetComponents<Behaviour>();
-            foreach (var c in allComponents)
-            {
-                c.enabled = false;
-            }
-
+            gameObject.SetActive(false);
             gameObject.name = "client";
+
             //transform.GetChild(0).GetComponent<Camera>().enabled = false;
             //GetComponent<TrackRenderer>().enabled = true;
         }
@@ -88,10 +81,11 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         //this should probably be on a seperate script
         if (clientsHost)
         {
-            foreach (var component in DisableOnClientsHost)
-            {
-                component.enabled = false;
-            }
+            //we are probably getting lucky here since it finds the first 
+            //object tagged which in this case is clientsHost
+            var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
+            lucky.GetComponent<Camera>().enabled = false;
+            lucky.GetComponent<AudioListener>().enabled = false;
             gameObject.name = "clientsHost";
         }
     }

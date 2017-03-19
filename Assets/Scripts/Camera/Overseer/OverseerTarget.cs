@@ -18,6 +18,11 @@ public class OverseerTarget : MonoBehaviour {
         {
             currentPivot = pivot;
             startTarget = this;
+
+            if (GetComponent<OSCinematicTarget>())
+            {
+                GetComponent<OSCinematicTarget>().startCount();
+            }
         }
     }
 

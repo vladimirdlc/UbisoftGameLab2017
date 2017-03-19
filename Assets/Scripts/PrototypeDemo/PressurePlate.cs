@@ -10,9 +10,12 @@ public class PressurePlate : MonoBehaviour
     public GameObject target;
     private bool m_IsActive;
 
+    private AudioSource m_AudioSource;
+
     void Start()
     {
         gameObject.GetComponent<Renderer>().material = inactive;
+        m_AudioSource = GetComponent<AudioSource>();
         m_IsActive = false;
     }
 
@@ -31,6 +34,9 @@ public class PressurePlate : MonoBehaviour
         if (!m_IsActive && (other.tag == "Player" || other.tag == "PlayerGround" || other.tag == "Clone"))
         {
             m_IsActive = true;
+
+            m_AudioSource.Play();
+
             target.GetComponent<Door>().IncCount();
             gameObject.GetComponent<Renderer>().material = active;
         }

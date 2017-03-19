@@ -4,7 +4,7 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerUserController : MonoBehaviour
 {
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
     private DogFP m_Character;          // A reference to the FirstPersonController on the object
 #else
     private Character m_Character;      // A reference to the ThirdPersonCharacter on the object
@@ -15,7 +15,7 @@ public class PlayerUserController : MonoBehaviour
 
     private Vector3 m_Move;
 
-    public TimeManager m_TimeManager;
+    private TimeManager m_TimeManager;
     public float m_ScrubSpeed;
 
     public bool m_IsRewindController;
@@ -24,7 +24,8 @@ public class PlayerUserController : MonoBehaviour
 
     private void Start()
     {
-#if USING_DOG_CHARACTER
+        m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
+#if !USING_ETHAN_CHARACTER
         m_Character = GetComponent<DogFP>();
 #else
         m_Character = GetComponent<Character>();
@@ -81,7 +82,7 @@ public class PlayerUserController : MonoBehaviour
 
             case TimeManager.GameState.NORMAL:
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
                 m_Character.Move(crouch);
 #else
                 m_Character.Move(m_Move, crouch);
@@ -94,12 +95,14 @@ public class PlayerUserController : MonoBehaviour
                 break;
 
             case TimeManager.GameState.REWIND:
+            case TimeManager.GameState.FORWARD:
+            case TimeManager.GameState.TIME_STOPPED:
 
                 switch (m_TimeManager.m_RewindMode)
                 {
                     case TimeManager.RewindType.SCRUB:
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
                         m_Character.Move(crouch);
 #else
                         m_Character.Move(m_Move, crouch);
@@ -117,20 +120,22 @@ public class PlayerUserController : MonoBehaviour
                         break;
                     case TimeManager.RewindType.HOLD_AND_RELEASE:
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
                         m_Character.Move(crouch);
 #else
                         m_Character.Move(m_Move, crouch);
 #endif
 
                         if (!crouch)
+                        {
                             m_TimeManager.timeStopToggle(crouch);
+                        }
                         break;
                     case TimeManager.RewindType.TO_ZERO:
                         if (m_TimeManager.m_WaitingForPlayer)
                         {
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
                             m_Character.Move(crouch);
 #else
                             m_Character.Move(m_Move, crouch);

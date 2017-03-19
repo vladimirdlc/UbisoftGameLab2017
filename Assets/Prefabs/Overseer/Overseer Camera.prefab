@@ -47,6 +47,13 @@ GameObject:
   - component: {fileID: 114630475340081652}
   - component: {fileID: 114763695715970150}
   - component: {fileID: 114141115246894026}
+  - component: {fileID: 114900340473879266}
+  - component: {fileID: 114911498961015104}
+  - component: {fileID: 114557778174852100}
+  - component: {fileID: 114113419325129914}
+  - component: {fileID: 95535478316193998}
+  - component: {fileID: 114395925166202466}
+  - component: {fileID: 114086166394973654}
   m_Layer: 0
   m_Name: Overseer Camera
   m_TagString: MainCamera
@@ -177,6 +184,23 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1743480622849158}
   m_Enabled: 1
+--- !u!95 &95535478316193998
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d4e1aa0238ba2474b8fbce487a079213, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114080699090803756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,6 +212,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d6d491c430e2d4ea283009ec2f2794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114086166394973654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de24336732c7344ea69ddf2d0874e9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114113419325129914
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd732fb44d34b94499d898ade1175074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: ce9a06ac4ede6f84ab1865b7d32f204c, type: 3}
+  VHS: {fileID: 15200000, guid: 324a486eb541aa848884bad1ebd7b5e6, type: 3}
+  intensity: 1
 --- !u!114 &114141115246894026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -200,6 +249,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Intensity: 2
+  glowShader: {fileID: 4800000, guid: e4b39d1c04bdfb24ebc10e5897e6b067, type: 3}
+--- !u!114 &114395925166202466
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd732fb44d34b94499d898ade1175074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: ce9a06ac4ede6f84ab1865b7d32f204c, type: 3}
+  VHS: {fileID: 15200000, guid: 324a486eb541aa848884bad1ebd7b5e6, type: 3}
+  intensity: 1
+--- !u!114 &114557778174852100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggeringGameStates: 0200000005000000
+  m_FindMonobehaviourOnStart: 0
+  m_MonobehaviourTypeToFind: 0
+  m_RequiredAction: 6
+  m_RelatedScript: {fileID: 114900340473879266}
+  m_RelatedGameobject: {fileID: 0}
 --- !u!114 &114630475340081652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,7 +356,7 @@ MonoBehaviour:
   cloudMaxAlpha: 0.15
   movementSpeed: 180
   rotateSpeed: 180
-  minHeightDistance: 5
+  minHeightDistance: -10
   maxHeightDistance: 250
   tiltMaxHeight: 10
   lowTilt: 15
@@ -358,12 +439,43 @@ MonoBehaviour:
   verticalAxis: Vertical Right Stick Overseer
   beaconButton: Overseer Beacon
   autoHidePointer: 0
-  pointerInstantiateOffset: {x: 0, y: 3, z: 0}
+  pointerInstantiateOffset: {x: 0, y: 0, z: 0}
   beaconContainerPrefab: {fileID: 1166831496739124, guid: 91b3a489d25cb294689da4a02db3e063,
     type: 2}
   beaconPrefab: {fileID: 1627837743720578, guid: 43877f32af5efef4b84770a02b17302b,
     type: 2}
   enableMovement: 0
+--- !u!114 &114900340473879266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd732fb44d34b94499d898ade1175074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: ce9a06ac4ede6f84ab1865b7d32f204c, type: 3}
+  VHS: {fileID: 15200000, guid: 324a486eb541aa848884bad1ebd7b5e6, type: 3}
+  intensity: 1
+--- !u!114 &114911498961015104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743480622849158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggeringGameStates: 000000000400000003000000
+  m_FindMonobehaviourOnStart: 0
+  m_MonobehaviourTypeToFind: 0
+  m_RequiredAction: 5
+  m_RelatedScript: {fileID: 114900340473879266}
+  m_RelatedGameobject: {fileID: 0}
 --- !u!124 &124443398284161474
 Behaviour:
   m_ObjectHideFlags: 1

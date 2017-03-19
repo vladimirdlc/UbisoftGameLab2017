@@ -27,6 +27,9 @@ public class TimeManager : MonoBehaviour
         REVERT,
         NORMAL,
         REWIND,
+        FORWARD,
+        TIME_STOPPED,
+        BLOCK
     };
 
     public RewindType m_RewindMode;
@@ -68,6 +71,7 @@ public class TimeManager : MonoBehaviour
         public bool m_PuppyIsLatched { get; set; }
         public Vector3 m_PuppyTargetSound { get; set; }
         public Transform m_PuppyTargetTransform { get; set; }
+        public PuppyCharacterController.PuppySate m_PuppyState { get; set; }
 
         public State(
             Vector3 dogPos,
@@ -77,7 +81,8 @@ public class TimeManager : MonoBehaviour
             bool isHome,
             bool isLatched,
             Vector3 targetPos,
-            Transform targetTrans)
+            Transform targetTrans,
+            PuppyCharacterController.PuppySate pupState)
         {
             m_DogPosition = dogPos;
             m_DogRotation = dogRot;
@@ -87,6 +92,7 @@ public class TimeManager : MonoBehaviour
             m_PuppyIsLatched = isLatched;
             m_PuppyTargetSound = targetPos;
             m_PuppyTargetTransform = targetTrans;
+            m_PuppyState = pupState;
         }
     }
 
@@ -229,7 +235,8 @@ public class TimeManager : MonoBehaviour
 
         public void activateCamera(bool active = true)
         {
-            m_CloneCam.enabled = active;
+            if (m_CloneCam != null)
+                m_CloneCam.enabled = active;
         }
 
         public void runClones(bool rewinding = false)
@@ -274,6 +281,12 @@ public class TimeManager : MonoBehaviour
                 }
             }
 
+            runWarpBubbles(rewinding);
+           
+        }
+
+        public void runWarpBubbles(bool rewinding = false)
+        {
             // Deal with warp in bubble instantiation
             if (m_TimelineIndex >= m_Start && m_TimelineIndex <= m_Start + m_WarpBubbleLife && m_TimelineID != 0)
             {
@@ -283,7 +296,7 @@ public class TimeManager : MonoBehaviour
                 }
                 m_WarpInInstance.GetComponent<WarpBubble>().m_CurrentIndex = m_TimelineIndex - m_Start;
             }
-            else if (m_End != -1 && m_TimelineIndex >= m_End && m_TimelineIndex <= m_End + m_WarpBubbleLife)
+            else if (!(rewinding && m_TimelineID == m_TimeManager.m_ActiveTimeline - 1) && m_End != -1 && m_TimelineIndex >= m_End && m_TimelineIndex <= m_End + m_WarpBubbleLife)
             {
                 if (m_WarpInInstance == null)
                 {
@@ -297,7 +310,7 @@ public class TimeManager : MonoBehaviour
                 {
                     trashBubble();
                 }
-            }   
+            }
         }
     }
 
@@ -322,9 +335,11 @@ public class TimeManager : MonoBehaviour
     // duct tape - will remove soon
     private int m_CurrentCamera;
 
+    private int m_TimeStopCD;
 
     void Start()
     {
+        m_Player = GameObject.FindGameObjectWithTag("Player");
         m_MasterArray = new List<State>();
         m_Timelines = new List<Timeline>();
         m_MasterPointer = 0;
@@ -344,6 +359,8 @@ public class TimeManager : MonoBehaviour
 
         m_CurrentCamera = 0;
 
+        m_TimeStopCD = 0;
+
         // Disable collisions between clones
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_CloneLayer), true);
     }
@@ -361,6 +378,17 @@ public class TimeManager : MonoBehaviour
                 m_Frameticker = 0;
             }
             m_Frameticker++;
+        }
+        
+        if (m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD)
+        {
+            // This is where we revert to normal timesttop. Set the int in the if statement to whatever feels best
+            m_TimeStopCD++;
+            if (m_TimeStopCD >= 6)
+            {
+                m_TimeStopCD = 0;
+                m_GameState = GameState.TIME_STOPPED;
+            }
         }
     }
 
@@ -380,7 +408,7 @@ public class TimeManager : MonoBehaviour
         }
 
         #region Rewind
-        if (m_GameState == GameState.REWIND)
+        if (m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD || m_GameState == GameState.TIME_STOPPED)
         {
             if (m_RewindMode == RewindType.TO_ZERO)
             {
@@ -454,6 +482,7 @@ public class TimeManager : MonoBehaviour
                 for (int i = m_RevertTimeline + 1; i < m_Timelines.Count; i++)
                 {
                     m_Timelines[i].trashClone();
+                    m_Timelines[i].trashBubble();
                 }
                 m_ActiveTimeline = m_RevertTimeline;
                 m_Timelines[m_ActiveTimeline].open(m_MasterPointer);
@@ -490,6 +519,9 @@ public class TimeManager : MonoBehaviour
             {
                 m_Timelines[i].runClones();
             }
+
+            // Then check for warpBubble instantiation - note that those are done automatically when calling runClones()
+            m_Timelines[m_ActiveTimeline].runWarpBubbles();
         }
         #endregion
     }
@@ -504,7 +536,8 @@ public class TimeManager : MonoBehaviour
             m_PuppyController.m_IsHome,
             m_PuppyController.m_IsLatched,
             m_PuppyController.m_Target,
-            m_PuppyController.m_FollowTargetTransform);
+            m_PuppyController.m_FollowTargetTransform,
+            m_PuppyController.m_PuppyState);
 
         m_MasterArray.Add(state);
     }
@@ -525,9 +558,8 @@ public class TimeManager : MonoBehaviour
         #region TurnTimeStopOff
         if (!stopTime)
         {
-            if (m_GameState == GameState.REWIND)
+            if (m_GameState == GameState.TIME_STOPPED || m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD)
             {
-
                 // Switch camera 
                 if (m_SnapCameraToClone)
                 {
@@ -587,7 +619,7 @@ public class TimeManager : MonoBehaviour
         else if (m_GameState == GameState.NORMAL && stopTime == true)
         {
             // Set current state
-            m_GameState = GameState.REWIND;
+            m_GameState = GameState.TIME_STOPPED;
 
             // Disable collisions
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlayerLayer), true);
@@ -634,7 +666,7 @@ public class TimeManager : MonoBehaviour
         // Check to make sure the rewind is legal, otherwise apply max value (positive or negative)
         // We only check this if there is not in a paradox or reverting mode, in those modes all
         // scrubs are managed by the system and should be valid
-        if (m_GameState == GameState.REWIND)
+        if (m_GameState == GameState.TIME_STOPPED || m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD)
         {
             int maxRewind = -1 * m_Timelines[0].m_TimelineIndex;
             int maxForward = m_MasterPointer - m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex;
@@ -645,6 +677,22 @@ public class TimeManager : MonoBehaviour
                 amount = maxForward;
         }
         #endregion
+
+        //Set Game state and reset CD
+        if (amount < 0)
+        {
+            if (m_GameState != GameState.PARADOX)
+                m_GameState = GameState.REWIND;
+        }
+
+        else if (amount > 0)
+        {
+            if (m_GameState != GameState.REVERT)
+                m_GameState = GameState.FORWARD;
+        }
+
+
+        m_TimeStopCD = 0;
 
         #region MoveClones
         // Move clones (except the one in the active timeline)
@@ -668,6 +716,8 @@ public class TimeManager : MonoBehaviour
             m_PuppyPointer += amount;
             if (m_PuppyPointer >= m_MasterArray.Count)
                 m_PuppyPointer = m_MasterArray.Count - 1;
+            else if (m_PuppyPointer < 0)
+                m_PuppyPointer = 0;
             m_PuppyController.restoreState(m_MasterArray[m_PuppyPointer]);
         }
         #endregion
@@ -685,15 +735,15 @@ public class TimeManager : MonoBehaviour
         #endregion
 
         // Special case when rewinding (duct tape used here, more robust solution will follow)
-        if (m_SnapCameraToClone && m_GameState == GameState.REWIND)
+        if (m_SnapCameraToClone && (m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD || m_GameState == GameState.TIME_STOPPED) )
         {
             // Find the "latest" running timeline
             for (int i = m_ActiveTimeline - 1; i >= 0; i--)
             {
                 if (
-                    (m_Timelines[i].m_TimelineIndex <= m_Timelines[i].m_End - 1)
+                    ( (m_Timelines[i].m_TimelineIndex <= m_Timelines[i].m_End - 1) )
                     &&
-                    (m_Timelines[i].m_TimelineIndex >= m_Timelines[i].m_Start + 1)
+                    ( (m_Timelines[i].m_TimelineIndex >= m_Timelines[i].m_Start + 1) )
                 )
                 {
                     m_Timelines[m_CurrentCamera].activateCamera(false);
@@ -712,7 +762,6 @@ public class TimeManager : MonoBehaviour
     /// <param name="lastPos">If this parameter is set, the method will ensure that the paradox corresponds to the position given in this transform.</param>
     public void handleParadox(int idToRevert, Transform lastPos = null)
     {
-
         // Paradoxes can only occur on NORMAL game state
         if (m_GameState != GameState.NORMAL) return;
 

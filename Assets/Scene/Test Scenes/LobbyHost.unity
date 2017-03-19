@@ -377,11 +377,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114340792954318156, guid: 943bfba2f2daf2849a5648a5bdbd03a4,
-        type: 2}
-      propertyPath: m_Channels.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 4794113018621890, guid: 943bfba2f2daf2849a5648a5bdbd03a4, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0.5062201
@@ -414,56 +409,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114340792954318156, guid: 943bfba2f2daf2849a5648a5bdbd03a4,
-        type: 2}
-      propertyPath: m_OnlineScene
-      value: Networking Test
-      objectReference: {fileID: 0}
-    - target: {fileID: 114340792954318156, guid: 943bfba2f2daf2849a5648a5bdbd03a4,
-        type: 2}
-      propertyPath: m_OfflineScene
-      value: LobbyHost
-      objectReference: {fileID: 0}
-    - target: {fileID: 114642943500370472, guid: 943bfba2f2daf2849a5648a5bdbd03a4,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114340792954318156, guid: 943bfba2f2daf2849a5648a5bdbd03a4,
-        type: 2}
-      propertyPath: m_CustomConfig
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114340792954318156, guid: 943bfba2f2daf2849a5648a5bdbd03a4,
-        type: 2}
-      propertyPath: m_Channels.Array.data[2]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114340792954318156, guid: 943bfba2f2daf2849a5648a5bdbd03a4,
-        type: 2}
-      propertyPath: m_Channels.Array.data[3]
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114404180739436508, guid: 943bfba2f2daf2849a5648a5bdbd03a4, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 943bfba2f2daf2849a5648a5bdbd03a4, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &536910354 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1376183412921818, guid: 943bfba2f2daf2849a5648a5bdbd03a4,
+--- !u!114 &536910355 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114466628364827816, guid: 943bfba2f2daf2849a5648a5bdbd03a4,
     type: 2}
   m_PrefabInternal: {fileID: 536910353}
---- !u!114 &536910355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 536910354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2050055a65fa48743be074485e8fc874, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &967574951
 GameObject:
   m_ObjectHideFlags: 0

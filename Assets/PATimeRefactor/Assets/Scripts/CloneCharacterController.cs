@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof (UnityEngine.AI.NavMeshAgent))]
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
 [RequireComponent(typeof (DogCloneCharacter))]
 #else
 [RequireComponent(typeof (Character))]
@@ -12,7 +12,7 @@ public class CloneCharacterController : MonoBehaviour
 {
     public UnityEngine.AI.NavMeshAgent m_Agent { get; private set; }
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
     public DogCloneCharacter m_Character { get; private set; }
 #else
     public Character m_Character { get; private set; }
@@ -21,6 +21,7 @@ public class CloneCharacterController : MonoBehaviour
     public global::TimeManager.State m_Target { get; set; }
 
     private TrailRenderer trail;
+    TimeManager m_TimeManager;
 
     // Use this to tweak the value to trigger the blocking paradox
     private float maxDistance;
@@ -29,14 +30,15 @@ public class CloneCharacterController : MonoBehaviour
     {
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
-#if USING_DOG_CHARACTER
+#if !USING_ETHAN_CHARACTER
         m_Character = GetComponent<DogCloneCharacter>();
 #else
         m_Character = GetComponent<Character>();
 #endif
         trail = GetComponentInChildren<TrailRenderer>();
+        m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
 
-	    m_Agent.updateRotation = true;
+        m_Agent.updateRotation = true;
 	    m_Agent.updatePosition = true;
 
         maxDistance = 0;
@@ -54,13 +56,18 @@ public class CloneCharacterController : MonoBehaviour
             m_Agent.SetDestination(m_Target.m_DogPosition);
         }
 
-        if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
-            m_Character.Move(m_Agent.desiredVelocity, false);
-        else
-            m_Character.Move(Vector3.zero, false);
+        // Movement is self contained AKA controlled by DogCloneCharacter when scrubbing
+        // TODO: DOES THIS IF STATEMENT NEED MORE VARIABLES WHEN THOROUGH ENGINE IS DONE
+        if (!(m_TimeManager.m_GameState == TimeManager.GameState.REWIND))
+        {
+            if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
+                m_Character.Move(m_Agent.desiredVelocity, false);
+            else
+                m_Character.Move(Vector3.zero, false);
 
-        // Used for testing
-        if (m_Agent.remainingDistance > maxDistance) maxDistance = m_Agent.remainingDistance;
+            // Used for testing
+            if (m_Agent.remainingDistance > maxDistance) maxDistance = m_Agent.remainingDistance;
+        }
     }
 
     public void ColorCode(Color colorCode)

@@ -156,6 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4447256945343126}
   - component: {fileID: 95448231637902858}
+  - component: {fileID: 114865637886058026}
   m_Layer: 19
   m_Name: Labrador_animation_12kpoly_06
   m_TagString: Untagged
@@ -483,6 +484,8 @@ GameObject:
   - component: {fileID: 4705026460202806}
   - component: {fileID: 20031078542171772}
   - component: {fileID: 114811232353763086}
+  - component: {fileID: 114703957566848652}
+  - component: {fileID: 114274210798098350}
   m_Layer: 19
   m_Name: Camera
   m_TagString: Untagged
@@ -1989,6 +1992,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f82afd0eba08845840bbb819f61e5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114274210798098350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469419833160056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggeringGameStates: 0200000005000000
+  m_FindMonobehaviourOnStart: 1
+  m_MonobehaviourTypeToFind: 0
+  m_RequiredAction: 6
+  m_RelatedScript: {fileID: 114811232353763086}
+  m_RelatedGameobject: {fileID: 0}
+--- !u!114 &114703957566848652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469419833160056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggeringGameStates: 000000000400000003000000
+  m_FindMonobehaviourOnStart: 1
+  m_MonobehaviourTypeToFind: 0
+  m_RequiredAction: 5
+  m_RelatedScript: {fileID: 114811232353763086}
+  m_RelatedGameobject: {fileID: 0}
 --- !u!114 &114811232353763086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2015,8 +2052,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkAnimSpeed: 0
+  sitAnimSpeed: 0
+  idleAnimSpeed: 0
+  walkingTailWagAnimSpeed: 0
+  tiltLeftAnimSpeed: 0
+  tiltRightAnimSpeed: 0
+  m_ScrubbingWalkAnimationSpeed: 0
   m_AnimSpeedMultiplier: 1
   m_MoveSpeed: 20
+  m_RewindingAnimationDistanceTreshold: 0.5
+--- !u!114 &114865637886058026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1138715779102912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d379afa484044f41986551e413fa484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSpeed: 0.5
+  m_MaxSpeed: 1.5
 --- !u!135 &135790850364958870
 SphereCollider:
   m_ObjectHideFlags: 1

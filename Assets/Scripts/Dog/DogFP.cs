@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityStandardAssets.Characters.FirstPerson;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -8,7 +9,8 @@ public class DogFP : AnimatedDog
 {
     [Header("---- Movement Variables ----")]
     public float speed = 10.0f;
-    public bool enableTilt = false;
+    public bool enableTilt;
+    public bool disableStrafe;
     public float gravity = 10.0f;
     public float maxVelocityChange = 10.0f;
     public bool canJump = true;
@@ -18,7 +20,12 @@ public class DogFP : AnimatedDog
 
     private bool grounded = false;
     private bool lockedMovement = false;
+    private bool controlsEnabled = false;
 
+#if NETWORKING
+    NetworkedInput networkedInput;
+    NetworkingCharacterAttachment amI;
+#endif
     void Awake()
     {
         // Setup Added refernces
@@ -27,31 +34,61 @@ public class DogFP : AnimatedDog
         m_RigidBody = GetComponent<Rigidbody>();
         m_RigidBody.freezeRotation = true;
         m_RigidBody.useGravity = false;
+
+#if NETWORKING
+        networkedInput = GetComponent<NetworkedInput>();
+
+        amI = GetComponent<NetworkingCharacterAttachment>();
+        GameState.disableControls = false;
+#endif
     }
 
     protected override void Update()
     {
-        if (GameState.disableControls) return;
+        if (!controlsEnabled)
+            if (GameState.disableControls) return;
+            else
+            {
+                controlsEnabled = true;
+                m_Camera.transform.localPosition = Vector3.zero;
+                m_Camera.transform.localRotation = Quaternion.identity;
+            }
+
         base.Update();
         RotateView();
     }
 
     void FixedUpdate()
     {
+        if (GameState.disableControls) return;
         Move(false);
     }
+
+
 
     public void Move(bool crouch)
     {
         if (grounded && !lockedMovement && !GameState.disableControls)
         {
             float horizontal = Input.GetAxis("Horizontal");
+
+#if NETWORKING
+            if (amI.host)
+            networkedInput.vertical = Input.GetAxis("Vertical");
+#endif
             float vertical = Input.GetAxis("Vertical");
             float horizontalLook = Input.GetAxis("Mouse X");
             float verticalLook = Input.GetAxis("Mouse Y");
 
+            if (disableStrafe)
+                horizontal = 0;
+
             // Calculate how fast we should be moving
+#if NETWORKING
+            Vector3 targetVelocity = new Vector3(horizontal, 0, networkedInput.vertical);
+#else
             Vector3 targetVelocity = new Vector3(horizontal, 0, vertical);
+#endif
             targetVelocity = transform.TransformDirection(targetVelocity);
             targetVelocity *= speed;
 
@@ -65,17 +102,24 @@ public class DogFP : AnimatedDog
 
             // Tilt head when turning
             if (enableTilt)
+            {
                 if (horizontalLook >= 0.2f)
                     tiltRight = true;
 
-            if (horizontalLook <= -0.2f)
-                tiltLeft = true;
+                if (horizontalLook <= -0.2f)
+                    tiltLeft = true;
+            }
 
             // Jump
             //if (canJump && Input.GetButton("Jump"))
             //{
             //    rigidbody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
             //}
+        }
+
+        if (lockedMovement || GameState.disableControls)
+        {
+            m_RigidBody.velocity = new Vector3(0, 0, 0);
         }
 
         // We apply gravity manually for more tuning control
