@@ -12,6 +12,14 @@ using UnityEngine.AI;
 #endif
 public class PuppyCharacterController : MonoBehaviour
 {
+    public enum PuppySate
+    {
+        IDLE_HOME,
+        IDLE_PLAYER,
+        IDLE_SOUND_SOURCE,
+        MOVING_SOUND,
+        MOVING_PLAYER
+    }
 
     // Almost the same script as the CloneCharacterController.
     // The setTarget script takes care of all the logic
@@ -23,6 +31,8 @@ public class PuppyCharacterController : MonoBehaviour
 
     public TimeManager m_Manager;
     public GameObject m_Player;
+
+    public PuppySate m_PuppyState { get; private set; }
 
     // This should be a box collider with its origin on the floor, so that the puppy can reach it
     public GameObject m_Home;
@@ -45,6 +55,8 @@ public class PuppyCharacterController : MonoBehaviour
 
     private Animator m_Animator;
 
+    public bool m_LatchToClones;
+
     // These two boolean variables can by used to describe all possible states of the puppy
     // isHome == false && isLactched == false 
     //      The puppy is either roaming or has reached the sound's origin
@@ -65,6 +77,7 @@ public class PuppyCharacterController : MonoBehaviour
 
     private void Start()
     {
+        m_PuppyState = PuppySate.IDLE_HOME;
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
 #if !USING_ETHAN_CHARACTER
@@ -90,6 +103,7 @@ public class PuppyCharacterController : MonoBehaviour
         // Disregard noises if already latched
         if (m_IsLatched) return;
 
+        m_PuppyState = PuppySate.MOVING_SOUND;
         m_IsHome = false;
         m_Target = source;
 
@@ -104,7 +118,7 @@ public class PuppyCharacterController : MonoBehaviour
     // To fix this (I think) we would need a seperate script living on a seperate object with its own collider
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" || other.tag == "Clone")
+        if (other.tag == "Player" || (m_LatchToClones && other.tag == "Clone"))
         {
             // Disregard aggro if puppy is home or already latched
             if (m_IsHome || m_IsLatched) return;
@@ -148,6 +162,7 @@ public class PuppyCharacterController : MonoBehaviour
         m_IsLatched = state.m_PuppyIsLatched;
         m_Target = state.m_PuppyTargetSound;
         m_FollowTargetTransform = state.m_PuppyTargetTransform;
+        m_PuppyState = state.m_PuppyState;
     }
 
     private void LateUpdate()
@@ -174,9 +189,23 @@ public class PuppyCharacterController : MonoBehaviour
         }
 
         if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
+        {
             m_Character.Move(m_Agent.desiredVelocity, false);
+            if (m_IsLatched)
+                m_PuppyState = PuppySate.MOVING_PLAYER;
+            else if (!m_IsLatched)
+                m_PuppyState = PuppySate.MOVING_SOUND;
+        }
 
         else
+        {
             m_Character.Move(Vector3.zero, false);
+            if (m_IsLatched)
+                m_PuppyState = PuppySate.IDLE_PLAYER;
+            else if (!m_IsLatched)
+                m_PuppyState = PuppySate.IDLE_SOUND_SOURCE;
+            if (m_IsHome)
+                m_PuppyState = PuppySate.IDLE_HOME;
+        }
     }
 }

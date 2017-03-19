@@ -1804,6 +1804,7 @@ MonoBehaviour:
   m_Manager: {fileID: 0}
   m_Player: {fileID: 0}
   m_Home: {fileID: 0}
+  m_LatchToClones: 0
 --- !u!135 &135638406905053968
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -2078,7 +2079,7 @@ NavMeshAgent:
   m_Acceleration: 15
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 2.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

@@ -68,6 +68,7 @@ public class TimeManager : MonoBehaviour
         public bool m_PuppyIsLatched { get; set; }
         public Vector3 m_PuppyTargetSound { get; set; }
         public Transform m_PuppyTargetTransform { get; set; }
+        public PuppyCharacterController.PuppySate m_PuppyState { get; set; }
 
         public State(
             Vector3 dogPos,
@@ -77,7 +78,8 @@ public class TimeManager : MonoBehaviour
             bool isHome,
             bool isLatched,
             Vector3 targetPos,
-            Transform targetTrans)
+            Transform targetTrans,
+            PuppyCharacterController.PuppySate pupState)
         {
             m_DogPosition = dogPos;
             m_DogRotation = dogRot;
@@ -87,6 +89,7 @@ public class TimeManager : MonoBehaviour
             m_PuppyIsLatched = isLatched;
             m_PuppyTargetSound = targetPos;
             m_PuppyTargetTransform = targetTrans;
+            m_PuppyState = pupState;
         }
     }
 
@@ -505,7 +508,8 @@ public class TimeManager : MonoBehaviour
             m_PuppyController.m_IsHome,
             m_PuppyController.m_IsLatched,
             m_PuppyController.m_Target,
-            m_PuppyController.m_FollowTargetTransform);
+            m_PuppyController.m_FollowTargetTransform,
+            m_PuppyController.m_PuppyState);
 
         m_MasterArray.Add(state);
     }
