@@ -64,8 +64,11 @@ public class DogFP : AnimatedDog
 
 #if NETWORKING
             if (amI.host)
-#endif
             networkedInput.vertical = Input.GetAxis("Vertical");
+#else
+            float vertical = Input.GetAxis("Vertical");
+#endif
+
             float horizontalLook = Input.GetAxis("Mouse X");
             float verticalLook = Input.GetAxis("Mouse Y");
 
@@ -73,7 +76,11 @@ public class DogFP : AnimatedDog
                 horizontal = 0;
 
             // Calculate how fast we should be moving
+#if NETWORKING
             Vector3 targetVelocity = new Vector3(horizontal, 0, networkedInput.vertical);
+#else
+            Vector3 targetVelocity = new Vector3(horizontal, 0, vertical);
+#endif
             targetVelocity = transform.TransformDirection(targetVelocity);
             targetVelocity *= speed;
 
