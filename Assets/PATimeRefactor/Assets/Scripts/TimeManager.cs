@@ -281,6 +281,12 @@ public class TimeManager : MonoBehaviour
                 }
             }
 
+            runWarpBubbles(rewinding);
+           
+        }
+
+        public void runWarpBubbles(bool rewinding = false)
+        {
             // Deal with warp in bubble instantiation
             if (m_TimelineIndex >= m_Start && m_TimelineIndex <= m_Start + m_WarpBubbleLife && m_TimelineID != 0)
             {
@@ -290,7 +296,7 @@ public class TimeManager : MonoBehaviour
                 }
                 m_WarpInInstance.GetComponent<WarpBubble>().m_CurrentIndex = m_TimelineIndex - m_Start;
             }
-            else if (m_End != -1 && m_TimelineIndex >= m_End && m_TimelineIndex <= m_End + m_WarpBubbleLife)
+            else if (!(rewinding && m_TimelineID == m_TimeManager.m_ActiveTimeline - 1) && m_End != -1 && m_TimelineIndex >= m_End && m_TimelineIndex <= m_End + m_WarpBubbleLife)
             {
                 if (m_WarpInInstance == null)
                 {
@@ -476,6 +482,7 @@ public class TimeManager : MonoBehaviour
                 for (int i = m_RevertTimeline + 1; i < m_Timelines.Count; i++)
                 {
                     m_Timelines[i].trashClone();
+                    m_Timelines[i].trashBubble();
                 }
                 m_ActiveTimeline = m_RevertTimeline;
                 m_Timelines[m_ActiveTimeline].open(m_MasterPointer);
@@ -512,6 +519,9 @@ public class TimeManager : MonoBehaviour
             {
                 m_Timelines[i].runClones();
             }
+
+            // Then check for warpBubble instantiation - note that those are done automatically when calling runClones()
+            m_Timelines[m_ActiveTimeline].runWarpBubbles();
         }
         #endregion
     }
@@ -553,7 +563,6 @@ public class TimeManager : MonoBehaviour
                 // Switch camera 
                 if (m_SnapCameraToClone)
                 {
-
                     m_Timelines[m_CurrentCamera].activateCamera(false);
                     m_PlayerCamera.enabled = true;
                 }
