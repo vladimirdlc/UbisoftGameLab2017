@@ -222,6 +222,12 @@ public class PuppyMovement : MonoBehaviour
             case PuppyCharacterController.PuppySate.MOVING_PLAYER:
                 m_Animator.SetTrigger("movingPlayer");
                 break;
+            case PuppyCharacterController.PuppySate.MOVING_SOUND:
+                m_Animator.SetTrigger("movingSound");
+                break;
+            default:
+                m_Animator.SetTrigger("stopEmotes");
+                break;
         }
     }
 }
