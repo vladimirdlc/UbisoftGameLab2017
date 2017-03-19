@@ -86,6 +86,7 @@ public class PuppyCharacterController : MonoBehaviour
         m_Character = GetComponent<Character>();
 #endif
 
+        m_Player = GameObject.FindGameObjectWithTag("Player");
         m_PlayerUserController = m_Player.GetComponent<PlayerUserController>();
         m_HomePosition = m_Home.GetComponent<Transform>().position;
         m_Target = m_HomePosition;

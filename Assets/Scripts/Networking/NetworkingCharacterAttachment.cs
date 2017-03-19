@@ -51,6 +51,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             if (overseer != null)
                 GameObject.FindGameObjectWithTag("Overseer").SetActive(false);
 
+            GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>().enabled = true;
             gameObject.name = "host";                                               // FIXME
         }
 
@@ -86,6 +87,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
             lucky.GetComponent<Camera>().enabled = false;
             lucky.GetComponent<AudioListener>().enabled = false;
+            GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>().enabled = true;
             gameObject.name = "clientsHost";
         }
     }
