@@ -95,6 +95,8 @@ public class PlayerUserController : MonoBehaviour
                 break;
 
             case TimeManager.GameState.REWIND:
+            case TimeManager.GameState.FORWARD:
+            case TimeManager.GameState.TIME_STOPPED:
 
                 switch (m_TimeManager.m_RewindMode)
                 {
@@ -125,7 +127,9 @@ public class PlayerUserController : MonoBehaviour
 #endif
 
                         if (!crouch)
+                        {
                             m_TimeManager.timeStopToggle(crouch);
+                        }
                         break;
                     case TimeManager.RewindType.TO_ZERO:
                         if (m_TimeManager.m_WaitingForPlayer)
