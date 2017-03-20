@@ -1229,7 +1229,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1497780920488766}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.64, y: 0.5, z: -19.92}
+  m_LocalPosition: {x: 0.89, y: 0.76, z: -1.1}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 4528689228399078}
@@ -2069,9 +2069,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Cam: {fileID: 4382361632791688}
-  m_ScrubSpeed: 1
+  m_ScrubBraking: 0.1
+  m_ScrubAcceleration: 0.05
+  m_MaxScrubSpeed: 1
   m_IsRewindController: 1
   m_DisableRewindWhenLatched: 0
+  netInput: {fileID: 0}
+  amI: {fileID: 0}
 --- !u!114 &114914747814662872
 MonoBehaviour:
   m_ObjectHideFlags: 1
