@@ -51,8 +51,8 @@ public class OverseerCamera : MonoBehaviour
             }
         }
 
-        float directionx = (transform.position.x < target.transform.position.x) ? 1 : -1;
-        float directionz = (transform.position.z < target.transform.position.z) ? 1 : -1;
+        //float directionx = (transform.position.x < target.transform.position.x) ? 1 : -1;
+        //float directionz = (transform.position.z < target.transform.position.z) ? 1 : -1;
 
 
         Quaternion futureRotation = Quaternion.LookRotation(cam.followTarget.position - transform.position, Vector3.up);

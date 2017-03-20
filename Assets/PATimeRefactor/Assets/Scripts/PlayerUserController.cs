@@ -63,9 +63,9 @@ public class PlayerUserController : MonoBehaviour
         float v = CrossPlatformInputManager.GetAxis("Vertical");
 
 #if NETWORKING
-        if(amI.host)
+        if (amI.host)
         {
-          netInput.crouch = Input.GetButton("Ground Stop Time");
+            netInput.crouch = Input.GetButton("Ground Stop Time");
         }
         bool crouch = netInput.crouch;
 #else

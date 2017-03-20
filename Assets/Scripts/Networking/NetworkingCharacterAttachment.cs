@@ -87,6 +87,10 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         {
             //we are probably getting lucky here since it finds the first 
             //object tagged which in this case is clientsHost
+            var timeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
+            timeManager.enabled = true;
+            timeManager.m_PlayerCamera = GameObject.FindGameObjectWithTag("Camera Ground Character").GetComponent<Camera>();
+
             var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
             lucky.GetComponent<Camera>().enabled = false;
             lucky.GetComponent<AudioListener>().enabled = false;
