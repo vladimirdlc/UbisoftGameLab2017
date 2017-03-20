@@ -144,10 +144,10 @@ public class PlayerUserController : MonoBehaviour
                                 m_ScrubSpeed += FF * m_ScrubAcceleration;
                                 m_ScrubSpeed -= RW * m_ScrubAcceleration;
 
-                                if (m_ScrubSpeed > m_MaxScrubSpeed)
-                                    m_ScrubSpeed = m_MaxScrubSpeed;
-                                if (m_ScrubSpeed < -m_MaxScrubSpeed)
-                                    m_ScrubSpeed = -m_MaxScrubSpeed;
+                                if (m_ScrubSpeed > FF)
+                                    m_ScrubSpeed = FF;
+                                if (m_ScrubSpeed < -RW)
+                                    m_ScrubSpeed = -RW;
 
                             }
                             else if (FF <= 0.01f && RW <= 0.01f)
