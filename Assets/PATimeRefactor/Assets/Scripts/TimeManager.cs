@@ -301,7 +301,7 @@ public class TimeManager : MonoBehaviour
                     if (m_LerpOffset < 0)
                     {
                         lerpFrom = m_MasterArrayRef[m_TimelineIndex];
-                        lerpTo = m_MasterArrayRef[m_TimelineIndex -1 ];
+                        lerpTo = m_MasterArrayRef[m_TimelineIndex - 1];
                     }
                     else if (m_LerpOffset > 0)
                     {
@@ -382,9 +382,18 @@ public class TimeManager : MonoBehaviour
     private int m_ParadoxPos;
 
     public GameObject[] clonePrefabs;
+
+    private void Awake()
+    {
+#if NETWORKING
+        enabled = false;
+#endif
+
+    }
     void Start()
     {
         m_Player = GameObject.FindGameObjectWithTag("Player");
+        m_Puppy = GameObject.FindGameObjectWithTag("Puppy");
 #if NETWORKING
         m_ClonePrefab = clonePrefabs[1];
 #else
@@ -489,11 +498,11 @@ public class TimeManager : MonoBehaviour
             // Compute scrub speed (values are approx)
             if (m_ScrubSpeed >= -0.95)
             {
-                m_ScrubSpeed -= 0.0125f/30;
+                m_ScrubSpeed -= 0.0125f / 30;
             }
             if (m_ScrubSpeed <= -0.1 && m_MasterPointer <= m_RevertIndex + 30)
             {
-                m_ScrubSpeed += 0.070f/30;
+                m_ScrubSpeed += 0.070f / 30;
             }
 
             // The forced rewind will try to reach a few seconds before the paradox actually happened
@@ -739,7 +748,7 @@ public class TimeManager : MonoBehaviour
     {
         // Prevent lerping beyond array limits
         if ((m_Timelines[0].m_TimelineIndex == 0 && lerpOffset < 0) ||
-            (m_ActiveTimeline !=0 && (m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex == m_MasterPointer && lerpOffset > 0)))
+            (m_ActiveTimeline != 0 && (m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex == m_MasterPointer && lerpOffset > 0)))
         {
             m_LerpOffset = 0;
             return;
@@ -860,7 +869,7 @@ public class TimeManager : MonoBehaviour
                 lerpTo = m_MasterArray[m_MasterPointer];
                 lerpFrom = m_MasterArray[m_MasterPointer];
             }
-            
+
             m_PlayerTransform.position = Vector3.Lerp(lerpFrom.m_DogPosition, lerpTo.m_DogPosition, Mathf.Abs(m_LerpOffset));
             m_PlayerTransform.rotation = Quaternion.Slerp(lerpFrom.m_DogRotation, lerpTo.m_DogRotation, Mathf.Abs(m_LerpOffset));
         }
