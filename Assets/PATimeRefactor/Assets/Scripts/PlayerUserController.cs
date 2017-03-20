@@ -15,8 +15,14 @@ public class PlayerUserController : MonoBehaviour
 
     private Vector3 m_Move;
 
+    public float m_ScrubBraking;
+    public float m_ScrubAcceleration;
+
+    public float m_MaxScrubSpeed;
+
+    private float m_ScrubSpeed;
+
     private TimeManager m_TimeManager;
-    public float m_ScrubSpeed;
 
     public bool m_IsRewindController;
     public bool m_DisableRewindWhenLatched;
@@ -27,6 +33,7 @@ public class PlayerUserController : MonoBehaviour
     private void Start()
     {
         m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
+        m_ScrubSpeed = 0;
 #if !USING_ETHAN_CHARACTER
         m_Character = GetComponent<DogFP>();
 #else
@@ -43,10 +50,7 @@ public class PlayerUserController : MonoBehaviour
 
     private void Update()
     {
-        bool crouch = Input.GetButton("Ground Stop Time");
 
-        if (crouch)
-            m_Character.LockMovement(crouch);
     }
 
     // Fixed update is called in sync with physics
@@ -75,6 +79,7 @@ public class PlayerUserController : MonoBehaviour
         // Compute move vector
         if (crouch)
         {
+            m_Character.LockMovement(crouch);
             m_Move = Vector3.zero;
         }
         else if (m_Cam != null)
@@ -92,9 +97,10 @@ public class PlayerUserController : MonoBehaviour
         // Switch to send user input depending on game state
         switch (m_TimeManager.m_GameState)
         {
-            // Do not consider any user input if the game state is in paradox or revert mode
+            // Do not consider any user input if the game state is in paradox/revert or block mode
             case TimeManager.GameState.PARADOX:
             case TimeManager.GameState.REVERT:
+            case TimeManager.GameState.BLOCK:
                 break;
 
             case TimeManager.GameState.NORMAL:
@@ -126,13 +132,46 @@ public class PlayerUserController : MonoBehaviour
 #endif
 
                         if (!crouch)
+                        {
                             m_TimeManager.timeStopToggle(crouch);
+                            m_ScrubSpeed = 0;
+                        }
                         if (m_IsRewindController)
                         {
                             if (FF != RW)
                             {
-                                m_TimeManager.masterScrub((int)((FF - RW) * m_ScrubSpeed));
+                                // Apply acceleration to scrub speed
+                                m_ScrubSpeed += FF * m_ScrubAcceleration;
+                                m_ScrubSpeed -= RW * m_ScrubAcceleration;
+
+                                if (m_ScrubSpeed > m_MaxScrubSpeed)
+                                    m_ScrubSpeed = m_MaxScrubSpeed;
+                                if (m_ScrubSpeed < -m_MaxScrubSpeed)
+                                    m_ScrubSpeed = -m_MaxScrubSpeed;
+
                             }
+                            else if (FF <= 0.01f && RW <= 0.01f)
+                            {
+                                if (m_ScrubSpeed < 0)
+                                {
+                                    m_ScrubSpeed += m_ScrubBraking;
+                                    if (m_ScrubSpeed > 0)
+                                        m_ScrubSpeed = 0;
+                                }
+                                else if (m_ScrubSpeed > 0)
+                                {
+                                    m_ScrubSpeed -= m_ScrubBraking;
+                                    if (m_ScrubSpeed < 0)
+                                        m_ScrubSpeed = 0;
+                                }
+                            }
+                            // Apply scrubSpeed
+                            if (m_ScrubSpeed >= 0.01f || m_ScrubSpeed <= -0.01f)
+                            {
+                                m_TimeManager.lerpScrub(m_ScrubSpeed + (-1 * (int)m_ScrubSpeed));
+                                m_TimeManager.masterScrub(((int)m_ScrubSpeed));
+                            }
+
                         }
                         break;
                     case TimeManager.RewindType.HOLD_AND_RELEASE:
