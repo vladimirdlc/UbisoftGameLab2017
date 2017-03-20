@@ -75,8 +75,16 @@ public class PuppyCharacterController : MonoBehaviour
 
     private bool m_HaltPathing;
 
+    private void Awake()
+    {
+#if NETWORKING
+        enabled = false;
+#endif
+    }
+
     private void Start()
     {
+        m_Home = GameObject.FindGameObjectWithTag("Home");
         m_PuppyState = PuppySate.IDLE_HOME;
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
