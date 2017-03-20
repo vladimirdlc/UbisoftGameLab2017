@@ -529,7 +529,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4946396585377140}
-  - component: {fileID: 95419154184122498}
   m_Layer: 0
   m_Name: Labrador_Pet_animation_12kpoly_05
   m_TagString: Untagged
@@ -1519,8 +1518,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1324764088501468}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -39, y: 0.5000001, z: -10.500709}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -21.56, y: 0.5000001, z: -19.67}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 4946396585377140}
   - {fileID: 4361881870634254}
@@ -1900,23 +1899,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!95 &95419154184122498
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1586544419648674}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: d4ba5dba1db181c4e844e7bfba520a10, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95499726108049332
 Animator:
   serializedVersion: 3
@@ -1924,7 +1906,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1324764088501468}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d4ba5dba1db181c4e844e7bfba520a10, type: 3}
   m_Controller: {fileID: 9100000, guid: f65cb167df694e843801816c718f10cb, type: 2}
   m_CullingMode: 1
@@ -2278,7 +2260,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1324764088501468}
   m_Enabled: 1
   m_Radius: 0.5
-  m_Speed: 1
+  m_Speed: 2
   m_Acceleration: 15
   avoidancePriority: 50
   m_AngularSpeed: 120
