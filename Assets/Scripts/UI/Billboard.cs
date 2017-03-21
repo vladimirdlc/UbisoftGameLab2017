@@ -12,6 +12,9 @@ public class Billboard : MonoBehaviour
 
     void Update()
     {
-        transform.LookAt(Camera.main.transform.position, -Vector3.up * (m_toggleUpSignCorrection ? -1 : 1));
+        //transform.LookAt(Camera.main.transform.position, -Vector3.up * (m_toggleUpSignCorrection ? -1 : 1));
+        Vector3 fwd = m_camera.transform.forward;
+        fwd.y = 0;
+        transform.rotation = Quaternion.LookRotation(fwd);
     }
 }
