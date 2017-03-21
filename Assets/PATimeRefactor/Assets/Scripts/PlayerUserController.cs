@@ -22,9 +22,6 @@ public class PlayerUserController : MonoBehaviour
 
     private float m_ScrubSpeed;
 
-    public GameObject barkEffect;
-    public Transform barkInstantiationPosition;
-
     private TimeManager m_TimeManager;
 
     public bool m_IsRewindController;
@@ -34,12 +31,20 @@ public class PlayerUserController : MonoBehaviour
     public NetworkingCharacterAttachment amI;
 
     // Input
-    bool bark = false;
+    private bool m_BarkInput;
+    public float m_BarkCD;
+    private float m_BarkCDCounter;
+    private bool m_BarkReady;
+    private bool m_BarkStatePush;
 
     private void Start()
     {
         m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
         m_ScrubSpeed = 0;
+        m_BarkInput = false;
+        m_BarkCDCounter = 0.0f;
+        m_BarkReady = true;
+
 #if !USING_ETHAN_CHARACTER
         m_Character = GetComponent<DogFP>();
 #else
@@ -53,10 +58,23 @@ public class PlayerUserController : MonoBehaviour
 #endif
     }
 
-
+    public bool barkTestAndSet()
+    {
+        if (m_BarkStatePush)
+        {
+            m_BarkStatePush = false;
+            return true;
+        }
+        else
+            return false; 
+    }
     private void Update()
     {
-
+        if (!m_BarkReady)
+        {
+            if (Time.time >= m_BarkCDCounter)
+                m_BarkReady = true;
+        }
     }
 
     // Fixed update is called in sync with physics
@@ -77,19 +95,13 @@ public class PlayerUserController : MonoBehaviour
 #else
         bool crouch = Input.GetButton("Ground Stop Time");
         // NEW INPUT THAT PROBABLY NEEDS TO BE NETWORKED
-        bark = Input.GetButtonDown("Bark");
+        m_BarkInput = Input.GetButton("Bark");
+        
 #endif
 
 
         float FF = CrossPlatformInputManager.GetAxis("FF");
         float RW = CrossPlatformInputManager.GetAxis("RW");
-
-        // Compute bark
-        if(bark)
-        {
-            // SOME FUNCTION CALL ON THE PUPPY
-            Instantiate(barkEffect, barkInstantiationPosition.transform.position, barkInstantiationPosition.transform.rotation);
-        }
 
         // Compute move vector
         if (crouch)
@@ -125,7 +137,14 @@ public class PlayerUserController : MonoBehaviour
 #else
                 m_Character.Move(m_Move, crouch);
 #endif
-
+                if (m_BarkInput && m_BarkReady)
+                {
+                    Debug.Log("woof");
+                    m_BarkStatePush = true;
+                    m_BarkReady = false;
+                    m_BarkCDCounter = Time.time + m_BarkCD;
+                    m_TimeManager.handleBark();
+                }
                 if (crouch && !(m_DisableRewindWhenLatched && m_HasPuppy))
                 {
                     m_TimeManager.timeStopToggle(crouch);

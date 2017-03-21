@@ -57,6 +57,7 @@ public class TimeManager : MonoBehaviour
     public string m_DoorLayer;
     public string m_AILayer;
     public string m_PlateLayer;
+    public string m_AEOCircleLayer;
 
     public bool m_WaitingForPlayer { get; set; }
 
@@ -76,32 +77,32 @@ public class TimeManager : MonoBehaviour
         public Quaternion m_DogRotation { get; set; }
         public Vector3 m_PuppyPosition { get; set; }
         public Quaternion m_PuppyRotation { get; set; }
-        public bool m_PuppyIsHome { get; set; }
-        public bool m_PuppyIsLatched { get; set; }
-        public Vector3 m_PuppyTargetSound { get; set; }
+        public Vector3 m_PuppyTarget { get; set; }
         public Transform m_PuppyTargetTransform { get; set; }
         public PuppyCharacterController.PuppySate m_PuppyState { get; set; }
+        public bool m_PuppyAware { get; set; }
+        public bool m_Bark { get; set; }
 
         public State(
             Vector3 dogPos,
             Quaternion dogRot,
             Vector3 pupPos,
             Quaternion pupRot,
-            bool isHome,
-            bool isLatched,
             Vector3 targetPos,
             Transform targetTrans,
-            PuppyCharacterController.PuppySate pupState)
+            PuppyCharacterController.PuppySate pupState,
+            bool pupIsAware,
+            bool bark)
         {
             m_DogPosition = dogPos;
             m_DogRotation = dogRot;
             m_PuppyPosition = pupPos;
             m_PuppyRotation = pupRot;
-            m_PuppyIsHome = isHome;
-            m_PuppyIsLatched = isLatched;
-            m_PuppyTargetSound = targetPos;
+            m_PuppyTarget = targetPos;
             m_PuppyTargetTransform = targetTrans;
             m_PuppyState = pupState;
+            m_PuppyAware = pupIsAware;
+            m_Bark = bark;
         }
     }
 
@@ -301,7 +302,16 @@ public class TimeManager : MonoBehaviour
                 }
 
                 // Then send the Nav Agent on its way, or hard code the Transform when RW or FF
-                if (!rewinding) m_CloneController.setTarget(m_MasterArrayRef[m_TimelineIndex + 1]);
+                if (!rewinding)
+                {
+                    m_CloneController.setTarget(m_MasterArrayRef[m_TimelineIndex + 1]);
+
+                    // Have the clones bark if needed
+                    if (m_MasterArrayRef[m_TimelineIndex].m_Bark)
+                    {
+                        m_TimeManager.handleBark(m_TimelineID);
+                    }
+                }
                 else
                 {
                     State lerpFrom;
@@ -430,8 +440,11 @@ public class TimeManager : MonoBehaviour
 
         m_TimeStopCD = 0;
 
-        // Disable collisions between clones
+        // Disable collisions between clones and between the ground AEO circles
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_CloneLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_AEOCircleLayer), LayerMask.NameToLayer(m_AEOCircleLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_AEOCircleLayer), LayerMask.NameToLayer(m_CloneLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_AEOCircleLayer), LayerMask.NameToLayer(m_AILayer), true);
     }
 
     // Not sure if this should go in FixedUpdate or Update, Fixed seemed safer and more stable (constant frame rate)
@@ -471,6 +484,10 @@ public class TimeManager : MonoBehaviour
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlayerLayer), false);
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_DoorLayer), false);
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlateLayer), false);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_AILayer), false);
+
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_PlayerLayer), LayerMask.NameToLayer(m_DoorLayer), false);
+
             m_GameState = GameState.NORMAL;
             m_ParadoxType = ParadoxType.NONE;
             m_RestoreControlOnNextFrame = false;
@@ -628,11 +645,11 @@ public class TimeManager : MonoBehaviour
             m_PlayerTransform.rotation,
             m_PuppyTransform.position,
             m_PuppyTransform.rotation,
-            m_PuppyController.m_IsHome,
-            m_PuppyController.m_IsLatched,
             m_PuppyController.m_Target,
-            m_PuppyController.m_FollowTargetTransform,
-            m_PuppyController.m_PuppyState);
+            m_PuppyController.m_FollowDogTransform,
+            m_PuppyController.m_PuppyState,
+            m_PuppyController.m_IsAware,
+            m_UserController.barkTestAndSet());
 
         m_MasterArray.Add(state);
     }
@@ -647,6 +664,14 @@ public class TimeManager : MonoBehaviour
             m_Timelines[i].inc();
         }
     }
+
+    public void handleBark(int timeLineId = -1)
+    {
+        Vector3 soundSource;
+        soundSource = m_MasterArray[(timeLineId == -1) ? m_MasterPointer - 1 : m_Timelines[timeLineId].m_TimelineIndex - 1].m_DogPosition;
+        m_PuppyController.hearNoise(soundSource);
+    }
+
 
     public void timeStopToggle(bool stopTime)
     {
@@ -663,29 +688,26 @@ public class TimeManager : MonoBehaviour
                 }
 
                 m_WaitingForPlayer = false;
-                bool bangThePuppy = true;
+                bool warped = true;
                 // If the time stop did not result in a rewind, clean-up
                 if (m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex == m_MasterPointer)
                 {
-                    bangThePuppy = false;
                     m_Timelines[m_ActiveTimeline - 1].open(m_MasterPointer);
                     m_Timelines.RemoveAt(m_ActiveTimeline);
                     m_ActiveTimeline--;
+                    warped = false;
                 }
 
+                if (warped)
+                {
+                    m_PuppyController.warpOutTarget();
+                }
                 // Resume AIs
                 for (int i = 0; i < m_ActiveTimeline; i++)
                 {
                     m_Timelines[i].resumeClones();
                 }
                 m_PuppyController.resumeAI();
-
-                // Signal the puppy (if there was an actual rewind)
-                if (bangThePuppy)
-                {
-                    m_PuppyController.hearNoise(m_PlayerTransform.position);
-                }
-
 
                 // Place pointers to next position
                 m_MasterPointer++;
@@ -720,7 +742,7 @@ public class TimeManager : MonoBehaviour
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlayerLayer), true);
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_DoorLayer), true);
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlateLayer), true);
-
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_AILayer), true);
 
             // Halt AIs
             for (int i = 0; i < m_ActiveTimeline; i++)
@@ -928,6 +950,9 @@ public class TimeManager : MonoBehaviour
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlayerLayer), true);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_DoorLayer), true);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlateLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_AILayer), true);
+
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_PlayerLayer), LayerMask.NameToLayer(m_DoorLayer), true);
 
 
         // Fetch revert targert
