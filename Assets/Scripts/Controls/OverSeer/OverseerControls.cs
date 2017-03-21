@@ -14,30 +14,41 @@ public class OverseerControls : MonoBehaviour
     public List<GameObject> controllablesB;
     public List<GameObject> controllablesY;
 
+    private TimeManager m_TimeManager;
+
+        private void Start()
+    {
+        m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown(actionButtonA))
+        // Change to == Normal
+        if (m_TimeManager.m_GameState == TimeManager.GameState.NORMAL)
         {
-            triggerList(controllablesA);
+            if (Input.GetButtonDown(actionButtonA))
+            {
+                triggerList(controllablesA);
 #if NETWORKING
             NetMessenger.Instance.CmdOpenDoor("Green");
 #endif
-        }
-        if (Input.GetButtonDown(actionButtonX))
-        {
-            triggerList(controllablesX);
+            }
+            if (Input.GetButtonDown(actionButtonX))
+            {
+                triggerList(controllablesX);
 #if NETWORKING
             NetMessenger.Instance.CmdOpenDoor("Blue");
 #endif
-        }
-        if (Input.GetButtonDown(actionButtonB))
-        {
-            triggerList(controllablesB);
-        }
-        if (Input.GetButtonDown(actionButtonY))
-        {
-            triggerList(controllablesY);
+            }
+            if (Input.GetButtonDown(actionButtonB))
+            {
+                triggerList(controllablesB);
+            }
+            if (Input.GetButtonDown(actionButtonY))
+            {
+                triggerList(controllablesY);
+            }
         }
     }
 
@@ -56,7 +67,7 @@ public class OverseerControls : MonoBehaviour
             {
                 OSControllable[] nestedTriggers = control.GetComponentsInChildren<OSControllable>();
 
-                foreach(OSControllable trigger in nestedTriggers)
+                foreach (OSControllable trigger in nestedTriggers)
                 {
                     trigger.TriggerAction();
                 }
