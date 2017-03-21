@@ -19,6 +19,9 @@ public class DogFP : AnimatedDog
     public MouseLook m_MouseLook;
     public Camera m_Camera;
 
+    public GameObject m_LeftRockets;
+    public GameObject m_RightRpckets;
+
     private bool grounded = false;
     private bool lockedMovement = false;
     private bool controlsEnabled = false;
@@ -129,6 +132,25 @@ public class DogFP : AnimatedDog
                 if (horizontalLook <= -0.2f)
                     tiltLeft = true;
             }
+            
+            // Rockets
+            if(horizontal < 0.05f && horizontal >-0.05f)
+            {
+                m_LeftRockets.SetActive(false);
+                m_RightRpckets.SetActive(false);
+            }
+            else
+            if(horizontal > 0.1f)
+            {
+                m_LeftRockets.SetActive(true);
+                m_RightRpckets.SetActive(false);
+            }
+            else if(horizontal < -0.1f)
+            {
+                m_LeftRockets.SetActive(false);
+                m_RightRpckets.SetActive(true);
+            }
+            
 
             // Jump
             //if (canJump && Input.GetButton("Jump"))
