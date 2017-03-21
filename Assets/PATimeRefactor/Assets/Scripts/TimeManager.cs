@@ -106,6 +106,8 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    static public bool disableCameraForOverseer = false;
+
     private class Timeline
     {
         public int m_TimelineIndex { get; private set; }
@@ -266,6 +268,10 @@ public class TimeManager : MonoBehaviour
 
         public void activateCamera(bool active = true)
         {
+#if NETWORKING
+            if (disableCameraForOverseer)
+                active = false;
+#endif
             if (m_CloneCam != null)
                 m_CloneCam.enabled = active;
         }
@@ -684,7 +690,14 @@ public class TimeManager : MonoBehaviour
                 if (m_SnapCameraToClone)
                 {
                     m_Timelines[m_CurrentCamera].activateCamera(false);
-                    m_PlayerCamera.enabled = true;
+#if NETWORKING
+                    if (disableCameraForOverseer)
+                        m_PlayerCamera.enabled = false;
+                    else
+                        m_PlayerCamera.enabled = true;
+#else
+                        m_PlayerCamera.enabled = true;
+#endif
                 }
 
                 m_WaitingForPlayer = false;
