@@ -115,11 +115,14 @@ public class PuppyCharacterController : MonoBehaviour
         // Set agent target to sound source
         m_Target = source;
         m_Agent.SetDestination(m_Target);
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        //There might be bug with this function
+        if (this.enabled == false)
+            return;
         // Disregard unless game state is NORMAL
         if (m_TimeManager.m_GameState != TimeManager.GameState.NORMAL)
             return;

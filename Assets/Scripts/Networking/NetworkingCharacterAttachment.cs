@@ -42,9 +42,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
         if (host)
         {
-            var timeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
-            timeManager.enabled = true;
-            timeManager.m_PlayerCamera = GameObject.FindGameObjectWithTag("Camera Ground Character").GetComponent<Camera>();
+            BothHostAndClientsHost();
 
             GameObject overseer = GameObject.FindGameObjectWithTag("Overseer");
 
@@ -54,10 +52,10 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             if (overseer != null)
                 GameObject.FindGameObjectWithTag("Overseer").SetActive(false);
 
-            GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>().enabled = true;
             gameObject.name = "host";
         }
 
+        //put below in awake
         if (hostsClient)
         {
             gameObject.SetActive(false);
@@ -87,16 +85,24 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         {
             //we are probably getting lucky here since it finds the first 
             //object tagged which in this case is clientsHost
-            var timeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
-            timeManager.enabled = true;
-            timeManager.m_PlayerCamera = GameObject.FindGameObjectWithTag("Camera Ground Character").GetComponent<Camera>();
+            BothHostAndClientsHost();
 
             var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
             lucky.GetComponent<Camera>().enabled = false;
             lucky.GetComponent<AudioListener>().enabled = false;
-            GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>().enabled = true;
             gameObject.name = "clientsHost";
         }
+    }
+    void BothHostAndClientsHost()
+    {
+        var timeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
+        timeManager.enabled = true;
+        timeManager.m_PlayerCamera = GameObject.FindGameObjectWithTag("Camera Ground Character").GetComponent<Camera>();
+
+        var puppy = GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>();
+        puppy.enabled = true;
+        puppy.m_TimeManager = timeManager;
+
     }
 
     /// <summary>
