@@ -32,6 +32,15 @@ public class TimeManager : MonoBehaviour
         BLOCK
     };
 
+    public enum ParadoxType
+    {
+        NONE,
+        PROXIMITY,
+        BLOCKING
+    }
+
+    public ParadoxType m_ParadoxType { get; private set; }
+
     public RewindType m_RewindMode;
 
     public bool m_SnapCameraToClone;
@@ -415,6 +424,7 @@ public class TimeManager : MonoBehaviour
         m_GameState = GameState.NORMAL;
         m_RestoreControlOnNextFrame = false;
         m_WaitingForPlayer = false;
+        m_ParadoxType = ParadoxType.NONE;
 
         m_CurrentCamera = 0;
 
@@ -462,6 +472,7 @@ public class TimeManager : MonoBehaviour
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_DoorLayer), false);
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlateLayer), false);
             m_GameState = GameState.NORMAL;
+            m_ParadoxType = ParadoxType.NONE;
             m_RestoreControlOnNextFrame = false;
         }
         if (m_Text != null)
@@ -910,6 +921,9 @@ public class TimeManager : MonoBehaviour
         // Otherwise deal with the paradox...
         m_GameState = GameState.PARADOX;
 
+        // Set paradox type to proximity, will be overriden by the lastPost null check if needed
+        m_ParadoxType = ParadoxType.PROXIMITY;
+
         // Disable collisions
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlayerLayer), true);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_DoorLayer), true);
@@ -926,6 +940,8 @@ public class TimeManager : MonoBehaviour
 
         if (lastPos != null)
         {
+            m_ParadoxType = ParadoxType.BLOCKING;
+
             float currentDistance = (lastPos.position - m_MasterArray[m_RevertIndex].m_DogPosition).magnitude;
             m_RevertIndex--;
             float nextDistance = (lastPos.position - m_MasterArray[m_RevertIndex].m_DogPosition).magnitude;

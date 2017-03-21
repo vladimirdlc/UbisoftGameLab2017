@@ -148,8 +148,9 @@ public class PlayerUserController : MonoBehaviour
 
                         if (!crouch)
                         {
-                            m_TimeManager.timeStopToggle(crouch);
                             m_ScrubSpeed = 0;
+                            m_TimeManager.timeStopToggle(crouch);
+                            break;
                         }
                         if (m_IsRewindController)
                         {
