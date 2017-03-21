@@ -47,7 +47,12 @@ public class SceneSwitch : MonoBehaviour
             }
 
             Cursor.visible = false;
+
+            #if NETWORKING
+            UnityEngine.Networking.NetworkManager.singleton.ServerChangeScene(sceneName);
+            #else
             SceneManager.LoadScene(sceneName);
+            #endif
         }
     }
 }
