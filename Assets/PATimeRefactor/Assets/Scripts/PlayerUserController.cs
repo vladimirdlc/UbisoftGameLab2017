@@ -22,6 +22,9 @@ public class PlayerUserController : MonoBehaviour
 
     private float m_ScrubSpeed;
 
+    public GameObject barkEffect;
+    public Transform barkInstantiationPosition;
+
     private TimeManager m_TimeManager;
 
     public bool m_IsRewindController;
@@ -85,6 +88,7 @@ public class PlayerUserController : MonoBehaviour
         if(bark)
         {
             // SOME FUNCTION CALL ON THE PUPPY
+            Instantiate(barkEffect, barkInstantiationPosition.transform.position, barkInstantiationPosition.transform.rotation);
         }
 
         // Compute move vector
