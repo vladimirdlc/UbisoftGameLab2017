@@ -87,6 +87,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             //object tagged which in this case is clientsHost
             BothHostAndClientsHost();
 
+            TimeManager.disableCameraForOverseer = true;
             var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
             lucky.GetComponent<Camera>().enabled = false;
             lucky.GetComponent<AudioListener>().enabled = false;
