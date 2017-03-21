@@ -51,14 +51,6 @@ public class OverseerCamera : MonoBehaviour
             }
         }
 
-        //float directionx = (transform.position.x < target.transform.position.x) ? 1 : -1;
-        //float directionz = (transform.position.z < target.transform.position.z) ? 1 : -1;
-
-
-        Quaternion futureRotation = Quaternion.LookRotation(cam.followTarget.position - transform.position, Vector3.up);
-
-        //Debug.Log(transform.rotation.y+"x:"+directionx+",z"+directionz);
-
         if (currentDelayTime < 0 && (Input.GetAxisRaw(horizontalAxis) != 0 || Input.GetAxisRaw(verticalAxis) != 0))
         {
             flickTotaltime += Time.deltaTime;
