@@ -41,6 +41,7 @@ public class PuppyMovement : MonoBehaviour
     public float walkingAnimatorSpeed;
     public float barkAnimatorSpeed;
     public float loveEmoteAnimatorSpeed;
+    public float pawSpeed;
     public float tailChaseSpeed;
     public float sitSpeed;
     public float sittingTailWagSpeed;
@@ -117,6 +118,7 @@ public class PuppyMovement : MonoBehaviour
 
         m_Animator.SetFloat("walkingSpeed", walkingAnimatorSpeed * m_ForwardAmount);
         m_Animator.SetFloat("barkingSpeed", barkAnimatorSpeed);
+        m_Animator.SetFloat("pawSpeed", pawSpeed);
         m_Animator.SetFloat("tailChaseSpeed", tailChaseSpeed);
         m_Animator.SetFloat("sitSpeed", sitSpeed);
         m_Animator.SetFloat("sittingTailWagSpeed", sittingTailWagSpeed);
@@ -132,17 +134,21 @@ public class PuppyMovement : MonoBehaviour
     {
         float rndFloat = Random.Range(0.0f, 1.0f);
 
-        if (rndFloat <= 0.33)
+        if (rndFloat <= 0.25)
         {
             m_Animator.SetTrigger("bark");
         }
-        else if (rndFloat <= 0.66)
+        else if (rndFloat <= 0.50)
         {
             m_Animator.SetTrigger("tailChase");
         }
-        else
+        else if (rndFloat <= 0.75)
         {
             m_Animator.SetTrigger("sitOnce");
+        }
+        else
+        {
+            m_Animator.SetTrigger("paw");
         }
     }
 
