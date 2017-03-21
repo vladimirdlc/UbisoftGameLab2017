@@ -145,7 +145,7 @@ public class DogFP : AnimatedDog
         // We apply gravity manually for more tuning control
         m_RigidBody.AddForce(new Vector3(0, -gravity * m_RigidBody.mass, 0));
 
-        UpdateAnimator(crouch, Mathf.Abs(horizontal) >= 0.1f);
+        UpdateAnimator(horizontal, crouch);
         m_MouseLook.UpdateCursorLock();
 
         // Reset state flags
