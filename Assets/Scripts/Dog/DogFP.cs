@@ -23,6 +23,10 @@ public class DogFP : AnimatedDog
     private bool lockedMovement = false;
     private bool controlsEnabled = false;
 
+    // Input
+    float horizontal = 0;
+    float vertical = 0;
+
 #if NETWORKING
     NetworkedInput networkedInput;
     NetworkingCharacterAttachment amI;
@@ -55,6 +59,18 @@ public class DogFP : AnimatedDog
                 m_Camera.transform.localRotation = Quaternion.identity;
             }
 
+#if NETWORKING
+            if (amI.host)
+            {
+                networkedInput.horizontal = Input.GetAxis("Horizontal");
+                networkedInput.vertical = Input.GetAxis("Vertical");
+            }
+#else
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+
+#endif
+
         base.Update();
         RotateView();
     }
@@ -71,18 +87,6 @@ public class DogFP : AnimatedDog
     {
         if (grounded && !lockedMovement && !GameState.disableControls)
         {
-
-#if NETWORKING
-            if (amI.host)
-            {
-                networkedInput.horizontal = Input.GetAxis("Horizontal");
-                networkedInput.vertical = Input.GetAxis("Vertical");
-            }
-#else
-            //doesn't seem like we are using horizontal axis?
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-#endif
             float horizontalLook = Input.GetAxis("Mouse X");
             float verticalLook = Input.GetAxis("Mouse Y");
 
@@ -94,6 +98,9 @@ public class DogFP : AnimatedDog
                 horizontal = 0;
 #endif
             }
+            else
+                // Strafe speed is slower than the forward speed
+                horizontal *= 0.8f;
 
             // Calculate how fast we should be moving
 #if NETWORKING
@@ -138,7 +145,7 @@ public class DogFP : AnimatedDog
         // We apply gravity manually for more tuning control
         m_RigidBody.AddForce(new Vector3(0, -gravity * m_RigidBody.mass, 0));
 
-        UpdateAnimator(crouch);
+        UpdateAnimator(crouch, Mathf.Abs(horizontal) >= 0.1f);
         m_MouseLook.UpdateCursorLock();
 
         // Reset state flags

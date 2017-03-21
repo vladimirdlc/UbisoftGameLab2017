@@ -51,14 +51,16 @@ public class AnimatedDog : MonoBehaviour
         }
     }
 
-    protected void UpdateAnimator(bool sitting = false)
+    protected void UpdateAnimator(bool sitting = false, bool strafing = false)
     {
         m_Animator.SetBool("sitting", sitting);
         m_Animator.SetBool("headTiltLeft", tiltLeft);
         m_Animator.SetBool("headTiltRight", tiltRight);
+        m_Animator.SetBool("strafe", strafing);
 
         Vector3 tempVector = m_RigidBody.velocity;
         tempVector.y = 0;
+
         m_Animator.SetFloat("walkingSpeed", tempVector.magnitude);
         m_Animator.SetFloat("tiltLeftSpeed", tiltLeftAnimSpeed);
         m_Animator.SetFloat("tiltRightSpeed", tiltRightAnimSpeed);
