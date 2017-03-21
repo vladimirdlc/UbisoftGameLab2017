@@ -20,6 +20,7 @@ public class PuppyCharacterController : MonoBehaviour
         MOVING_SOUND,
         MOVING_PLAYER
     }
+    public bool m_IsAware { get; set; }
 
     // Almost the same script as the CloneCharacterController.
     // The setTarget script takes care of all the logic
@@ -29,7 +30,7 @@ public class PuppyCharacterController : MonoBehaviour
     // The clones will fire a proximity paradox event if the puppy gets too close
     // If the puppy reaches the player, then he will latch onto him
 
-    public TimeManager m_Manager;
+    public TimeManager m_TimeManager;
     public GameObject m_Player;
 
     public PuppySate m_PuppyState { get; private set; }
@@ -47,28 +48,15 @@ public class PuppyCharacterController : MonoBehaviour
 
     public Vector3 m_Target { get; private set; }
 
-    public Transform m_FollowTargetTransform { get; private set; }
+    public Transform m_FollowDogTransform { get; private set; }
 
-    private Vector3 m_LastTargetPosition;
+    private Vector3 m_LastDogPosition;
 
     private Transform m_Transform;
 
     private Animator m_Animator;
 
     public bool m_LatchToClones;
-
-    // These two boolean variables can by used to describe all possible states of the puppy
-    // isHome == false && isLactched == false 
-    //      The puppy is either roaming or has reached the sound's origin
-    //      In this state he will aggro and dog that he finds or head towards the sound source
-    // isHome == false && isLactched == true 
-    //      Will maintain the player as the target until he reaches home
-    // isHome == true && isLatched == false;
-    //      Puppy is in his starting state, only aggros sound
-    // isHome == true && isLatched == true
-    //      This is when the dog brings the puppy home
-    public bool m_IsLatched { get; set; }
-    public bool m_IsHome { get; set; }
 
     private PlayerUserController m_PlayerUserController;
     private Vector3 m_HomePosition;
@@ -100,55 +88,64 @@ public class PuppyCharacterController : MonoBehaviour
         m_Target = m_HomePosition;
         m_Agent.updateRotation = true;
         m_Agent.updatePosition = true;
-        m_IsHome = true;
-        m_IsLatched = false;
         m_HaltPathing = false;
         m_Transform = GetComponent<Transform>();
         m_Animator = GetComponent<Animator>();
+        m_IsAware = false;
     }
 
+    // There are two ways to assign a destination
+    // Through noise, or dog positions
+    // Noises sets the target once
+    // Dog positions are updated on LateUpdate()
     public void hearNoise(Vector3 source)
     {
+        // Disregard unless game state is NORMAL
+        if (m_TimeManager.m_GameState != TimeManager.GameState.NORMAL)
+            return;
+
+
         // Disregard noises if already latched
-        if (m_IsLatched) return;
+        if (m_PuppyState == PuppySate.MOVING_PLAYER || !m_IsAware)
+            return;
 
         m_PuppyState = PuppySate.MOVING_SOUND;
         m_Character.StateModification(m_PuppyState);
 
-        m_IsHome = false;
+        // Set agent target to sound source
         m_Target = source;
-
-        // TODO: MOVE THIS SOMEWHERE ELSE USING THE PUPPY STATES
-        m_Animator.SetTrigger("love");
+        m_Agent.SetDestination(m_Target);
+        
     }
 
-    // This is the trigger collider to aggro the puppy, it needs reworking
-    // In an ideal situation, there would be a rather larger collider for the puppy that aggros
-    // whatever touches it, and then the clone's collider would create a paradox if that puppy gets too close.
-    // Since I'm using a single script with a single collider, those two messages get tangled together.
-    // To fix this (I think) we would need a seperate script living on a seperate object with its own collider
     private void OnTriggerEnter(Collider other)
     {
+        // Disregard unless game state is NORMAL
+        if (m_TimeManager.m_GameState != TimeManager.GameState.NORMAL)
+            return;
+
+        // Disable aggro on collider when puppy is following a player/clone
+        if (m_PuppyState == PuppySate.MOVING_PLAYER)
+            return;
+
         if (other.tag == "Player" || (m_LatchToClones && other.tag == "Clone"))
         {
-            // Disregard aggro if puppy is home or already latched
-            if (m_IsHome || m_IsLatched) return;
+            // For safety, even though isAware should be true by now
+            m_IsAware = true;
 
             if (other.tag == "Player")
             {
                 m_PlayerUserController.m_HasPuppy = true;
             }
-            m_IsLatched = true;
-            m_IsHome = false;
-            m_FollowTargetTransform = other.GetComponent<Transform>();
-        }
-        if (other.tag == "Home" && m_IsLatched)
-        {
-            // Set destination to home
-            m_IsHome = true;
-            m_IsLatched = false;
-            m_Target = m_HomePosition;
-            m_PlayerUserController.m_HasPuppy = false;
+
+            // Set state to moving and fetch the last know position (if the players manage to warp out in a single frame)
+            m_FollowDogTransform = other.GetComponent<Transform>();
+
+            m_LastDogPosition = m_FollowDogTransform.position;
+            m_Agent.SetDestination(m_LastDogPosition);
+
+            m_PuppyState = PuppySate.MOVING_PLAYER;
+            m_Character.StateModification(m_PuppyState);
         }
     }
 
@@ -165,71 +162,67 @@ public class PuppyCharacterController : MonoBehaviour
         m_HaltPathing = false;
     }
 
+    public void warpOutTarget()
+    {
+        m_FollowDogTransform = null;
+    }
+
     public void restoreState(global::TimeManager.State state)
     {
         m_Transform.position = state.m_PuppyPosition;
         m_Transform.rotation = state.m_PuppyRotation;
-        m_IsHome = state.m_PuppyIsHome;
-        m_IsLatched = state.m_PuppyIsLatched;
-        m_Target = state.m_PuppyTargetSound;
-        m_FollowTargetTransform = state.m_PuppyTargetTransform;
+        m_Target = state.m_PuppyTarget;
+        m_FollowDogTransform = state.m_PuppyTargetTransform;
         m_PuppyState = state.m_PuppyState;
+        m_IsAware = state.m_PuppyAware;
     }
 
     private void LateUpdate()
     {
+        // Don't issue any move commands if puppy AI is halted
         if (m_HaltPathing) return;
 
-        if (m_Target != null && !m_IsLatched)
+        // The only destination(target) that requires updating is when a dog is the agent's target
+        if (m_PuppyState == PuppySate.MOVING_PLAYER || m_PuppyState == PuppySate.IDLE_PLAYER)
         {
-            m_Agent.SetDestination(m_Target);
-        }
-
-        else if (m_IsLatched)
-        {
-            if (m_FollowTargetTransform != null)
+            // If dog warps out, move to last know position and revert to noise finding state
+            if (m_FollowDogTransform == null)
             {
-                m_LastTargetPosition = m_FollowTargetTransform.position;
-            }
-            if (m_FollowTargetTransform == null)
-            {
-                m_IsLatched = false;
-            }
-
-            m_Agent.SetDestination(m_LastTargetPosition);
-        }
-
-        if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
-        {
-            m_Character.Move(m_Agent.desiredVelocity, false);
-            if (m_IsLatched)
-            {
-                m_PuppyState = PuppySate.MOVING_PLAYER;
-                m_Character.StateModification(m_PuppyState);
-            }
-            else if (!m_IsLatched)
-            {
+                m_Target = m_LastDogPosition;
                 m_PuppyState = PuppySate.MOVING_SOUND;
                 m_Character.StateModification(m_PuppyState);
             }
+            // Otherwise target dog and update last know position
+            else
+            {
+                m_LastDogPosition = m_FollowDogTransform.position;
+                m_Target = m_FollowDogTransform.position;
+            }
+
+            m_Agent.SetDestination(m_Target);
         }
 
+        // @Jesus - I'm not modifiying the state in your script when going from IDLE_PLAYER to MOVING_PLAYER and vis versa
+        if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
+        {
+            m_Character.Move(m_Agent.desiredVelocity, false);
+
+            if (m_PuppyState == PuppySate.IDLE_PLAYER)
+            {
+                m_PuppyState = PuppySate.MOVING_PLAYER;
+            }
+        }
         else
         {
             m_Character.Move(Vector3.zero, false);
-            if (m_IsLatched)
+
+            if (m_PuppyState == PuppySate.MOVING_PLAYER)
             {
                 m_PuppyState = PuppySate.IDLE_PLAYER;
-                m_Character.StateModification(m_PuppyState);
             }
-            else if (!m_IsLatched)
+            else if (m_PuppyState == PuppySate.MOVING_SOUND)
             {
                 m_PuppyState = PuppySate.IDLE_SOUND_SOURCE;
-                m_Character.StateModification(m_PuppyState);
-            }
-            if (m_IsHome)
-            {
-                m_PuppyState = PuppySate.IDLE_HOME;
                 m_Character.StateModification(m_PuppyState);
             }
         }
