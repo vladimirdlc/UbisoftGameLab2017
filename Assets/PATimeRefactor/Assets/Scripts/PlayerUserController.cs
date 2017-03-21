@@ -30,6 +30,9 @@ public class PlayerUserController : MonoBehaviour
     public NetworkedInput netInput;
     public NetworkingCharacterAttachment amI;
 
+    // Input
+    bool bark = false;
+
     private void Start()
     {
         m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
@@ -70,11 +73,19 @@ public class PlayerUserController : MonoBehaviour
         bool crouch = netInput.crouch;
 #else
         bool crouch = Input.GetButton("Ground Stop Time");
+        // NEW INPUT THAT PROBABLY NEEDS TO BE NETWORKED
+        bark = Input.GetButtonDown("Bark");
 #endif
 
 
         float FF = CrossPlatformInputManager.GetAxis("FF");
         float RW = CrossPlatformInputManager.GetAxis("RW");
+
+        // Compute bark
+        if(bark)
+        {
+            // SOME FUNCTION CALL ON THE PUPPY
+        }
 
         // Compute move vector
         if (crouch)
