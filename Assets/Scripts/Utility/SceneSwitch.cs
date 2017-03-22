@@ -6,7 +6,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(BoxCollider))]
 public class SceneSwitch : MonoBehaviour
 {
-    public string sceneName;
+    public string previousSceneName;
+    public string nextSceneName;
     public bool requirePuppy = false;
     public Text[] tutorialMessages;
 
@@ -20,6 +21,18 @@ public class SceneSwitch : MonoBehaviour
         if (requirePuppy)
         {
             puppyTransform = GameObject.FindGameObjectWithTag("Puppy").GetComponent<Transform>();
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            loadScene(nextSceneName);
+        }
+        else if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            loadScene(previousSceneName);
         }
     }
 
@@ -47,12 +60,18 @@ public class SceneSwitch : MonoBehaviour
             }
 
             Cursor.visible = false;
-
-            #if NETWORKING
-            UnityEngine.Networking.NetworkManager.singleton.ServerChangeScene(sceneName);
-            #else
-            SceneManager.LoadScene(sceneName);
-            #endif
+            loadScene(nextSceneName);
         }
+    }
+
+    public void loadScene(string sceneToLoad)
+    {
+
+#if NETWORKING
+            UnityEngine.Networking.NetworkManager.singleton.ServerChangeScene(sceneToLoad);
+#else
+        SceneManager.LoadScene(sceneToLoad);
+#endif
+
     }
 }
