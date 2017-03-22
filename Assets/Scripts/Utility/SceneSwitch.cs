@@ -13,10 +13,14 @@ public class SceneSwitch : MonoBehaviour
 
     private BoxCollider boundingCollider;
     private Transform puppyTransform;
+    private Canvas m_SceneLoadCanvas;
+    private Animator m_Animator;
+    private string m_SceneToLoad;
 
     private void Start()
     {
         boundingCollider = GetComponent<BoxCollider>();
+        m_Animator = GetComponent<Animator>();
 
         if (requirePuppy)
         {
@@ -26,14 +30,14 @@ public class SceneSwitch : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadPlus))
-        {
-            loadScene(nextSceneName);
-        }
-        else if (Input.GetKeyDown(KeyCode.KeypadMinus))
-        {
-            loadScene(previousSceneName);
-        }
+        //if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        //{
+        //    loadScene(nextSceneName);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        //{
+        //    loadScene(previousSceneName);
+        //}
     }
 
     private void OnTriggerStay(Collider other)
@@ -60,18 +64,22 @@ public class SceneSwitch : MonoBehaviour
             }
 
             Cursor.visible = false;
-            loadScene(nextSceneName);
+            StartLoadingScene(nextSceneName);
         }
     }
 
-    public void loadScene(string sceneToLoad)
+    public void StartLoadingScene(string sceneToLoad)
     {
+        m_Animator.SetTrigger("fadeOut");
+        m_SceneToLoad = sceneToLoad;
+    }
 
+    public void LoadScene()
+    {
 #if NETWORKING
-            UnityEngine.Networking.NetworkManager.singleton.ServerChangeScene(sceneToLoad);
+            UnityEngine.Networking.NetworkManager.singleton.ServerChangeScene(m_SceneToLoad);
 #else
-        SceneManager.LoadScene(sceneToLoad);
+        SceneManager.LoadScene(m_SceneToLoad);
 #endif
-
     }
 }

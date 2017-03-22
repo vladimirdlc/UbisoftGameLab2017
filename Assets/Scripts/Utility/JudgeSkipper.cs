@@ -19,17 +19,17 @@ public class JudgeSkipper : MonoBehaviour
 
         if (Input.GetButtonDown("Next Level"))
         {
-            m_SceneSwitch.loadScene(m_SceneSwitch.nextSceneName);
+            m_SceneSwitch.StartLoadingScene(m_SceneSwitch.nextSceneName);
         }
 
         if (Input.GetButtonDown("Previous Level"))
         {
-            m_SceneSwitch.loadScene(m_SceneSwitch.previousSceneName);
+            m_SceneSwitch.StartLoadingScene(m_SceneSwitch.previousSceneName);
         }
 
         if (Input.GetButtonDown("Reset Level"))
         {
-            m_SceneSwitch.loadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            m_SceneSwitch.StartLoadingScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         }
     }
 }
