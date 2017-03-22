@@ -571,6 +571,8 @@ GameObject:
   - component: {fileID: 114811232353763086}
   - component: {fileID: 114703957566848652}
   - component: {fileID: 114274210798098350}
+  - component: {fileID: 114032423469924148}
+  - component: {fileID: 114468833786986380}
   m_Layer: 19
   m_Name: Camera
   m_TagString: Untagged
@@ -2199,6 +2201,23 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114032423469924148
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469419833160056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggeringGameStates: 02000000
+  m_FindMonobehaviourOnStart: 0
+  m_MonobehaviourTypeToFind: 0
+  m_RequiredAction: 8
+  m_RelatedScript: {fileID: 0}
+  m_RelatedGameobject: {fileID: 0}
 --- !u!114 &114122465797450516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2376,6 +2395,23 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114468833786986380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469419833160056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggeringGameStates: 00000000
+  m_FindMonobehaviourOnStart: 0
+  m_MonobehaviourTypeToFind: 0
+  m_RequiredAction: 7
+  m_RelatedScript: {fileID: 0}
+  m_RelatedGameobject: {fileID: 0}
 --- !u!114 &114569528967770560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2431,7 +2467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TriggeringGameStates: 000000000400000003000000
+  m_TriggeringGameStates: 0300000004000000
   m_FindMonobehaviourOnStart: 1
   m_MonobehaviourTypeToFind: 0
   m_RequiredAction: 5
@@ -2465,7 +2501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TriggeringGameStates: 03000000
+  m_TriggeringGameStates: 0300000000000000
   m_FindMonobehaviourOnStart: 0
   m_MonobehaviourTypeToFind: 0
   m_RequiredAction: 1

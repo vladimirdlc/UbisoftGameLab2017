@@ -102,6 +102,8 @@ GameObject:
   - component: {fileID: 114914747814662872}
   - component: {fileID: 114969002260608350}
   - component: {fileID: 95064026120732850}
+  - component: {fileID: 114662011035024238}
+  - component: {fileID: 114126837694399530}
   m_Layer: 14
   m_Name: Dog Camera
   m_TagString: Camera Ground Character
@@ -2690,6 +2692,23 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114126837694399530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1115569924498180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggeringGameStates: 02000000
+  m_FindMonobehaviourOnStart: 0
+  m_MonobehaviourTypeToFind: 0
+  m_RequiredAction: 8
+  m_RelatedScript: {fileID: 0}
+  m_RelatedGameobject: {fileID: 0}
 --- !u!114 &114288941317450178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2784,6 +2803,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlowColor: {r: 0.4627451, g: 0.7764706, b: 1, a: 1}
   LerpFactor: 10
+--- !u!114 &114662011035024238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1115569924498180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggeringGameStates: 00000000
+  m_FindMonobehaviourOnStart: 0
+  m_MonobehaviourTypeToFind: 0
+  m_RequiredAction: 7
+  m_RelatedScript: {fileID: 0}
+  m_RelatedGameobject: {fileID: 0}
 --- !u!114 &114790119520008840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2815,7 +2851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TriggeringGameStates: 000000000100000003000000
+  m_TriggeringGameStates: 0300000004000000
   m_FindMonobehaviourOnStart: 0
   m_MonobehaviourTypeToFind: 0
   m_RequiredAction: 5
