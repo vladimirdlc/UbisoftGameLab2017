@@ -108,10 +108,12 @@ public class PlayerUserController : MonoBehaviour
             netInput.crouch = Input.GetButton("Ground Stop Time");
             netInput.RW = CrossPlatformInputManager.GetAxis("RW");
             netInput.FF = CrossPlatformInputManager.GetAxis("FF");
+            netInput.m_BarkInput = Input.GetButton("Bark");
         }
         bool crouch = netInput.crouch;
         float RW = netInput.RW;
         float FF = netInput.FF;
+        m_BarkInput = netInput.m_BarkInput;
 #else
         bool crouch = Input.GetButton("Ground Stop Time");
         // NEW INPUT THAT PROBABLY NEEDS TO BE NETWORKED

@@ -17,4 +17,6 @@ public class NetworkedInput : NetworkBehaviour
     public float RW;
     [SyncVar]
     public float FF;
+    [SyncVar]
+    public bool m_BarkInput;
 }

@@ -47,7 +47,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             GameObject overseer = GameObject.FindGameObjectWithTag("Overseer");
 
             var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
-            lucky.GetComponent<AudioListener>().enabled = false;
+            lucky.GetComponent<AudioListener>().enabled = true;
 
             //for some reason 0 changes display to 1
             lucky.GetComponent<Camera>().targetDisplay = 0;
