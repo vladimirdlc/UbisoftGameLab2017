@@ -15,6 +15,8 @@ public class NetMessenger : NetworkBehaviour
 
     private void Awake()
     {
+        o = OverseerControls.Instance;
+        //o = GameObject.FindGameObjectWithTag("Overseer").GetComponent<OverseerControls>();
         //Functions in this class MUST be invoked by the client and only the client
         //we are getting lucky here because the network manager is spawning
         //clientsHost and then client so this ends up being the client
@@ -42,19 +44,19 @@ public class NetMessenger : NetworkBehaviour
     {
         if (color == "Green")
         {
-            if (o == null)
-            {
-                o = GameObject.FindObjectOfType<OverseerControls>();
-            }
+            //if (o == null)
+            //{
+            //    o = GameObject.FindObjectOfType<OverseerControls>();
+            //}
             o.triggerList(o.controllablesA);
         }
         else if (color == "Blue")
         {
             //BlueDoor.GetComponent<Animator>().SetTrigger("toggleObject");
-            if (o == null)
-            {
-                o = GameObject.FindObjectOfType<OverseerControls>();
-            }
+            //if (o == null)
+            //{
+            //    o = GameObject.FindObjectOfType<OverseerControls>();
+            //}
             o.triggerList(o.controllablesX);
         }
     }

@@ -48,7 +48,6 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         }
         if (host)
         {
-            GetComponent<NetMessenger>().o = GameObject.FindGameObjectWithTag("Overseer").GetComponent<OverseerControls>();
             BothHostAndClientsHost();
 
             GameObject overseer = GameObject.FindGameObjectWithTag("Overseer");
@@ -58,8 +57,8 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             //for some reason 0 changes display to 1
             lucky.GetComponent<Camera>().targetDisplay = 0;
 
-            //if (overseer != null)
-            //    GameObject.FindGameObjectWithTag("Overseer").SetActive(false);
+            if (overseer != null)
+                GameObject.FindGameObjectWithTag("Overseer").SetActive(false);
 
             gameObject.name = "host";
         }
