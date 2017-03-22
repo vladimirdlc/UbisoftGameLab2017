@@ -47,11 +47,16 @@ public class NetMessenger : NetworkBehaviour
                 o = GameObject.FindObjectOfType<OverseerControls>();
             }
             o.triggerList(o.controllablesA);
-            //GreenDoor.GetComponent<Animator>().SetTrigger("toggleObject");
         }
-        //GreenDoor.GetComponent<Animator>();
         else if (color == "Blue")
-            BlueDoor.GetComponent<Animator>().SetTrigger("toggleObject");
+        {
+            //BlueDoor.GetComponent<Animator>().SetTrigger("toggleObject");
+            if (o == null)
+            {
+                o = GameObject.FindObjectOfType<OverseerControls>();
+            }
+            o.triggerList(o.controllablesX);
+        }
     }
 
     [Command]
