@@ -13,4 +13,10 @@ public class NetworkedInput : NetworkBehaviour
     public Quaternion rotn;
     [SyncVar]
     public bool crouch;
+    [SyncVar]
+    public float RW;
+    [SyncVar]
+    public float FF;
+    [SyncVar]
+    public bool m_BarkInput;
 }
