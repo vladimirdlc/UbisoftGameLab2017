@@ -104,21 +104,19 @@ public class PuppyMovement : MonoBehaviour
 
         ApplyExtraTurnRotation();
 
-        // send input and other state parameters to the animator
-        UpdateAnimator(move);
-    }
-
-    private void LateUpdate()
-    {
-        if (m_Rigidbody.velocity.magnitude > 0.5f)
+        if (move.magnitude > 0.5f)
         {
             // MOVE SOUND
-            m_MovementAudiosource.UnPause();
+            if (!m_MovementAudiosource.isPlaying)
+                m_MovementAudiosource.Play();
         }
         else
         {
             m_MovementAudiosource.Pause();
         }
+
+        // send input and other state parameters to the animator
+        UpdateAnimator(move);
     }
 
     void UpdateAnimator(Vector3 move)
