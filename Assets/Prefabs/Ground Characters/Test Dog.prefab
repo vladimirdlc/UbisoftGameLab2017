@@ -600,7 +600,7 @@ GameObject:
   - component: {fileID: 4528689228399078}
   - component: {fileID: 82103515527864108}
   m_Layer: 14
-  m_Name: AudioSource Character
+  m_Name: Movement Audiosource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1597,7 +1597,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1497780920488766}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.89, y: 0.76, z: -1.1}
+  m_LocalPosition: {x: -23.8, y: 0.76, z: -20.88}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 4528689228399078}
@@ -2507,7 +2507,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: aac9604135c7be94fba8fd70c4184407, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -2670,7 +2670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 752255e4ddabc8244a797e87756a5aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkAnimSpeed: 1
+  walkAnimSpeed: 2
   sitAnimSpeed: 1
   idleAnimSpeed: 1
   walkingTailWagAnimSpeed: 1

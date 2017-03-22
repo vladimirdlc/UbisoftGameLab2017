@@ -26,6 +26,8 @@ public class DogFP : AnimatedDog
     private bool lockedMovement = false;
     private bool controlsEnabled = false;
 
+    private AudioSource m_MovementAudiosource;
+
     // Input
     float horizontal = 0;
     float vertical = 0;
@@ -40,6 +42,7 @@ public class DogFP : AnimatedDog
         m_MouseLook.Init(transform, m_Camera.transform);
 
         m_RigidBody = GetComponent<Rigidbody>();
+        m_MovementAudiosource = GetComponentInChildren<AudioSource>();
         m_RigidBody.freezeRotation = true;
         m_RigidBody.useGravity = false;
 
@@ -181,6 +184,17 @@ public class DogFP : AnimatedDog
 
         UpdateAnimator(horizontal, crouch);
         m_MouseLook.UpdateCursorLock();
+
+        if (Mathf.Abs(vertical) >= 0.1f)
+        {
+            // MOVE SOUND
+            if (!m_MovementAudiosource.isPlaying)
+                m_MovementAudiosource.Play();
+        }
+        else
+        {
+            m_MovementAudiosource.Pause();
+        }
 
         // Reset state flags
         grounded = false;
