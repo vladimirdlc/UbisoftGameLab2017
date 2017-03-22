@@ -10,6 +10,9 @@ using UnityEngine;
 #endif
 public class CloneCharacterController : MonoBehaviour
 {
+    private PuppySounds m_SoundBoard;
+
+    private AudioSource m_AudioSource;
     public UnityEngine.AI.NavMeshAgent m_Agent { get; private set; }
 
 #if !USING_ETHAN_CHARACTER
@@ -28,6 +31,8 @@ public class CloneCharacterController : MonoBehaviour
 
     private void Start()
     {
+        m_SoundBoard = GetComponent<PuppySounds>();
+        m_AudioSource = GetComponent<AudioSource>();
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
 #if !USING_ETHAN_CHARACTER
@@ -47,6 +52,11 @@ public class CloneCharacterController : MonoBehaviour
     public void setTarget(global::TimeManager.State target)
     {
         m_Target = target;
+    }
+
+    public void bark()
+    {
+        m_AudioSource.PlayOneShot(m_SoundBoard.m_Bark);
     }
 
     private void LateUpdate()
