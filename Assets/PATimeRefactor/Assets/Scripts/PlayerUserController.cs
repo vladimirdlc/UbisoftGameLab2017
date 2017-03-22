@@ -49,7 +49,7 @@ public class PlayerUserController : MonoBehaviour
 
 
         m_SoundBoard.PlayBackgroundHum(true);
-        
+
         m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
         m_DogSounds = GetComponent<PuppySounds>();
         m_ScrubSpeed = 0;
@@ -82,7 +82,7 @@ public class PlayerUserController : MonoBehaviour
             return true;
         }
         else
-            return false; 
+            return false;
     }
     private void Update()
     {
@@ -106,18 +106,22 @@ public class PlayerUserController : MonoBehaviour
         if (amI.host)
         {
             netInput.crouch = Input.GetButton("Ground Stop Time");
+            netInput.RW = CrossPlatformInputManager.GetAxis("RW");
+            netInput.FF = CrossPlatformInputManager.GetAxis("FF");
         }
         bool crouch = netInput.crouch;
+        float RW = netInput.RW;
+        float FF = netInput.FF;
 #else
         bool crouch = Input.GetButton("Ground Stop Time");
         // NEW INPUT THAT PROBABLY NEEDS TO BE NETWORKED
         m_BarkInput = Input.GetButton("Bark");
         
+        float FF = CrossPlatformInputManager.GetAxis("FF");
+        float RW = CrossPlatformInputManager.GetAxis("RW");
 #endif
 
 
-        float FF = CrossPlatformInputManager.GetAxis("FF");
-        float RW = CrossPlatformInputManager.GetAxis("RW");
 
         // Compute move vector
         if (crouch)
