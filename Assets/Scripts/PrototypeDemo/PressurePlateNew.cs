@@ -12,6 +12,7 @@ public class PressurePlateNew : MonoBehaviour
     private float targetPosition;
     public bool isActive;
     public GameObject[] wires;
+    public GameObject target;
 
     void Start()
     {
@@ -49,6 +50,9 @@ public class PressurePlateNew : MonoBehaviour
             foreach (GameObject wire in wires) {
             	wire.GetComponent<WiresCollision>().isActive = true;
             }
+            Door[] doors = target.GetComponentsInChildren<Door>();
+            foreach(Door d in doors)
+            d.IncCount();
         }
     }
 
@@ -63,6 +67,9 @@ public class PressurePlateNew : MonoBehaviour
             foreach (GameObject wire in wires) {
             	wire.GetComponent<WiresCollision>().isActive = false;
             }
+            Door[] doors = target.GetComponentsInChildren<Door>();
+            foreach(Door d in doors)
+            d.DecCount();
         }
 
     }

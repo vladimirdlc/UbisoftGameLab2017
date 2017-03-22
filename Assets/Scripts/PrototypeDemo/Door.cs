@@ -73,14 +73,14 @@ public class Door : OSControllable
         isOpen = true;
         closeAtTime = Time.time + timer;
 
-        TriggerAnimator();
+        TriggerAnimator(gameObject.layer == LayerMask.NameToLayer("OSControllable Nested"));
     }
 
     public void Close()
     {
         isOpen = false;
 
-        TriggerAnimator();
+        TriggerAnimator(gameObject.layer == LayerMask.NameToLayer("OSControllable Nested"));
     }
 
     public override void TriggerAction()

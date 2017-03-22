@@ -100,7 +100,7 @@ public class optionSelection : MonoBehaviour {
 
 			if( Input.GetAxisRaw("Vertical") < -0.95)
 			{
-				if(m_isAxisInUse == false && selection < 3)
+				if(m_isAxisInUse == false && selection < 2)
 				{	
 					Vector3 jump = new Vector3(0f,-0.6f,0f);
 					selector.transform.position+=jump;
