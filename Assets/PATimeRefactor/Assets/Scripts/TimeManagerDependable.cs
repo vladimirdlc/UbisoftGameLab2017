@@ -13,7 +13,7 @@ public class TimeManagerDependable : MonoBehaviour
     public enum RequiredAction
     {
         DestroyGameObject, ActivateGameObject, DeactivateGameObject, TurnOffAudiosource, StopAudioSource,
-        TurnOnMonobehaviour, TurnOffMonobehaviour, ParadoxOn, ParadoxOff
+        TurnOnMonobehaviour, TurnOffMonobehaviour, ParadoxOn, ParadoxOff, TurnOnAudiosource
     }
 
     // Whatever collection of game states will trigger the desired behaviour/action
@@ -34,7 +34,7 @@ public class TimeManagerDependable : MonoBehaviour
     // Hard coded since we can incorrectly set it to something different in other places
     private static float m_ParadoxFOVInterval = 3.0f;
     private static float m_ParadoxFOVMultiplier = 2.0f;
-    private static float m_InitFOV;
+    private static float m_InitFOV = 60.0f;
     private static float m_ParadoxFOVTimer;
 
     // Necessary references
@@ -99,7 +99,13 @@ public class TimeManagerDependable : MonoBehaviour
                     break;
 
                 case RequiredAction.TurnOffAudiosource:
-                    m_AudioSource.enabled = false;
+                    if (m_AudioSource)
+                        m_AudioSource.enabled = false;
+                    break;
+
+                case RequiredAction.TurnOnAudiosource:
+                    if (m_AudioSource)
+                        m_AudioSource.enabled = true;
                     break;
 
                 case RequiredAction.StopAudioSource:
@@ -117,7 +123,6 @@ public class TimeManagerDependable : MonoBehaviour
                 case RequiredAction.ParadoxOn:
                     if (!fovChanged)
                     {
-                        m_InitFOV = m_Camera.fieldOfView;
                         fovChanged = true;
                         m_ParadoxFOVTimer = m_ParadoxFOVInterval;
                     }

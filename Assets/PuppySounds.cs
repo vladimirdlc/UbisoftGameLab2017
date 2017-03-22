@@ -30,7 +30,7 @@ public class PuppySounds : MonoBehaviour
 
     public void PlayBackgroundHum(bool play)
     {
-        if (play && !m_BackgroundHum.isPlaying)
+        if (play && !m_BackgroundHum.isPlaying && m_TimeManager.m_GameState == TimeManager.GameState.NORMAL)
         {
             m_BackgroundHum.Play();
         }
@@ -42,17 +42,20 @@ public class PuppySounds : MonoBehaviour
 
     public void TailChase()
     {
-        m_AudioSource.PlayOneShot(m_TailChase);
+        if (m_TimeManager.m_GameState == TimeManager.GameState.NORMAL)
+            m_AudioSource.PlayOneShot(m_TailChase);
     }
 
     public void Paw()
     {
-        m_AudioSource.PlayOneShot(m_Paw);
+        if (m_TimeManager.m_GameState == TimeManager.GameState.NORMAL)
+            m_AudioSource.PlayOneShot(m_Paw);
     }
 
     public void Bark()
     {
-        m_AudioSource.PlayOneShot(m_Bark);
+        if (m_TimeManager.m_GameState == TimeManager.GameState.NORMAL)
+            m_AudioSource.PlayOneShot(m_Bark);
     }
 
     public void MoveSound(bool play)
