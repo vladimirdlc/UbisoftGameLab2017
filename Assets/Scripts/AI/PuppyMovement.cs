@@ -50,6 +50,8 @@ public class PuppyMovement : MonoBehaviour
     private bool m_CycleIdle = false;
     private PuppyCharacterController.PuppySate m_PuppyState;
 
+    private PuppySounds m_PuppySpounds;
+
     void Start()
     {
         m_Animator = GetComponent<Animator>();
@@ -57,6 +59,7 @@ public class PuppyMovement : MonoBehaviour
         m_Capsule = GetComponent<CapsuleCollider>();
         m_CapsuleHeight = m_Capsule.height;
         m_CapsuleCenter = m_Capsule.center;
+        m_PuppySpounds = GetComponent<PuppySounds>();
 
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         m_OrigGroundCheckDistance = m_GroundCheckDistance;
@@ -137,10 +140,12 @@ public class PuppyMovement : MonoBehaviour
         if (rndFloat <= 0.25)
         {
             m_Animator.SetTrigger("bark");
+            m_PuppySpounds.Bark();
         }
         else if (rndFloat <= 0.50)
         {
             m_Animator.SetTrigger("tailChase");
+            m_PuppySpounds.TailChase();
         }
         else if (rndFloat <= 0.75)
         {
@@ -149,6 +154,7 @@ public class PuppyMovement : MonoBehaviour
         else
         {
             m_Animator.SetTrigger("paw");
+            m_PuppySpounds.Paw();
         }
     }
 
