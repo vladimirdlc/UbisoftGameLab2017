@@ -85,7 +85,7 @@ public class Door : OSControllable
         if (m_AudioSource)
             m_AudioSource.Play();
 
-        TriggerAnimator();
+        TriggerAnimator(gameObject.layer == LayerMask.NameToLayer("OSControllable Nested"));
     }
 
     public void Close()
@@ -99,7 +99,7 @@ public class Door : OSControllable
         if (m_AudioSource)
             m_AudioSource.Play();
 
-        TriggerAnimator();
+        TriggerAnimator(gameObject.layer == LayerMask.NameToLayer("OSControllable Nested"));
     }
 
     public override void TriggerAction()
