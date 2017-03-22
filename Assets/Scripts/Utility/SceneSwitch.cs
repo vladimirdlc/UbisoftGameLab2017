@@ -10,6 +10,7 @@ public class SceneSwitch : MonoBehaviour
     public string nextSceneName;
     public bool requirePuppy = false;
     public Text[] tutorialMessages;
+    public int m_TutorialPosterIndex;
 
     private BoxCollider boundingCollider;
     private Transform puppyTransform;
@@ -76,6 +77,7 @@ public class SceneSwitch : MonoBehaviour
 
     public void LoadScene()
     {
+        LoadingScene.m_ImageToLoad = m_TutorialPosterIndex;
 #if NETWORKING
             UnityEngine.Networking.NetworkManager.singleton.ServerChangeScene(m_SceneToLoad);
 #else
