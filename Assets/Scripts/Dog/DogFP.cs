@@ -26,7 +26,7 @@ public class DogFP : AnimatedDog
     private bool lockedMovement = false;
     private bool controlsEnabled = false;
 
-    private AudioSource m_MovementAudiosource;
+    private PuppySounds m_DogSounds;
 
     // Input
     float horizontal = 0;
@@ -42,7 +42,7 @@ public class DogFP : AnimatedDog
         m_MouseLook.Init(transform, m_Camera.transform);
 
         m_RigidBody = GetComponent<Rigidbody>();
-        m_MovementAudiosource = GetComponentInChildren<AudioSource>();
+        m_DogSounds = GetComponentInChildren<PuppySounds>();
         m_RigidBody.freezeRotation = true;
         m_RigidBody.useGravity = false;
 
@@ -140,7 +140,7 @@ public class DogFP : AnimatedDog
 #if NETWORKING
             if (networkedInput.horizontal < 0.05f && networkedInput.horizontal > -0.05f)
 #else
-            if(horizontal < 0.05f && horizontal >-0.05f)
+            if (horizontal < 0.05f && horizontal > -0.05f)
 #endif
             {
                 m_LeftRockets.SetActive(false);
@@ -150,7 +150,7 @@ public class DogFP : AnimatedDog
 #if NETWORKING
                   if (networkedInput.horizontal > 0.1f)
 #else
-            if(horizontal > 0.1f)
+            if (horizontal > 0.1f)
 #endif
             {
                 m_LeftRockets.SetActive(true);
@@ -159,7 +159,7 @@ public class DogFP : AnimatedDog
 #if NETWORKING
             else if (networkedInput.horizontal < -0.1f)
 #else
-                      else if (horizontal < -0.1f)
+            else if (horizontal < -0.1f)
 #endif
             {
                 m_LeftRockets.SetActive(false);
@@ -185,16 +185,7 @@ public class DogFP : AnimatedDog
         UpdateAnimator(horizontal, crouch);
         m_MouseLook.UpdateCursorLock();
 
-        if (Mathf.Abs(vertical) >= 0.1f)
-        {
-            // MOVE SOUND
-            if (!m_MovementAudiosource.isPlaying)
-                m_MovementAudiosource.Play();
-        }
-        else
-        {
-            m_MovementAudiosource.Pause();
-        }
+        m_DogSounds.MoveSound(Mathf.Abs(vertical) >= 0.1f);
 
         // Reset state flags
         grounded = false;

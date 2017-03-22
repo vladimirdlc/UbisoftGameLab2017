@@ -51,7 +51,6 @@ public class PuppyMovement : MonoBehaviour
     private PuppyCharacterController.PuppySate m_PuppyState;
 
     private PuppySounds m_PuppySpounds;
-    public AudioSource m_MovementAudiosource;
 
     void Start()
     {
@@ -104,16 +103,7 @@ public class PuppyMovement : MonoBehaviour
 
         ApplyExtraTurnRotation();
 
-        if (move.magnitude > 0.5f)
-        {
-            // MOVE SOUND
-            if (!m_MovementAudiosource.isPlaying)
-                m_MovementAudiosource.Play();
-        }
-        else
-        {
-            m_MovementAudiosource.Pause();
-        }
+        m_PuppySpounds.MoveSound(move.magnitude > 0.5f);
 
         // send input and other state parameters to the animator
         UpdateAnimator(move);
