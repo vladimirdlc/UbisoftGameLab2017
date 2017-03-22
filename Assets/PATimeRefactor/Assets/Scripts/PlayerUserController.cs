@@ -37,9 +37,12 @@ public class PlayerUserController : MonoBehaviour
     private bool m_BarkReady;
     private bool m_BarkStatePush;
 
+    private PuppySounds m_DogSounds;
+
     private void Start()
     {
         m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
+        m_DogSounds = GetComponent<PuppySounds>();
         m_ScrubSpeed = 0;
         m_BarkInput = false;
         m_BarkCDCounter = 0.0f;
@@ -144,6 +147,7 @@ public class PlayerUserController : MonoBehaviour
                     m_BarkReady = false;
                     m_BarkCDCounter = Time.time + m_BarkCD;
                     m_TimeManager.handleBark();
+                    m_DogSounds.Bark();
                 }
                 if (crouch && !(m_DisableRewindWhenLatched && m_HasPuppy))
                 {
