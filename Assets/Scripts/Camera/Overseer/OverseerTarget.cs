@@ -26,4 +26,11 @@ public class OverseerTarget : MonoBehaviour {
         }
     }
 
+    private void Start()
+    {
+        if (!startTarget)
+            Debug.Log("Your scene needs an starting target for the Overseer to work OK");
+
+    }
+
 }

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class OverseerControls : MonoBehaviour
 {
+    public static OverseerControls Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     public string actionButtonX;
     public string actionButtonA;
     public string actionButtonB;
@@ -16,7 +21,7 @@ public class OverseerControls : MonoBehaviour
 
     private TimeManager m_TimeManager;
 
-        private void Start()
+    private void Start()
     {
         m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
     }
@@ -31,14 +36,14 @@ public class OverseerControls : MonoBehaviour
             {
                 triggerList(controllablesA);
 #if NETWORKING
-            NetMessenger.Instance.CmdOpenDoor("Green");
+                NetMessenger.Instance.CmdOpenDoor("Green");
 #endif
             }
             if (Input.GetButtonDown(actionButtonX))
             {
                 triggerList(controllablesX);
 #if NETWORKING
-            NetMessenger.Instance.CmdOpenDoor("Blue");
+                NetMessenger.Instance.CmdOpenDoor("Blue");
 #endif
             }
             if (Input.GetButtonDown(actionButtonB))
