@@ -441,7 +441,6 @@ public class TimeManager : MonoBehaviour
         m_RestoreControlOnNextFrame = false;
         m_WaitingForPlayer = false;
         m_ParadoxType = ParadoxType.NONE;
-
         m_CurrentCamera = 0;
 
         m_TimeStopCD = 0;
@@ -456,28 +455,56 @@ public class TimeManager : MonoBehaviour
     // Not sure if this should go in FixedUpdate or Update, Fixed seemed safer and more stable (constant frame rate)
     private void FixedUpdate()
     {
-        if (m_GameState == GameState.NORMAL)
-        {
-            if (m_Frameticker == sampleRate)
-            {
-                requestPush();
-                incrementPointers();
 
-                m_Frameticker = 0;
-            }
-            m_Frameticker++;
+        switch (m_GameState)
+        {
+            case GameState.NORMAL:
+                if (m_Frameticker == sampleRate)
+                {
+                    requestPush();
+                    incrementPointers();
+
+                    m_Frameticker = 0;
+                }
+                m_Frameticker++;
+                break;
+
+            case GameState.REWIND:
+            case GameState.FORWARD:
+                // This is where we revert to normal timestop. Set the int in the if statement to whatever feels best
+                m_TimeStopCD++;
+                if (m_TimeStopCD >= 6)
+                {
+                    m_TimeStopCD = 0;
+                    m_GameState = GameState.TIME_STOPPED;
+                }
+                break;
+
+            case GameState.PARADOX:
+                // Compute scrub speed (values are approx)
+                if (m_ScrubSpeed >= -0.95)
+                {
+                    m_ScrubSpeed -= 0.0125f / 30;
+                }
+                if (m_ScrubSpeed <= -0.1 && m_MasterPointer <= m_RevertIndex + 30)
+                {
+                    m_ScrubSpeed += 0.070f / 30;
+                }
+                break;
+
+
+            case GameState.REVERT:
+                if (m_ScrubSpeed < 0)
+                {
+                    m_ScrubSpeed *= -1;
+                }
+                if (m_ScrubSpeed <= 0.025)
+                {
+                    m_ScrubSpeed += 0.0125f / 30;
+                }
+                break;
         }
 
-        if (m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD)
-        {
-            // This is where we revert to normal timesttop. Set the int in the if statement to whatever feels best
-            m_TimeStopCD++;
-            if (m_TimeStopCD >= 6)
-            {
-                m_TimeStopCD = 0;
-                m_GameState = GameState.TIME_STOPPED;
-            }
-        }
     }
 
     void Update()
@@ -529,15 +556,6 @@ public class TimeManager : MonoBehaviour
         if (m_GameState == GameState.PARADOX)
         {
 
-            // Compute scrub speed (values are approx)
-            if (m_ScrubSpeed >= -0.95)
-            {
-                m_ScrubSpeed -= 0.0125f / 30;
-            }
-            if (m_ScrubSpeed <= -0.1 && m_MasterPointer <= m_RevertIndex + 30)
-            {
-                m_ScrubSpeed += 0.070f / 30;
-            }
 
             // The forced rewind will try to reach a few seconds before the paradox actually happened
             // in order to show the player the sequence of events that lead to the paradox
@@ -578,14 +596,7 @@ public class TimeManager : MonoBehaviour
         #region Revert
         if (m_GameState == GameState.REVERT)
         {
-            if (m_ScrubSpeed < 0)
-            {
-                m_ScrubSpeed *= -1;
-            }
-            if (m_ScrubSpeed <= 0.025)
-            {
-                m_ScrubSpeed += 0.0125f / 30;
-            }
+
             // Start forward playback
             if (m_MasterPointer < m_RevertIndex)
             {
@@ -850,13 +861,13 @@ public class TimeManager : MonoBehaviour
         //Set Game state and reset CD
         if (amount < 0 || m_LerpOffset < 0)
         {
-            if (m_GameState != GameState.PARADOX)
+            if (m_GameState != GameState.PARADOX && m_GameState != GameState.REVERT)
                 m_GameState = GameState.REWIND;
         }
 
         else if (amount > 0 || m_LerpOffset > 0)
         {
-            if (m_GameState != GameState.REVERT)
+            if (m_GameState != GameState.PARADOX && m_GameState != GameState.REVERT)
                 m_GameState = GameState.FORWARD;
         }
 

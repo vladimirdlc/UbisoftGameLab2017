@@ -20,6 +20,7 @@ public class Door : OSControllable
 
     private int count;
     private float closeAtTime;
+    private bool setToClose;
     private bool isOpen;
 
     private Animator anim;
@@ -30,6 +31,7 @@ public class Door : OSControllable
         count = 0;
         isOpen = false;
         closeAtTime = 0;
+        setToClose = false;
 
         // Configure animator variables
         anim = GetComponent<Animator>();
@@ -42,9 +44,9 @@ public class Door : OSControllable
 
     private void Update()
     {
-        if (isOpen && isTimed)
+        if (setToClose && Time.time >= closeAtTime)
         {
-            if (Time.time >= closeAtTime) Close();
+            Close();
         }
 
 #if DEBUG_VERBOSE 
@@ -64,13 +66,21 @@ public class Door : OSControllable
 
     public void DecCount()
     {
+        if (count == pressurePlates.Length)
+        {
+            setToClose = true;
+            closeAtTime = Time.time + timer;
+        }
+
         count--;
     }
 
     public void Open()
     {
+        if (isOpen)
+            return;
+
         isOpen = true;
-        closeAtTime = Time.time + timer;
 
         if (m_AudioSource)
             m_AudioSource.Play();
@@ -80,7 +90,11 @@ public class Door : OSControllable
 
     public void Close()
     {
+        if (!isOpen)
+            return;
+
         isOpen = false;
+        setToClose = false;
 
         if (m_AudioSource)
             m_AudioSource.Play();
