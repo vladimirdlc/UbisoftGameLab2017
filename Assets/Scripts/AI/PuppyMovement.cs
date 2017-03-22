@@ -49,6 +49,7 @@ public class PuppyMovement : MonoBehaviour
     private float m_IdleTimer;
     private bool m_CycleIdle = false;
     private PuppyCharacterController.PuppySate m_PuppyState;
+    private TimeManager m_TimeManager;
 
     private PuppySounds m_PuppySpounds;
 
@@ -61,6 +62,7 @@ public class PuppyMovement : MonoBehaviour
         m_CapsuleCenter = m_Capsule.center;
 
         m_PuppySpounds = GetComponent<PuppySounds>();
+        m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
 
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         m_OrigGroundCheckDistance = m_GroundCheckDistance;
@@ -79,6 +81,14 @@ public class PuppyMovement : MonoBehaviour
         {
             m_IdleTimer = idleCountdown;
             m_CycleIdle = true;
+        }
+
+        if (m_TimeManager.m_GameState == TimeManager.GameState.NORMAL)
+            m_Animator.speed = 1;
+        else
+        {
+            m_Animator.speed = 0;
+            return;
         }
     }
 
@@ -111,6 +121,14 @@ public class PuppyMovement : MonoBehaviour
 
     void UpdateAnimator(Vector3 move)
     {
+        if (m_TimeManager.m_GameState == TimeManager.GameState.NORMAL)
+            m_Animator.speed = 1;
+        else
+        {
+            m_Animator.speed = 0;
+            return;
+        }
+
         // update the animator parameters
         m_Animator.SetFloat("walkingSpeed", m_ForwardAmount, 0.1f, Time.deltaTime);
 
