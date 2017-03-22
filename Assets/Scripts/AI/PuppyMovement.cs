@@ -253,15 +253,26 @@ public class PuppyMovement : MonoBehaviour
         }
     }
 
-    public void StateModification(PuppyCharacterController.PuppySate puppySate)
+    public void StateModification(PuppyCharacterController.PuppySate puppySate, bool isAware)
     {
         if (m_PuppyState == puppySate)
             return;
         //Debug.Log(puppySate);
         m_PuppyState = puppySate;
 
+        if(isAware)
+        {
+
+        }
+
         switch (m_PuppyState)
         {
+            case PuppyCharacterController.PuppySate.IDLE_HOME:
+                if(isAware)
+                {
+                    // exclamation mark
+                }
+                break;
             case PuppyCharacterController.PuppySate.MOVING_PLAYER:
                 m_Animator.SetBool("love", true);
                 m_Animator.SetBool("confused", false);
@@ -277,6 +288,7 @@ public class PuppyMovement : MonoBehaviour
             default:
                 m_Animator.SetBool("love", false);
                 m_Animator.SetBool("confused", false);
+                // make exclamtion false
                 break;
         }
     }

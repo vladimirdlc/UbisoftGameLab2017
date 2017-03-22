@@ -110,7 +110,7 @@ public class PuppyCharacterController : MonoBehaviour
             return;
 
         m_PuppyState = PuppySate.MOVING_SOUND;
-        m_Character.StateModification(m_PuppyState);
+        m_Character.StateModification(m_PuppyState, m_IsAware);
 
         // Set agent target to sound source
         m_Target = source;
@@ -148,7 +148,7 @@ public class PuppyCharacterController : MonoBehaviour
             m_Agent.SetDestination(m_LastDogPosition);
 
             m_PuppyState = PuppySate.MOVING_PLAYER;
-            m_Character.StateModification(m_PuppyState);
+            m_Character.StateModification(m_PuppyState, m_IsAware);
         }
     }
 
@@ -179,7 +179,7 @@ public class PuppyCharacterController : MonoBehaviour
         m_PuppyState = state.m_PuppyState;
         m_IsAware = state.m_PuppyAware;
 
-        m_Character.StateModification(m_PuppyState);
+        m_Character.StateModification(m_PuppyState, m_IsAware);
     }
 
     private void LateUpdate()
@@ -195,7 +195,7 @@ public class PuppyCharacterController : MonoBehaviour
             {
                 m_Target = m_LastDogPosition;
                 m_PuppyState = PuppySate.MOVING_SOUND;
-                m_Character.StateModification(m_PuppyState);
+                m_Character.StateModification(m_PuppyState, m_IsAware);
             }
             // Otherwise target dog and update last know position
             else
@@ -215,7 +215,7 @@ public class PuppyCharacterController : MonoBehaviour
             if (m_PuppyState == PuppySate.IDLE_PLAYER)
             {
                 m_PuppyState = PuppySate.MOVING_PLAYER;
-                m_Character.StateModification(m_PuppyState);
+                m_Character.StateModification(m_PuppyState, m_IsAware);
             }
         }
         else
@@ -225,12 +225,12 @@ public class PuppyCharacterController : MonoBehaviour
             if (m_PuppyState == PuppySate.MOVING_PLAYER)
             {
                 m_PuppyState = PuppySate.IDLE_PLAYER;
-                m_Character.StateModification(m_PuppyState);
+                m_Character.StateModification(m_PuppyState, m_IsAware);
             }
             else if (m_PuppyState == PuppySate.MOVING_SOUND)
             {
                 m_PuppyState = PuppySate.IDLE_SOUND_SOURCE;
-                m_Character.StateModification(m_PuppyState);
+                m_Character.StateModification(m_PuppyState, m_IsAware);
             }
         }
     }
