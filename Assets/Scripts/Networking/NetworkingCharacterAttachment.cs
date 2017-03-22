@@ -31,6 +31,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
     /// When inheriting from this class, override the start method and add this base
     /// at the end of the child Start overriding method
     /// </summary>
+
     protected virtual void Start()
     {
         server = NetworkCustom.isServer;
@@ -40,46 +41,34 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         host = server && isLocalPlayer;
         hostsClient = server && !isLocalPlayer; //Client-Replica in Server
 
-        if (host)
-        {
-            BothHostAndClientsHost();
-
-            GameObject overseer = GameObject.FindGameObjectWithTag("Overseer");
-
-            var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
-            lucky.GetComponent<AudioListener>().enabled = true;
-
-            //for some reason 0 changes display to 1
-            lucky.GetComponent<Camera>().targetDisplay = 0;
-
-            if (overseer != null)
-                GameObject.FindGameObjectWithTag("Overseer").SetActive(false);
-
-            gameObject.name = "host";
-        }
-
-        //put below in awake
         if (hostsClient)
         {
             gameObject.SetActive(false);
             gameObject.name = "hostsClient";
         }
+        if (host)
+        {
+            GetComponent<NetMessenger>().o = GameObject.FindGameObjectWithTag("Overseer").GetComponent<OverseerControls>();
+            BothHostAndClientsHost();
+
+            GameObject overseer = GameObject.FindGameObjectWithTag("Overseer");
+
+            var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
+
+            //for some reason 0 changes display to 1
+            lucky.GetComponent<Camera>().targetDisplay = 0;
+
+            //if (overseer != null)
+            //    GameObject.FindGameObjectWithTag("Overseer").SetActive(false);
+
+            gameObject.name = "host";
+        }
+
 
         if (client)
         {
-            //var allComponents = GetComponents<Behaviour>();
-            //foreach (var c in allComponents)
-            //{
-            //var componentType = c.GetType();
-            //if (componentType != typeof(OpusNetworked) && componentType != typeof(AudioSource))
-            //    c.enabled = false;
-            //}
-
             gameObject.SetActive(false);
             gameObject.name = "client";
-
-            //transform.GetChild(0).GetComponent<Camera>().enabled = false;
-            //GetComponent<TrackRenderer>().enabled = true;
         }
 
         //The client host disables components he should not have
@@ -93,10 +82,10 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             TimeManager.disableCameraForOverseer = true;
             var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
             lucky.GetComponent<Camera>().enabled = false;
-            lucky.GetComponent<AudioListener>().enabled = false;
             gameObject.name = "clientsHost";
         }
     }
+
     void BothHostAndClientsHost()
     {
         var timeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
@@ -104,11 +93,11 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
         var player = GameObject.FindGameObjectWithTag("Camera Ground Character");
         timeManager.m_PlayerCamera = player.GetComponent<Camera>();
+        player.GetComponent<AudioListener>().enabled = true;
 
         var puppy = GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>();
         puppy.enabled = true;
         puppy.m_TimeManager = timeManager;
-
     }
 
     /// <summary>

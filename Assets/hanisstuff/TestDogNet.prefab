@@ -881,6 +881,7 @@ GameObject:
   - component: {fileID: 114687931303370770}
   - component: {fileID: 114710498266626166}
   - component: {fileID: 114865582986034230}
+  - component: {fileID: 114020475675734980}
   m_Layer: 14
   m_Name: TestDogNet
   m_TagString: Player
@@ -2918,6 +2919,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114020475675734980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1714704371613336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c7960f1218ec574f983feeb881ebd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GreenDoor: {fileID: 1015908982018762, guid: d3c6560b48df8f5489c41a9dff2ceee2, type: 2}
+  BlueDoor: {fileID: 0}
+  beaconPrefab: {fileID: 0}
 --- !u!114 &114056024560325704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3191,6 +3206,9 @@ MonoBehaviour:
   xRot: 0
   rotn: {x: 0, y: 0, z: 0, w: 0}
   crouch: 0
+  RW: 0
+  FF: 0
+  m_BarkInput: 0
 --- !u!114 &114890435842764728
 MonoBehaviour:
   m_ObjectHideFlags: 1

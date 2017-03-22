@@ -11,6 +11,7 @@ public class NetMessenger : NetworkBehaviour
     public static NetMessenger Instance;
     public GameObject GreenDoor;
     public GameObject BlueDoor;
+    public OverseerControls o;
 
     private void Awake()
     {
@@ -18,8 +19,9 @@ public class NetMessenger : NetworkBehaviour
         //we are getting lucky here because the network manager is spawning
         //clientsHost and then client so this ends up being the client
         Instance = this;
-        //GreenDoor = GameObject.FindGameObjectWithTag("Door Green");
-        GreenDoor = GameObject.Find("DoorGreen");
+
+        GreenDoor = GameObject.FindGameObjectWithTag("Door Green");
+        //GreenDoor = GameObject.Find("DoorGreen");
         //BlueDoor = GameObject.FindGameObjectWithTag("Door Blue");
         BlueDoor = GameObject.Find("DoorBlue");
     }
@@ -39,7 +41,14 @@ public class NetMessenger : NetworkBehaviour
     public void CmdOpenDoor(string color)
     {
         if (color == "Green")
-            GreenDoor.GetComponent<Animator>().SetTrigger("toggleObject");
+        {
+            if (o == null)
+            {
+                o = GameObject.FindObjectOfType<OverseerControls>();
+            }
+            o.triggerList(o.controllablesA);
+            //GreenDoor.GetComponent<Animator>().SetTrigger("toggleObject");
+        }
         //GreenDoor.GetComponent<Animator>();
         else if (color == "Blue")
             BlueDoor.GetComponent<Animator>().SetTrigger("toggleObject");
