@@ -213,6 +213,7 @@ public class PuppyCharacterController : MonoBehaviour
             if (m_PuppyState == PuppySate.IDLE_PLAYER)
             {
                 m_PuppyState = PuppySate.MOVING_PLAYER;
+                m_Character.StateModification(m_PuppyState);
             }
         }
         else
@@ -222,6 +223,7 @@ public class PuppyCharacterController : MonoBehaviour
             if (m_PuppyState == PuppySate.MOVING_PLAYER)
             {
                 m_PuppyState = PuppySate.IDLE_PLAYER;
+                m_Character.StateModification(m_PuppyState);
             }
             else if (m_PuppyState == PuppySate.MOVING_SOUND)
             {
