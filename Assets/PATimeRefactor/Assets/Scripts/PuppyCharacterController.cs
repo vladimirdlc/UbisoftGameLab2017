@@ -178,6 +178,8 @@ public class PuppyCharacterController : MonoBehaviour
         m_FollowDogTransform = state.m_PuppyTargetTransform;
         m_PuppyState = state.m_PuppyState;
         m_IsAware = state.m_PuppyAware;
+
+        m_Character.StateModification(m_PuppyState);
     }
 
     private void LateUpdate()
@@ -213,6 +215,7 @@ public class PuppyCharacterController : MonoBehaviour
             if (m_PuppyState == PuppySate.IDLE_PLAYER)
             {
                 m_PuppyState = PuppySate.MOVING_PLAYER;
+                m_Character.StateModification(m_PuppyState);
             }
         }
         else
@@ -222,6 +225,7 @@ public class PuppyCharacterController : MonoBehaviour
             if (m_PuppyState == PuppySate.MOVING_PLAYER)
             {
                 m_PuppyState = PuppySate.IDLE_PLAYER;
+                m_Character.StateModification(m_PuppyState);
             }
             else if (m_PuppyState == PuppySate.MOVING_SOUND)
             {

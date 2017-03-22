@@ -125,8 +125,8 @@ public class TimeManagerDependable : MonoBehaviour
                     {
                         m_ParadoxFOVTimer = Mathf.Clamp(m_ParadoxFOVTimer -= Time.deltaTime, 0, m_InitFOV);
                         m_Camera.fieldOfView = Mathf.Lerp(m_InitFOV * m_ParadoxFOVMultiplier, m_InitFOV, m_ParadoxFOVTimer / m_ParadoxFOVInterval);
-                        Debug.Log(m_InitFOV * m_ParadoxFOVMultiplier);
-                        Debug.Log(m_Camera.fieldOfView);
+                        //Debug.Log(m_InitFOV * m_ParadoxFOVMultiplier);
+                        //Debug.Log(m_Camera.fieldOfView);
                     }
                     break;
                 case RequiredAction.ParadoxOff:

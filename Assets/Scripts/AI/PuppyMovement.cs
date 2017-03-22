@@ -50,6 +50,8 @@ public class PuppyMovement : MonoBehaviour
     private bool m_CycleIdle = false;
     private PuppyCharacterController.PuppySate m_PuppyState;
 
+    private PuppySounds m_PuppySpounds;
+
     void Start()
     {
         m_Animator = GetComponent<Animator>();
@@ -57,6 +59,8 @@ public class PuppyMovement : MonoBehaviour
         m_Capsule = GetComponent<CapsuleCollider>();
         m_CapsuleHeight = m_Capsule.height;
         m_CapsuleCenter = m_Capsule.center;
+
+        m_PuppySpounds = GetComponent<PuppySounds>();
 
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         m_OrigGroundCheckDistance = m_GroundCheckDistance;
@@ -70,9 +74,6 @@ public class PuppyMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Test Button"))
-            Sit();
-
         m_IdleTimer -= Time.deltaTime;
         if (m_IdleTimer <= 0)
         {
@@ -87,7 +88,10 @@ public class PuppyMovement : MonoBehaviour
         // convert the world relative moveInput vector into a local-relative
         // turn amount and forward amount required to head in the desired
         // direction.
-        if (move.magnitude > 1f) move.Normalize();
+        if (move.magnitude > 1f)
+            move.Normalize();
+
+
         move = transform.InverseTransformDirection(move);
         CheckGroundStatus();
         move = Vector3.ProjectOnPlane(move, m_GroundNormal);
@@ -98,6 +102,8 @@ public class PuppyMovement : MonoBehaviour
 
 
         ApplyExtraTurnRotation();
+
+        m_PuppySpounds.MoveSound(move.magnitude > 0.5f);
 
         // send input and other state parameters to the animator
         UpdateAnimator(move);
@@ -132,23 +138,36 @@ public class PuppyMovement : MonoBehaviour
 
     void PlayRandomIdle()
     {
-        float rndFloat = Random.Range(0.0f, 1.0f);
+        /*
+        Debug.Log("IDLE_PLAYER is :" + (m_PuppyState == PuppyCharacterController.PuppySate.IDLE_PLAYER));
+        Debug.Log("Aware is: " + GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>().m_IsAware);
+        */
 
-        if (rndFloat <= 0.25)
+
+        if (m_PuppyState == PuppyCharacterController.PuppySate.IDLE_PLAYER || m_PuppyState == PuppyCharacterController.PuppySate.IDLE_HOME)
         {
-            m_Animator.SetTrigger("bark");
-        }
-        else if (rndFloat <= 0.50)
-        {
-            m_Animator.SetTrigger("tailChase");
-        }
-        else if (rndFloat <= 0.75)
-        {
-            m_Animator.SetTrigger("sitOnce");
-        }
-        else
-        {
-            m_Animator.SetTrigger("paw");
+
+            float rndFloat = Random.Range(0.0f, 1.0f);
+
+            if (rndFloat <= 0.25)
+            {
+                m_Animator.SetTrigger("bark");
+                m_PuppySpounds.Bark();
+            }
+            else if (rndFloat <= 0.50)
+            {
+                m_Animator.SetTrigger("tailChase");
+                m_PuppySpounds.TailChase();
+            }
+            else if (rndFloat <= 0.75)
+            {
+                m_Animator.SetTrigger("sitOnce");
+            }
+            else
+            {
+                m_Animator.SetTrigger("paw");
+                m_PuppySpounds.Paw();
+            }
         }
     }
 
@@ -230,6 +249,8 @@ public class PuppyMovement : MonoBehaviour
                 break;
             case PuppyCharacterController.PuppySate.MOVING_SOUND:
                 m_Animator.SetTrigger("movingSound");
+                break;
+            case PuppyCharacterController.PuppySate.IDLE_PLAYER:
                 break;
             default:
                 m_Animator.SetTrigger("stopEmotes");

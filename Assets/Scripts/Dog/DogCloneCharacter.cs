@@ -16,6 +16,7 @@ public class DogCloneCharacter : AnimatedDog
 
     Rigidbody m_Rigidbody;
     DogFP m_DogFP;
+    PuppySounds m_DogSounds;
 
     // For forcing animations when rewinding
     Vector3 m_LastPosition = new Vector3();
@@ -23,6 +24,7 @@ public class DogCloneCharacter : AnimatedDog
     public override void Start()
     {
         m_DogFP = GameObject.FindGameObjectWithTag("Player").GetComponent<DogFP>();
+        m_DogSounds = GetComponent<PuppySounds>();
 
         // Reference animator components to match the player
         walkAnimSpeed = m_DogFP.walkAnimSpeed;
@@ -50,6 +52,8 @@ public class DogCloneCharacter : AnimatedDog
             v.y = m_Rigidbody.velocity.y;
             m_Rigidbody.velocity = v;
         }
+
+        m_DogSounds.MoveSound(Mathf.Abs(move.magnitude) >= 1f);
 
         // send input and other state parameters to the animator
         UpdateAnimator(move);
