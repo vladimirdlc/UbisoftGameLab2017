@@ -30,6 +30,9 @@ public class PlayerUserController : MonoBehaviour
     public NetworkedInput netInput;
     public NetworkingCharacterAttachment amI;
 
+    private PuppySounds m_SoundBoard;
+    private AudioSource m_AudioSource;
+
     // Input
     private bool m_BarkInput;
     public float m_BarkCD;
@@ -39,6 +42,12 @@ public class PlayerUserController : MonoBehaviour
 
     private void Start()
     {
+        m_SoundBoard = gameObject.GetComponent<PuppySounds>();
+        m_AudioSource = gameObject.GetComponent<AudioSource>();
+
+
+        m_SoundBoard.PlayBackgroundHum(true);
+        
         m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
         m_ScrubSpeed = 0;
         m_BarkInput = false;
@@ -58,6 +67,10 @@ public class PlayerUserController : MonoBehaviour
 #endif
     }
 
+    public void bark()
+    {
+        m_AudioSource.PlayOneShot(m_SoundBoard.m_Bark);
+    }
     public bool barkTestAndSet()
     {
         if (m_BarkStatePush)
@@ -139,7 +152,6 @@ public class PlayerUserController : MonoBehaviour
 #endif
                 if (m_BarkInput && m_BarkReady)
                 {
-                    Debug.Log("woof");
                     m_BarkStatePush = true;
                     m_BarkReady = false;
                     m_BarkCDCounter = Time.time + m_BarkCD;
