@@ -63,11 +63,11 @@ public class DogFP : AnimatedDog
             }
 
 #if NETWORKING
-            if (amI.host)
-            {
-                networkedInput.horizontal = Input.GetAxis("Horizontal");
-                networkedInput.vertical = Input.GetAxis("Vertical");
-            }
+        if (amI.host)
+        {
+            networkedInput.horizontal = Input.GetAxis("Horizontal");
+            networkedInput.vertical = Input.GetAxis("Vertical");
+        }
 #else
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
@@ -96,7 +96,7 @@ public class DogFP : AnimatedDog
             if (disableStrafe)
             {
 #if NETWORKING
-                 networkedInput.horizontal = 0;
+                networkedInput.horizontal = 0;
 #else
                 horizontal = 0;
 #endif
@@ -132,25 +132,37 @@ public class DogFP : AnimatedDog
                 if (horizontalLook <= -0.2f)
                     tiltLeft = true;
             }
-            
+
             // Rockets
+#if NETWORKING
+            if (networkedInput.horizontal < 0.05f && networkedInput.horizontal > -0.05f)
+#else
             if(horizontal < 0.05f && horizontal >-0.05f)
+#endif
             {
                 m_LeftRockets.SetActive(false);
                 m_RightRpckets.SetActive(false);
             }
             else
+#if NETWORKING
+                  if (networkedInput.horizontal > 0.1f)
+#else
             if(horizontal > 0.1f)
+#endif
             {
                 m_LeftRockets.SetActive(true);
                 m_RightRpckets.SetActive(false);
             }
-            else if(horizontal < -0.1f)
+#if NETWORKING
+            else if (networkedInput.horizontal < -0.1f)
+#else
+                      else if (horizontal < -0.1f)
+#endif
             {
                 m_LeftRockets.SetActive(false);
                 m_RightRpckets.SetActive(true);
             }
-            
+
 
             // Jump
             //if (canJump && Input.GetButton("Jump"))
