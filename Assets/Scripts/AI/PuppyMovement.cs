@@ -239,21 +239,26 @@ public class PuppyMovement : MonoBehaviour
     {
         if (m_PuppyState == puppySate)
             return;
-
+        //Debug.Log(puppySate);
         m_PuppyState = puppySate;
 
         switch (m_PuppyState)
         {
             case PuppyCharacterController.PuppySate.MOVING_PLAYER:
-                m_Animator.SetTrigger("movingPlayer");
+                m_Animator.SetBool("love", true);
+                m_Animator.SetBool("confused", false);
                 break;
             case PuppyCharacterController.PuppySate.MOVING_SOUND:
+            case PuppyCharacterController.PuppySate.IDLE_SOUND_SOURCE:
                 m_Animator.SetTrigger("movingSound");
+                m_Animator.SetBool("love", false);
+                m_Animator.SetBool("confused", true);
                 break;
             case PuppyCharacterController.PuppySate.IDLE_PLAYER:
                 break;
             default:
-                m_Animator.SetTrigger("stopEmotes");
+                m_Animator.SetBool("love", false);
+                m_Animator.SetBool("confused", false);
                 break;
         }
     }
