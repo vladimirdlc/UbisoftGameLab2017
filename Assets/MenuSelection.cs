@@ -46,7 +46,6 @@ public class MenuSelection : MonoBehaviour {
 		}
 
 		if(isCredits) {
-			Debug.Log("In Credits");
 			if(Input.GetButtonDown("Cancel")) {
 				GameObject.Find("Main Camera").GetComponent<Animator>().SetTrigger("doCreditsComeBack");
 				isCredits = false;
@@ -57,9 +56,12 @@ public class MenuSelection : MonoBehaviour {
 		}
 
 		if(isOptions) {
-			Debug.Log("In Options");
 			if(Input.GetButtonDown("Cancel")) {
 				GameObject.Find("Main Camera").GetComponent<Animator>().SetTrigger("doOptionsComeBack");
+				GameObject.Find("optiontext").GetComponent<optionSelection>().enabled = false;
+				GameObject.Find("X_SENSITIVITY").GetComponent<MeshRenderer>().enabled = false;
+				SetOptionsVisibility(false);
+				SetMenuVisibility(true);
 				isOptions = false;
 				selection = 0;
 	        	Vector3 jump = new Vector3(0f,-0.6f,0f);
@@ -85,11 +87,24 @@ public class MenuSelection : MonoBehaviour {
 				case 1: //OPTIONS
 					if(optionsCounter == 0) {
 						GameObject.Find("Main Camera").GetComponent<Animator>().SetTrigger("doOptions");
+						GameObject.Find("optiontext").GetComponent<optionSelection>().enabled = true;
+						SetOptionsVisibility(true);
+						SetMenuVisibility(false);
+						GameObject.Find("optiontext").GetComponent<optionSelection>().selection = 0;
 						optionsCounter++;
 						creditsCounter++;
+						Vector3 jump = new Vector3(-21.00322f,-28.8f,-1f);
+	            		GameObject.Find("OptionSel").transform.localPosition=jump;
 					}
-					else	
+					else {
 						GameObject.Find("Main Camera").GetComponent<Animator>().SetTrigger("doOptionsAgain");
+						GameObject.Find("optiontext").GetComponent<optionSelection>().enabled = true;
+						SetOptionsVisibility(true);
+						SetMenuVisibility(false);
+						GameObject.Find("optiontext").GetComponent<optionSelection>().selection = 0;
+						Vector3 jump = new Vector3(-21.00322f,-28.8f,-1f);
+	            		GameObject.Find("OptionSel").transform.localPosition=jump;
+					}
 					isOptions = true;
 					selection = 0;
 					break;
@@ -110,32 +125,32 @@ public class MenuSelection : MonoBehaviour {
 			}
 		}
 
-		switch(selection) {
-			case 0:
-				children[0].GetComponent<Renderer>().material = matBlack;
-				children[1].GetComponent<Renderer>().material = matWhite;
-				children[2].GetComponent<Renderer>().material = matWhite;
-				children[3].GetComponent<Renderer>().material = matWhite;
-				break;
-			case 1:
-				children[0].GetComponent<Renderer>().material = matWhite;
-				children[1].GetComponent<Renderer>().material = matBlack;
-				children[2].GetComponent<Renderer>().material = matWhite;
-				children[3].GetComponent<Renderer>().material = matWhite;
-				break;
-			case 2:
-				children[0].GetComponent<Renderer>().material = matWhite;
-				children[1].GetComponent<Renderer>().material = matWhite;
-				children[2].GetComponent<Renderer>().material = matBlack;
-				children[3].GetComponent<Renderer>().material = matWhite;
-				break;
-			case 3:
-				children[0].GetComponent<Renderer>().material = matWhite;
-				children[1].GetComponent<Renderer>().material = matWhite;
-				children[2].GetComponent<Renderer>().material = matWhite;
-				children[3].GetComponent<Renderer>().material = matBlack;
-				break;
-		}
+		// switch(selection) {
+		// 	case 0:
+		// 		children[0].GetComponent<Renderer>().material = matBlack;
+		// 		children[1].GetComponent<Renderer>().material = matWhite;
+		// 		children[2].GetComponent<Renderer>().material = matWhite;
+		// 		children[3].GetComponent<Renderer>().material = matWhite;
+		// 		break;
+		// 	case 1:
+		// 		children[0].GetComponent<Renderer>().material = matWhite;
+		// 		children[1].GetComponent<Renderer>().material = matBlack;
+		// 		children[2].GetComponent<Renderer>().material = matWhite;
+		// 		children[3].GetComponent<Renderer>().material = matWhite;
+		// 		break;
+		// 	case 2:
+		// 		children[0].GetComponent<Renderer>().material = matWhite;
+		// 		children[1].GetComponent<Renderer>().material = matWhite;
+		// 		children[2].GetComponent<Renderer>().material = matBlack;
+		// 		children[3].GetComponent<Renderer>().material = matWhite;
+		// 		break;
+		// 	case 3:
+		// 		children[0].GetComponent<Renderer>().material = matWhite;
+		// 		children[1].GetComponent<Renderer>().material = matWhite;
+		// 		children[2].GetComponent<Renderer>().material = matWhite;
+		// 		children[3].GetComponent<Renderer>().material = matBlack;
+		// 		break;
+		// }
 
 	    if( Input.GetAxisRaw("Vertical") < -0.95)
 	    {
@@ -176,5 +191,19 @@ public class MenuSelection : MonoBehaviour {
 		GameObject.Find("Paradogs").GetComponent<Animator>().SetTrigger("doReturn");
 		GameObject.Find("PressStart").GetComponent<Animator>().SetTrigger("doReturn");
 		yield break;
+	}
+
+	void SetOptionsVisibility(bool set) {
+		GameObject.Find("X_SENSITIVITY").GetComponent<MeshRenderer>().enabled = set;
+		GameObject.Find("Y_SENSITIVITY").GetComponent<MeshRenderer>().enabled = set;
+		GameObject.Find("INPUTIP").GetComponent<MeshRenderer>().enabled = set;
+		GameObject.Find("OptionSel").GetComponent<MeshRenderer>().enabled = set;
+	}
+
+	void SetMenuVisibility(bool set) {
+		GameObject.Find("Options").GetComponent<MeshRenderer>().enabled = set;
+		GameObject.Find("Credits").GetComponent<MeshRenderer>().enabled = set;
+		GameObject.Find("Start").GetComponent<MeshRenderer>().enabled = set;
+		GameObject.Find("Selector_001").GetComponent<MeshRenderer>().enabled = set;
 	}
 }

@@ -27,6 +27,12 @@ public class PressStart : MonoBehaviour {
 		audio = GetComponent<AudioSource>();
 		onTitleScreen = true;
 		doTransition = false;
+		if(!PlayerPrefs.HasKey("SensitivityY"))
+			PlayerPrefs.SetFloat("SensitivityY", 0.4f);
+		if(!PlayerPrefs.HasKey("SensitivityX"))
+			PlayerPrefs.SetFloat("SensitivityX", 0.4f);
+		if(!PlayerPrefs.HasKey("InvertY"))
+			PlayerPrefs.SetInt("InvertY", 0);
 	}
 	
 	// Update is called once per frame
