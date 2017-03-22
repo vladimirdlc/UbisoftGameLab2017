@@ -49,6 +49,9 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
             lucky.GetComponent<AudioListener>().enabled = false;
 
+            //for some reason 0 changes display to 1
+            lucky.GetComponent<Camera>().targetDisplay = 0;
+
             if (overseer != null)
                 GameObject.FindGameObjectWithTag("Overseer").SetActive(false);
 
@@ -98,7 +101,9 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
     {
         var timeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
         timeManager.enabled = true;
-        timeManager.m_PlayerCamera = GameObject.FindGameObjectWithTag("Camera Ground Character").GetComponent<Camera>();
+
+        var player = GameObject.FindGameObjectWithTag("Camera Ground Character");
+        timeManager.m_PlayerCamera = player.GetComponent<Camera>();
 
         var puppy = GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>();
         puppy.enabled = true;

@@ -30,6 +30,9 @@ public class PuppySounds : MonoBehaviour
 
     public void PlayBackgroundHum(bool play)
     {
+        if (!m_TimeManager)
+            m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
+
         if (play && !m_BackgroundHum.isPlaying && m_TimeManager.m_GameState == TimeManager.GameState.NORMAL)
         {
             m_BackgroundHum.Play();
