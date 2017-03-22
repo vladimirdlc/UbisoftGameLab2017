@@ -69,6 +69,13 @@ public class TimeManager : MonoBehaviour
     private GameObject m_ClonePrefab;
     public GameObject m_Puppy;
 
+    public float m_ParadoxMax;
+    public float m_RevertMax;
+    public float m_ForcedScrubMin;
+    public float m_ForcedScrubBrake;
+    public float m_ForcedScrubAccel;
+    public int m_ForcedScrubRevertDistance;
+
     public UnityEngine.UI.Text m_Text;
 
     public class State
@@ -403,8 +410,6 @@ public class TimeManager : MonoBehaviour
     private float m_LerpOffset;
 
     private float m_ScrubSpeed;
-    private int m_ParadoxDistance;
-    private int m_ParadoxPos;
 
     public GameObject[] clonePrefabs;
 
@@ -482,13 +487,13 @@ public class TimeManager : MonoBehaviour
 
             case GameState.PARADOX:
                 // Compute scrub speed (values are approx)
-                if (m_ScrubSpeed >= -0.95)
+                if (m_ScrubSpeed >= -m_ParadoxMax)
                 {
-                    m_ScrubSpeed -= 0.0125f / 30;
+                    m_ScrubSpeed -= m_ForcedScrubAccel / 30;
                 }
-                if (m_ScrubSpeed <= -0.1 && m_MasterPointer <= m_RevertIndex + 30)
+                if (m_ScrubSpeed <= -m_ForcedScrubMin && m_MasterPointer <= m_RevertIndex + m_ForcedScrubRevertDistance)
                 {
-                    m_ScrubSpeed += 0.070f / 30;
+                    m_ScrubSpeed += m_ForcedScrubBrake / 30;
                 }
                 break;
 
@@ -498,7 +503,7 @@ public class TimeManager : MonoBehaviour
                 {
                     m_ScrubSpeed *= -1;
                 }
-                if (m_ScrubSpeed <= 0.025)
+                if (m_ScrubSpeed <= m_RevertMax)
                 {
                     m_ScrubSpeed += 0.0125f / 30;
                 }
@@ -1014,9 +1019,7 @@ public class TimeManager : MonoBehaviour
         m_Timelines[m_ActiveTimeline].close(m_MasterPointer);
 
         // Init parameters for varying paradox and revert speed
-        m_ScrubSpeed = 0;
-        m_ParadoxPos = 0;
-        m_ParadoxDistance = m_MasterPointer - m_RevertIndex;
+        m_ScrubSpeed = -m_ForcedScrubMin;
 
         // On update, will execute portion of code for paradox state
     }
