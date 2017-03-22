@@ -26,7 +26,8 @@ public class DogFP : AnimatedDog
     private bool lockedMovement = false;
     private bool controlsEnabled = false;
 
-    private PuppySounds m_DogSounds;
+    private PuppySounds m_SoundBoard;
+    private JetPackPlayer m_JetPackPlayer;
 
     // Input
     float horizontal = 0;
@@ -42,7 +43,8 @@ public class DogFP : AnimatedDog
         m_MouseLook.Init(transform, m_Camera.transform);
 
         m_RigidBody = GetComponent<Rigidbody>();
-        m_DogSounds = GetComponentInChildren<PuppySounds>();
+        m_SoundBoard = GetComponentInChildren<PuppySounds>();
+        m_JetPackPlayer = GetComponent<JetPackPlayer>();
         m_RigidBody.freezeRotation = true;
         m_RigidBody.useGravity = false;
 
@@ -145,6 +147,8 @@ public class DogFP : AnimatedDog
             {
                 m_LeftRockets.SetActive(false);
                 m_RightRpckets.SetActive(false);
+
+                m_JetPackPlayer.m_Phase = JetPackPlayer.Phase.STOP;
             }
             else
 #if NETWORKING
@@ -155,6 +159,9 @@ public class DogFP : AnimatedDog
             {
                 m_LeftRockets.SetActive(true);
                 m_RightRpckets.SetActive(false);
+
+                m_JetPackPlayer.m_Phase = JetPackPlayer.Phase.RUN;
+
             }
 #if NETWORKING
             else if (networkedInput.horizontal < -0.1f)
@@ -164,6 +171,8 @@ public class DogFP : AnimatedDog
             {
                 m_LeftRockets.SetActive(false);
                 m_RightRpckets.SetActive(true);
+
+                m_JetPackPlayer.m_Phase = JetPackPlayer.Phase.RUN;
             }
 
 
@@ -185,8 +194,14 @@ public class DogFP : AnimatedDog
         UpdateAnimator(horizontal, crouch);
         m_MouseLook.UpdateCursorLock();
 
-        m_DogSounds.MoveSound(Mathf.Abs(vertical) >= 0.1f);
-
+        if (Mathf.Abs(vertical) >= 0.1f)
+        {
+            m_SoundBoard.MoveSound(true);
+        }
+        else
+        {
+            m_SoundBoard.MoveSound(false);
+        }
         // Reset state flags
         grounded = false;
         lockedMovement = false;

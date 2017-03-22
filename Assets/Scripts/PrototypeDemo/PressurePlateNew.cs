@@ -5,13 +5,16 @@ using UnityEngine;
 public class PressurePlateNew : MonoBehaviour
 {
 
-    //public GameObject target;
+    public Door target;
     private Light myLight;
     private float targetPositionStart;
     private float targetPositionDown;
     private float targetPosition;
     public bool isActive;
     public GameObject[] wires;
+
+    public AudioSource onSound;
+    public AudioSource offSound;
 
     void Start()
     {
@@ -37,18 +40,39 @@ public class PressurePlateNew : MonoBehaviour
             transform.position = position;
         }
     }
+    
+    // Pierre - Required to fix a bug with clones
+    public void forceExit()
+    {
+        if (isActive)
+        {
+            target.DecCount();
+            targetPosition = targetPositionStart;
+            myLight.enabled = false;
+            isActive = false;
+            foreach (GameObject wire in wires)
+            {
+                wire.GetComponent<WiresCollision>().isActive = false;
+            }
+
+            offSound.Play();
+        }
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player" || other.tag == "PlayerGround" || other.tag == "Clone")
         {   
-            //target.GetComponent<Door>().IncCount();
+            target.IncCount();
             targetPosition = targetPositionDown;
             myLight.enabled = true;
             isActive = true;
             foreach (GameObject wire in wires) {
             	wire.GetComponent<WiresCollision>().isActive = true;
             }
+
+            onSound.Play();
         }
     }
 
@@ -56,14 +80,15 @@ public class PressurePlateNew : MonoBehaviour
     {
         if (other.tag == "Player" || other.tag == "PlayerGround" || other.tag == "Clone")
         {
-            //target.GetComponent<Door>().DecCount();
+            target.DecCount();
             targetPosition = targetPositionStart;
             myLight.enabled = false;
             isActive = false;
             foreach (GameObject wire in wires) {
             	wire.GetComponent<WiresCollision>().isActive = false;
             }
-        }
 
+            offSound.Play();
+        }
     }
 }

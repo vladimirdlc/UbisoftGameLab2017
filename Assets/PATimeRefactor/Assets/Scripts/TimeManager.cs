@@ -141,7 +141,7 @@ public class TimeManager : MonoBehaviour
 
         // I think these need to be set at runtime since instances are going to pop in and out
         CloneTimeAttachment m_CloneTimeAttachment;
-        CloneCharacterController m_CloneController;
+        public CloneCharacterController m_CloneController { get; private set; }
         Transform m_CloneTransform;
 
         public Timeline(int start, GameObject clonePrefab, int id, List<State> masterArray, TimeManager timeManager, GameObject warpIn = null, int warpBubbleLife = 0, GameObject warpOut = null)
@@ -691,6 +691,14 @@ public class TimeManager : MonoBehaviour
     {
         Vector3 soundSource;
         soundSource = m_MasterArray[(timeLineId == -1) ? m_MasterPointer - 1 : m_Timelines[timeLineId].m_TimelineIndex - 1].m_DogPosition;
+        if (timeLineId == -1)
+        {
+            m_UserController.bark();
+        }
+        else
+        {
+            m_Timelines[timeLineId].m_CloneController.bark();
+        }
         m_PuppyController.hearNoise(soundSource);
     }
 

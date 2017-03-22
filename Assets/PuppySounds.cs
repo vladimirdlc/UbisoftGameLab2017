@@ -11,6 +11,7 @@ public class PuppySounds : MonoBehaviour
 
     private AudioSource m_AudioSource;
     public AudioSource m_MovementAudiosource;
+    public AudioSource m_BackgroundHum;
 
     TimeManager m_TimeManager;
 
@@ -25,6 +26,18 @@ public class PuppySounds : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void PlayBackgroundHum(bool play)
+    {
+        if (play && !m_BackgroundHum.isPlaying)
+        {
+            m_BackgroundHum.Play();
+        }
+        else
+        {
+            m_BackgroundHum.Stop();
+        }
     }
 
     public void TailChase()
