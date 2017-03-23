@@ -48,7 +48,9 @@ public class PressurePlateNew : MonoBehaviour
     {
         if (isActive)
         {
-            target.DecCount();
+            Door[] doors = target.GetComponentsInChildren<Door>();
+            foreach (Door d in doors)
+                d.DecCount();
             targetPosition = targetPositionStart;
             myLight.enabled = false;
             isActive = false;
