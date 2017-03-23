@@ -52,10 +52,14 @@ public class DogFP : AnimatedDog
         networkedInput = GetComponent<NetworkedInput>();
 
         amI = GetComponent<NetworkingCharacterAttachment>();
-        GameState.disableControls = false;
+        //GameState.disableControls = false;
 #endif
     }
 
+#if NETWORKING
+    float correctionTime = 3f;
+    float positionCorrectionTimer = 3f;
+#endif
     protected override void Update()
     {
         if (!controlsEnabled)
@@ -72,9 +76,19 @@ public class DogFP : AnimatedDog
         {
             networkedInput.horizontal = Input.GetAxis("Horizontal");
             networkedInput.vertical = Input.GetAxis("Vertical");
+            networkedInput.v = transform.position;
         }
         horizontal = networkedInput.horizontal;
         vertical = networkedInput.vertical;
+        if (amI.clientsHost && positionCorrectionTimer < 0)
+        {
+            transform.position = networkedInput.v;
+            positionCorrectionTimer = correctionTime;
+        }
+        else
+        {
+            positionCorrectionTimer -= Time.deltaTime;
+        }
 #else
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
@@ -205,8 +219,11 @@ public class DogFP : AnimatedDog
         m_MouseLook.LookRotation(transform, m_Camera.transform, networkedInput.xRot, networkedInput.yRot);
         if (amI.host)
             networkedInput.rotn = transform.rotation;
+
         if (amI.clientsHost)
+        {
             transform.rotation = networkedInput.rotn;
+        }
 #else
         float yRot = CrossPlatformInputManager.GetAxis("Mouse X");
         float xRot = CrossPlatformInputManager.GetAxis("Mouse Y");
