@@ -11,17 +11,26 @@ public class SceneSwitch : MonoBehaviour
     public bool requirePuppy = false;
     public Text[] tutorialMessages;
     public int m_TutorialPosterIndex;
+    public AudioClip m_WinningFanfare;
+    public GameObject m_WinningEffect;
 
     private BoxCollider boundingCollider;
     private Transform puppyTransform;
     private Canvas m_SceneLoadCanvas;
     private Animator m_Animator;
     private string m_SceneToLoad;
+    private Transform[] m_EffectInstantiateLocations;
+    private bool won = false;
+
+    private AudioSource m_AudioSource;
 
     private void Start()
     {
         boundingCollider = GetComponent<BoxCollider>();
         m_Animator = GetComponent<Animator>();
+        m_AudioSource = GetComponent<AudioSource>();
+
+        m_EffectInstantiateLocations = transform.FindChild("Effects Instantiation").GetComponentsInChildren<Transform>();
 
         if (requirePuppy)
         {
@@ -64,6 +73,9 @@ public class SceneSwitch : MonoBehaviour
                 }
             }
 
+            if (!won)
+                YouWin();
+
             Cursor.visible = false;
             StartLoadingScene(nextSceneName);
         }
@@ -75,11 +87,21 @@ public class SceneSwitch : MonoBehaviour
         m_SceneToLoad = sceneToLoad;
     }
 
+    void YouWin()
+    {
+        won = true;
+
+        foreach (Transform t in m_EffectInstantiateLocations)
+        {
+            Instantiate(m_WinningEffect, t.position, t.rotation);
+        }
+    }
+
     public void LoadScene()
     {
         LoadingScene.m_ImageToLoad = m_TutorialPosterIndex;
 #if NETWORKING
-                LoadingScene.m_SceneToLoad = m_SceneToLoad;
+            LoadingScene.m_SceneToLoad = m_SceneToLoad;
             UnityEngine.Networking.NetworkManager.singleton.ServerChangeScene("LoadingScreen");
 #else
         LoadingScene.m_SceneToLoad = m_SceneToLoad;
