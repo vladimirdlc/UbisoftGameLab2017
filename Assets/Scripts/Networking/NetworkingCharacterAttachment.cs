@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class NetworkingCharacterAttachment : NetworkBehaviour
 {
@@ -26,6 +27,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
     public bool hostsClient;
     public bool client;
     public bool host;
+    private string[] sceneLevelNames = { "Level1Net" };
 
     /// <summary>
     /// When inheriting from this class, override the start method and add this base
@@ -34,6 +36,9 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
     protected virtual void Start()
     {
+        if (SceneManager.GetActiveScene().name != sceneLevelNames[0])
+            gameObject.SetActive(false);
+
         server = NetworkCustom.isServer;
 
         clientsHost = !isLocalPlayer && !server; //Server-Replica in Client
@@ -96,6 +101,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
     void BothHostAndClientsHost()
     {
+
         var timeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
         timeManager.enabled = true;
 
