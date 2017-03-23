@@ -73,6 +73,8 @@ public class DogFP : AnimatedDog
             networkedInput.horizontal = Input.GetAxis("Horizontal");
             networkedInput.vertical = Input.GetAxis("Vertical");
         }
+        horizontal = networkedInput.horizontal;
+        vertical = networkedInput.vertical;
 #else
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
@@ -100,22 +102,14 @@ public class DogFP : AnimatedDog
 
             if (disableStrafe)
             {
-#if NETWORKING
-                networkedInput.horizontal = 0;
-#else
                 horizontal = 0;
-#endif
             }
             else
                 // Strafe speed is slower than the forward speed
                 horizontal *= 0.8f;
 
             // Calculate how fast we should be moving
-#if NETWORKING
-            Vector3 targetVelocity = new Vector3(networkedInput.horizontal, 0, networkedInput.vertical);
-#else
             Vector3 targetVelocity = new Vector3(horizontal, 0, vertical);
-#endif
 
             targetVelocity = transform.TransformDirection(targetVelocity);
             targetVelocity *= speed;
@@ -139,11 +133,7 @@ public class DogFP : AnimatedDog
             }
 
             // Rockets
-#if NETWORKING
-            if (networkedInput.horizontal < 0.05f && networkedInput.horizontal > -0.05f)
-#else
             if (horizontal < 0.05f && horizontal > -0.05f)
-#endif
             {
                 m_LeftRockets.SetActive(false);
                 m_RightRpckets.SetActive(false);
@@ -151,11 +141,7 @@ public class DogFP : AnimatedDog
                 m_JetPackPlayer.m_Phase = JetPackPlayer.Phase.STOP;
             }
             else
-#if NETWORKING
-                  if (networkedInput.horizontal > 0.1f)
-#else
             if (horizontal > 0.1f)
-#endif
             {
                 m_LeftRockets.SetActive(true);
                 m_RightRpckets.SetActive(false);
@@ -163,11 +149,7 @@ public class DogFP : AnimatedDog
                 m_JetPackPlayer.m_Phase = JetPackPlayer.Phase.RUN;
 
             }
-#if NETWORKING
-            else if (networkedInput.horizontal < -0.1f)
-#else
             else if (horizontal < -0.1f)
-#endif
             {
                 m_LeftRockets.SetActive(false);
                 m_RightRpckets.SetActive(true);

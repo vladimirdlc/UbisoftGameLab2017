@@ -3,10 +3,16 @@ using UnityEngine;
 
 public class NetworkedInput : NetworkBehaviour
 {
+    //for movement
     [SyncVar]
     public float horizontal;
     [SyncVar]
     public float vertical;
+    [SyncVar]
+    public Vector3 v;
+    //
+
+
     public float yRot;
     public float xRot;
     [SyncVar]
