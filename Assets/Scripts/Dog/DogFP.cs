@@ -109,7 +109,11 @@ public class DogFP : AnimatedDog
 
     public void Move(bool crouch)
     {
+#if NETWORKING
+        if (grounded && !lockedMovement && !GameState.disableControls && TimeManager.GameState.NORMAL == m_TimeManager.m_GameState)
+#else
         if (grounded && !lockedMovement && !GameState.disableControls)
+#endif
         {
             float horizontalLook = Input.GetAxis("Mouse X");
             float verticalLook = Input.GetAxis("Mouse Y");
