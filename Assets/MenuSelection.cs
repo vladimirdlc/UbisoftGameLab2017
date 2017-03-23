@@ -100,7 +100,10 @@ public class MenuSelection : MonoBehaviour
                     case 0: //START
 #if NETWORKING
                         if (SceneManager.GetActiveScene().name == "HostMenu")
+                        {
                             NetworkManager.singleton.StartHost();
+                            //GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Level1Net");
+                        }
                         else
                         {
                             //need to make this look nicer
