@@ -79,9 +79,11 @@ public class SceneSwitch : MonoBehaviour
     {
         LoadingScene.m_ImageToLoad = m_TutorialPosterIndex;
 #if NETWORKING
-            UnityEngine.Networking.NetworkManager.singleton.ServerChangeScene(m_SceneToLoad);
+                LoadingScene.m_SceneToLoad = m_SceneToLoad;
+            UnityEngine.Networking.NetworkManager.singleton.ServerChangeScene("LoadingScreen");
 #else
-        SceneManager.LoadScene(m_SceneToLoad);
+        LoadingScene.m_SceneToLoad = m_SceneToLoad;
+        SceneManager.LoadScene("LoadingScene");
 #endif
     }
 }
