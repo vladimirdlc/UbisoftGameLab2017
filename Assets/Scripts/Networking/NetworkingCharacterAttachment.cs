@@ -52,10 +52,19 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
 
             GameObject overseer = GameObject.FindGameObjectWithTag("Overseer");
 
+            //Might be a good idea to use a different tag for this
+            var overseerCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            overseerCamera.SetActive(false);
+
             var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
 
             //for some reason 0 changes display to 1
             lucky.GetComponent<Camera>().targetDisplay = 0;
+
+            if (!overseer || !overseerCamera || !lucky)
+                print("ERROR: We have a missing tag for networking");
+
+
 
             if (overseer != null)
                 GameObject.FindGameObjectWithTag("Overseer").SetActive(false);
@@ -97,6 +106,9 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
         var puppy = GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>();
         puppy.enabled = true;
         puppy.m_TimeManager = timeManager;
+
+        if (!timeManager || !player || !puppy)
+            print("ERROR: We have a missing tag for networking");
     }
 
     /// <summary>
