@@ -52,8 +52,8 @@ GameObject:
   - component: {fileID: 114557778174852100}
   - component: {fileID: 114113419325129914}
   - component: {fileID: 95535478316193998}
-  - component: {fileID: 114395925166202466}
   - component: {fileID: 114086166394973654}
+  - component: {fileID: 114413703272565968}
   m_Layer: 0
   m_Name: Overseer Camera
   m_TagString: MainCamera
@@ -250,20 +250,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Intensity: 2
   glowShader: {fileID: 4800000, guid: e4b39d1c04bdfb24ebc10e5897e6b067, type: 3}
---- !u!114 &114395925166202466
+--- !u!114 &114413703272565968
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1743480622849158}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd732fb44d34b94499d898ade1175074, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a9642628741f874c9dd0ec7fbb9d533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: ce9a06ac4ede6f84ab1865b7d32f204c, type: 3}
-  VHS: {fileID: 15200000, guid: 324a486eb541aa848884bad1ebd7b5e6, type: 3}
-  intensity: 1
+  zoomIn: Overseer LB
+  zoomOut: Overseer RB
+  cameras:
+  - {fileID: 20381820468505122}
+  - {fileID: 20551704322287536}
+  zoomSpeed: 100
+  minFOV: 20
+  maxFOV: 100
 --- !u!114 &114557778174852100
 MonoBehaviour:
   m_ObjectHideFlags: 1
