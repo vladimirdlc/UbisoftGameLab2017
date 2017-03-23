@@ -8,7 +8,7 @@ public class OverseerFOV : MonoBehaviour {
     public Camera[] cameras;
 
     public float zoomSpeed = 5;
-    public float minFOV = 30;
+    public float minFOV = 20;
     public float maxFOV = 90;
 
     void Update()
