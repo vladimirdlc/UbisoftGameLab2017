@@ -82,6 +82,7 @@ public class MenuSelection : MonoBehaviour {
 			switch(selection) {
 				//HANI
 				case 0: //START
+                        GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Playtest 1 With Assets");
 					
 					break;
 				case 1: //OPTIONS
