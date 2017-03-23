@@ -9,7 +9,7 @@ public class SceneSwitch : MonoBehaviour
     public string previousSceneName;
     public string nextSceneName;
     public bool requirePuppy = false;
-    public Text[] tutorialMessages;
+    public Text[] requirePuppyTutorialMessages;
     public int m_TutorialPosterIndex;
     public AudioClip m_WinningFanfare;
     public GameObject m_WinningEffect;
@@ -59,7 +59,7 @@ public class SceneSwitch : MonoBehaviour
                 if (!boundingCollider.bounds.Contains(puppyTransform.position))
                 {
                     // Trigger warning message
-                    foreach (Text triggered in tutorialMessages)
+                    foreach (Text triggered in requirePuppyTutorialMessages)
                     {
                         triggered.enabled = true;
                         SelfDestruct script = triggered.gameObject.GetComponent<SelfDestruct>();
@@ -90,6 +90,7 @@ public class SceneSwitch : MonoBehaviour
     void YouWin()
     {
         won = true;
+        m_AudioSource.PlayOneShot(m_WinningFanfare);
 
         foreach (Transform t in m_EffectInstantiateLocations)
         {
