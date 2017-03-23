@@ -48,6 +48,9 @@ public class DogFP : AnimatedDog
         m_RigidBody.freezeRotation = true;
         m_RigidBody.useGravity = false;
 
+        if (PlayerPrefs.HasKey("InvertY") && PlayerPrefs.GetInt("InvertY") == 1)
+            m_MouseLook.XSensitivity *= -1;
+
 #if NETWORKING
         networkedInput = GetComponent<NetworkedInput>();
 
