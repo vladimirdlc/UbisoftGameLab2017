@@ -12,11 +12,14 @@ public class NetworkedInput : NetworkBehaviour
     public Vector3 v;
     //
 
-
+    //for rotation
+    [SyncVar]
     public float yRot;
+    [SyncVar]
     public float xRot;
     [SyncVar]
     public Quaternion rotn;
+
     [SyncVar]
     public bool crouch;
     [SyncVar]
