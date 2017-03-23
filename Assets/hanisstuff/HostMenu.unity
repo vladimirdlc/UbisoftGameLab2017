@@ -1911,7 +1911,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previousSceneName: 
-  nextSceneName: Playtest 1 With Assets
+  nextSceneName: Level1Net
   requirePuppy: 0
   requirePuppyTutorialMessages: []
   m_TutorialPosterIndex: 0
@@ -4811,6 +4811,11 @@ Prefab:
         type: 2}
       propertyPath: m_OnlineScene
       value: Level1Net
+      objectReference: {fileID: 0}
+    - target: {fileID: 114340792954318156, guid: 943bfba2f2daf2849a5648a5bdbd03a4,
+        type: 2}
+      propertyPath: m_OfflineScene
+      value: HostMenu
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 943bfba2f2daf2849a5648a5bdbd03a4, type: 2}

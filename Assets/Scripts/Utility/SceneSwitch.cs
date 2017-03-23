@@ -30,7 +30,6 @@ public class SceneSwitch : MonoBehaviour
         m_Animator = GetComponent<Animator>();
         m_AudioSource = GetComponent<AudioSource>();
 
-        m_EffectInstantiateLocations = transform.FindChild("Effects Instantiation").GetComponentsInChildren<Transform>();
 
         if (requirePuppy)
         {
@@ -89,6 +88,7 @@ public class SceneSwitch : MonoBehaviour
 
     void YouWin()
     {
+        m_EffectInstantiateLocations = transform.FindChild("Effects Instantiation").GetComponentsInChildren<Transform>();
         won = true;
         m_AudioSource.PlayOneShot(m_WinningFanfare);
 
@@ -102,8 +102,8 @@ public class SceneSwitch : MonoBehaviour
     {
         LoadingScene.m_ImageToLoad = m_TutorialPosterIndex;
 #if NETWORKING
-            LoadingScene.m_SceneToLoad = m_SceneToLoad;
-            UnityEngine.Networking.NetworkManager.singleton.ServerChangeScene("LoadingScreen");
+        LoadingScene.m_SceneToLoad = m_SceneToLoad;
+        UnityEngine.Networking.NetworkManager.singleton.ServerChangeScene("LoadingScene");
 #else
         LoadingScene.m_SceneToLoad = m_SceneToLoad;
         SceneManager.LoadScene("LoadingScene");
