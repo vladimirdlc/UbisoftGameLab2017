@@ -5,7 +5,7 @@ using UnityEngine;
 public class PressurePlateNew : MonoBehaviour
 {
 
-    public Door target;
+    public GameObject target;
     private Light myLight;
     private float targetPositionStart;
     private float targetPositionDown;
@@ -68,7 +68,6 @@ public class PressurePlateNew : MonoBehaviour
     {
         if (other.tag == "Player" || other.tag == "PlayerGround" || other.tag == "Clone")
         {
-            target.IncCount();
             targetPosition = targetPositionDown;
             myLight.enabled = true;
             isActive = true;
@@ -88,8 +87,7 @@ public class PressurePlateNew : MonoBehaviour
     {
         if (other.tag == "Player" || other.tag == "PlayerGround" || other.tag == "Clone")
         {
-            target.DecCount();
-            targetPosition = targetPositionStart;
+                targetPosition = targetPositionStart;
             myLight.enabled = false;
             isActive = false;
             foreach (GameObject wire in wires)

@@ -9,7 +9,6 @@ public class Door : OSControllable
     public bool hackDoors = false;
 #endif
 
-    public GameObject meshes;
     public bool isTimed;
     public GameObject[] pressurePlates;
     public float timer;
@@ -77,6 +76,8 @@ public class Door : OSControllable
 
     public void Open()
     {
+        setToClose = false;
+
         if (isOpen)
             return;
 
