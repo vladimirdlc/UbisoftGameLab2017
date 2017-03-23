@@ -73,6 +73,7 @@ public class PuppyCharacterController : MonoBehaviour
     private void Start()
     {
         m_Home = GameObject.FindGameObjectWithTag("Home");
+        m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
         m_PuppyState = PuppySate.IDLE_HOME;
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
