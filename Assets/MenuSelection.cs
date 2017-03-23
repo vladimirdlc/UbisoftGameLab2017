@@ -25,6 +25,20 @@ public class MenuSelection : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+#if NETWORKING
+        if (SceneManager.GetActiveScene().name == "HostMenu")
+        {
+            NetworkManager.singleton.StartHost();
+            //GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Level1Net");
+        }
+        else
+        {
+            //need to make this look nicer
+            //192.168.0.32
+            NetworkManager.singleton.networkAddress = "localhost";//HARD CODE IP ADDRESS HERE
+            NetworkManager.singleton.StartClient();
+        }
+#endif
         selection = 0;
         tvScripts = GameObject.Find("Console Screen").GetComponents<tvScreen>();
     }
@@ -98,21 +112,26 @@ public class MenuSelection : MonoBehaviour
                 {
                     //HANI
                     case 0: //START
-#if NETWORKING
-                        if (SceneManager.GetActiveScene().name == "HostMenu")
-                        {
-                            NetworkManager.singleton.StartHost();
-                            //GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Level1Net");
-                        }
-                        else
-                        {
-                            //need to make this look nicer
-                            NetworkManager.singleton.networkAddress = "localhost";//hard code ip address here
-                            NetworkManager.singleton.StartClient();
-                        }
-#else
-                        GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Playtest 1 With Assets");
-#endif
+                        GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Level1Net");
+                        //#if NETWORKING
+                        //                        if (SceneManager.GetActiveScene().name == "HostMenu")
+                        //                        {
+                        //                            NetworkManager.singleton.StartHost();
+                        //GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Level1Net");
+                        //LoadingScene.m_SceneToLoad = "Level1Net";
+                        //GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().m_SceneToLoad = "Level1Net";
+                        //var test = GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>();
+                        //("Level1Net");
+                        //                        }
+                        //                        else
+                        //                        {
+                        //                            //need to make this look nicer
+                        //                            NetworkManager.singleton.networkAddress = "localhost";//HARD CODE IP ADDRESS HERE
+                        //                            NetworkManager.singleton.StartClient();
+                        //                        }
+                        //#else
+                        //GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Playtest 1 With Assets");
+                        //#endif
 
                         break;
                     case 1: //OPTIONS
