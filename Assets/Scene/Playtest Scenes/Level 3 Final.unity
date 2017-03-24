@@ -26902,28 +26902,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!84 &714143982
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1366
-  m_Height: 277
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1 &714438668
 GameObject:
   m_ObjectHideFlags: 0
@@ -74923,6 +74901,28 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!84 &1863096655
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1365
+  m_Height: 278
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &1864885797
 GameObject:
   m_ObjectHideFlags: 0
@@ -78147,6 +78147,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3f3b79c284e06c446826c669b03dcf78, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1937573765 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1699863205026400, guid: 3f3b79c284e06c446826c669b03dcf78,
+    type: 2}
+  m_PrefabInternal: {fileID: 1937573764}
 --- !u!1 &1938659054
 GameObject:
   m_ObjectHideFlags: 0
@@ -85414,7 +85419,7 @@ Prefab:
     - target: {fileID: 114974002050963904, guid: fd0035f23b790bc44bc16f68cae2a703,
         type: 2}
       propertyPath: controllablesA.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114974002050963904, guid: fd0035f23b790bc44bc16f68cae2a703,
         type: 2}
@@ -85467,7 +85472,7 @@ Prefab:
         type: 2}
       propertyPath: controllablesA.Array.data[1]
       value: 
-      objectReference: {fileID: 970209634}
+      objectReference: {fileID: 1937573765}
     - target: {fileID: 114974002050963904, guid: fd0035f23b790bc44bc16f68cae2a703,
         type: 2}
       propertyPath: controllablesX.Array.data[1]
