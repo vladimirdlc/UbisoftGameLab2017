@@ -29,7 +29,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
     public bool host;
 
     //Add the main level names to this array (level 1, level 2, etc.)
-    private string[] sceneLevelNames = { "Level 1 Final Net", "Level 2 Final", "Level 3 Final" };
+    private string[] sceneLevelNames = { "Level 1 Final Net", "Level 2 Final", "Level 3 Final", "Level 4 Final", "Level 5 Final", "Level 6 Final" };
 
     /// <summary>
     /// When inheriting from this class, override the start method and add this base
