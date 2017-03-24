@@ -72,8 +72,12 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             //Below is for the tutorials
             var groundTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Ground Player");
             ChangeToDisplay1(groundTutCan);
+            groundTutCan = GameObject.FindGameObjectsWithTag("CanvasGroundCharacter");
+            ChangeToDisplay1(groundTutCan);
 
             var overseerTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Overseer");
+            Deactivate(overseerTutCan);
+            overseerTutCan = GameObject.FindGameObjectsWithTag("CanvasOverseer");
             Deactivate(overseerTutCan);
             //ends here
 
@@ -117,8 +121,12 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             //Below is for the tutorials
             var overseerTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Overseer");
             ChangeToDisplay1(overseerTutCan);
+            overseerTutCan = GameObject.FindGameObjectsWithTag("CanvasOverseer");
+            ChangeToDisplay1(overseerTutCan);
 
             var groundTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Ground Player");
+            Deactivate(groundTutCan);
+            groundTutCan = GameObject.FindGameObjectsWithTag("CanvasGroundCharacter");
             Deactivate(groundTutCan);
             //ends here
 
