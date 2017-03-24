@@ -23830,6 +23830,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 648888241}
   m_Mesh: {fileID: 4300000, guid: 295a510b983dd974c9539ab162586066, type: 3}
+--- !u!84 &649183052
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1377
+  m_Height: 306
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &649539379
 GameObject:
   m_ObjectHideFlags: 0
@@ -42876,6 +42898,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114089431758400466, guid: 49ed274b7609abc4ab6b48b0b1cedff1,
+        type: 2}
+      propertyPath: m_TimeManager
+      value: 
+      objectReference: {fileID: 28923998}
+    - target: {fileID: 114089431758400466, guid: 49ed274b7609abc4ab6b48b0b1cedff1,
+        type: 2}
+      propertyPath: m_Home
+      value: 
+      objectReference: {fileID: 1377758989}
     - target: {fileID: 4499888564057928, guid: 49ed274b7609abc4ab6b48b0b1cedff1, type: 2}
       propertyPath: m_LocalRotation.x
       value: -0.3521753
@@ -42892,28 +42924,6 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 0.2978863
       objectReference: {fileID: 0}
-    - target: {fileID: 1968564348213996, guid: 49ed274b7609abc4ab6b48b0b1cedff1, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4728816619038788, guid: 49ed274b7609abc4ab6b48b0b1cedff1, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 137.77
-      objectReference: {fileID: 0}
-    - target: {fileID: 4728816619038788, guid: 49ed274b7609abc4ab6b48b0b1cedff1, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114089431758400466, guid: 49ed274b7609abc4ab6b48b0b1cedff1,
-        type: 2}
-      propertyPath: m_TimeManager
-      value: 
-      objectReference: {fileID: 28923998}
-    - target: {fileID: 114089431758400466, guid: 49ed274b7609abc4ab6b48b0b1cedff1,
-        type: 2}
-      propertyPath: m_Home
-      value: 
-      objectReference: {fileID: 1377758989}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 49ed274b7609abc4ab6b48b0b1cedff1, type: 2}
   m_IsPrefabParent: 0
