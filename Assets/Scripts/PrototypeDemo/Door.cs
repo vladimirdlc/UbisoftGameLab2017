@@ -69,7 +69,8 @@ public class Door : OSControllable
         {
             setToClose = true;
             closeAtTime = Time.time + timer;
-            m_DoorSounds.timer((int)timer);
+            if (m_DoorSounds != null)
+                m_DoorSounds.timer((int)timer);
         }
 
         count--;
@@ -78,7 +79,7 @@ public class Door : OSControllable
     public void Open()
     {
         setToClose = false;
-        if (m_DoorSounds.m_AS.isPlaying)
+        if (m_DoorSounds != null && m_DoorSounds.m_AS.isPlaying)
         {
             m_DoorSounds.m_AS.Stop();
         }
@@ -87,7 +88,8 @@ public class Door : OSControllable
 
         isOpen = true;
 
-        m_DoorSounds.close();
+        if (m_DoorSounds != null)
+            m_DoorSounds.close();
 
         TriggerAnimator(gameObject.layer == LayerMask.NameToLayer("OSControllable Nested"));
     }
@@ -99,8 +101,8 @@ public class Door : OSControllable
 
         isOpen = false;
         setToClose = false;
-
-        m_DoorSounds.close();
+        if (m_DoorSounds != null)
+            m_DoorSounds.close();
 
         TriggerAnimator(gameObject.layer == LayerMask.NameToLayer("OSControllable Nested"));
     }
