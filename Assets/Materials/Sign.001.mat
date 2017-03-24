@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Flooring
-  m_Shader: {fileID: 4800000, guid: 9ec7ccbd4289d0543939f61121224d93, type: 3}
-  m_ShaderKeywords: TCP2_RAMPTEXT TCP2_SPEC_TOON _EMISSION
+  m_Name: Sign.001
+  m_Shader: {fileID: 4800000, guid: 6782973e3ca8b2543beddb0a3dc3175e, type: 3}
+  m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -72,7 +72,7 @@ Material:
     - first:
         name: _Ramp
       second:
-        m_Texture: {fileID: 2800000, guid: 2bebb5799b426a74aaf1179cb5aa0db7, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -99,21 +99,12 @@ Material:
       second: 1
     - first:
         name: _Metallic
-      second: 0.35
+      second: 0
     - first:
         name: _Mode
       second: 0
     - first:
         name: _OcclusionStrength
-      second: 1
-    - first:
-        name: _Offset1
-      second: 0
-    - first:
-        name: _Offset2
-      second: 0
-    - first:
-        name: _Outline
       second: 1
     - first:
         name: _Parallax
@@ -125,14 +116,8 @@ Material:
         name: _RampThreshold
       second: 0.5
     - first:
-        name: _Shininess
-      second: 0.021
-    - first:
         name: _SmoothnessTextureChannel
       second: 0
-    - first:
-        name: _SpecSmooth
-      second: 1
     - first:
         name: _SpecularHighlights
       second: 1
@@ -140,33 +125,21 @@ Material:
         name: _SrcBlend
       second: 1
     - first:
-        name: _TexLod
-      second: 5
-    - first:
         name: _UVSec
       second: 0
-    - first:
-        name: _ZSmooth
-      second: -0.5
     - first:
         name: _ZWrite
       second: 1
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.36397058, g: 0.40998983, b: 0.4852941, a: 1}
+      second: {r: 0.9264706, g: 0.9264706, b: 0.9264706, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _HColor
-      second: {r: 1, g: 1, b: 1, a: 1}
-    - first:
-        name: _OutlineColor
-      second: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+      second: {r: 0.6, g: 0.6, b: 0.6, a: 1}
     - first:
         name: _SColor
-      second: {r: 0.3602941, g: 0.3602941, b: 0.3602941, a: 1}
-    - first:
-        name: _SpecColor
-      second: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+      second: {r: 0.4, g: 0.4, b: 0.4, a: 1}
