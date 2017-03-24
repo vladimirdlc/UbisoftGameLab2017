@@ -7310,28 +7310,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d631c898d69b71c43ae80f797c7814dd, type: 2}
   m_IsPrefabParent: 0
---- !u!84 &741331455
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1186
-  m_Height: 408
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1001 &746221307
 Prefab:
   m_ObjectHideFlags: 0
@@ -10858,6 +10836,11 @@ Prefab:
     - target: {fileID: 1398763258217824, guid: e5a7480f3b45b014b8ea6dc91b24b1ef, type: 2}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114418653402867576, guid: e5a7480f3b45b014b8ea6dc91b24b1ef,
+        type: 2}
+      propertyPath: m_ForcedScrubAccel
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e5a7480f3b45b014b8ea6dc91b24b1ef, type: 2}
@@ -18325,6 +18308,28 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 797b810c2cc17824092b6fa4cf1d7050, type: 2}
   m_IsPrefabParent: 0
+--- !u!84 &1625718402
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1377
+  m_Height: 307
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1001 &1630710212
 Prefab:
   m_ObjectHideFlags: 0
