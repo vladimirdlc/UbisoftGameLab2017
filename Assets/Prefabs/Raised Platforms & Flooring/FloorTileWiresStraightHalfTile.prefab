@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 33615449897106308}
   - component: {fileID: 23422906017549228}
   - component: {fileID: 114836456019695014}
+  - component: {fileID: 108303713274498902}
+  - component: {fileID: 65919065937568176}
   m_Layer: 0
   m_Name: Cylinder_003
   m_TagString: Untagged
@@ -70,7 +72,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1292983000872660}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -129.43816, y: 95.228874, z: -37.416016}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4304591804212978}
@@ -193,6 +195,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 1.0000012, z: 0.18501805}
   m_Center: {x: 0, y: -0.4999996, z: -0.028904006}
+--- !u!65 &65919065937568176
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063023805594174}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.332275, y: 1.0000002, z: 0.06601402}
+  m_Center: {x: 0.017726496, y: -0.5000001, z: -0.058220014}
 --- !u!95 &95877790175552174
 Animator:
   serializedVersion: 3
@@ -210,6 +224,40 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!108 &108303713274498902
+Light:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063023805594174}
+  m_Enabled: 0
+  serializedVersion: 7
+  m_Type: 2
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.2
+  m_Range: 5
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!114 &114836456019695014
 MonoBehaviour:
   m_ObjectHideFlags: 1
