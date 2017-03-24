@@ -23,9 +23,9 @@ public class TimeManager : MonoBehaviour
 
     public enum GameState
     {
+        NORMAL,
         PARADOX,
         REVERT,
-        NORMAL,
         REWIND,
         FORWARD,
         TIME_STOPPED,
