@@ -115,7 +115,7 @@ public class DogFP : AnimatedDog
 #if NETWORKING
         if (grounded && !lockedMovement && !GameState.disableControls && TimeManager.GameState.NORMAL == m_TimeManager.m_GameState)
 #else
-        if (grounded && !lockedMovement && !GameState.disableControls)
+        if (grounded && !lockedMovement && !GameState.disableControls && TimeManager.GameState.NORMAL == m_TimeManager.m_GameState)
 #endif
         {
             float horizontalLook = Input.GetAxis("Mouse X");
