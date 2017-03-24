@@ -29,7 +29,7 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
     public bool host;
 
     //Add the main level names to this array (level 1, level 2, etc.)
-    private string[] sceneLevelNames = { "Level1Net" };
+    private string[] sceneLevelNames = { "Level 1 Final Net" };
 
     /// <summary>
     /// When inheriting from this class, override the start method and add this base
@@ -72,8 +72,12 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             //Below is for the tutorials
             var groundTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Ground Player");
             ChangeToDisplay1(groundTutCan);
+            groundTutCan = GameObject.FindGameObjectsWithTag("CanvasGroundCharacter");
+            ChangeToDisplay1(groundTutCan);
 
             var overseerTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Overseer");
+            Deactivate(overseerTutCan);
+            overseerTutCan = GameObject.FindGameObjectsWithTag("CanvasOverseer");
             Deactivate(overseerTutCan);
             //ends here
 
@@ -117,8 +121,12 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             //Below is for the tutorials
             var overseerTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Overseer");
             ChangeToDisplay1(overseerTutCan);
+            overseerTutCan = GameObject.FindGameObjectsWithTag("CanvasOverseer");
+            ChangeToDisplay1(overseerTutCan);
 
             var groundTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Ground Player");
+            Deactivate(groundTutCan);
+            groundTutCan = GameObject.FindGameObjectsWithTag("CanvasGroundCharacter");
             Deactivate(groundTutCan);
             //ends here
 

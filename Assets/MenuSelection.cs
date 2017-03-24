@@ -35,6 +35,7 @@ public class MenuSelection : MonoBehaviour
         {
             //need to make this look nicer
             //192.168.0.32
+            //NetworkManager.singleton.networkAddress = "192.168.159.52";//HARD CODE IP ADDRESS HERE
             NetworkManager.singleton.networkAddress = "localhost";//HARD CODE IP ADDRESS HERE
             //Below is for UBISOFT
             //NetworkManager.singleton.networkAddress = "192.168.0.230";//HARD CODE IP ADDRESS HERE
@@ -114,7 +115,7 @@ public class MenuSelection : MonoBehaviour
                 {
                     //HANI
                     case 0: //START
-                        GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Level1Net");
+                        GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Level 1 Final Net");
                         //#if NETWORKING
                         //                        if (SceneManager.GetActiveScene().name == "HostMenu")
                         //                        {
