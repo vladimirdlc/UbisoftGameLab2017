@@ -11,26 +11,6 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1904736873062762}
   m_IsPrefabParent: 1
---- !u!1 &1094797344534982
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 224452456549130298}
-  - component: {fileID: 114183149170208594}
-  - component: {fileID: 114798504643575140}
-  - component: {fileID: 114496281452661832}
-  - component: {fileID: 114722143393410406}
-  - component: {fileID: 114190279413360604}
-  m_Layer: 5
-  m_Name: Paradox Tutorial Wrapper
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1161198491179728
 GameObject:
   m_ObjectHideFlags: 0
@@ -48,23 +28,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1212802214239844
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 224131769666717686}
-  - component: {fileID: 222214166737256994}
-  - component: {fileID: 114803652171901740}
-  m_Layer: 5
-  m_Name: Time Paradox Warning
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
 --- !u!1 &1222030570887912
 GameObject:
   m_ObjectHideFlags: 1
@@ -327,37 +290,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114183149170208594
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1094797344534982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TriggeringGameStates: 00000000
-  m_FindMonobehaviourOnStart: 0
-  m_MonobehaviourTypeToFind: 0
-  m_RequiredAction: 5
-  m_RelatedScript: {fileID: 114496281452661832}
-  m_RelatedGameobject: {fileID: 0}
---- !u!114 &114190279413360604
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1094797344534982}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 942aef84bab64f9409d98fbe61c8c7bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selfDesctructCountDown: 5
-  startTimerByDefault: 1
-  onlyDeactivate: 0
 --- !u!114 &114197018376565362
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -456,23 +388,6 @@ MonoBehaviour:
   m_RequiredAction: 1
   m_RelatedScript: {fileID: 0}
   m_RelatedGameobject: {fileID: 1538725925176070}
---- !u!114 &114496281452661832
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1094797344534982}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TriggeringGameStates: 02000000
-  m_FindMonobehaviourOnStart: 0
-  m_MonobehaviourTypeToFind: 0
-  m_RequiredAction: 1
-  m_RelatedScript: {fileID: 0}
-  m_RelatedGameobject: {fileID: 1212802214239844}
 --- !u!114 &114573678713437950
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -506,23 +421,6 @@ MonoBehaviour:
   m_RequiredAction: 1
   m_RelatedScript: {fileID: 0}
   m_RelatedGameobject: {fileID: 1612215865787056}
---- !u!114 &114722143393410406
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1094797344534982}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TriggeringGameStates: 02000000
-  m_FindMonobehaviourOnStart: 0
-  m_MonobehaviourTypeToFind: 0
-  m_RequiredAction: 5
-  m_RelatedScript: {fileID: 114190279413360604}
-  m_RelatedGameobject: {fileID: 0}
 --- !u!114 &114774394311587892
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -550,59 +448,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114798504643575140
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1094797344534982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de5adaf46c097d3409e106df611de79f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TriggeringGameStates: 00000000
-  m_FindMonobehaviourOnStart: 0
-  m_MonobehaviourTypeToFind: 0
-  m_RequiredAction: 5
-  m_RelatedScript: {fileID: 114722143393410406}
-  m_RelatedGameobject: {fileID: 0}
---- !u!114 &114803652171901740
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1212802214239844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 86ebce61c14557e4e938894e0124884d, type: 3}
-    m_FontSize: 18
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 1
-    m_MaxSize: 40
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
-    m_LineSpacing: 1
-  m_Text: 'a time  paradox has been triggered!
-
-    Time paradoxes occur when the timeline of a past self is altered by its future
-    self'
 --- !u!114 &114804320084025930
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -698,12 +543,6 @@ MonoBehaviour:
   m_RequiredAction: 1
   m_RelatedScript: {fileID: 0}
   m_RelatedGameobject: {fileID: 1222030570887912}
---- !u!222 &222214166737256994
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1212802214239844}
 --- !u!222 &222215529574309438
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -789,24 +628,6 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.000061035156, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!224 &224131769666717686
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1212802214239844}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 224452456549130298}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 251}
-  m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224210282146357896
 RectTransform:
@@ -898,7 +719,6 @@ RectTransform:
   - {fileID: 224996823115591496}
   - {fileID: 224001169429998518}
   - {fileID: 224734783083399570}
-  - {fileID: 224452456549130298}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -907,25 +727,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!224 &224452456549130298
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1094797344534982}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 224131769666717686}
-  m_Father: {fileID: 224389514653320016}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224563677189682412
 RectTransform:
   m_ObjectHideFlags: 1
