@@ -115,7 +115,7 @@ public class MenuSelection : MonoBehaviour
                 {
                     //HANI
                     case 0: //START
-                        GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Level1Net");
+                        GameObject.FindGameObjectWithTag("Scene Loader").GetComponent<SceneSwitch>().StartLoadingScene("Level 1 Final Net");
                         //#if NETWORKING
                         //                        if (SceneManager.GetActiveScene().name == "HostMenu")
                         //                        {
