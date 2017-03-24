@@ -7,8 +7,8 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Flooring
-  m_Shader: {fileID: 4800000, guid: 6782973e3ca8b2543beddb0a3dc3175e, type: 3}
-  m_ShaderKeywords: TCP2_RAMPTEXT _EMISSION
+  m_Shader: {fileID: 4800000, guid: 9ec7ccbd4289d0543939f61121224d93, type: 3}
+  m_ShaderKeywords: TCP2_RAMPTEXT TCP2_SPEC_TOON _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -126,13 +126,13 @@ Material:
       second: 0.5
     - first:
         name: _Shininess
-      second: 0.1
+      second: 0.02
     - first:
         name: _SmoothnessTextureChannel
       second: 0
     - first:
         name: _SpecSmooth
-      second: 0.05
+      second: 1
     - first:
         name: _SpecularHighlights
       second: 1
