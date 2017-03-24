@@ -23,7 +23,7 @@ public class Door : OSControllable
     private bool isOpen;
 
     private Animator anim;
-    private AudioSource m_AudioSource;
+    private DoorSounds m_DoorSounds;
 
     private void Start()
     {
@@ -36,7 +36,7 @@ public class Door : OSControllable
         anim = GetComponent<Animator>();
         anim.SetFloat("objectActionSpeed",animOpenCloseDoorSpeed);
 
-        m_AudioSource = GetComponent<AudioSource>();
+        m_DoorSounds = GetComponentInParent<DoorSounds>();
 
         if (openByDefault) Open();
     }
@@ -69,6 +69,8 @@ public class Door : OSControllable
         {
             setToClose = true;
             closeAtTime = Time.time + timer;
+            if (m_DoorSounds != null)
+                m_DoorSounds.timer((int)timer);
         }
 
         count--;
@@ -77,14 +79,17 @@ public class Door : OSControllable
     public void Open()
     {
         setToClose = false;
-
+        if (m_DoorSounds != null && m_DoorSounds.m_AS.isPlaying)
+        {
+            m_DoorSounds.m_AS.Stop();
+        }
         if (isOpen)
             return;
 
         isOpen = true;
 
-        if (m_AudioSource)
-            m_AudioSource.Play();
+        if (m_DoorSounds != null)
+            m_DoorSounds.close();
 
         TriggerAnimator(gameObject.layer == LayerMask.NameToLayer("OSControllable Nested"));
     }
@@ -96,9 +101,8 @@ public class Door : OSControllable
 
         isOpen = false;
         setToClose = false;
-
-        if (m_AudioSource)
-            m_AudioSource.Play();
+        if (m_DoorSounds != null)
+            m_DoorSounds.close();
 
         TriggerAnimator(gameObject.layer == LayerMask.NameToLayer("OSControllable Nested"));
     }

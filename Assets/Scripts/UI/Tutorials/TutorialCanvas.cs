@@ -9,7 +9,7 @@ public class TutorialCanvas : MonoBehaviour
     // The order of these tutorials should resemble the order in the heirarchy
     public static string[] tutorialOptionsGroundPlayer =
     {
-        "Move", "Objective", "Time Scrub", "Time Stop + Scrub", "Single Button Time Mechanics", "Require Puppy Warning"
+        "Move", "Objective", "Time Scrub", "Time Stop + Scrub", "Single Button Time Mechanics", "Require Puppy Warning", "Bark"
     };
 
     public static string[] tutorialOptionsOverseerPlayer =
