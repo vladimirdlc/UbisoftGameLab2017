@@ -27,17 +27,29 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
     public bool hostsClient;
     public bool client;
     public bool host;
+
+    //Add the main level names to this array (level 1, level 2, etc.)
     private string[] sceneLevelNames = { "Level1Net" };
 
     /// <summary>
     /// When inheriting from this class, override the start method and add this base
     /// at the end of the child Start overriding method
     /// </summary>
+    bool goodLevel = false;
 
     protected virtual void Start()
     {
-        if (SceneManager.GetActiveScene().name != sceneLevelNames[0])
+        foreach (string levelName in sceneLevelNames)
+        {
+            if (SceneManager.GetActiveScene().name == levelName)
+                goodLevel = true;
+
+        }
+        if (!goodLevel)
+        {
             gameObject.SetActive(false);
+            goodLevel = false;
+        }
 
         server = NetworkCustom.isServer;
 
@@ -51,9 +63,19 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             gameObject.SetActive(false);
             gameObject.name = "hostsClient";
         }
+
+        //host is the DOG
         if (host)
         {
             BothHostAndClientsHost();
+
+            //Below is for the tutorials
+            var groundTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Ground Player");
+            ChangeToDisplay1(groundTutCan);
+
+            var overseerTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Overseer");
+            Deactivate(overseerTutCan);
+            //ends here
 
             GameObject overseer = GameObject.FindGameObjectWithTag("Overseer");
 
@@ -92,10 +114,35 @@ public class NetworkingCharacterAttachment : NetworkBehaviour
             //object tagged which in this case is clientsHost
             BothHostAndClientsHost();
 
+            //Below is for the tutorials
+            var overseerTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Overseer");
+            ChangeToDisplay1(overseerTutCan);
+
+            var groundTutCan = GameObject.FindGameObjectsWithTag("Tutorial Canvas Ground Player");
+            Deactivate(groundTutCan);
+            //ends here
+
             TimeManager.disableCameraForOverseer = true;
             var lucky = GameObject.FindGameObjectWithTag("Camera Ground Character");
             lucky.GetComponent<Camera>().enabled = false;
             gameObject.name = "clientsHost";
+        }
+    }
+
+    void ChangeToDisplay1(GameObject[] changeMe)
+    {
+        foreach (var can in changeMe)
+        {
+            //0 MEANS DISPLAY 1
+            can.GetComponent<Canvas>().targetDisplay = 0;
+        }
+    }
+
+    void Deactivate(GameObject[] deactivateMe)
+    {
+        foreach (var can in deactivateMe)
+        {
+            can.SetActive(false);
         }
     }
 

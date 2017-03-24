@@ -36,6 +36,8 @@ public class MenuSelection : MonoBehaviour
             //need to make this look nicer
             //192.168.0.32
             NetworkManager.singleton.networkAddress = "localhost";//HARD CODE IP ADDRESS HERE
+            //Below is for UBISOFT
+            //NetworkManager.singleton.networkAddress = "192.168.0.230";//HARD CODE IP ADDRESS HERE
             NetworkManager.singleton.StartClient();
         }
 #endif
