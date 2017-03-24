@@ -23,9 +23,9 @@ public class TimeManager : MonoBehaviour
 
     public enum GameState
     {
-        NORMAL,
         PARADOX,
         REVERT,
+        NORMAL,
         REWIND,
         FORWARD,
         TIME_STOPPED,
@@ -416,6 +416,7 @@ public class TimeManager : MonoBehaviour
     private void Awake()
     {
 #if NETWORKING
+        m_GameState = GameState.NORMAL;
         enabled = false;
 #endif
 

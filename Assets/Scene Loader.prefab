@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 82877244399808190}
   m_Layer: 0
   m_Name: Scene Loader
-  m_TagString: Untagged
+  m_TagString: Scene Loader
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,7 +206,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 19.583738, y: 19.23617, z: 12.865535}
-  m_Center: {x: -1.3445435, y: 1.3113985, z: 0.81588364}
+  m_Center: {x: 1.09, y: 14.01, z: 0.81588364}
 --- !u!82 &82877244399808190
 AudioSource:
   m_ObjectHideFlags: 1
@@ -336,11 +336,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e171ee69e05454692b3c916452cc48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousSceneName: 
-  nextSceneName: Playtest 1
+  previousSceneName: Level 1 Final Net
+  nextSceneName: Level 3 Final
   requirePuppy: 0
   requirePuppyTutorialMessages: []
-  m_TutorialPosterIndex: 0
+  m_TutorialPosterIndex: 2
   m_WinningFanfare: {fileID: 8300000, guid: 86c10bfc3a97bbf4aa6deb67138c283e, type: 3}
   m_WinningEffect: {fileID: 100000, guid: 128e1d5f8db64394ead123313ecec398, type: 2}
 --- !u!114 &114456261993472610
