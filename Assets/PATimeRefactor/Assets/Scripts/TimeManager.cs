@@ -416,6 +416,7 @@ public class TimeManager : MonoBehaviour
     private void Awake()
     {
 #if NETWORKING
+        m_GameState = GameState.NORMAL;
         enabled = false;
 #endif
 
