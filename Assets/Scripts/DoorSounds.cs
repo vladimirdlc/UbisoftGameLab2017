@@ -7,7 +7,7 @@ public class DoorSounds : MonoBehaviour {
     public AudioClip m_Closing;
     public AudioClip m_Timer;
 
-    public AudioSource m_AS { get; private set;}
+    public AudioSource m_AS { get; set;}
 
     private void Start()
     {

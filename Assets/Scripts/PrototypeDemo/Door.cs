@@ -34,7 +34,7 @@ public class Door : OSControllable
 
         // Configure animator variables
         anim = GetComponent<Animator>();
-        anim.SetFloat("objectActionSpeed",animOpenCloseDoorSpeed);
+        anim.SetFloat("objectActionSpeed", animOpenCloseDoorSpeed);
 
         m_DoorSounds = GetComponentInParent<DoorSounds>();
 
@@ -79,9 +79,16 @@ public class Door : OSControllable
     public void Open()
     {
         setToClose = false;
-        if (m_DoorSounds != null && m_DoorSounds.m_AS.isPlaying)
+        if (m_DoorSounds)
         {
-            m_DoorSounds.m_AS.Stop();
+            // Ugly duck tape code because it's late
+            if (!m_DoorSounds.m_AS)
+                m_DoorSounds.m_AS = GetComponentInParent<AudioSource>();
+
+            if (m_DoorSounds.m_AS.isPlaying)
+            {
+                m_DoorSounds.m_AS.Stop();
+            }
         }
         if (isOpen)
             return;
