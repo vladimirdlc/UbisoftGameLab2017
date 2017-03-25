@@ -41,6 +41,7 @@ public class PuppyMovement : MonoBehaviour
     public float walkingAnimatorSpeed;
     public float barkAnimatorSpeed;
     public float loveEmoteAnimatorSpeed;
+    public float pawSpeed;
     public float tailChaseSpeed;
     public float sitSpeed;
     public float sittingTailWagSpeed;
@@ -48,6 +49,9 @@ public class PuppyMovement : MonoBehaviour
     private float m_IdleTimer;
     private bool m_CycleIdle = false;
     private PuppyCharacterController.PuppySate m_PuppyState;
+    private TimeManager m_TimeManager;
+
+    private PuppySounds m_PuppySpounds;
 
     void Start()
     {
@@ -56,6 +60,9 @@ public class PuppyMovement : MonoBehaviour
         m_Capsule = GetComponent<CapsuleCollider>();
         m_CapsuleHeight = m_Capsule.height;
         m_CapsuleCenter = m_Capsule.center;
+
+        m_PuppySpounds = GetComponent<PuppySounds>();
+        m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
 
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         m_OrigGroundCheckDistance = m_GroundCheckDistance;
@@ -69,14 +76,19 @@ public class PuppyMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Test Button"))
-            Sit();
-
         m_IdleTimer -= Time.deltaTime;
         if (m_IdleTimer <= 0)
         {
             m_IdleTimer = idleCountdown;
             m_CycleIdle = true;
+        }
+
+        if (m_TimeManager.m_GameState == TimeManager.GameState.NORMAL)
+            m_Animator.speed = 1;
+        else
+        {
+            m_Animator.speed = 0;
+            return;
         }
     }
 
@@ -86,7 +98,10 @@ public class PuppyMovement : MonoBehaviour
         // convert the world relative moveInput vector into a local-relative
         // turn amount and forward amount required to head in the desired
         // direction.
-        if (move.magnitude > 1f) move.Normalize();
+        if (move.magnitude > 1f)
+            move.Normalize();
+
+
         move = transform.InverseTransformDirection(move);
         CheckGroundStatus();
         move = Vector3.ProjectOnPlane(move, m_GroundNormal);
@@ -98,12 +113,22 @@ public class PuppyMovement : MonoBehaviour
 
         ApplyExtraTurnRotation();
 
+        m_PuppySpounds.MoveSound(move.magnitude > 0.5f);
+
         // send input and other state parameters to the animator
         UpdateAnimator(move);
     }
 
     void UpdateAnimator(Vector3 move)
     {
+        if (m_TimeManager.m_GameState == TimeManager.GameState.NORMAL)
+            m_Animator.speed = 1;
+        else
+        {
+            m_Animator.speed = 0;
+            return;
+        }
+
         // update the animator parameters
         m_Animator.SetFloat("walkingSpeed", m_ForwardAmount, 0.1f, Time.deltaTime);
 
@@ -117,6 +142,7 @@ public class PuppyMovement : MonoBehaviour
 
         m_Animator.SetFloat("walkingSpeed", walkingAnimatorSpeed * m_ForwardAmount);
         m_Animator.SetFloat("barkingSpeed", barkAnimatorSpeed);
+        m_Animator.SetFloat("pawSpeed", pawSpeed);
         m_Animator.SetFloat("tailChaseSpeed", tailChaseSpeed);
         m_Animator.SetFloat("sitSpeed", sitSpeed);
         m_Animator.SetFloat("sittingTailWagSpeed", sittingTailWagSpeed);
@@ -130,19 +156,36 @@ public class PuppyMovement : MonoBehaviour
 
     void PlayRandomIdle()
     {
-        float rndFloat = Random.Range(0.0f, 1.0f);
+        /*
+        Debug.Log("IDLE_PLAYER is :" + (m_PuppyState == PuppyCharacterController.PuppySate.IDLE_PLAYER));
+        Debug.Log("Aware is: " + GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>().m_IsAware);
+        */
 
-        if (rndFloat <= 0.33)
+
+        if (m_PuppyState == PuppyCharacterController.PuppySate.IDLE_PLAYER || m_PuppyState == PuppyCharacterController.PuppySate.IDLE_HOME)
         {
-            m_Animator.SetTrigger("bark");
-        }
-        else if (rndFloat <= 0.66)
-        {
-            m_Animator.SetTrigger("tailChase");
-        }
-        else
-        {
-            m_Animator.SetTrigger("sitOnce");
+
+            float rndFloat = Random.Range(0.0f, 1.0f);
+
+            if (rndFloat <= 0.25)
+            {
+                m_Animator.SetTrigger("bark");
+                m_PuppySpounds.Bark();
+            }
+            else if (rndFloat <= 0.50)
+            {
+                m_Animator.SetTrigger("tailChase");
+                m_PuppySpounds.TailChase();
+            }
+            else if (rndFloat <= 0.75)
+            {
+                m_Animator.SetTrigger("sitOnce");
+            }
+            else
+            {
+                m_Animator.SetTrigger("paw");
+                m_PuppySpounds.Paw();
+            }
         }
     }
 
@@ -210,23 +253,42 @@ public class PuppyMovement : MonoBehaviour
         }
     }
 
-    public void StateModification(PuppyCharacterController.PuppySate puppySate)
+    public void StateModification(PuppyCharacterController.PuppySate puppySate, bool isAware)
     {
         if (m_PuppyState == puppySate)
             return;
-
+        //Debug.Log(puppySate);
         m_PuppyState = puppySate;
+
+        if(isAware)
+        {
+
+        }
 
         switch (m_PuppyState)
         {
+            case PuppyCharacterController.PuppySate.IDLE_HOME:
+                if(isAware)
+                {
+                    // exclamation mark
+                }
+                break;
             case PuppyCharacterController.PuppySate.MOVING_PLAYER:
-                m_Animator.SetTrigger("movingPlayer");
+                m_Animator.SetBool("love", true);
+                m_Animator.SetBool("confused", false);
                 break;
             case PuppyCharacterController.PuppySate.MOVING_SOUND:
+            case PuppyCharacterController.PuppySate.IDLE_SOUND_SOURCE:
                 m_Animator.SetTrigger("movingSound");
+                m_Animator.SetBool("love", false);
+                m_Animator.SetBool("confused", true);
+                break;
+            case PuppyCharacterController.PuppySate.IDLE_PLAYER:
                 break;
             default:
-                m_Animator.SetTrigger("stopEmotes");
+                m_Animator.SetBool("love", false);
+                m_Animator.SetBool("confused", false);
+                // make exclamtion false
                 break;
         }
     }

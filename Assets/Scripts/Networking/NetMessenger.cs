@@ -11,15 +11,19 @@ public class NetMessenger : NetworkBehaviour
     public static NetMessenger Instance;
     public GameObject GreenDoor;
     public GameObject BlueDoor;
+    public OverseerControls o;
 
     private void Awake()
     {
+        o = OverseerControls.Instance;
+        //o = GameObject.FindGameObjectWithTag("Overseer").GetComponent<OverseerControls>();
         //Functions in this class MUST be invoked by the client and only the client
         //we are getting lucky here because the network manager is spawning
         //clientsHost and then client so this ends up being the client
         Instance = this;
-        //GreenDoor = GameObject.FindGameObjectWithTag("Door Green");
-        GreenDoor = GameObject.Find("DoorGreen");
+
+        GreenDoor = GameObject.FindGameObjectWithTag("Door Green");
+        //GreenDoor = GameObject.Find("DoorGreen");
         //BlueDoor = GameObject.FindGameObjectWithTag("Door Blue");
         BlueDoor = GameObject.Find("DoorBlue");
     }
@@ -39,10 +43,22 @@ public class NetMessenger : NetworkBehaviour
     public void CmdOpenDoor(string color)
     {
         if (color == "Green")
-            GreenDoor.GetComponent<Animator>().SetTrigger("toggleObject");
-        //GreenDoor.GetComponent<Animator>();
+        {
+            //if (o == null)
+            //{
+            //    o = GameObject.FindObjectOfType<OverseerControls>();
+            //}
+            o.triggerList(o.controllablesA);
+        }
         else if (color == "Blue")
-            BlueDoor.GetComponent<Animator>().SetTrigger("toggleObject");
+        {
+            //BlueDoor.GetComponent<Animator>().SetTrigger("toggleObject");
+            //if (o == null)
+            //{
+            //    o = GameObject.FindObjectOfType<OverseerControls>();
+            //}
+            o.triggerList(o.controllablesX);
+        }
     }
 
     [Command]

@@ -13,7 +13,7 @@ public class TimeManagerDependable : MonoBehaviour
     public enum RequiredAction
     {
         DestroyGameObject, ActivateGameObject, DeactivateGameObject, TurnOffAudiosource, StopAudioSource,
-        TurnOnMonobehaviour, TurnOffMonobehaviour
+        TurnOnMonobehaviour, TurnOffMonobehaviour, ParadoxOn, ParadoxOff, TurnOnAudiosource
     }
 
     // Whatever collection of game states will trigger the desired behaviour/action
@@ -30,11 +30,21 @@ public class TimeManagerDependable : MonoBehaviour
     public MonoBehaviour m_RelatedScript;
     public GameObject m_RelatedGameobject;
 
+    // time it takes to reach the max fow change
+    // Hard coded since we can incorrectly set it to something different in other places
+    private static float m_ParadoxFOVInterval = 3.0f;
+    private static float m_ParadoxFOVMultiplier = 2.0f;
+    private static float m_InitFOV = 60.0f;
+    private static float m_ParadoxFOVTimer;
+
     // Necessary references
     private TimeManager m_TimeManager;
 
     // Optional references
     private AudioSource m_AudioSource;
+    private Camera m_Camera;
+
+    static bool fovChanged = false;
 
     // Use this for initialization
     void Start()
@@ -53,6 +63,11 @@ public class TimeManagerDependable : MonoBehaviour
                     break;
             }
         }
+
+        if (m_RequiredAction == RequiredAction.ParadoxOn || m_RequiredAction == RequiredAction.ParadoxOff)
+        {
+            m_Camera = GetComponent<Camera>();
+        }
     }
 
     // Update is called once per frame
@@ -65,7 +80,7 @@ public class TimeManagerDependable : MonoBehaviour
             return;
 
 
-            TimeManager.GameState frameGameState = m_TimeManager.m_GameState;
+        TimeManager.GameState frameGameState = m_TimeManager.m_GameState;
 
         if (CheckForGameState(frameGameState))
         {
@@ -76,7 +91,7 @@ public class TimeManagerDependable : MonoBehaviour
                     break;
 
                 case RequiredAction.DeactivateGameObject:
-                        m_RelatedGameobject.SetActive(false);
+                    m_RelatedGameobject.SetActive(false);
                     break;
 
                 case RequiredAction.ActivateGameObject:
@@ -84,7 +99,13 @@ public class TimeManagerDependable : MonoBehaviour
                     break;
 
                 case RequiredAction.TurnOffAudiosource:
-                    m_AudioSource.enabled = false;
+                    if (m_AudioSource)
+                        m_AudioSource.enabled = false;
+                    break;
+
+                case RequiredAction.TurnOnAudiosource:
+                    if (m_AudioSource)
+                        m_AudioSource.enabled = true;
                     break;
 
                 case RequiredAction.StopAudioSource:
@@ -97,6 +118,28 @@ public class TimeManagerDependable : MonoBehaviour
 
                 case RequiredAction.TurnOffMonobehaviour:
                     m_RelatedScript.enabled = false;
+                    break;
+
+                case RequiredAction.ParadoxOn:
+                    if (!fovChanged)
+                    {
+                        fovChanged = true;
+                        m_ParadoxFOVTimer = m_ParadoxFOVInterval;
+                    }
+                    else
+                    {
+                        m_ParadoxFOVTimer = Mathf.Clamp(m_ParadoxFOVTimer -= Time.deltaTime, 0, m_InitFOV);
+                        m_Camera.fieldOfView = Mathf.Lerp(m_InitFOV * m_ParadoxFOVMultiplier, m_InitFOV, m_ParadoxFOVTimer / m_ParadoxFOVInterval);
+                        //Debug.Log(m_InitFOV * m_ParadoxFOVMultiplier);
+                        //Debug.Log(m_Camera.fieldOfView);
+                    }
+                    break;
+                case RequiredAction.ParadoxOff:
+                    if (fovChanged)
+                    {
+                        m_Camera.fieldOfView = m_InitFOV;
+                        fovChanged = false;
+                    }
                     break;
             }
         }

@@ -3252,6 +3252,29 @@ Prefab:
       propertyPath: m_Home
       value: 
       objectReference: {fileID: 1467817728}
+    - target: {fileID: 4728816619038788, guid: 49ed274b7609abc4ab6b48b0b1cedff1, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -39.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728816619038788, guid: 49ed274b7609abc4ab6b48b0b1cedff1, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -10.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 114089431758400466, guid: 49ed274b7609abc4ab6b48b0b1cedff1,
+        type: 2}
+      propertyPath: m_Manager
+      value: 
+      objectReference: {fileID: 1001579340}
+    - target: {fileID: 114089431758400466, guid: 49ed274b7609abc4ab6b48b0b1cedff1,
+        type: 2}
+      propertyPath: m_Player
+      value: 
+      objectReference: {fileID: 131333334}
+    - target: {fileID: 114089431758400466, guid: 49ed274b7609abc4ab6b48b0b1cedff1,
+        type: 2}
+      propertyPath: m_Home
+      value: 
+      objectReference: {fileID: 745958722}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 49ed274b7609abc4ab6b48b0b1cedff1, type: 2}
   m_IsPrefabParent: 0
@@ -3664,6 +3687,11 @@ Prefab:
       propertyPath: target
       value: 
       objectReference: {fileID: 1748680021}
+    - target: {fileID: 95535478316193998, guid: 0537e9a616f190341a12297467c884f9,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0537e9a616f190341a12297467c884f9, type: 2}
   m_IsPrefabParent: 0
@@ -4218,6 +4246,11 @@ Transform:
   m_Father: {fileID: 1946650929}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &734354905 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1324764088501468, guid: 49ed274b7609abc4ab6b48b0b1cedff1,
+    type: 2}
+  m_PrefabInternal: {fileID: 537361082}
 --- !u!1 &738697592
 GameObject:
   m_ObjectHideFlags: 0
@@ -4560,11 +4593,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9ce4929a9f9d135429d904b55d5d719e, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &805414255 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1873076693953474, guid: 49ed274b7609abc4ab6b48b0b1cedff1,
-    type: 2}
-  m_PrefabInternal: {fileID: 537361082}
 --- !u!4 &810997269 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4094971283816024, guid: 868df6ca073273b46b0d14bf91e88925,
@@ -5293,6 +5321,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114418653402867576, guid: e5a7480f3b45b014b8ea6dc91b24b1ef,
         type: 2}
+      propertyPath: m_PlayerCamera
+      value: 
+      objectReference: {fileID: 1537305735}
+    - target: {fileID: 114418653402867576, guid: e5a7480f3b45b014b8ea6dc91b24b1ef,
+        type: 2}
       propertyPath: m_Player
       value: 
       objectReference: {fileID: 131333334}
@@ -5300,22 +5333,12 @@ Prefab:
         type: 2}
       propertyPath: m_Puppy
       value: 
-      objectReference: {fileID: 805414255}
+      objectReference: {fileID: 734354905}
     - target: {fileID: 114418653402867576, guid: e5a7480f3b45b014b8ea6dc91b24b1ef,
         type: 2}
       propertyPath: m_Text
       value: 
       objectReference: {fileID: 1685755087}
-    - target: {fileID: 114418653402867576, guid: e5a7480f3b45b014b8ea6dc91b24b1ef,
-        type: 2}
-      propertyPath: m_EnableRewindToZero
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114418653402867576, guid: e5a7480f3b45b014b8ea6dc91b24b1ef,
-        type: 2}
-      propertyPath: m_PlayerCamera
-      value: 
-      objectReference: {fileID: 1537305735}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e5a7480f3b45b014b8ea6dc91b24b1ef, type: 2}
   m_IsPrefabParent: 0
@@ -6250,7 +6273,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4587342000436484, guid: 094684ba1bf4d8341b16dc76e0cf8957, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -9.02
+      value: -9.29
       objectReference: {fileID: 0}
     - target: {fileID: 4587342000436484, guid: 094684ba1bf4d8341b16dc76e0cf8957, type: 2}
       propertyPath: m_LocalPosition.y
@@ -6258,7 +6281,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4587342000436484, guid: 094684ba1bf4d8341b16dc76e0cf8957, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 15.52
+      value: 16.48
       objectReference: {fileID: 0}
     - target: {fileID: 4587342000436484, guid: 094684ba1bf4d8341b16dc76e0cf8957, type: 2}
       propertyPath: m_LocalRotation.x
@@ -6282,7 +6305,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4587342000436484, guid: 094684ba1bf4d8341b16dc76e0cf8957, type: 2}
       propertyPath: m_LocalScale.x
-      value: 0.6072882
+      value: 0.7244859
       objectReference: {fileID: 0}
     - target: {fileID: 4587342000436484, guid: 094684ba1bf4d8341b16dc76e0cf8957, type: 2}
       propertyPath: m_LocalScale.y
@@ -6652,6 +6675,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1403409333}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!84 &1416521273
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1906
+  m_Height: 1107
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &1418710717
 GameObject:
   m_ObjectHideFlags: 0
@@ -8401,28 +8446,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1628719752}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!84 &1632207640
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 0
-  m_Height: 0
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1 &1643706255
 GameObject:
   m_ObjectHideFlags: 0

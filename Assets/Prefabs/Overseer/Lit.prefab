@@ -110,13 +110,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1561135843313512}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 3.5, z: -0}
   m_LocalScale: {x: 0.23308228, y: 0.74355906, z: 1}
   m_Children: []
   m_Father: {fileID: 4933915891949540}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4528026369275918
 Transform:
   m_ObjectHideFlags: 1
@@ -124,7 +124,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1627837743720578}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -72.338356, y: 6.99, z: -16.041962}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4933915891949540}
@@ -186,8 +186,8 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 0381cf39e70d7fa41a597390181578cf, type: 2}
-  - {fileID: 2100000, guid: 32e2f5ea9bf5e5148b3e0c9fa7b97d3a, type: 2}
+  - {fileID: 2100000, guid: a4d7d8fb4ff3b664380a00cdbb23077d, type: 2}
+  - {fileID: 2100000, guid: 7199fdffb1b40ba43bf30d5978ba1722, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -306,7 +306,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -503,6 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e48be4658df94a54491635450e232985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTimeAlive: 0
   maxTimeAlive: 3
 --- !u!114 &114978471348211632
 MonoBehaviour:

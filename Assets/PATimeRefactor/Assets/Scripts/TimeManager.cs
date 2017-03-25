@@ -32,6 +32,15 @@ public class TimeManager : MonoBehaviour
         BLOCK
     };
 
+    public enum ParadoxType
+    {
+        NONE,
+        PROXIMITY,
+        BLOCKING
+    }
+
+    public ParadoxType m_ParadoxType { get; private set; }
+
     public RewindType m_RewindMode;
 
     public bool m_SnapCameraToClone;
@@ -48,6 +57,7 @@ public class TimeManager : MonoBehaviour
     public string m_DoorLayer;
     public string m_AILayer;
     public string m_PlateLayer;
+    public string m_AEOCircleLayer;
 
     public bool m_WaitingForPlayer { get; set; }
 
@@ -56,8 +66,15 @@ public class TimeManager : MonoBehaviour
     public int sampleRate;
 
     public GameObject m_Player;
-    public GameObject m_ClonePrefab;
+    private GameObject m_ClonePrefab;
     public GameObject m_Puppy;
+
+    public float m_ParadoxMax;
+    public float m_RevertMax;
+    public float m_ForcedScrubMin;
+    public float m_ForcedScrubBrake;
+    public float m_ForcedScrubAccel;
+    public int m_ForcedScrubRevertDistance;
 
     public UnityEngine.UI.Text m_Text;
 
@@ -67,38 +84,41 @@ public class TimeManager : MonoBehaviour
         public Quaternion m_DogRotation { get; set; }
         public Vector3 m_PuppyPosition { get; set; }
         public Quaternion m_PuppyRotation { get; set; }
-        public bool m_PuppyIsHome { get; set; }
-        public bool m_PuppyIsLatched { get; set; }
-        public Vector3 m_PuppyTargetSound { get; set; }
+        public Vector3 m_PuppyTarget { get; set; }
         public Transform m_PuppyTargetTransform { get; set; }
         public PuppyCharacterController.PuppySate m_PuppyState { get; set; }
+        public bool m_PuppyAware { get; set; }
+        public bool m_Bark { get; set; }
 
         public State(
             Vector3 dogPos,
             Quaternion dogRot,
             Vector3 pupPos,
             Quaternion pupRot,
-            bool isHome,
-            bool isLatched,
             Vector3 targetPos,
             Transform targetTrans,
-            PuppyCharacterController.PuppySate pupState)
+            PuppyCharacterController.PuppySate pupState,
+            bool pupIsAware,
+            bool bark)
         {
             m_DogPosition = dogPos;
             m_DogRotation = dogRot;
             m_PuppyPosition = pupPos;
             m_PuppyRotation = pupRot;
-            m_PuppyIsHome = isHome;
-            m_PuppyIsLatched = isLatched;
-            m_PuppyTargetSound = targetPos;
+            m_PuppyTarget = targetPos;
             m_PuppyTargetTransform = targetTrans;
             m_PuppyState = pupState;
+            m_PuppyAware = pupIsAware;
+            m_Bark = bark;
         }
     }
+
+    static public bool disableCameraForOverseer = false;
 
     private class Timeline
     {
         public int m_TimelineIndex { get; private set; }
+        private float m_LerpOffset;
         public int m_TimelineID { get; set; }
 
         public int m_Start { get; set; }
@@ -121,7 +141,7 @@ public class TimeManager : MonoBehaviour
 
         // I think these need to be set at runtime since instances are going to pop in and out
         CloneTimeAttachment m_CloneTimeAttachment;
-        CloneCharacterController m_CloneController;
+        public CloneCharacterController m_CloneController { get; private set; }
         Transform m_CloneTransform;
 
         public Timeline(int start, GameObject clonePrefab, int id, List<State> masterArray, TimeManager timeManager, GameObject warpIn = null, int warpBubbleLife = 0, GameObject warpOut = null)
@@ -224,6 +244,26 @@ public class TimeManager : MonoBehaviour
             }
         }
 
+        public void timelineLerpScrub(float lerpOffset, bool setTo = false)
+        {
+            if (setTo)
+            {
+                m_LerpOffset = lerpOffset;
+                return;
+            }
+
+            if (m_LerpOffset >= 1.0f)
+            {
+                m_LerpOffset -= 1.0f;
+                timelineScrub(1);
+            }
+            if (m_LerpOffset <= -1.0f)
+            {
+                m_LerpOffset += 1.0f;
+                timelineScrub(-1);
+            }
+
+        }
         public void timelineScrub(int amount, int flipOffset = 0)
         {
             m_TimelineIndex += amount + flipOffset;
@@ -235,6 +275,10 @@ public class TimeManager : MonoBehaviour
 
         public void activateCamera(bool active = true)
         {
+#if NETWORKING
+            if (disableCameraForOverseer)
+                active = false;
+#endif
             if (m_CloneCam != null)
                 m_CloneCam.enabled = active;
         }
@@ -264,25 +308,51 @@ public class TimeManager : MonoBehaviour
             }
             else if (m_TimelineIndex >= m_Start && m_TimelineIndex <= m_End)
             {
-                State currentState = m_MasterArrayRef[m_TimelineIndex];
-
                 if (m_CloneInstance == null)
                 {
                     // Create instance and assign references
                     create(rewinding);
                 }
 
-                // Then send the Nav Agent on its way, or hard code the Transform when rewinding
-                if (!rewinding) m_CloneController.setTarget(m_MasterArrayRef[m_TimelineIndex + 1]);
+                // Then send the Nav Agent on its way, or hard code the Transform when RW or FF
+                if (!rewinding)
+                {
+                    m_CloneController.setTarget(m_MasterArrayRef[m_TimelineIndex + 1]);
+
+                    // Have the clones bark if needed
+                    if (m_MasterArrayRef[m_TimelineIndex].m_Bark)
+                    {
+                        m_TimeManager.handleBark(m_TimelineID);
+                    }
+                }
                 else
                 {
-                    m_CloneTransform.position = currentState.m_DogPosition;
-                    m_CloneTransform.rotation = currentState.m_DogRotation;
+                    State lerpFrom;
+                    State lerpTo;
+
+                    if (m_LerpOffset < 0)
+                    {
+                        lerpFrom = m_MasterArrayRef[m_TimelineIndex];
+                        lerpTo = m_MasterArrayRef[m_TimelineIndex - 1];
+                    }
+                    else if (m_LerpOffset > 0)
+                    {
+                        lerpFrom = m_MasterArrayRef[m_TimelineIndex];
+                        lerpTo = m_MasterArrayRef[m_TimelineIndex + 1];
+                    }
+                    else
+                    {
+                        lerpFrom = m_MasterArrayRef[m_TimelineIndex];
+                        lerpTo = m_MasterArrayRef[m_TimelineIndex];
+                    }
+
+                    m_CloneTransform.position = Vector3.Lerp(lerpFrom.m_DogPosition, lerpTo.m_DogPosition, Mathf.Abs(m_LerpOffset));
+                    m_CloneTransform.rotation = Quaternion.Slerp(lerpFrom.m_DogRotation, lerpTo.m_DogRotation, Mathf.Abs(m_LerpOffset));
                 }
             }
 
             runWarpBubbles(rewinding);
-           
+
         }
 
         public void runWarpBubbles(bool rewinding = false)
@@ -337,9 +407,29 @@ public class TimeManager : MonoBehaviour
 
     private int m_TimeStopCD;
 
+    private float m_LerpOffset;
+
+    private float m_ScrubSpeed;
+
+    public GameObject[] clonePrefabs;
+
+    private void Awake()
+    {
+#if NETWORKING
+        m_GameState = GameState.NORMAL;
+        enabled = false;
+#endif
+
+    }
     void Start()
     {
         m_Player = GameObject.FindGameObjectWithTag("Player");
+        m_Puppy = GameObject.FindGameObjectWithTag("Puppy");
+#if NETWORKING
+        m_ClonePrefab = clonePrefabs[1];
+#else
+        m_ClonePrefab = clonePrefabs[0];
+#endif
         m_MasterArray = new List<State>();
         m_Timelines = new List<Timeline>();
         m_MasterPointer = 0;
@@ -356,50 +446,89 @@ public class TimeManager : MonoBehaviour
         m_GameState = GameState.NORMAL;
         m_RestoreControlOnNextFrame = false;
         m_WaitingForPlayer = false;
-
+        m_ParadoxType = ParadoxType.NONE;
         m_CurrentCamera = 0;
 
         m_TimeStopCD = 0;
 
-        // Disable collisions between clones
+        // Disable collisions between clones and between the ground AEO circles
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_CloneLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_AEOCircleLayer), LayerMask.NameToLayer(m_AEOCircleLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_AEOCircleLayer), LayerMask.NameToLayer(m_CloneLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_AEOCircleLayer), LayerMask.NameToLayer(m_AILayer), true);
     }
 
     // Not sure if this should go in FixedUpdate or Update, Fixed seemed safer and more stable (constant frame rate)
     private void FixedUpdate()
     {
-        if (m_GameState == GameState.NORMAL)
-        {
-            if (m_Frameticker == sampleRate)
-            {
-                requestPush();
-                incrementPointers();
 
-                m_Frameticker = 0;
-            }
-            m_Frameticker++;
-        }
-        
-        if (m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD)
+        switch (m_GameState)
         {
-            // This is where we revert to normal timesttop. Set the int in the if statement to whatever feels best
-            m_TimeStopCD++;
-            if (m_TimeStopCD >= 6)
-            {
-                m_TimeStopCD = 0;
-                m_GameState = GameState.TIME_STOPPED;
-            }
+            case GameState.NORMAL:
+                if (m_Frameticker == sampleRate)
+                {
+                    requestPush();
+                    incrementPointers();
+
+                    m_Frameticker = 0;
+                }
+                m_Frameticker++;
+                break;
+
+            case GameState.REWIND:
+            case GameState.FORWARD:
+                // This is where we revert to normal timestop. Set the int in the if statement to whatever feels best
+                m_TimeStopCD++;
+                if (m_TimeStopCD >= 6)
+                {
+                    m_TimeStopCD = 0;
+                    m_GameState = GameState.TIME_STOPPED;
+                }
+                break;
+
+            case GameState.PARADOX:
+                // Compute scrub speed (values are approx)
+                if (m_ScrubSpeed >= -m_ParadoxMax)
+                {
+                    m_ScrubSpeed -= m_ForcedScrubAccel / 30;
+                }
+                if (m_ScrubSpeed <= -m_ForcedScrubMin && m_MasterPointer <= m_RevertIndex + m_ForcedScrubRevertDistance)
+                {
+                    m_ScrubSpeed += m_ForcedScrubBrake / 30;
+                }
+                break;
+
+
+            case GameState.REVERT:
+                if (m_ScrubSpeed < 0)
+                {
+                    m_ScrubSpeed *= -1;
+                }
+                if (m_ScrubSpeed <= m_RevertMax)
+                {
+                    m_ScrubSpeed += 0.0125f / 30;
+                }
+                break;
         }
+
     }
 
     void Update()
     {
         if (m_RestoreControlOnNextFrame)
         {
+            // Reset lerpOffset
+            lerpScrub(0.0f, true);
+
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlayerLayer), false);
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_DoorLayer), false);
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlateLayer), false);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_AILayer), false);
+
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_PlayerLayer), LayerMask.NameToLayer(m_DoorLayer), false);
+
             m_GameState = GameState.NORMAL;
+            m_ParadoxType = ParadoxType.NONE;
             m_RestoreControlOnNextFrame = false;
         }
         if (m_Text != null)
@@ -432,6 +561,8 @@ public class TimeManager : MonoBehaviour
         // When doing the paradox/reverting from the paradox, everything gets bypassed and this happens
         if (m_GameState == GameState.PARADOX)
         {
+
+
             // The forced rewind will try to reach a few seconds before the paradox actually happened
             // in order to show the player the sequence of events that lead to the paradox
             if (m_MasterPointer > ((m_RevertIndex > 20) ? (m_RevertIndex - 20) : 0))
@@ -447,14 +578,16 @@ public class TimeManager : MonoBehaviour
 
                     // Bring down the active timeline and scrub
                     m_ActiveTimeline--;
-                    masterScrub(-1, flipOffset);
+                    lerpScrub(m_ScrubSpeed + (-1 * (int)m_ScrubSpeed));
+                    masterScrub((int)m_ScrubSpeed, flipOffset);
                 }
 
                 // This happens during the force rewind when no "snapping" is required, just a straight
                 // call to the masterScrub()
                 else
                 {
-                    masterScrub(-1);
+                    lerpScrub(m_ScrubSpeed + (-1 * (int)m_ScrubSpeed));
+                    masterScrub((int)m_ScrubSpeed);
                 }
             }
             // Once the forced rewind has reached the point where we want to display the playback of what
@@ -469,10 +602,12 @@ public class TimeManager : MonoBehaviour
         #region Revert
         if (m_GameState == GameState.REVERT)
         {
+
             // Start forward playback
             if (m_MasterPointer < m_RevertIndex)
             {
-                masterScrub(1);
+                lerpScrub(m_ScrubSpeed + (-1 * (int)m_ScrubSpeed));
+                masterScrub((int)m_ScrubSpeed);
             }
 
             // Paradox time/location reached, scrap everything and restore control
@@ -533,11 +668,11 @@ public class TimeManager : MonoBehaviour
             m_PlayerTransform.rotation,
             m_PuppyTransform.position,
             m_PuppyTransform.rotation,
-            m_PuppyController.m_IsHome,
-            m_PuppyController.m_IsLatched,
             m_PuppyController.m_Target,
-            m_PuppyController.m_FollowTargetTransform,
-            m_PuppyController.m_PuppyState);
+            m_PuppyController.m_FollowDogTransform,
+            m_PuppyController.m_PuppyState,
+            m_PuppyController.m_IsAware,
+            m_UserController.barkTestAndSet());
 
         m_MasterArray.Add(state);
     }
@@ -553,6 +688,22 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    public void handleBark(int timeLineId = -1)
+    {
+        Vector3 soundSource;
+        soundSource = m_MasterArray[(timeLineId == -1) ? m_MasterPointer - 1 : m_Timelines[timeLineId].m_TimelineIndex - 1].m_DogPosition;
+        if (timeLineId == -1)
+        {
+            m_UserController.bark();
+        }
+        else
+        {
+            m_Timelines[timeLineId].m_CloneController.bark();
+        }
+        m_PuppyController.hearNoise(soundSource);
+    }
+
+
     public void timeStopToggle(bool stopTime)
     {
         #region TurnTimeStopOff
@@ -564,33 +715,37 @@ public class TimeManager : MonoBehaviour
                 if (m_SnapCameraToClone)
                 {
                     m_Timelines[m_CurrentCamera].activateCamera(false);
-                    m_PlayerCamera.enabled = true;
+#if NETWORKING
+                    if (disableCameraForOverseer)
+                        m_PlayerCamera.enabled = false;
+                    else
+                        m_PlayerCamera.enabled = true;
+#else
+                        m_PlayerCamera.enabled = true;
+#endif
                 }
 
                 m_WaitingForPlayer = false;
-                bool bangThePuppy = true;
+                bool warped = true;
                 // If the time stop did not result in a rewind, clean-up
                 if (m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex == m_MasterPointer)
                 {
-                    bangThePuppy = false;
                     m_Timelines[m_ActiveTimeline - 1].open(m_MasterPointer);
                     m_Timelines.RemoveAt(m_ActiveTimeline);
                     m_ActiveTimeline--;
+                    warped = false;
                 }
 
+                if (warped)
+                {
+                    m_PuppyController.warpOutTarget();
+                }
                 // Resume AIs
                 for (int i = 0; i < m_ActiveTimeline; i++)
                 {
                     m_Timelines[i].resumeClones();
                 }
                 m_PuppyController.resumeAI();
-
-                // Signal the puppy (if there was an actual rewind)
-                if (bangThePuppy)
-                {
-                    m_PuppyController.hearNoise(m_PlayerTransform.position);
-                }
-
 
                 // Place pointers to next position
                 m_MasterPointer++;
@@ -625,7 +780,7 @@ public class TimeManager : MonoBehaviour
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlayerLayer), true);
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_DoorLayer), true);
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlateLayer), true);
-
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_AILayer), true);
 
             // Halt AIs
             for (int i = 0; i < m_ActiveTimeline; i++)
@@ -660,6 +815,45 @@ public class TimeManager : MonoBehaviour
 
     }
 
+    public void lerpScrub(float lerpOffset, bool setTo = false)
+    {
+        // Prevent lerping beyond array limits
+        if ((m_Timelines[0].m_TimelineIndex == 0 && lerpOffset < 0) ||
+            (m_ActiveTimeline != 0 && (m_Timelines[m_ActiveTimeline - 1].m_TimelineIndex == m_MasterPointer && lerpOffset > 0)))
+        {
+            m_LerpOffset = 0;
+            return;
+        }
+
+        if (setTo)
+        {
+            m_LerpOffset = lerpOffset;
+            for (int i = 0; i < m_Timelines.Count; i++)
+            {
+                m_Timelines[i].timelineLerpScrub(lerpOffset, true);
+            }
+            return;
+        }
+
+
+
+        m_LerpOffset += lerpOffset;
+        for (int i = 0; i < m_Timelines.Count; i++)
+        {
+            m_Timelines[i].timelineLerpScrub(lerpOffset);
+        }
+
+        if (m_LerpOffset >= 1.0f)
+        {
+            m_LerpOffset -= 1.0f;
+            masterScrub(1);
+        }
+        if (m_LerpOffset <= -1.0f)
+        {
+            m_LerpOffset += 1.0f;
+            masterScrub(-1);
+        }
+    }
     public void masterScrub(int amount, int flipOffset = 0)
     {
         #region ValidScrubCheck
@@ -679,15 +873,15 @@ public class TimeManager : MonoBehaviour
         #endregion
 
         //Set Game state and reset CD
-        if (amount < 0)
+        if (amount < 0 || m_LerpOffset < 0)
         {
-            if (m_GameState != GameState.PARADOX)
+            if (m_GameState != GameState.PARADOX && m_GameState != GameState.REVERT)
                 m_GameState = GameState.REWIND;
         }
 
-        else if (amount > 0)
+        else if (amount > 0 || m_LerpOffset > 0)
         {
-            if (m_GameState != GameState.REVERT)
+            if (m_GameState != GameState.PARADOX && m_GameState != GameState.REVERT)
                 m_GameState = GameState.FORWARD;
         }
 
@@ -695,7 +889,7 @@ public class TimeManager : MonoBehaviour
         m_TimeStopCD = 0;
 
         #region MoveClones
-        // Move clones (except the one in the active timeline)
+        // Move clones
         for (int i = 0; i < m_Timelines.Count; i++)
         {
             if (m_GameState == GameState.PARADOX || i != m_ActiveTimeline)
@@ -728,22 +922,40 @@ public class TimeManager : MonoBehaviour
         {
             m_MasterPointer += amount;
 
-            State nextState = m_MasterArray[m_MasterPointer];
-            m_PlayerTransform.position = nextState.m_DogPosition;
-            m_PlayerTransform.rotation = nextState.m_DogRotation;
+            State lerpFrom;
+            State lerpTo;
+
+            if (m_LerpOffset < 0 && m_MasterPointer != 0)
+            {
+                lerpFrom = m_MasterArray[m_MasterPointer];
+                lerpTo = m_MasterArray[m_MasterPointer - 1];
+            }
+            else if (m_LerpOffset > 0)
+            {
+                lerpFrom = m_MasterArray[m_MasterPointer];
+                lerpTo = m_MasterArray[m_MasterPointer + 1];
+            }
+            else
+            {
+                lerpTo = m_MasterArray[m_MasterPointer];
+                lerpFrom = m_MasterArray[m_MasterPointer];
+            }
+
+            m_PlayerTransform.position = Vector3.Lerp(lerpFrom.m_DogPosition, lerpTo.m_DogPosition, Mathf.Abs(m_LerpOffset));
+            m_PlayerTransform.rotation = Quaternion.Slerp(lerpFrom.m_DogRotation, lerpTo.m_DogRotation, Mathf.Abs(m_LerpOffset));
         }
         #endregion
 
         // Special case when rewinding (duct tape used here, more robust solution will follow)
-        if (m_SnapCameraToClone && (m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD || m_GameState == GameState.TIME_STOPPED) )
+        if (m_SnapCameraToClone && (m_GameState == GameState.REWIND || m_GameState == GameState.FORWARD || m_GameState == GameState.TIME_STOPPED))
         {
             // Find the "latest" running timeline
             for (int i = m_ActiveTimeline - 1; i >= 0; i--)
             {
                 if (
-                    ( (m_Timelines[i].m_TimelineIndex <= m_Timelines[i].m_End - 1) )
+                    ((m_Timelines[i].m_TimelineIndex <= m_Timelines[i].m_End - 1))
                     &&
-                    ( (m_Timelines[i].m_TimelineIndex >= m_Timelines[i].m_Start + 1) )
+                    ((m_Timelines[i].m_TimelineIndex >= m_Timelines[i].m_Start + 1))
                 )
                 {
                     m_Timelines[m_CurrentCamera].activateCamera(false);
@@ -762,16 +974,23 @@ public class TimeManager : MonoBehaviour
     /// <param name="lastPos">If this parameter is set, the method will ensure that the paradox corresponds to the position given in this transform.</param>
     public void handleParadox(int idToRevert, Transform lastPos = null)
     {
+
         // Paradoxes can only occur on NORMAL game state
         if (m_GameState != GameState.NORMAL) return;
 
         // Otherwise deal with the paradox...
         m_GameState = GameState.PARADOX;
 
+        // Set paradox type to proximity, will be overriden by the lastPost null check if needed
+        m_ParadoxType = ParadoxType.PROXIMITY;
+
         // Disable collisions
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlayerLayer), true);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_DoorLayer), true);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_PlateLayer), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_CloneLayer), LayerMask.NameToLayer(m_AILayer), true);
+
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(m_PlayerLayer), LayerMask.NameToLayer(m_DoorLayer), true);
 
 
         // Fetch revert targert
@@ -784,6 +1003,8 @@ public class TimeManager : MonoBehaviour
 
         if (lastPos != null)
         {
+            m_ParadoxType = ParadoxType.BLOCKING;
+
             float currentDistance = (lastPos.position - m_MasterArray[m_RevertIndex].m_DogPosition).magnitude;
             m_RevertIndex--;
             float nextDistance = (lastPos.position - m_MasterArray[m_RevertIndex].m_DogPosition).magnitude;
@@ -796,6 +1017,7 @@ public class TimeManager : MonoBehaviour
             }
         }
 
+
         // Nudge back pointers to reading position
         m_MasterPointer--;
         m_PuppyPointer--;
@@ -804,6 +1026,9 @@ public class TimeManager : MonoBehaviour
             m_Timelines[i].timelineScrub(-1);
         }
         m_Timelines[m_ActiveTimeline].close(m_MasterPointer);
+
+        // Init parameters for varying paradox and revert speed
+        m_ScrubSpeed = -m_ForcedScrubMin;
 
         // On update, will execute portion of code for paradox state
     }

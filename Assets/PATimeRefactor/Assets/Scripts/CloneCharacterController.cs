@@ -10,6 +10,9 @@ using UnityEngine;
 #endif
 public class CloneCharacterController : MonoBehaviour
 {
+    private PuppySounds m_SoundBoard;
+
+    private AudioSource m_AudioSource;
     public UnityEngine.AI.NavMeshAgent m_Agent { get; private set; }
 
 #if !USING_ETHAN_CHARACTER
@@ -28,6 +31,8 @@ public class CloneCharacterController : MonoBehaviour
 
     private void Start()
     {
+        m_SoundBoard = GetComponent<PuppySounds>();
+        m_AudioSource = GetComponent<AudioSource>();
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
 #if !USING_ETHAN_CHARACTER
@@ -49,6 +54,11 @@ public class CloneCharacterController : MonoBehaviour
         m_Target = target;
     }
 
+    public void bark()
+    {
+        m_AudioSource.PlayOneShot(m_SoundBoard.m_Bark);
+    }
+
     private void LateUpdate()
     {
         if (m_Target != null)
@@ -57,8 +67,7 @@ public class CloneCharacterController : MonoBehaviour
         }
 
         // Movement is self contained AKA controlled by DogCloneCharacter when scrubbing
-        // TODO: DOES THIS IF STATEMENT NEED MORE VARIABLES WHEN THOROUGH ENGINE IS DONE
-        if (!(m_TimeManager.m_GameState == TimeManager.GameState.REWIND))
+        if (!(m_TimeManager.m_GameState == TimeManager.GameState.REWIND || m_TimeManager.m_GameState == TimeManager.GameState.FORWARD))
         {
             if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
                 m_Character.Move(m_Agent.desiredVelocity, false);

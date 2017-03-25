@@ -4,10 +4,19 @@ using UnityEngine;
 
 public abstract class OSControllable : MonoBehaviour {
 
-    public abstract void TriggerAction();
+   public abstract void TriggerAction();
 
-    protected void TriggerAnimator()
-    {
-        GetComponent<Animator>().SetTrigger("toggleObject");
-    }
+   protected void TriggerAnimator(bool isNested = false)
+   {
+       if(!isNested)
+           GetComponent<Animator>().SetTrigger("toggleObject");
+       else
+       {
+           Animator[] anims = GetComponentsInChildren<Animator>();
+           foreach(Animator anim in anims)
+           {
+               GetComponent<Animator>().SetTrigger("toggleObject");
+           }
+       }
+   }
 }

@@ -12,7 +12,6 @@ public class VHSPostProcessEffect : PostEffectsBase
 
     float yScanline, xScanline;
 
-#if !NETWORKING
     protected override void Start()
     {
         m = new Material(shader);
@@ -38,5 +37,4 @@ public class VHSPostProcessEffect : PostEffectsBase
         m.SetFloat("_xScanline", xScanline * intensity);
         Graphics.Blit(source, destination, m);
     }
-#endif
 }

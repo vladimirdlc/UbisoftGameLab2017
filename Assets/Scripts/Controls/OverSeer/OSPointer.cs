@@ -49,10 +49,11 @@ public class OSPointer : MonoBehaviour
     {
         currentCooldown -= Time.deltaTime;
 
-        if (Input.GetAxis(beaconButton) > 0)
+        if (Input.GetAxis(beaconButton) > 0 && !beaconInUse)
         {
             if (currentCooldown < 0)
             {
+                beaconInUse = true;
                 currentCooldown = arrowCooldown;
                 SpawnBeacon();
             }

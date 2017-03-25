@@ -21,6 +21,9 @@ GameObject:
   - component: {fileID: 4000014238669240}
   - component: {fileID: 114000013759243398}
   - component: {fileID: 114000012546209028}
+  - component: {fileID: 114756909585687760}
+  - component: {fileID: 114542913349718472}
+  - component: {fileID: 114881737513866262}
   m_Layer: 0
   m_Name: DissonanceSetup
   m_TagString: Untagged
@@ -35,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010435831806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.3225825, y: -1.5290487, z: 3.7851562}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -52,8 +55,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af0ecd5a7e019f94ba24ca64029f1bfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnreliableChannel: 1
-  ReliableSequencedChannel: 0
+  UnreliableChannel: 3
+  ReliableSequencedChannel: 2
+  TypeCode: 18385
 --- !u!114 &114000013759243398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,3 +74,71 @@ MonoBehaviour:
   _playerPriority: 0
   _tokens:
     _tokens: []
+--- !u!114 &114542913349718472
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010435831806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3737438748cf23f448d18cd2c6192e95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tokens:
+    _tokens: []
+  _roomName: Global
+  _useTrigger: 0
+--- !u!114 &114756909585687760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010435831806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 141
+    i1: 223
+    i2: 255
+    i3: 171
+    i4: 232
+    i5: 154
+    i6: 132
+    i7: 36
+    i8: 170
+    i9: 147
+    i10: 241
+    i11: 215
+    i12: 46
+    i13: 218
+    i14: 119
+    i15: 165
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114881737513866262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010435831806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a066ddbf125f9546bcadc947418566b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tokens:
+    _tokens: []
+  _broadcastPosition: 1
+  _channelType: 0
+  _inputName: 
+  _mode: 1
+  _playerId: 
+  _useTrigger: 0
+  _roomName: Global
+  _priority: -2

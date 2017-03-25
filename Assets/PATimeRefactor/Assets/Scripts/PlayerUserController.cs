@@ -15,31 +15,82 @@ public class PlayerUserController : MonoBehaviour
 
     private Vector3 m_Move;
 
+    public float m_ScrubBraking;
+    public float m_ScrubAcceleration;
+
+    public float m_MaxScrubSpeed;
+
+    private float m_ScrubSpeed;
+
     private TimeManager m_TimeManager;
-    public float m_ScrubSpeed;
 
     public bool m_IsRewindController;
     public bool m_DisableRewindWhenLatched;
     public bool m_HasPuppy { get; set; }
+    public NetworkedInput netInput;
+    public NetworkingCharacterAttachment amI;
+
+    private PuppySounds m_SoundBoard;
+    private AudioSource m_AudioSource;
+
+    // Input
+    private bool m_BarkInput;
+    public float m_BarkCD;
+    private float m_BarkCDCounter;
+    private bool m_BarkReady;
+    private bool m_BarkStatePush;
+
+    private PuppySounds m_DogSounds;
 
     private void Start()
     {
+        m_SoundBoard = gameObject.GetComponent<PuppySounds>();
+        m_AudioSource = gameObject.GetComponent<AudioSource>();
+
+
+        m_SoundBoard.PlayBackgroundHum(true);
+
         m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
+        m_DogSounds = GetComponent<PuppySounds>();
+        m_ScrubSpeed = 0;
+        m_BarkInput = false;
+        m_BarkCDCounter = 0.0f;
+        m_BarkReady = true;
+
 #if !USING_ETHAN_CHARACTER
         m_Character = GetComponent<DogFP>();
 #else
         m_Character = GetComponent<Character>();
 #endif
         m_HasPuppy = false;
+
+#if NETWORKING
+        amI = GetComponent<NetworkingCharacterAttachment>();
+        netInput = GetComponent<NetworkedInput>();
+#endif
     }
 
-
+    public void bark()
+    {
+        m_AudioSource.PlayOneShot(m_SoundBoard.m_Bark);
+    }
+    public bool barkTestAndSet()
+    {
+        if (m_BarkStatePush)
+        {
+            m_BarkStatePush = false;
+            return true;
+        }
+        else
+            return false;
+    }
     private void Update()
     {
-        bool crouch = Input.GetButton("Ground Stop Time");
-
-        if (crouch)
-            m_Character.LockMovement(crouch);
+        if (!m_BarkReady)
+        {
+            if (Time.time >= m_BarkCDCounter)
+                m_BarkReady = true;
+        }
     }
 
     // Fixed update is called in sync with physics
@@ -50,14 +101,34 @@ public class PlayerUserController : MonoBehaviour
         // Read inputs
         float h = CrossPlatformInputManager.GetAxis("Horizontal");
         float v = CrossPlatformInputManager.GetAxis("Vertical");
-        bool crouch = Input.GetButton("Ground Stop Time");
 
+#if NETWORKING
+        if (amI.host)
+        {
+            netInput.crouch = Input.GetButton("Ground Stop Time");
+            netInput.RW = CrossPlatformInputManager.GetAxis("RW");
+            netInput.FF = CrossPlatformInputManager.GetAxis("FF");
+            netInput.m_BarkInput = Input.GetButton("Bark");
+        }
+        bool crouch = netInput.crouch;
+        float RW = netInput.RW;
+        float FF = netInput.FF;
+        m_BarkInput = netInput.m_BarkInput;
+#else
+        bool crouch = Input.GetButton("Ground Stop Time");
+        // NEW INPUT THAT PROBABLY NEEDS TO BE NETWORKED
+        m_BarkInput = Input.GetButton("Bark");
+        
         float FF = CrossPlatformInputManager.GetAxis("FF");
         float RW = CrossPlatformInputManager.GetAxis("RW");
+#endif
+
+
 
         // Compute move vector
         if (crouch)
         {
+            m_Character.LockMovement(crouch);
             m_Move = Vector3.zero;
         }
         else if (m_Cam != null)
@@ -75,9 +146,10 @@ public class PlayerUserController : MonoBehaviour
         // Switch to send user input depending on game state
         switch (m_TimeManager.m_GameState)
         {
-            // Do not consider any user input if the game state is in paradox or revert mode
+            // Do not consider any user input if the game state is in paradox/revert or block mode
             case TimeManager.GameState.PARADOX:
             case TimeManager.GameState.REVERT:
+            case TimeManager.GameState.BLOCK:
                 break;
 
             case TimeManager.GameState.NORMAL:
@@ -87,7 +159,14 @@ public class PlayerUserController : MonoBehaviour
 #else
                 m_Character.Move(m_Move, crouch);
 #endif
-
+                if (m_BarkInput && m_BarkReady)
+                {
+                    m_BarkStatePush = true;
+                    m_BarkReady = false;
+                    m_BarkCDCounter = Time.time + m_BarkCD;
+                    m_TimeManager.handleBark();
+                    m_DogSounds.Bark();
+                }
                 if (crouch && !(m_DisableRewindWhenLatched && m_HasPuppy))
                 {
                     m_TimeManager.timeStopToggle(crouch);
@@ -109,13 +188,47 @@ public class PlayerUserController : MonoBehaviour
 #endif
 
                         if (!crouch)
+                        {
+                            m_ScrubSpeed = 0;
                             m_TimeManager.timeStopToggle(crouch);
+                            break;
+                        }
                         if (m_IsRewindController)
                         {
                             if (FF != RW)
                             {
-                                m_TimeManager.masterScrub((int)((FF - RW) * m_ScrubSpeed));
+                                // Apply acceleration to scrub speed
+                                m_ScrubSpeed += FF * m_ScrubAcceleration;
+                                m_ScrubSpeed -= RW * m_ScrubAcceleration;
+
+                                if (m_ScrubSpeed > FF)
+                                    m_ScrubSpeed = FF;
+                                if (m_ScrubSpeed < -RW)
+                                    m_ScrubSpeed = -RW;
+
                             }
+                            else if (FF <= 0.01f && RW <= 0.01f)
+                            {
+                                if (m_ScrubSpeed < 0)
+                                {
+                                    m_ScrubSpeed += m_ScrubBraking;
+                                    if (m_ScrubSpeed > 0)
+                                        m_ScrubSpeed = 0;
+                                }
+                                else if (m_ScrubSpeed > 0)
+                                {
+                                    m_ScrubSpeed -= m_ScrubBraking;
+                                    if (m_ScrubSpeed < 0)
+                                        m_ScrubSpeed = 0;
+                                }
+                            }
+                            // Apply scrubSpeed
+                            if (m_ScrubSpeed >= 0.01f || m_ScrubSpeed <= -0.01f)
+                            {
+                                m_TimeManager.lerpScrub(m_ScrubSpeed + (-1 * (int)m_ScrubSpeed));
+                                m_TimeManager.masterScrub(((int)m_ScrubSpeed));
+                            }
+
                         }
                         break;
                     case TimeManager.RewindType.HOLD_AND_RELEASE:

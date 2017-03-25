@@ -9,7 +9,6 @@ public class Door : OSControllable
     public bool hackDoors = false;
 #endif
 
-    public GameObject meshes;
     public bool isTimed;
     public GameObject[] pressurePlates;
     public float timer;
@@ -20,31 +19,33 @@ public class Door : OSControllable
 
     private int count;
     private float closeAtTime;
+    private bool setToClose;
     private bool isOpen;
 
     private Animator anim;
-    private AudioSource m_AudioSource;
+    private DoorSounds m_DoorSounds;
 
     private void Start()
     {
         count = 0;
         isOpen = false;
         closeAtTime = 0;
+        setToClose = false;
 
         // Configure animator variables
         anim = GetComponent<Animator>();
         anim.SetFloat("objectActionSpeed",animOpenCloseDoorSpeed);
 
-        m_AudioSource = GetComponent<AudioSource>();
+        m_DoorSounds = GetComponentInParent<DoorSounds>();
 
         if (openByDefault) Open();
     }
 
     private void Update()
     {
-        if (isOpen && isTimed)
+        if (setToClose && Time.time >= closeAtTime)
         {
-            if (Time.time >= closeAtTime) Close();
+            Close();
         }
 
 #if DEBUG_VERBOSE 
@@ -64,28 +65,46 @@ public class Door : OSControllable
 
     public void DecCount()
     {
+        if (count == pressurePlates.Length)
+        {
+            setToClose = true;
+            closeAtTime = Time.time + timer;
+            if (m_DoorSounds != null)
+                m_DoorSounds.timer((int)timer);
+        }
+
         count--;
     }
 
     public void Open()
     {
+        setToClose = false;
+        if (m_DoorSounds != null && m_DoorSounds.m_AS.isPlaying)
+        {
+            m_DoorSounds.m_AS.Stop();
+        }
+        if (isOpen)
+            return;
+
         isOpen = true;
-        closeAtTime = Time.time + timer;
 
-        if (m_AudioSource)
-            m_AudioSource.Play();
+        if (m_DoorSounds != null)
+            m_DoorSounds.close();
 
-        TriggerAnimator();
+        TriggerAnimator(gameObject.layer == LayerMask.NameToLayer("OSControllable Nested"));
     }
 
     public void Close()
     {
+        if (!isOpen)
+            return;
+
         isOpen = false;
+        setToClose = false;
+        if (m_DoorSounds != null)
+            m_DoorSounds.close();
 
-        if (m_AudioSource)
-            m_AudioSource.Play();
-
-        TriggerAnimator();
+        TriggerAnimator(gameObject.layer == LayerMask.NameToLayer("OSControllable Nested"));
     }
 
     public override void TriggerAction()

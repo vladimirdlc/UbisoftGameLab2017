@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using UnityStandardAssets.Characters.FirstPerson;
+using UnityStandardAssets.CrossPlatformInput;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
@@ -18,9 +19,19 @@ public class DogFP : AnimatedDog
     public MouseLook m_MouseLook;
     public Camera m_Camera;
 
+    public GameObject m_LeftRockets;
+    public GameObject m_RightRpckets;
+
     private bool grounded = false;
     private bool lockedMovement = false;
     private bool controlsEnabled = false;
+
+    private PuppySounds m_SoundBoard;
+    private JetPackPlayer m_JetPackPlayer;
+
+    // Input
+    float horizontal = 0;
+    float vertical = 0;
 
 #if NETWORKING
     NetworkedInput networkedInput;
@@ -32,17 +43,26 @@ public class DogFP : AnimatedDog
         m_MouseLook.Init(transform, m_Camera.transform);
 
         m_RigidBody = GetComponent<Rigidbody>();
+        m_SoundBoard = GetComponentInChildren<PuppySounds>();
+        m_JetPackPlayer = GetComponent<JetPackPlayer>();
         m_RigidBody.freezeRotation = true;
         m_RigidBody.useGravity = false;
+
+        if (PlayerPrefs.HasKey("InvertY") && PlayerPrefs.GetInt("InvertY") == 1)
+            m_MouseLook.XSensitivity *= -1;
 
 #if NETWORKING
         networkedInput = GetComponent<NetworkedInput>();
 
         amI = GetComponent<NetworkingCharacterAttachment>();
-        GameState.disableControls = false;
+        //GameState.disableControls = false;
 #endif
     }
 
+#if NETWORKING
+    float correctionTime = 3f;
+    float positionCorrectionTimer = 3f;
+#endif
     protected override void Update()
     {
         if (!controlsEnabled)
@@ -53,6 +73,30 @@ public class DogFP : AnimatedDog
                 m_Camera.transform.localPosition = Vector3.zero;
                 m_Camera.transform.localRotation = Quaternion.identity;
             }
+
+#if NETWORKING
+        if (amI.host)
+        {
+            networkedInput.horizontal = Input.GetAxis("Horizontal");
+            networkedInput.vertical = Input.GetAxis("Vertical");
+            networkedInput.v = transform.position;
+        }
+        horizontal = networkedInput.horizontal;
+        vertical = networkedInput.vertical;
+        if (amI.clientsHost && positionCorrectionTimer < 0)
+        {
+            transform.position = networkedInput.v;
+            positionCorrectionTimer = correctionTime;
+        }
+        else
+        {
+            positionCorrectionTimer -= Time.deltaTime;
+        }
+#else
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+
+#endif
 
         base.Update();
         RotateView();
@@ -68,27 +112,26 @@ public class DogFP : AnimatedDog
 
     public void Move(bool crouch)
     {
-        if (grounded && !lockedMovement && !GameState.disableControls)
-        {
-            float horizontal = Input.GetAxis("Horizontal");
-
 #if NETWORKING
-            if (amI.host)
-            networkedInput.vertical = Input.GetAxis("Vertical");
+        if (grounded && !lockedMovement && !GameState.disableControls && TimeManager.GameState.NORMAL == m_TimeManager.m_GameState)
+#else
+        if (grounded && !lockedMovement && !GameState.disableControls && TimeManager.GameState.NORMAL == m_TimeManager.m_GameState)
 #endif
-            float vertical = Input.GetAxis("Vertical");
+        {
             float horizontalLook = Input.GetAxis("Mouse X");
             float verticalLook = Input.GetAxis("Mouse Y");
 
             if (disableStrafe)
+            {
                 horizontal = 0;
+            }
+            else
+                // Strafe speed is slower than the forward speed
+                horizontal *= 0.8f;
 
             // Calculate how fast we should be moving
-#if NETWORKING
-            Vector3 targetVelocity = new Vector3(horizontal, 0, networkedInput.vertical);
-#else
             Vector3 targetVelocity = new Vector3(horizontal, 0, vertical);
-#endif
+
             targetVelocity = transform.TransformDirection(targetVelocity);
             targetVelocity *= speed;
 
@@ -110,6 +153,32 @@ public class DogFP : AnimatedDog
                     tiltLeft = true;
             }
 
+            // Rockets
+            if (horizontal < 0.05f && horizontal > -0.05f)
+            {
+                m_LeftRockets.SetActive(false);
+                m_RightRpckets.SetActive(false);
+
+                m_JetPackPlayer.m_Phase = JetPackPlayer.Phase.STOP;
+            }
+            else
+            if (horizontal > 0.1f)
+            {
+                m_LeftRockets.SetActive(true);
+                m_RightRpckets.SetActive(false);
+
+                m_JetPackPlayer.m_Phase = JetPackPlayer.Phase.RUN;
+
+            }
+            else if (horizontal < -0.1f)
+            {
+                m_LeftRockets.SetActive(false);
+                m_RightRpckets.SetActive(true);
+
+                m_JetPackPlayer.m_Phase = JetPackPlayer.Phase.RUN;
+            }
+
+
             // Jump
             //if (canJump && Input.GetButton("Jump"))
             //{
@@ -125,9 +194,17 @@ public class DogFP : AnimatedDog
         // We apply gravity manually for more tuning control
         m_RigidBody.AddForce(new Vector3(0, -gravity * m_RigidBody.mass, 0));
 
-        UpdateAnimator(crouch);
+        UpdateAnimator(horizontal, crouch);
         m_MouseLook.UpdateCursorLock();
 
+        if (Mathf.Abs(vertical) >= 0.1f)
+        {
+            m_SoundBoard.MoveSound(true);
+        }
+        else
+        {
+            m_SoundBoard.MoveSound(false);
+        }
         // Reset state flags
         grounded = false;
         lockedMovement = false;
@@ -140,7 +217,26 @@ public class DogFP : AnimatedDog
 
     private void RotateView()
     {
-        m_MouseLook.LookRotation(transform, m_Camera.transform);
+#if NETWORKING
+        if (amI.host)
+        {
+            networkedInput.yRot = CrossPlatformInputManager.GetAxis("Mouse X");
+            networkedInput.xRot = CrossPlatformInputManager.GetAxis("Mouse Y");
+        }
+        m_MouseLook.LookRotation(transform, m_Camera.transform, networkedInput.xRot, networkedInput.yRot);
+        if (amI.host)
+            networkedInput.rotn = transform.rotation;
+
+        if (amI.clientsHost)
+        {
+            transform.rotation = networkedInput.rotn;
+        }
+#else
+        float yRot = CrossPlatformInputManager.GetAxis("Mouse X");
+        float xRot = CrossPlatformInputManager.GetAxis("Mouse Y");
+        m_MouseLook.LookRotation(transform, m_Camera.transform, xRot, yRot);
+#endif
+
     }
 
     float CalculateJumpVerticalSpeed()

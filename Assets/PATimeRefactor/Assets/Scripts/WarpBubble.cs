@@ -17,8 +17,8 @@ public class WarpBubble : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
-        m_Bolt = GetComponent<Renderer>().material;
+	void Awake () {
+        m_Bolt = gameObject.GetComponent<Renderer>().material;
         m_CurrentIndex = 0;
     }
 	
