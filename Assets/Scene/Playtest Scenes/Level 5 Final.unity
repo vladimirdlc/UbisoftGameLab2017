@@ -6780,6 +6780,21 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82478921679227826, guid: bcd1c88879b0c164d92c81dd78ab5412,
+        type: 2}
+      propertyPath: MinDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 82478921679227826, guid: bcd1c88879b0c164d92c81dd78ab5412,
+        type: 2}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 82478921679227826, guid: bcd1c88879b0c164d92c81dd78ab5412,
+        type: 2}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bcd1c88879b0c164d92c81dd78ab5412, type: 2}
   m_IsPrefabParent: 0
@@ -6788,6 +6803,19 @@ GameObject:
   m_PrefabParentObject: {fileID: 1175909430614330, guid: bcd1c88879b0c164d92c81dd78ab5412,
     type: 2}
   m_PrefabInternal: {fileID: 237667954}
+--- !u!114 &237667956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 237667955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b76a18af4c23df44bad6f15ae7cd176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Closing: {fileID: 8300000, guid: 59047769e780daa498902aecde6779fa, type: 3}
+  m_Timer: {fileID: 0}
 --- !u!1 &239585860
 GameObject:
   m_ObjectHideFlags: 0
@@ -9660,6 +9688,28 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!84 &347544117
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1378
+  m_Height: 307
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &348409808
 GameObject:
   m_ObjectHideFlags: 0
@@ -38317,6 +38367,21 @@ Prefab:
       propertyPath: openByDefault
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 82478921679227826, guid: bcd1c88879b0c164d92c81dd78ab5412,
+        type: 2}
+      propertyPath: MinDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 82478921679227826, guid: bcd1c88879b0c164d92c81dd78ab5412,
+        type: 2}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 82478921679227826, guid: bcd1c88879b0c164d92c81dd78ab5412,
+        type: 2}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bcd1c88879b0c164d92c81dd78ab5412, type: 2}
   m_IsPrefabParent: 0
@@ -38325,6 +38390,19 @@ GameObject:
   m_PrefabParentObject: {fileID: 1175909430614330, guid: bcd1c88879b0c164d92c81dd78ab5412,
     type: 2}
   m_PrefabInternal: {fileID: 1233920922}
+--- !u!114 &1233920924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1233920923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b76a18af4c23df44bad6f15ae7cd176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Closing: {fileID: 8300000, guid: 59047769e780daa498902aecde6779fa, type: 3}
+  m_Timer: {fileID: 0}
 --- !u!1001 &1235536934
 Prefab:
   m_ObjectHideFlags: 0
@@ -48450,28 +48528,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1550473763}
   m_Mesh: {fileID: 4300000, guid: 295a510b983dd974c9539ab162586066, type: 3}
---- !u!84 &1552923113
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1553
-  m_Height: 271
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1 &1555283936
 GameObject:
   m_ObjectHideFlags: 0

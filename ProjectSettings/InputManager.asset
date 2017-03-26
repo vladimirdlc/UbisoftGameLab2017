@@ -36,7 +36,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 0
-    joyNum: 1
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Horizontal
     descriptiveName: 
@@ -84,7 +84,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 1
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Vertical
     descriptiveName: 
@@ -100,7 +100,7 @@ InputManager:
     invert: 1
     type: 2
     axis: 1
-    joyNum: 1
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Horizontal Overseer
     descriptiveName: 
@@ -116,7 +116,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 0
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Inverted Horizontal
     descriptiveName: 
@@ -132,7 +132,7 @@ InputManager:
     invert: 1
     type: 2
     axis: 0
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Vertical Overseer
     descriptiveName: 
@@ -148,7 +148,7 @@ InputManager:
     invert: 1
     type: 2
     axis: 1
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Submit
     descriptiveName: 
@@ -212,7 +212,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 3
-    joyNum: 1
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Mouse X
     descriptiveName: 
@@ -228,7 +228,7 @@ InputManager:
     invert: 0
     type: 1
     axis: 0
-    joyNum: 1
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Mouse Y
     descriptiveName: 
@@ -260,7 +260,7 @@ InputManager:
     invert: 1
     type: 2
     axis: 4
-    joyNum: 1
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Test Button
     descriptiveName: 
@@ -292,7 +292,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 3
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Horizontal Dpad Overseer
     descriptiveName: 
@@ -324,7 +324,7 @@ InputManager:
     invert: 1
     type: 2
     axis: 4
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Rotation Trigger Axis
     descriptiveName: 
@@ -356,7 +356,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 9
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Overseer Beacon
     descriptiveName: 
@@ -365,9 +365,9 @@ InputManager:
     positiveButton: e
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 0
-    dead: 0.2
-    sensitivity: 1
+    gravity: 1000
+    dead: 0.001
+    sensitivity: 1000
     snap: 0
     invert: 0
     type: 0
@@ -404,7 +404,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Right Room Autoaim
     descriptiveName: 
@@ -420,7 +420,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Overseer X
     descriptiveName: 
@@ -436,7 +436,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Overseer X
     descriptiveName: 
@@ -468,7 +468,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Overseer B
     descriptiveName: 
@@ -484,7 +484,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Overseer A
     descriptiveName: 
@@ -500,7 +500,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Overseer A
     descriptiveName: 
@@ -532,7 +532,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 8
-    joyNum: 1
+    joyNum: 2
   - serializedVersion: 3
     m_Name: RW
     descriptiveName: 
@@ -564,7 +564,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 9
-    joyNum: 1
+    joyNum: 2
   - serializedVersion: 3
     m_Name: FF
     descriptiveName: 
@@ -586,7 +586,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 0
+    positiveButton: joystick 2 button 0
     altNegativeButton: 
     altPositiveButton: x
     gravity: 1000
@@ -596,7 +596,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 1
+    joyNum: 2
   - serializedVersion: 3
     m_Name: TeamChat
     descriptiveName: 
@@ -618,7 +618,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 2
+    positiveButton: joystick 2 button 2
     altNegativeButton: 
     altPositiveButton: q
     gravity: 1000
@@ -724,7 +724,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Overseer RB
     descriptiveName: 
@@ -740,4 +740,4 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 2
+    joyNum: 1
