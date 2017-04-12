@@ -21403,28 +21403,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 425937153}
   m_Mesh: {fileID: 4300000, guid: 295a510b983dd974c9539ab162586066, type: 3}
---- !u!84 &426365850
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1906
-  m_Height: 1107
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1 &426564184
 GameObject:
   m_ObjectHideFlags: 0
@@ -48570,6 +48548,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 880824255}
   m_Mesh: {fileID: 4300000, guid: 295a510b983dd974c9539ab162586066, type: 3}
+--- !u!84 &882952913
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1906
+  m_Height: 1107
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &884194603
 GameObject:
   m_ObjectHideFlags: 0
@@ -64520,7 +64520,7 @@ Prefab:
     - target: {fileID: 114063597753877292, guid: dae6db83e557ce142a973e6967cc0cb4,
         type: 2}
       propertyPath: wires.Array.size
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4675229883298396, guid: dae6db83e557ce142a973e6967cc0cb4, type: 2}
       propertyPath: m_LocalPosition.x
@@ -64648,6 +64648,11 @@ Prefab:
       propertyPath: wires.Array.data[12]
       value: 
       objectReference: {fileID: 573809529}
+    - target: {fileID: 114063597753877292, guid: dae6db83e557ce142a973e6967cc0cb4,
+        type: 2}
+      propertyPath: wires.Array.data[13]
+      value: 
+      objectReference: {fileID: 1222888066}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dae6db83e557ce142a973e6967cc0cb4, type: 2}
   m_IsPrefabParent: 0
@@ -66132,6 +66137,11 @@ GameObject:
   m_PrefabParentObject: {fileID: 1939440700255358, guid: 9c9fa9cba44764b409bc4c4962ed7b9b,
     type: 2}
   m_PrefabInternal: {fileID: 1221364075}
+--- !u!1 &1222888066 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1939440700255358, guid: 9c9fa9cba44764b409bc4c4962ed7b9b,
+    type: 2}
+  m_PrefabInternal: {fileID: 198073484}
 --- !u!1 &1224904787
 GameObject:
   m_ObjectHideFlags: 0
