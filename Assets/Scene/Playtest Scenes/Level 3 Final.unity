@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.16488901, g: 0.10867707, b: 0.22397444, a: 1}
+  m_IndirectSpecularColor: {r: 0.16487247, g: 0.10864631, b: 0.22399879, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -13759,28 +13759,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 355970627}
---- !u!84 &358051653
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1366
-  m_Height: 597
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1001 &359597137
 Prefab:
   m_ObjectHideFlags: 0
@@ -13964,6 +13942,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 360667658}
   m_Mesh: {fileID: 4300000, guid: 295a510b983dd974c9539ab162586066, type: 3}
+--- !u!84 &370272567
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1906
+  m_Height: 1107
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &370812280
 GameObject:
   m_ObjectHideFlags: 0
@@ -20376,12 +20376,12 @@ Prefab:
     - target: {fileID: 23853212886271102, guid: bcd1c88879b0c164d92c81dd78ab5412,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 23772602220928060, guid: bcd1c88879b0c164d92c81dd78ab5412,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1293780614120552, guid: bcd1c88879b0c164d92c81dd78ab5412, type: 2}
       propertyPath: m_StaticEditorFlags
@@ -40921,7 +40921,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4992012497025410, guid: 3f3b79c284e06c446826c669b03dcf78, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1699863205026400, guid: 3f3b79c284e06c446826c669b03dcf78, type: 2}
       propertyPath: m_Name
@@ -40950,12 +40950,12 @@ Prefab:
     - target: {fileID: 23540512552836916, guid: 3f3b79c284e06c446826c669b03dcf78,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 23377663275781814, guid: 3f3b79c284e06c446826c669b03dcf78,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1459757752003622, guid: 3f3b79c284e06c446826c669b03dcf78, type: 2}
       propertyPath: m_StaticEditorFlags
@@ -50627,6 +50627,16 @@ Prefab:
     - target: {fileID: 82478921679227826, guid: bcd1c88879b0c164d92c81dd78ab5412,
         type: 2}
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114212007322882514, guid: bcd1c88879b0c164d92c81dd78ab5412,
+        type: 2}
+      propertyPath: openByDefault
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114803246033498532, guid: bcd1c88879b0c164d92c81dd78ab5412,
+        type: 2}
+      propertyPath: openByDefault
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -80533,6 +80543,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1699863205026400, guid: 3f3b79c284e06c446826c669b03dcf78, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021584256530092, guid: 3f3b79c284e06c446826c669b03dcf78,
+        type: 2}
+      propertyPath: openByDefault
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114699183196652942, guid: 3f3b79c284e06c446826c669b03dcf78,
+        type: 2}
+      propertyPath: openByDefault
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
