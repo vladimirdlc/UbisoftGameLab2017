@@ -13942,28 +13942,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 360667658}
   m_Mesh: {fileID: 4300000, guid: 295a510b983dd974c9539ab162586066, type: 3}
---- !u!84 &370272567
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1906
-  m_Height: 1107
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1 &370812280
 GameObject:
   m_ObjectHideFlags: 0
@@ -31140,6 +31118,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 773598823}
   m_Mesh: {fileID: 4300000, guid: 295a510b983dd974c9539ab162586066, type: 3}
+--- !u!84 &775222363
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1906
+  m_Height: 1107
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &777993343
 GameObject:
   m_ObjectHideFlags: 0
@@ -55889,7 +55889,7 @@ Prefab:
     - target: {fileID: 114063597753877292, guid: dae6db83e557ce142a973e6967cc0cb4,
         type: 2}
       propertyPath: wires.Array.size
-      value: 24
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4675229883298396, guid: dae6db83e557ce142a973e6967cc0cb4, type: 2}
       propertyPath: m_LocalPosition.x
@@ -56086,7 +56086,22 @@ Prefab:
         type: 2}
       propertyPath: wires.Array.data[24]
       value: 
-      objectReference: {fileID: 1832882641}
+      objectReference: {fileID: 1806246680}
+    - target: {fileID: 114063597753877292, guid: dae6db83e557ce142a973e6967cc0cb4,
+        type: 2}
+      propertyPath: wires.Array.data[25]
+      value: 
+      objectReference: {fileID: 1457286630}
+    - target: {fileID: 114063597753877292, guid: dae6db83e557ce142a973e6967cc0cb4,
+        type: 2}
+      propertyPath: wires.Array.data[26]
+      value: 
+      objectReference: {fileID: 1436612513}
+    - target: {fileID: 114063597753877292, guid: dae6db83e557ce142a973e6967cc0cb4,
+        type: 2}
+      propertyPath: wires.Array.data[27]
+      value: 
+      objectReference: {fileID: 1738105480}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dae6db83e557ce142a973e6967cc0cb4, type: 2}
   m_IsPrefabParent: 0
@@ -59618,6 +59633,11 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!1 &1436612513 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1063023805594174, guid: b84d16ce5ac0c8a4789b26dd2b480096,
+    type: 2}
+  m_PrefabInternal: {fileID: 772917015}
 --- !u!1001 &1437257232
 Prefab:
   m_ObjectHideFlags: 0
@@ -71530,6 +71550,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1736956889}
   m_Mesh: {fileID: 4300000, guid: 295a510b983dd974c9539ab162586066, type: 3}
+--- !u!1 &1738105480 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1063023805594174, guid: b84d16ce5ac0c8a4789b26dd2b480096,
+    type: 2}
+  m_PrefabInternal: {fileID: 1615459919}
 --- !u!1001 &1738733662
 Prefab:
   m_ObjectHideFlags: 0
@@ -74727,6 +74752,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1803791694}
   m_Mesh: {fileID: 4300000, guid: 295a510b983dd974c9539ab162586066, type: 3}
+--- !u!1 &1806246680 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1939440700255358, guid: 9c9fa9cba44764b409bc4c4962ed7b9b,
+    type: 2}
+  m_PrefabInternal: {fileID: 2030097002}
 --- !u!1 &1810691648
 GameObject:
   m_ObjectHideFlags: 0
