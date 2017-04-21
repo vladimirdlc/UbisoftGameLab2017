@@ -99,7 +99,8 @@ public class DogFP : AnimatedDog
 #endif
 
         base.Update();
-        RotateView();
+        if (!GameState.disableControls && TimeManager.GameState.NORMAL == m_TimeManager.m_GameState)
+            RotateView();
     }
 
     void FixedUpdate()
