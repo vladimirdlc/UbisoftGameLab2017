@@ -576,6 +576,8 @@ GameObject:
   - component: {fileID: 114032423469924148}
   - component: {fileID: 114468833786986380}
   - component: {fileID: 114701524271416830}
+  - component: {fileID: 114170230210019906}
+  - component: {fileID: 114888181528958150}
   m_Layer: 19
   m_Name: Camera
   m_TagString: Untagged
@@ -1456,7 +1458,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1164595066363010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.3047256, y: 0.5, z: -19.151241}
+  m_LocalPosition: {x: -18.262012, y: 20.58313, z: 7.492527}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 4615298118314180}
@@ -2478,6 +2480,32 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114170230210019906
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469419833160056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 646b5bc27a658f447b1d929fd5ffbd70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 3
+  showGeneratedNormals: 0
+  offsetScale: 0.2
+  blurRadius: 18
+  edgeThresholdMin: 0.05
+  edgeThreshold: 0.2
+  edgeSharpness: 4
+  dlaaSharp: 0
+  ssaaShader: {fileID: 4800000, guid: b3728d1488b02490cbd196c7941bf1f8, type: 3}
+  dlaaShader: {fileID: 4800000, guid: 017ca72b9e8a749058d13ebd527e98fa, type: 3}
+  nfaaShader: {fileID: 4800000, guid: ce0cb2621f6d84e21a87414e471a3cce, type: 3}
+  shaderFXAAPreset2: {fileID: 4800000, guid: 6f1418cffd12146f2a83be795f6fa5a7, type: 3}
+  shaderFXAAPreset3: {fileID: 4800000, guid: c182fa94a5a0a4c02870641efcd38cd5, type: 3}
+  shaderFXAAII: {fileID: 4800000, guid: cd5b323dcc592457790ff18b528f5e67, type: 3}
+  shaderFXAAIII: {fileID: 4800000, guid: c547503fff0e8482ea5793727057041c, type: 3}
 --- !u!114 &114171912868847632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2755,7 +2783,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 730475ee64f9a894bbac0d9e6f22e813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 0
+  mode: 2
   sensitivityDepth: 1
   sensitivityNormals: 1
   lumThreshold: 1
@@ -2913,6 +2941,38 @@ MonoBehaviour:
   m_RequiredAction: 1
   m_RelatedScript: {fileID: 0}
   m_RelatedGameobject: {fileID: 1059524167686424}
+--- !u!114 &114888181528958150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469419833160056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97e9b95cf609d96409b6c40519432957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filterType: 2
+  preview: 0
+  previewScale: {x: 1, y: 1, z: 1}
+  movementScale: 0
+  rotationScale: 1
+  maxVelocity: 8
+  minVelocity: 0.1
+  velocityScale: 0.375
+  softZDistance: 0.005
+  velocityDownsample: 1
+  excludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  shader: {fileID: 4800000, guid: 85a88efa8c871af4a9d17c64791b6f4f, type: 3}
+  dx11MotionBlurShader: {fileID: 4800000, guid: f1b13d7a80660504a858ea24cfa418c6,
+    type: 3}
+  replacementClear: {fileID: 4800000, guid: 7699c5fbfa27745a1abe111ab7bf9785, type: 3}
+  noiseTexture: {fileID: 2800000, guid: 31f5a8611c4ed1245b18456206e798dc, type: 3}
+  jitter: 0.05
+  showVelocity: 0
+  showVelocityScale: 1
 --- !u!114 &114970699940473846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3132,7 +3192,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: b1dafdca0bfdec84ba4a6df759438292, type: 2}
+  - {fileID: 2100000, guid: 7199fdffb1b40ba43bf30d5978ba1722, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3286,7 +3346,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 933178e4d67bf3d4c9119cb1e77b424e, type: 2}
+  - {fileID: 2100000, guid: 7199fdffb1b40ba43bf30d5978ba1722, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3364,7 +3424,7 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: 87db76ac53a13de4e97077ae2e38e62d, type: 2}
-  - {fileID: 2100000, guid: 5c9718e0f20ce5446b2caf12a4f9541a, type: 2}
+  - {fileID: 2100000, guid: 7199fdffb1b40ba43bf30d5978ba1722, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3441,10 +3501,10 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 199541e49d4b8c141a17864dbd7b098f, type: 2}
-  - {fileID: 2100000, guid: a240ee075c678974daaec7901f64d759, type: 2}
-  - {fileID: 2100000, guid: b1dafdca0bfdec84ba4a6df759438292, type: 2}
-  - {fileID: 2100000, guid: bc73d796f9531eb4fa5ce5ca4b0046a1, type: 2}
+  - {fileID: 2100000, guid: 7199fdffb1b40ba43bf30d5978ba1722, type: 2}
+  - {fileID: 2100000, guid: 7199fdffb1b40ba43bf30d5978ba1722, type: 2}
+  - {fileID: 2100000, guid: 7199fdffb1b40ba43bf30d5978ba1722, type: 2}
+  - {fileID: 2100000, guid: 7199fdffb1b40ba43bf30d5978ba1722, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
