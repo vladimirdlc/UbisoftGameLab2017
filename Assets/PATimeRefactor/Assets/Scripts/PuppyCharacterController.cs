@@ -30,13 +30,14 @@ public class PuppyCharacterController : MonoBehaviour
     // The clones will fire a proximity paradox event if the puppy gets too close
     // If the puppy reaches the player, then he will latch onto him
 
+    [HideInInspector]
     public TimeManager m_TimeManager;
-    public GameObject m_Player;
+    private GameObject m_Player;
 
     public PuppySate m_PuppyState { get; private set; }
 
     // This should be a box collider with its origin on the floor, so that the puppy can reach it
-    public GameObject m_Home;
+    private GameObject m_Home;
 
     public NavMeshAgent m_Agent { get; private set; }
 
@@ -74,6 +75,8 @@ public class PuppyCharacterController : MonoBehaviour
     {
         m_Home = GameObject.FindGameObjectWithTag("Home");
         m_TimeManager = GameObject.FindGameObjectWithTag("Time Manager").GetComponent<TimeManager>();
+        m_Player = GameObject.FindGameObjectWithTag("Player");
+
         m_PuppyState = PuppySate.IDLE_HOME;
         m_Agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 

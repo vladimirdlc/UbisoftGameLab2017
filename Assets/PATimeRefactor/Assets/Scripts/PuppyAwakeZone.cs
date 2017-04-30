@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PuppyAwakeZone : MonoBehaviour {
 
-    public PuppyCharacterController m_Puppy;
+    private PuppyCharacterController m_Puppy;
+
+    private void Start()
+    {
+        m_Puppy = GameObject.FindGameObjectWithTag("Puppy").GetComponent<PuppyCharacterController>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {

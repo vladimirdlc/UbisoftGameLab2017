@@ -45,6 +45,7 @@ public class TimeManager : MonoBehaviour
 
     public bool m_SnapCameraToClone;
 
+    [HideInInspector]
     public Camera m_PlayerCamera;
 
     public GameObject m_WarpInPrefab;
@@ -65,9 +66,9 @@ public class TimeManager : MonoBehaviour
 
     public int sampleRate;
 
-    public GameObject m_Player;
+    private GameObject m_Player;
     private GameObject m_ClonePrefab;
-    public GameObject m_Puppy;
+    private GameObject m_Puppy;
 
     public float m_ParadoxMax;
     public float m_RevertMax;
@@ -415,8 +416,8 @@ public class TimeManager : MonoBehaviour
 
     private void Awake()
     {
-#if NETWORKING
         m_GameState = GameState.NORMAL;
+#if NETWORKING
         enabled = false;
 #endif
 
@@ -425,6 +426,9 @@ public class TimeManager : MonoBehaviour
     {
         m_Player = GameObject.FindGameObjectWithTag("Player");
         m_Puppy = GameObject.FindGameObjectWithTag("Puppy");
+        m_PlayerCamera = GameObject.FindGameObjectWithTag("Camera Ground Character").GetComponent<Camera>();
+
+
 #if NETWORKING
         m_ClonePrefab = clonePrefabs[1];
 #else
