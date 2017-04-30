@@ -67,8 +67,11 @@ public class Door : OSControllable
     {
         if (count == pressurePlates.Length)
         {
+            if(!setToClose)
+            {
+                closeAtTime = Time.time + timer;
+            }
             setToClose = true;
-            closeAtTime = Time.time + timer;
             if (m_DoorSounds != null)
                 m_DoorSounds.timer((int)timer);
         }
