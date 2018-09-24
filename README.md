@@ -3,7 +3,7 @@
 ![e4f05661289019 5a69746ba5094](https://user-images.githubusercontent.com/7291039/45934547-965fc780-bf6d-11e8-8291-7fa1ddb833cb.png)
 
 ## Overview
-[Time Paradogs](https://thanelord.itch.io/the-plight-of-knights-and-sight) is a 3D video game prototype created for the 2017 iteration of the [Ubisoft Game Lab competition](https://montreal.ubisoft.com/en/game-lab-competition/), a collegiate level challenge where the goal is "to develop, in 10 weeks, playable 3D-video-game prototypes while adhering to the theme, mandate and constraints provided by a jury of Ubisoft professionals." The theme given was "“Playing With Time", with an added design requirement of creating a multiplayer game that showcases "asymmetrical gameplay", and a technical requirement that the game should be a networked experience.
+[Time Paradogs](https://thanelord.itch.io/the-plight-of-knights-and-sight) is a 3D video game prototype created for the 2017 iteration of the [Ubisoft Game Lab competition](https://montreal.ubisoft.com/en/ubisoft-game-lab-competition-2017/), a collegiate level challenge where the goal is "to develop, in 10 weeks, playable 3D-video-game prototypes while adhering to the theme, mandate and constraints provided by a jury of Ubisoft professionals." The theme given was "“Playing With Time", with an added design requirement of creating a multiplayer game that showcases "asymmetrical gameplay", and a technical requirement that the game should be a networked experience.
 
 ![61c11761289019 5a69719678637](https://user-images.githubusercontent.com/7291039/45934556-b1cad280-bf6d-11e8-8d0a-6550da4acd1a.png)
 
